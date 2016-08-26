@@ -1,0 +1,6 @@
+## Interface: 70000
+## Title: Lib: IconPath
+## Notes: Database of IconPaths
+## Author: Ignifazius
+
+Core.lua
