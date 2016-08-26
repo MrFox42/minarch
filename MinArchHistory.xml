@@ -1,0 +1,56 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<Script file="MinArchHistoryDB.lua"/>
+	<Script file="MinArchHistory.lua"/>
+
+	<Frame name="MinArchHist"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
+		<size x="400" y="310" />
+		<Anchors>
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
+		</Anchors>
+		<Frames>
+			<Frame name="$parentGrad">
+				<size x="376" y="30" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" x="12" y="-10"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.bg = self:CreateTexture(nil, "BACKGROUND");
+						self.bg:SetAllPoints(true);
+						self.bg:SetTexture(0, 0, 0, 0.70);
+						self.bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 1.0, 0, 0, 0, 0.25)
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		
+			<Button name="$parentDwarfButton" inherits="MATBDwarf" parentKey="dwarfButton" />
+			<Button name="$parentDraeneiButton" inherits="MATBDraenei" parentKey="draeneiButton" />
+			<Button name="$parentFossilButton" inherits="MATBFossil" parentKey="fossilButton" />
+			<Button name="$parentNightElfButton" inherits="MATBNightElf" parentKey="nightelfButton" />
+			<Button name="$parentNerubianButton" inherits="MATBNerubian" parentKey="nerubianButton" />
+			<Button name="$parentOrcButton" inherits="MATBOrc" parentKey="orcButton" />
+			<Button name="$parentTolvirButton" inherits="MATBTolvir" parentKey="tolvirButton" />
+			<Button name="$parentTrollButton" inherits="MATBTroll" parentKey="trollButton" />
+			<Button name="$parentVrykulButton" inherits="MATBVrykul" parentKey="vrykulButton" />
+			<Button name="$parentMantidButton" inherits="MATBMantid" parentKey="mantidButton" />
+			<Button name="$parentPandarenButton" inherits="MATBPandaren" parentKey="pandarenButton" />
+			<Button name="$parentMoguButton" inherits="MATBMogu" parentKey="moguButton" />
+			<Button name="$parentArakkoaButton" inherits="MATBArakkoa" parentKey="arakkoaButton" />
+			<Button name="$parentDraenorClansButton" inherits="MATBDraenorClans" parentKey="draenorClansButton" />
+			<Button name="$parentOgreButton" inherits="MATBOgre" parentKey="ogreButton" />
+			
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				MinArch:CommonFrameLoad(self);
+				MinArch:InitHist(self);
+				self:Hide();
+			</OnLoad>
+			<OnEvent>
+				MinArch:EventHist(event, ...);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,171 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<Script file="MinArchInit.lua"/>
+	<Script file="MinArchEvents.lua"/>
+	<Script file="MinArch.lua"/>
+	<Script file="Bindings.lua"/>
+	
+	<Frame name="MinArchMain"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
+		<size x="300" y="435" />
+		<Anchors>
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
+		</Anchors>
+		<Frames>
+			<!-- Top Level Buttons (Hist|Arch|X) -->
+			<Button name="$parentButtonOpenArch" inherits="MATBOpenArch" parentKey="buttonOpenArch" />
+			<Button name="$parentButtonOpenHist" inherits="MATBOpenHist" parentKey="buttonOpenHist" />
+			<Button name="$parentButtonOpenADI" inherits="MATBOpenADI" parentKey="openADIButton" />
+		
+			<!-- Archaeology Skill Bar -->		
+			<StatusBar name="$parentSkillBar" inherits="MATSkillBar" parentKey="skillBar">
+				<Size>
+					<AbsDimension x="246" y="13"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" x="0" y="-20"/>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="$parentBorder" urgency="5" file="Interface\PaperDollInfoFrame\UI-Character-Skills-BarBorder">
+							<Size>
+								<AbsDimension x="255" y="29"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" x="-5" y="0"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</StatusBar>
+		
+			<!-- Artifact Bars -->
+			<StatusBar name="$parentArtifactBar1" inherits="MATArtifactBar" parent="MinArchMain" id="1"  parentKey="artifactBar1">
+				<Anchors>
+					<Anchor point="TOP" x="-25" y="-50"/>
+				</Anchors>
+			</StatusBar>
+						
+			<StatusBar name="$parentArtifactBar2" inherits="MATArtifactBar" parent="MinArchMain" id="2"  parentKey="artifactBar2">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar1" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+			
+			<StatusBar name="$parentArtifactBar3" inherits="MATArtifactBar" parent="MinArchMain" id="3"  parentKey="artifactBar3">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar2" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>		
+			
+			<StatusBar name="$parentArtifactBar4" inherits="MATArtifactBar" parent="MinArchMain" id="4"  parentKey="artifactBar4">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar3" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>		
+			
+			<StatusBar name="$parentArtifactBar5" inherits="MATArtifactBar" parent="MinArchMain" id="5"  parentKey="artifactBar5">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar4" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>
+			
+			<StatusBar name="$parentArtifactBar6" inherits="MATArtifactBar" parent="MinArchMain" id="6"  parentKey="artifactBar6">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar5" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>		
+			
+			<StatusBar name="$parentArtifactBar7" inherits="MATArtifactBar" parent="MinArchMain" id="7"  parentKey="artifactBar7">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar6" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+			
+			<StatusBar name="$parentArtifactBar8" inherits="MATArtifactBar" parent="MinArchMain" id="8"  parentKey="artifactBar8">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar7" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>		
+			
+			<StatusBar name="$parentArtifactBar9" inherits="MATArtifactBar" parent="MinArchMain" id="9"  parentKey="artifactBar9">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar8" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+			
+			<StatusBar name="$parentArtifactBar10" inherits="MATArtifactBar" parent="MinArchMain" id="10"  parentKey="artifactBar10">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar9" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+			
+			<StatusBar name="$parentArtifactBar11" inherits="MATArtifactBar" parent="MinArchMain" id="11"  parentKey="artifactBar11">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar10" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+			
+			<StatusBar name="$parentArtifactBar12" inherits="MATArtifactBar" parent="MinArchMain" id="12"  parentKey="artifactBar12">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar11" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+			
+			<StatusBar name="$parentArtifactBar13" inherits="MATArtifactBar" parent="MinArchMain" id="13"  parentKey="artifactBar13">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar12" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+			
+			<StatusBar name="$parentArtifactBar14" inherits="MATArtifactBar" parent="MinArchMain" id="14"  parentKey="artifactBar14">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar13" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+			
+			<StatusBar name="$parentArtifactBar15" inherits="MATArtifactBar" parent="MinArchMain" id="15"  parentKey="artifactBar15">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar14" x="0" y="-25"/>
+				</Anchors>
+			</StatusBar>	
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				MinArch:InitMain(self);
+				MinArch:CommonFrameLoad(self);
+			</OnLoad>
+			
+			<OnShow>
+				MinArch:UpdateMain();
+			</OnShow>
+			
+			<OnEvent>
+				MinArch:EventMain(event, ...);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+	
+	<!-- Left Floating Tooltip Icon -->
+	<Frame name="MinArchTooltipIcon" frameStrata="TOOLTIP" visible="false" clampedToScreen="true" parent="GameTooltip">
+		<size x="64" y="64" />
+		<Anchors>
+			<Anchor point="TOPRIGHT" relativePoint="TOPLEFT" relativeTo="$parent" />
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentIcon" parentKey="icon">
+					<size x="64" y="64" />
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="$parent" x="0" y="-5" />
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

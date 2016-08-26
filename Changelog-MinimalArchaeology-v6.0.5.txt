@@ -1,0 +1,71 @@
+------------------------------------------------------------------------
+r60 | jdrexler75 | 2014-12-15 18:50:40 +0000 (Mon, 15 Dec 2014) | 1 line
+Changed paths:
+   A /tags/v6.0.5 (from /trunk:59)
+
+Tagging as v6.0.5
+------------------------------------------------------------------------
+r59 | jdrexler75 | 2014-12-15 18:49:51 +0000 (Mon, 15 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/MinArchDigsites.lua
+   M /trunk/MinArchEvents.lua
+   M /trunk/MinArchHistoryDB.lua
+   M /trunk/MinimalArchaeology.toc
+
+fix some lua errors and icon discrepancies
+------------------------------------------------------------------------
+r57 | jdrexler75 | 2014-12-11 16:09:05 +0000 (Thu, 11 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/MinArchHistoryDB.lua
+   M /trunk/MinimalArchaeology.toc
+
+fix icon for Sorcerer-King Toe Ring; bump version
+------------------------------------------------------------------------
+r56 | jdrexler75 | 2014-11-29 11:54:14 +0000 (Sat, 29 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/.pkgmeta
+
+latest tag for LibBabble
+------------------------------------------------------------------------
+r55 | jdrexler75 | 2014-11-29 11:43:09 +0000 (Sat, 29 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/.pkgmeta
+   M /trunk/MinimalArchaeology.toc
+
+add LibStub external
+------------------------------------------------------------------------
+r53 | jdrexler75 | 2014-11-24 18:24:27 +0000 (Mon, 24 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/MinimalArchaeology.toc
+
+bump version
+------------------------------------------------------------------------
+r52 | jdrexler75 | 2014-11-24 18:17:28 +0000 (Mon, 24 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/MinArchDigsiteDB.lua
+   M /trunk/MinArchDigsites.lua
+   M /trunk/MinArchEvents.lua
+
+fix syntax error
+------------------------------------------------------------------------
+r51 | jdrexler75 | 2014-11-24 17:54:01 +0000 (Mon, 24 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/MinArchDigsiteDB.lua
+   M /trunk/MinArchDigsites.lua
+
+update LibBabble, use LibBabble when constructing digsite list rather then on lookup
+------------------------------------------------------------------------
+r50 | jdrexler75 | 2014-11-22 15:09:31 +0000 (Sat, 22 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/MinArch.lua
+   M /trunk/MinArchDigsiteDB.lua
+   M /trunk/MinArchDigsites.lua
+
+add known Draenor digsites, fix minor bugs
+------------------------------------------------------------------------
+r49 | jdrexler75 | 2014-11-14 20:51:15 +0000 (Fri, 14 Nov 2014) | 1 line
+Changed paths:
+   M /trunk/MinArchDigsites.lua
+
+use LibBabble-DigSites-3.0 to determine digsite name in english locale
+------------------------------------------------------------------------

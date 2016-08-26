@@ -1,0 +1,27 @@
+## Interface: 60000
+## Title: Minimal Archaeology
+## Author: Joseph O'Connor, Josef Drexler
+## Email: jgmoconnor@gmail.com
+## Version: 6.0.5 (2014-12-15)
+## Notes: Archaeology UI replacement, Archaeology History and more... 
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariablesPerCharacter: MinArchOptions
+## SavedVariables: MinArchDigsitesGlobalDB
+## X-Curse-Packaged-Version: v6.0.5
+## X-Curse-Project-Name: Minimal Archaeology
+## X-Curse-Project-ID: minimal-archaeology
+## X-Curse-Repository-ID: wow/minimal-archaeology/mainline
+
+libs\LibStub\LibStub.lua
+libs\LibBabble-DigSites-3.0\lib.xml
+
+MATemplates.xml
+MATemplatesHistory.xml
+MATemplatesDigsites.xml
+MATemplatesOptions.xml
+MinArch.xml
+MinArchMinimap.xml
+MinArchHistory.xml
+MinArchDigsites.xml
+MinArchOptions.xml

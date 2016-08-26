@@ -1,0 +1,69 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<Script file="MinArchMinimap.lua"/>
+
+	<!-- Minimap Button -->
+	<Button name="MinArchMinimapButton" parent="Minimap" toplevel="true" frameStrata="MEDIUM" enableMouse="true" movable="true" hidden="false">
+		<Size>
+			<AbsDimension x="33" y="33"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="MinArchMinimapButtonIcon" file="Interface\Icons\Trade_Archaeology_Dinosaurskeleton">
+					<Size>
+						<AbsDimension x="21" y="21"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="7" y="-6"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+					<Size>
+						<AbsDimension x="56" y="56"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="MinArchMinimapButtonDragFrame" hidden="true">
+				<Scripts>
+					<OnUpdate>
+						MinArch:MinimapButtonDraggingFrameOnUpdate();
+					</OnUpdate>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+		<Scripts>
+			<OnLoad>
+				MinArchMinimapButton:RegisterForClicks("LeftButtonUp","RightButtonUp");
+				MinArchMinimapButton:RegisterForDrag("LeftButton","RightButton");
+			</OnLoad>
+			<OnDragStart>
+				MinArchMinimapButton:LockHighlight();
+				MinArchMinimapButtonDragFrame:Show();
+			</OnDragStart>
+			<OnDragStop>
+				MinArchMinimapButton:UnlockHighlight();
+				MinArchMinimapButtonDragFrame:Hide();
+			</OnDragStop>
+			<OnClick>
+				MinArch:MinimapButtonOnClick(self, button, down);
+			</OnClick>
+		</Scripts>
+	</Button>
+
+</Ui>

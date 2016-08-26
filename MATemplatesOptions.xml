@@ -1,0 +1,96 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<!-- Option Category Frame -->
+	<Frame name="MATOptionBox" movable="false" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitle" inherits="GameFontNormal" parentKey="title" text="Default Title">
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" relativeTo="$parent">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+		</Backdrop>
+	</Frame>
+	
+	<!-- Basic Checkbox -->
+	<CheckButton name="MATBCheck" inherits="OptionsCheckButtonTemplate" checked="false" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentText" inherits="GameFontWhite" parentKey="text" text="Default Text">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent">
+							<Offset>
+								<AbsDimension x="0" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+	
+	<!-- Hide Option Checkbox -->
+	<CheckButton name="MATHideOptionButton" inherits="MATBCheck" virtual="true">
+		<Scripts>
+			<OnClick>
+				MinArch:HideOptionToggle();
+			</OnClick>
+			<OnEnter>
+				MinArch:HideOptionToolTip(self:GetID());
+			</OnEnter>
+		</Scripts>
+	</CheckButton>
+	
+	<!-- Cap Option Checkbox -->
+	<CheckButton name="MATCapOptionButton" inherits="MATBCheck" virtual="true">
+		<Scripts>
+			<OnClick>
+				MinArch:CapOptionToggle();
+			</OnClick>
+			<OnEnter>
+				MinArch:CapOptionToolTip(self:GetID());
+			</OnEnter>
+		</Scripts>
+	</CheckButton>
+	
+	<!-- Use Keystone Option Checkbox -->
+	<CheckButton name="MATBUseKeystoneOption" inherits="MATBCheck" virtual="true">
+		<Scripts>
+			<OnClick>
+				MinArch:UseKeystoneOptionToggle();
+			</OnClick>
+			<OnEnter>
+				MinArch:UseKeystoneOptionToolTip(self:GetID());
+			</OnEnter>
+		</Scripts>
+	</CheckButton>
+	
+	<!-- Misc Option Checkbox -->
+	<CheckButton name="MATBMiscOption" inherits="MATBCheck" virtual="true">
+		<Scripts>
+			<OnClick>
+				MinArch:MiscOptionsToggle()
+			</OnClick>
+			<OnEnter>
+				MinArch:MiscOptionToolTip(self:GetID());
+			</OnEnter>
+		</Scripts>
+	</CheckButton>
+
+</Ui>

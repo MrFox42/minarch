@@ -1,0 +1,308 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	
+	<Script file="MinArchCommon.lua"/>
+
+	<!-- Basic MinArch Frame -->
+	<Frame name="MATBasic" clampedToScreen="true" movable="true"  virtual="true">
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="11" top="11" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<Button name="$parentButtonClose" inherits="MATBClose" parentKey="buttonClose" />
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				MinArch:CommonFrameLoad(self);
+			</OnLoad>
+			<OnDragStart>
+				MinArch:CommonFrameDragStart(self, button);
+			</OnDragStart>
+			<OnDragStop>
+				MinArch:CommonFrameDragStop(self);
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+	
+	<!-- Archaeology Skill Bar -->
+	<StatusBar name="MATSkillBar" drawLayer="BACKGROUND" enableMouse="false"  virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentRank" inherits="GameFontHighlightSmall" justifyH="CENTER" parentKey="text">
+					<Size>
+						<AbsDimension x="0" y="9"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="1" y="-1"/>
+						<Anchor point="BOTTOMRIGHT" x="-1" y="1"/>
+					</Anchors>
+					<Color r="0.0" g="0.0" b="0.0" a="1.0"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<BarTexture name="$parentBar" urgency="5" file="Interface\PaperDollInfoFrame\UI-Character-Skills-Bar"/>
+		<BarColor r="0.03125" g="0.85" b="0.0" />
+		<Scripts>
+			<OnEnter>
+				GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+				GameTooltip:AddLine(ARCHAEOLOGY_RANK_TOOLTIP, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b, 1);
+				GameTooltip:Show();
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</StatusBar>
+
+	<!-- Artifact Progress Bar -->
+	<StatusBar name="MATArtifactBar" drawLayer="BACKGROUND" enableMouse="false" virtual="true">
+		<Size x="200" y="13"/>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentText" inherits="TextStatusBarText" justifyH="CENTER" parentKey="text">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBarBG" file="Interface\Archeology\Arch-Progress-Bg">
+					<Size x="210" y="25"/>
+					<TexCoords left="0" right="0.84765625" top="0" bottom="0.65625"/>
+					<Anchors>
+						<Anchor point="CENTER"  x="0" y="1"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<BarTexture level="ARTWORK" name="$parentBar" urgency="5" file="Interface\Archeology\Arch-Progress-Fill"/>		
+		<Frames>
+			<!-- Keystone Button -->
+			<Button name="$parentKeystone" inherits="MATKeystone" parentKey="keystone">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="0" y="2"/>
+				</Anchors>
+			</Button>
+			<!-- Solve Button -->
+			<Button name="$parentButtonSolve" inherits="MATBSolve" parentKey="buttonSolve">
+				<Size x="50" y="18"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent" x="5" y="3"/>
+				</Anchors>	
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnEnter>
+				MinArch:ShowArtifactTooltip(self:GetID());
+			</OnEnter>
+			<OnLeave>
+				MinArch:HideArtifactTooltip();
+			<!--
+				
+			-->
+			</OnLeave>
+		</Scripts>
+	</StatusBar>
+	
+	<!-- Close Button -->
+	<Button name="MATBClose" virtual="true" >
+		<Size x="24" y="24"/>
+		<Anchors>
+			<Anchor point="TOPRIGHT" x="-6" y="1"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				self:GetParent():Hide();
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\CloseButtonUp.tga"/>
+		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\CloseButtonDown.tga"/>
+		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
+	</Button>
+	
+	
+	<!-- Open Archaeology Button -->
+	<Button name="MATBOpenArch" virtual="true" >
+		<Size x="24" y="24"/>
+		<Anchors>
+			<Anchor point="TOPRIGHT" x="-26" y="1"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				if IsAddOnLoaded("Blizzard_ArchaeologyUI") then
+					ShowUIPanel(ArchaeologyFrame);
+				else
+					local loaded, _ = LoadAddOn("Blizzard_ArchaeologyUI")
+					if loaded then
+						ShowUIPanel(ArchaeologyFrame);
+					end
+				end
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\ArchButtonUp.tga"/>
+		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\ArchButtonDown.tga"/>
+		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
+	</Button>
+	
+	<!-- Open History Button -->
+	<Button name="MATBOpenHist" virtual="true" >
+		<Size x="24" y="24"/>
+		<Anchors>
+			<Anchor point="TOPRIGHT" x="-46" y="1"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimHistoryButtons();
+				if (MinArchOptions['CurrentHistPage'] == 1) then
+					MinArchHist.dwarfButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 2) then
+					MinArchHist.draeneiButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 3) then
+					MinArchHist.fossilButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 4) then
+					MinArchHist.nightelfButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 5) then
+					MinArchHist.nerubianButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 6) then
+					MinArchHist.orcButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 7) then
+					MinArchHist.tolvirButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 8) then
+					MinArchHist.trollButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 9) then
+					MinArchHist.vrykulButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 10) then
+					MinArchHist.mantidButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 11) then
+					MinArchHist.pandarenButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 12) then
+					MinArchHist.moguButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 13) then
+					MinArchHist.arakkoaButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 14) then
+					MinArchHist.draenorClansButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == 15) then
+					MinArchHist.ogreButton:SetAlpha(1.0);
+				end
+				MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage']);
+				MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage']);
+				MinArchHist:Show();
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\HistButtonUp.tga"/>
+		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\HistButtonDown.tga"/>
+		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
+	</Button>
+	
+	<!-- Open Active DigSite Indicator Button -->
+	<Button name="MATBOpenADI" virtual="true" >
+		<Size x="24" y="24"/>
+		<Anchors>
+			<Anchor point="TOPRIGHT" x="-66" y="1"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimADIButtons();
+				
+				MinArch:CreateDigSitesList(0);
+				MinArch:CreateDigSitesList(0);
+				
+				MinArchDigsites:Show();
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\DigSiteButtonUp.tga"/>
+		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\DigSiteButtonDown.tga"/>
+		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
+	</Button>
+	
+	<!-- Solve Button -->
+	<Button name="MATBSolve" inherits="UIPanelButtonTemplate" text="SOLVE" virtual="true">
+		<Scripts>
+			<OnClick>
+				MinArch:SolveArtifact(self:GetParent():GetID());
+			</OnClick>
+		</Scripts>
+	</Button>
+	
+	
+	<!-- Keystone Button -->
+	<Button name="MATKeystone" virtual="true">
+		<Size x="25" y="28"/>
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentIcon" parentKey="icon" mask="Interface\Archeology\Arch-Keystone-Mask">
+					<Size x="18" y="18"/>
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+				<FontString name="$parentText" inherits="TextStatusBarText" justifyH="CENTER" parentKey="text" text="0">
+					<Size>
+						<AbsDimension x="0" y="9"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="2" y="-4"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<NormalTexture file="Interface\Archeology\ArchaeologyParts">
+			<Size x="25" y="28"/>	
+			<TexCoords left="0.11132813" right="0.21093750" top="0.56250000" bottom="0.78125000"/>
+		</NormalTexture>
+		<HighlightTexture file="Interface\Archeology\ArchaeologyParts" alphaMode="ADD">
+			<Size x="25" y="28"/>	
+			<TexCoords left="0.11132813" right="0.21093750" top="0.56250000" bottom="0.78125000"/>
+			<Color r="0.8" g="0.8" b="0.8" a="0.4"/>
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>
+				self:SetID(self:GetParent():GetID());
+				self:RegisterForClicks("LeftButtonUp","RightButtonUp");
+			</OnLoad>
+			<OnClick>
+				MinArch:KeystoneClick(self, button, down);
+			</OnClick>
+			<OnEnable>
+				self:SetAlpha(0.5);
+			</OnEnable>
+			<OnDisable>
+				self:SetAlpha(0.3);
+			</OnDisable>
+			<OnEnter>
+				MinArch:KeystoneTooltip(self);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Button>
+	
+</Ui>

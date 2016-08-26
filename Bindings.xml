@@ -1,0 +1,15 @@
+<Bindings>
+	<Binding name="MINARCH_SHOWHIDE" runOnUp="true" header="MINARCH_HEADER">
+		if (keystate == "down") then
+			if (MinArchMain:IsVisible()) then
+				MinArch:Hide();
+			else
+				MinArch:Show();
+				MinArchHideNext = false;
+			end
+		end
+	</Binding>
+	<Binding name="SPELL Survey" runOnUp="true">
+			
+	</Binding>
+</Bindings>
