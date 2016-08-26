@@ -1,8 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-	<!-- Dwarf Button -->
-	<Button name="MATBDwarf" virtual="true" >
+	<!-- TODO button order -->
+
+	<!-- Demonic Button -->
+	<Button name="MATBDemonic" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
 			<Anchor point="TOPLEFT" x="15" y="-12"/>
@@ -11,33 +13,33 @@
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 1;
-				MinArch:CreateHistoryList(1);
-				MinArch:CreateHistoryList(1);
+				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_DEMONIC;
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DEMONIC);
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DEMONIC);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(1)
+				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_DEMONIC)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
-		<NormalTexture file="Interface\Archeology\Arch-Race-Dwarf.blp">
+		<NormalTexture file="Interface\Archeology\Arch-Race-Demons.blp">
 			<Size x="30" y="30"/>	
 			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
 		</NormalTexture>
-		<PushedTexture file="Interface\Archeology\Arch-Race-Dwarf.blp">
+		<PushedTexture file="Interface\Archeology\Arch-Race-Demons.blp">
 			<Size x="30" y="30"/>	
 			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
 		</PushedTexture>
-		<HighlightTexture file="Interface\Archeology\Arch-Race-Dwarf.blp" alphaMode="ADD">
+		<HighlightTexture file="Interface\Archeology\Arch-Race-Demons.blp" alphaMode="ADD">
 			<Size x="30" y="30"/>	
 			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
 		</HighlightTexture>
 	</Button>
-	
-	<!-- Draenei Button -->
-	<Button name="MATBDraenei" virtual="true" >
+
+	<!-- HighmountainTauren Button -->
+	<Button name="MATBHighmountainTauren" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
 			<Anchor point="TOPLEFT" x="40" y="-12"/>
@@ -46,12 +48,82 @@
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 2;
-				MinArch:CreateHistoryList(2);
-				MinArch:CreateHistoryList(2);
+				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN;
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN);
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(2)
+				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN)
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		<NormalTexture file="Interface\Archeology\Arch-Race-HighmountainTauren.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</NormalTexture>
+		<PushedTexture file="Interface\Archeology\Arch-Race-HighmountainTauren.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</PushedTexture>
+		<HighlightTexture file="Interface\Archeology\Arch-Race-HighmountainTauren.blp" alphaMode="ADD">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</HighlightTexture>
+	</Button>
+
+	<!-- Highborne Button -->
+	<Button name="MATBHighborne" virtual="true" >
+		<Size x="25" y="25"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" x="65" y="-12"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimHistoryButtons();
+				self:SetAlpha(1.0);
+				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_HIGHBORNE;
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_HIGHBORNE);
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_HIGHBORNE);
+			</OnClick>
+			<OnEnter>
+				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_HIGHBORNE)
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		<NormalTexture file="Interface\Archeology\Arch-Race-HighborneNightElves.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</NormalTexture>
+		<PushedTexture file="Interface\Archeology\Arch-Race-HighborneNightElves.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</PushedTexture>
+		<HighlightTexture file="Interface\Archeology\Arch-Race-HighborneNightElves.blp" alphaMode="ADD">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</HighlightTexture>
+	</Button>
+
+	<!-- Draenei Button -->
+	<Button name="MATBDraenei" virtual="true" >
+		<Size x="25" y="25"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" x="115" y="-12"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimHistoryButtons();
+				self:SetAlpha(1.0);
+				MinArchOptions['CurrentHistPage'] = 5;
+				MinArch:CreateHistoryList(5);
+				MinArch:CreateHistoryList(5);
+			</OnClick>
+			<OnEnter>
+				MinArch:HistoryButtonTooltip(5)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -75,18 +147,18 @@
 	<Button name="MATBFossil" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="65" y="-14"/>
+			<Anchor point="TOPLEFT" x="140" y="-14"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 3;
-				MinArch:CreateHistoryList(3);
-				MinArch:CreateHistoryList(3);
+				MinArchOptions['CurrentHistPage'] = 6;
+				MinArch:CreateHistoryList(6);
+				MinArch:CreateHistoryList(6);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(3)
+				MinArch:HistoryButtonTooltip(6)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -110,18 +182,18 @@
 	<Button name="MATBNightElf" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="90" y="-12"/>
+			<Anchor point="TOPLEFT" x="165" y="-12"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 4;
-				MinArch:CreateHistoryList(4);
-				MinArch:CreateHistoryList(4);
+				MinArchOptions['CurrentHistPage'] = 7;
+				MinArch:CreateHistoryList(7);
+				MinArch:CreateHistoryList(7);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(4)
+				MinArch:HistoryButtonTooltip(7)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -145,18 +217,18 @@
 	<Button name="MATBNerubian" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="115" y="-12"/>
+			<Anchor point="TOPLEFT" x="190" y="-12"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 5;
-				MinArch:CreateHistoryList(5);
-				MinArch:CreateHistoryList(5);
+				MinArchOptions['CurrentHistPage'] = 8;
+				MinArch:CreateHistoryList(8);
+				MinArch:CreateHistoryList(8);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(5)
+				MinArch:HistoryButtonTooltip(8)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -180,18 +252,18 @@
 	<Button name="MATBOrc" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="140" y="-12"/>
+			<Anchor point="TOPLEFT" x="215" y="-12"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 6;
-				MinArch:CreateHistoryList(6);
-				MinArch:CreateHistoryList(6);
+				MinArchOptions['CurrentHistPage'] = 9;
+				MinArch:CreateHistoryList(9);
+				MinArch:CreateHistoryList(9);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(6)
+				MinArch:HistoryButtonTooltip(9)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -215,18 +287,18 @@
 	<Button name="MATBTolvir" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="165" y="-15"/>
+			<Anchor point="TOPLEFT" x="240" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 7;
-				MinArch:CreateHistoryList(7);
-				MinArch:CreateHistoryList(7);
+				MinArchOptions['CurrentHistPage'] = 10;
+				MinArch:CreateHistoryList(10);
+				MinArch:CreateHistoryList(10);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(7)
+				MinArch:HistoryButtonTooltip(10)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -250,18 +322,18 @@
 	<Button name="MATBTroll" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="190" y="-12"/>
+			<Anchor point="TOPLEFT" x="265" y="-12"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 8;
-				MinArch:CreateHistoryList(8);
-				MinArch:CreateHistoryList(8);
+				MinArchOptions['CurrentHistPage'] = 11;
+				MinArch:CreateHistoryList(11);
+				MinArch:CreateHistoryList(11);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(8)
+				MinArch:HistoryButtonTooltip(11)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -285,18 +357,18 @@
 	<Button name="MATBVrykul" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="215" y="-12"/>
+			<Anchor point="TOPLEFT" x="290" y="-12"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 9;
-				MinArch:CreateHistoryList(9);
-				MinArch:CreateHistoryList(9);
+				MinArchOptions['CurrentHistPage'] = 12;
+				MinArch:CreateHistoryList(12);
+				MinArch:CreateHistoryList(12);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(9)
+				MinArch:HistoryButtonTooltip(12)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -320,18 +392,18 @@
 	<Button name="MATBMantid" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="240" y="-15"/>
+			<Anchor point="TOPLEFT" x="315" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 10;
-				MinArch:CreateHistoryList(10);
-				MinArch:CreateHistoryList(10);
+				MinArchOptions['CurrentHistPage'] = 13;
+				MinArch:CreateHistoryList(13);
+				MinArch:CreateHistoryList(13);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(10)
+				MinArch:HistoryButtonTooltip(13)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -355,18 +427,18 @@
 	<Button name="MATBPandaren" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="265" y="-15"/>
+			<Anchor point="TOPLEFT" x="340" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 11;
-				MinArch:CreateHistoryList(11);
-				MinArch:CreateHistoryList(11);
+				MinArchOptions['CurrentHistPage'] = 14;
+				MinArch:CreateHistoryList(14);
+				MinArch:CreateHistoryList(14);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(11)
+				MinArch:HistoryButtonTooltip(14)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -390,18 +462,18 @@
 	<Button name="MATBMogu" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="290" y="-15"/>
+			<Anchor point="TOPLEFT" x="365" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 12;
-				MinArch:CreateHistoryList(12);
-				MinArch:CreateHistoryList(12);
+				MinArchOptions['CurrentHistPage'] = 15;
+				MinArch:CreateHistoryList(15);
+				MinArch:CreateHistoryList(15);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(12)
+				MinArch:HistoryButtonTooltip(15)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -425,18 +497,18 @@
 	<Button name="MATBArakkoa" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="315" y="-15"/>
+			<Anchor point="TOPLEFT" x="390" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 13;
-				MinArch:CreateHistoryList(13);
-				MinArch:CreateHistoryList(13);
+				MinArchOptions['CurrentHistPage'] = 16;
+				MinArch:CreateHistoryList(16);
+				MinArch:CreateHistoryList(16);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(13)
+				MinArch:HistoryButtonTooltip(16)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -460,18 +532,18 @@
 	<Button name="MATBDraenorClans" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="340" y="-15"/>
+			<Anchor point="TOPLEFT" x="415" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 14;
-				MinArch:CreateHistoryList(14);
-				MinArch:CreateHistoryList(14);
+				MinArchOptions['CurrentHistPage'] = 17;
+				MinArch:CreateHistoryList(17);
+				MinArch:CreateHistoryList(17);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(14)
+				MinArch:HistoryButtonTooltip(17)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -495,18 +567,18 @@
 	<Button name="MATBOgre" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="365" y="-15"/>
+			<Anchor point="TOPLEFT" x="440" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = 15;
-				MinArch:CreateHistoryList(15);
-				MinArch:CreateHistoryList(15);
+				MinArchOptions['CurrentHistPage'] = 4;
+				MinArch:CreateHistoryList(4);
+				MinArch:CreateHistoryList(4);
 			</OnClick>
 			<OnEnter>
-				MinArch:HistoryButtonTooltip(15)
+				MinArch:HistoryButtonTooltip(4)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -521,6 +593,41 @@
 			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
 		</PushedTexture>
 		<HighlightTexture file="Interface\Archeology\Arch-Race-Ogre.blp" alphaMode="ADD">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</HighlightTexture>
+	</Button>
+
+	<!-- Dwarf Button -->
+	<Button name="MATBDwarf" virtual="true" >
+		<Size x="25" y="25"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" x="90" y="-12"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimHistoryButtons();
+				self:SetAlpha(1.0);
+				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_DWARF;
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DWARF);
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DWARF);
+			</OnClick>
+			<OnEnter>
+				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_DWARF)
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		<NormalTexture file="Interface\Archeology\Arch-Race-Dwarf.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</NormalTexture>
+		<PushedTexture file="Interface\Archeology\Arch-Race-Dwarf.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</PushedTexture>
+		<HighlightTexture file="Interface\Archeology\Arch-Race-Dwarf.blp" alphaMode="ADD">
 			<Size x="30" y="30"/>	
 			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
 		</HighlightTexture>

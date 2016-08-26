@@ -140,7 +140,7 @@ end
 function MinArch:UpdateMain()
 	local activeBarIndex = 0;
 	
-	for i=1,15 do
+	for i=1,18 do
 		if not MinArch:UpdateArtifact(i) then return end
 		
 		local artifact = MinArch['artifacts'][i];
@@ -156,7 +156,7 @@ function MinArch:UpdateMain()
 	
 	local MinArchFrameHeight = MinArch['frame']['height'];
 	
-	for i=activeBarIndex+1, 15 do
+	for i=activeBarIndex+1, 18 do
 		MinArch['artifactbars'][i]:Hide();
 		MinArchFrameHeight = MinArchFrameHeight - 25;
 	end

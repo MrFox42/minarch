@@ -8,7 +8,7 @@ function MinArch:LoadItemDetails(RaceID)
 		if name ~= nil and icon ~= nil then
 			MinArchHistDB[RaceID][itemid]["name"] = name;
 			MinArchHistDB[RaceID][itemid]["rarity"] = rarity;
-			MinArchHistDB[RaceID][itemid]["icon"] = icon:lower();
+			MinArchHistDB[RaceID][itemid]["icon"] = "interface\\icons\\"..LibIconPath_getName(icon)..".blp";
 			MinArchHistDB[RaceID][itemid]["sellprice"] = sellPrice;
 		else
 			-- item info not available yet, need to retry later
@@ -22,7 +22,7 @@ function MinArch:GetHistory(RaceID)
 	local i = 1;
 	while (i > 0) do
 		local name, desc, rarity, icon, spelldesc, itemrare, _, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, i);
-		
+
 		if not name then
 			i = -1;
 		else
@@ -44,6 +44,7 @@ function MinArch:GetHistory(RaceID)
 					ChatFrame1:AddMessage("Please submit a bug report with the contents of this message.")
 					icon = details["icon"]
 				end
+
 				if (details["icon"] == icon) then
 					MinArchHistDB[RaceID][itemid]["firstcomplete"] = firstcomplete;
 					MinArchHistDB[RaceID][itemid]["totalcomplete"] = totalcomplete;
@@ -62,14 +63,30 @@ function MinArch:GetHistory(RaceID)
 	end
 end
 
+HistoryListLoaded = false
+
 function MinArch:CreateHistoryList(RaceID)
 	local scrollf = MinArchScrollFrame or CreateFrame("ScrollFrame", "MinArchScrollFrame", MinArchHist);
 	
-	for i=1, 15 do
+	if (not HistoryListLoaded) then
+		local allGood = true
+		for i = 1, 18 do
+			allGood = MinArch:LoadItemDetails(i) and allGood
+		end
+
+		if allGood then
+			HistoryListLoaded = true;
+		end
+	end
+
+	for i=1, 18 do
 		if (MinArchScroll[i]) then
 			MinArchScroll[i]:Hide();
 		end
 	end
+
+	MinArch:GetHistory(RaceID);
+
 	MinArchScroll[RaceID] = MinArchScroll[RaceID] or CreateFrame("Frame", "MinArchScroll");
 	local scrollc = MinArchScroll[RaceID];
 	
@@ -101,7 +118,7 @@ function MinArch:CreateHistoryList(RaceID)
 	local PADDING = 5;
 	
 	local height = 0;
-	local width = 360; -- fixme get parent width
+	local width = 460; -- fixme get parent width
 	
 	local count = 1;
 	
@@ -126,7 +143,7 @@ function MinArch:CreateHistoryList(RaceID)
 				
 				local cwidth = currentArtifact:GetStringWidth()
 				local cheight = currentArtifact:GetStringHeight()
-				currentArtifact:SetWidth(cwidth+15)
+				currentArtifact:SetWidth(cwidth+18)
 				currentArtifact:SetHeight(cheight)
 				
 				if count == 1 then
@@ -239,7 +256,9 @@ function MinArch:CreateHistoryList(RaceID)
 end
 
 function MinArch:DimHistoryButtons()
-	MinArchHist.dwarfButton:SetAlpha(0.5);
+	MinArchHist.demonicButton:SetAlpha(0.5);
+	MinArchHist.highmountainTaurenButton:SetAlpha(0.5);
+	MinArchHist.highborneButton:SetAlpha(0.5);
 	MinArchHist.draeneiButton:SetAlpha(0.5);
 	MinArchHist.fossilButton:SetAlpha(0.5);
 	MinArchHist.nightelfButton:SetAlpha(0.5);
@@ -254,6 +273,7 @@ function MinArch:DimHistoryButtons()
 	MinArchHist.arakkoaButton:SetAlpha(0.5);
 	MinArchHist.draenorClansButton:SetAlpha(0.5);
 	MinArchHist.ogreButton:SetAlpha(0.5);
+	MinArchHist.dwarfButton:SetAlpha(0.5);
 end
 
 function MinArch:HistoryTooltip(self, RaceID, ItemID)

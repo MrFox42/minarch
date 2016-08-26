@@ -36,7 +36,7 @@ function MinArch:EventHist(event, ...)
 	if (event == "ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
-			for i = 1, 15 do
+			for i = 1, 18 do
 				allGood = MinArch:LoadItemDetails(i) and allGood
 			end
 
@@ -50,7 +50,7 @@ function MinArch:EventHist(event, ...)
 				return
 			end
 
-			for i = 1, 15 do
+			for i = 1, 18 do
 				MinArch:GetHistory(i);
 			end
 			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage']);
@@ -101,7 +101,7 @@ end
 function MinArch:MaineEventHideAfterDigsite()
 	if (MinArchOptions['WaitForSolve'] == true) then
 		local wait = false;
-		for i=1,15 do
+		for i=1,18 do
 			MinArch:UpdateArtifact(i);
 			if (MinArch['artifacts'][i]['canSolve'] and MinArchOptions['ABOptions'][i]['Hide'] == false) then
 				wait = true;
@@ -171,7 +171,7 @@ function MinArch:MainEventAddonLoaded()
 	end
 
 	local i
-	for i=0,15 do
+	for i=0,18 do
 		if (MinArchOptions['ABOptions'][i] == nil) then
 			MinArchOptions['ABOptions'][i] = {}; 
 			MinArchOptions['ABOptions'][i]['Hide'] = false;

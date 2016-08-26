@@ -1,8 +1,46 @@
 MinArchHistDB = {}
 MinArchIconDB = {}
 
+MinArchHistDB[ARCHAEOLOGY_RACE_DEMONIC] = {
+		[131743] = {}, -- Blood of Young Mannoroth
+		[131724] = {}, -- Crystalline Eye of Undravius
+		[131735] = {}, -- Imp Generator
+		[131732] = {}, -- Purple Hills of Mac'Aree
+		[136922] = {}, -- Wyrmy Tunkins
+		
+		[130920] = {}, -- Houndstooth Hauberk
+		[130919] = {}, -- Orb of Inner Chaos
+		[130918] = {}, -- Malformed Abyssal
+		[130917] = {}, -- Flayed-Skin Chronicle 
+		[130916] = {}  -- Imp's Cup 
+}
+MinArchHistDB[ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN] = {
+		[131733] = {}, -- Spear of Rethu
+		-- [] = {}, -- Shard of Sciallax (?)
+		[131734] = {}, -- Spirit of Eche'ro
+		[131736] = {}, -- Prizerock Neckband
+		
+		[130915] = {}, -- Stonewood Bow
+		[130914] = {}, -- Drogbar Gem-Roller
+		[130913] = {}, -- Hand-Smoothed Pyrestone
+		[130912] = {}, -- Moosebone Fish-Hook
+		[130911] = {}  -- Trailhead Drum 
+}
+MinArchHistDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
+		[131717] = {}, -- Starlight Beacon
+		[131740] = {}, -- Crown Jewels of Suramar
+		[131745] = {}, -- Key of Kalyndras
+		[131744] = {}, -- Key to Nar'thalas Academy
+		
+		[130910] = {}, -- Nobleman's Letter Opener
+		[130909] = {}, -- Pre-War Highborne Tapestry
+		[130908] = {}, -- Quietwine Vial
+		[130907] = {}, -- Inert Leystone Charm
+		[130906] = {}  -- Violetglass Vessel
+}
+
 -- Dwarf Artifacts
-MinArchHistDB[1] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_DWARF] = {
 		[64489] = {}, -- Staff of Sorcerer-Thane Thaurissan
 		[64488] = {}, -- The Innkeeper's Daughter
 		[64373] = {}, -- Chalice of the Mountain King
@@ -38,7 +76,7 @@ MinArchHistDB[1] = {
 	}
 	
 -- Draenei Artifacts
-MinArchHistDB[2] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_DRAENEI] = {
 		[64456] = {}, -- Arrival of the Naaru
 		[64457] = {}, -- The Last Relic of Argus
 		
@@ -53,7 +91,7 @@ MinArchHistDB[2] = {
 	}
 	
 -- Fossil Artifacts
-MinArchHistDB[3] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_FOSSIL] = {
 		[69764] = {}, -- Extinct Turtle Shell
 		[60954] = {}, -- Fossilized Raptor
 		[60955] = {}, -- Fossilized Hatchling
@@ -75,7 +113,7 @@ MinArchHistDB[3] = {
 	}
 	
 -- Night Elf Artifacts
-MinArchHistDB[4] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_NIGHTELF] = {
 		[64646] = {}, -- Bones of Transformation
 		[64643] = {}, -- Queen Azshara's Dressing Gown
 		[64645] = {}, -- Tyrande's Favorite Doll
@@ -105,11 +143,11 @@ MinArchHistDB[4] = {
 	}
 	
 -- Nerubian Artifacts
-MinArchIconDB[5] = {
+MinArchIconDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
 		-- Six-Clawed Cornice has different icon for artifact and item
 		["interface\\icons\\achievement_dungeon_azjollowercity_25man"] = "interface\\icons\\achievement_dungeon_azjollowercity"
 	}
-MinArchHistDB[5] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
 		[64481] = {}, -- Blessing of the Old God
 		[64482] = {}, -- Puzzle Box of Yogg-Saron
 		
@@ -123,7 +161,7 @@ MinArchHistDB[5] = {
 	}
 	
 -- Orc Artifacts
-MinArchHistDB[6] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_ORC] = {
 		[64644] = {}, -- Headdress of the First Shaman
 		
 		[64421] = {}, -- Fierce Wolf Figurine
@@ -138,11 +176,11 @@ MinArchHistDB[6] = {
 	}
 	
 -- Tol'vir Artifacts
-MinArchIconDB[7] = {
+MinArchIconDB[ARCHAEOLOGY_RACE_TOLVIR] = {
 		-- Crawling Claw has different icon for artifact and item
 		["interface\\icons\\trade_archaeology_shriveledmonkeypaw"] = "interface\\icons\\inv_offhand_stratholme_a_02"
 	}
-MinArchHistDB[7] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_TOLVIR] = {
 		[60847] = {}, -- Crawling Claw
 		[64881] = {}, -- Pendant of the Scarab Storm
 		[64904] = {}, -- Ring of the Boy Emperor
@@ -160,7 +198,11 @@ MinArchHistDB[7] = {
 	}
 
 -- Troll Artifacts
-MinArchHistDB[8] = {
+MinArchIconDB[ARCHAEOLOGY_RACE_TROLL] = {
+		-- Crawling Claw has different icon for artifact and item
+		["interface\\icons\\trade_archaeology_trolltooth w goldfilling"] = "interface\\icons\\trade_archaeology_trolltooth-w-goldfilling"
+	}
+MinArchHistDB[ARCHAEOLOGY_RACE_TROLL] = {
 		[64377] = {}, -- Zin'roh, Destroyer of Worlds
 		[69824] = {}, -- Voodoo Figurine
 		[69777] = {}, -- Haunted War Drum
@@ -182,7 +224,7 @@ MinArchHistDB[8] = {
 	}
 
 -- Vrykul Artifacts
-MinArchHistDB[9] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_VRYKUL] = {
 		[64460] = {}, -- Nifflevar Bearded Axe
 		[69775] = {}, -- Vrykul Drinking Horn
 		
@@ -194,7 +236,7 @@ MinArchHistDB[9] = {
 	}
 
 -- Mantid Artifacts
-MinArchHistDB[10] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_MANTID] = {
 		[95391] = {}, -- Mantid Sky Reaver
 		[95392] = {}, -- Sonic Pulse Generator
 
@@ -209,7 +251,7 @@ MinArchHistDB[10] = {
 	}
 
 -- Pandaren Artifacts
-MinArchHistDB[11] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_PANDAREN] = {
 		[79907] = {}, -- Spear of Xuen
 		[79906] = {}, -- Umbrella of Chi-Ji
 
@@ -226,7 +268,7 @@ MinArchHistDB[11] = {
 	}
 
 -- Mogu Artifacts
-MinArchHistDB[12] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_MOGU] = {
 		[89611] = {}, -- Quilen Statuette
 		[89614] = {}, -- Anatomical Dummy
 
@@ -243,11 +285,11 @@ MinArchHistDB[12] = {
 	}
 
 -- Arakkoa Artifacts
-MinArchIconDB[13] = {
+MinArchIconDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
 		-- Archaeology icon -> Item icon; WITHOUT BLP and DOUBLE BACKSLASHES
 		["interface\\icons\\ability_skyreach_empowered"] = "interface\\icons\\inv_eng_gizmo1"
 	}
-MinArchHistDB[13] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
 		[117382]={}, -- Beakbreaker of Terokk
 		[117354]={}, -- Ancient Nest Guardian
 
@@ -264,7 +306,7 @@ MinArchHistDB[13] = {
 	}
 
 -- Draenor Clans Artifacts
-MinArchHistDB[14] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_DRAENOR] = {
 		[116985]={}, -- Headdress of the First Shaman
 		[117380]={}, -- Frostwolf Ghostpup
 
@@ -291,12 +333,12 @@ MinArchHistDB[14] = {
 
  
 -- Ogre Artifacts
-MinArchIconDB[15] = {
+MinArchIconDB[ARCHAEOLOGY_RACE_OGRE] = {
 		-- Archaeology icon -> Item icon; WITHOUT BLP and DOUBLE BACKSLASHES
 		["interface\\icons\\inv_archaeology_ogres_sorcerer_king_toe_ring"] = "interface\\icons\\inv_60dungeon_neck4b",
 		["interface\\icons\\inv_archaeology_ogres_warmaul_chieftain"] = "interface\\icons\\inv_mace_2h_dreanorogre_b_02",
 	}
-MinArchHistDB[15] = {
+MinArchHistDB[ARCHAEOLOGY_RACE_OGRE] = {
 		[117385]={}, -- Sorcerer-King Toe Ring
 		[117384]={}, -- Warmaul of the Warmaul Chieftain
 

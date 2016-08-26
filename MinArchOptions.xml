@@ -28,7 +28,7 @@
 		</Layers>
 		<Frames>
 			<Frame name="$parentHideArtifact" inherits="MATOptionBox" parentKey="hideArtifact">
-				<size x="130" y="315" />
+				<size x="130" y="380" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentAddonName">
 						<Offset>
@@ -195,6 +195,39 @@
 					<CheckButton name="$parent15" inherits="MATHideOptionButton" id="15" parentKey="hide15">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent14">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- Hide Race 16 -->
+					<CheckButton name="$parent16" inherits="MATHideOptionButton" id="16" parentKey="hide16">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent15">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- Hide Race 17 -->
+					<CheckButton name="$parent17" inherits="MATHideOptionButton" id="17" parentKey="hide17">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent16">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- Hide Race 18 -->
+					<CheckButton name="$parent18" inherits="MATHideOptionButton" id="18" parentKey="hide18">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent17">
 								<Offset>
 									<AbsDimension x="0" y="-20"></AbsDimension>
 								</Offset>
@@ -379,6 +412,39 @@
 							</Anchor>
 						</Anchors>
 					</CheckButton>
+
+					<!-- cap Race 16 -->
+					<CheckButton name="$parent16" inherits="MATCapOptionButton" id="16" parentKey="cap16">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent15">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- cap Race 17 -->
+					<CheckButton name="$parent17" inherits="MATCapOptionButton" id="17" parentKey="cap17">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent16">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- cap Race 15 -->
+					<CheckButton name="$parent18" inherits="MATCapOptionButton" id="18" parentKey="cap18">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent17">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
 					
 				</Frames>
 			</Frame>
@@ -542,6 +608,39 @@
 					<CheckButton name="$parent15" inherits="MATBUseKeystoneOption" id="15" parentKey="usekeystone15">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent14">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- Use Keystone 16 -->
+					<CheckButton name="$parent16" inherits="MATBUseKeystoneOption" id="16" parentKey="usekeystone16">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent15">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- Use Keystone 17 -->
+					<CheckButton name="$parent17" inherits="MATBUseKeystoneOption" id="17" parentKey="usekeystone17">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent16">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- Use Keystone 18 -->
+					<CheckButton name="$parent18" inherits="MATBUseKeystoneOption" id="18" parentKey="usekeystone18">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent17">
 								<Offset>
 									<AbsDimension x="0" y="-20"></AbsDimension>
 								</Offset>

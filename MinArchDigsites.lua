@@ -47,7 +47,7 @@ local SpamBlock = {}
 
 function MinArch:UpdateActiveDigSites()
 	-- can't do anything until all races are known
-	if GetNumArchaeologyRaces()<15 then
+	if GetNumArchaeologyRaces()<18 then
 		return
 	end
 	-- also digsite list must be initialized
@@ -428,7 +428,7 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
 	FRAME.icon:SetTexture("Interface/Icons/INV_MISC_QUESTIONMARK");
 	FRAME.icon:SetTexCoord(0, 1, 0, 1);
 	
-	for i=1,15 do
+	for i=1,18 do
 		if (RACE == MinArch['artifacts'][i]['race']) then
 			FRAME.icon:SetTexture(MinArch['artifacts'][i]['raceicon']);
 			FRAME.icon:SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
@@ -463,7 +463,7 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	
 	local RACE = tostring(digsite["race"]);
 	
-	for i=1,15 do	
+	for i=1,18 do	
 		if (RACE == MinArch['artifacts'][i]['race']) then
 			MinArchTooltipIcon.icon:SetTexture(MinArch['artifacts'][i]['icon']);
 			progress = MinArch['artifacts'][i]['progress'] .. "/" .. MinArch['artifacts'][i]['total'];

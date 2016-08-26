@@ -15,7 +15,7 @@ function MinArch:InitMain(self)
 	MinArch['frame']['defaultHeight'] = MinArchMain:GetHeight();
 	MinArch['frame']['height'] = MinArchMain:GetHeight();
 	
-	for i=1,15 do
+	for i=1,18 do
 		MinArch['artifacts'][i] = {}; 
 		MinArch['artifacts'][i]['appliedKeystones'] = 0;
 		MinArch['artifactbars'][i] = MinArchMain["artifactBar"..i];

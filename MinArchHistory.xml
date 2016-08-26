@@ -5,7 +5,7 @@
 	<Script file="MinArchHistory.lua"/>
 
 	<Frame name="MinArchHist"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
-		<size x="400" y="310" />
+		<size x="500" y="310" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>
@@ -25,7 +25,9 @@
 				</Scripts>
 			</Frame>
 		
-			<Button name="$parentDwarfButton" inherits="MATBDwarf" parentKey="dwarfButton" />
+			<Button name="$parentDemonicButton" inherits="MATBDemonic" parentKey="demonicButton" />
+			<Button name="$parentHighmountainTaurenButton" inherits="MATBHighmountainTauren" parentKey="highmountainTaurenButton" />
+			<Button name="$parentHighborneButton" inherits="MATBHighborne" parentKey="highborneButton" />
 			<Button name="$parentDraeneiButton" inherits="MATBDraenei" parentKey="draeneiButton" />
 			<Button name="$parentFossilButton" inherits="MATBFossil" parentKey="fossilButton" />
 			<Button name="$parentNightElfButton" inherits="MATBNightElf" parentKey="nightelfButton" />
@@ -40,6 +42,7 @@
 			<Button name="$parentArakkoaButton" inherits="MATBArakkoa" parentKey="arakkoaButton" />
 			<Button name="$parentDraenorClansButton" inherits="MATBDraenorClans" parentKey="draenorClansButton" />
 			<Button name="$parentOgreButton" inherits="MATBOgre" parentKey="ogreButton" />
+			<Button name="$parentDwarfButton" inherits="MATBDwarf" parentKey="dwarfButton" />
 			
 		</Frames>
 		<Scripts>
