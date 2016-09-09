@@ -341,6 +341,7 @@ lib:SetBaseTranslations (
 	["Zul'Farrak Digsite"] = "Zul'Farrak Digsite",
 	["Zul'Mashar Digsite"] = "Zul'Mashar Digsite",
 }
+)
 
 if GAME_LOCALE == "enUS" then
 	lib:SetCurrentTranslations(true)
