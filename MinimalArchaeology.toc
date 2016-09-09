@@ -1,7 +1,7 @@
 ## Interface: 70000
 ## Title: Minimal Archaeology
-## Author: Joseph O'Connor, Josef Drexler, MrFox
-## Email: jgmoconnor@gmail.com
+## Author: Joseph O'Connor, Josef Drexler, MrFox (Mulamboo)
+## Email: gyussz@live.com, jgmoconnor@gmail.com
 ## Version: 7.0.3 (2016-09-08)
 ## Notes: Archaeology UI replacement, Archaeology History and more... 
 ## DefaultState: Enabled

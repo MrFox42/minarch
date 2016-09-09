@@ -1,7 +1,6 @@
-## Interface: 60000
-## LoadOnDemand: 1
+## Interface: 70000
 ## Title: Lib: Babble-DigSites-3.0
-## Version: 6.0-release5
+## Version: 7.0-release1
 ## Notes: A library to help with localization of Archeology dig sites
 ## Notes-frFR: Une librairie pour aider à la traduction des sites de fouilles archéologiques
 ## Notes-deDE: Eine Bibliothek um bei der Lokalisierung von Archäologie Grabungsstätten zu helfen
@@ -14,9 +13,10 @@
 ## Notes-zhCN: 考古学挖掘场本地化库
 ## Notes-zhTW: 考古學挖掘場本地化庫
 ## Author: Torhal, Myrroddin
+## LoadOnDemand: 1
 ## X-Category: Library
 ## X-License: MIT
-## X-Curse-Packaged-Version: 6.0-release5
+## X-Curse-Packaged-Version: 7.0-release1
 ## X-Curse-Project-Name: LibBabble-DigSites-3.0
 ## X-Curse-Project-ID: libbabble-digsites-3-0
 ## X-Curse-Repository-ID: wow/libbabble-digsites-3-0/mainline
