@@ -31,6 +31,7 @@
 			<Button name="$parentNorthrendButton" inherits="MinArchNorthrendButtonTemplate" parentKey="northrendButton" />
 			<Button name="$parentPandariaButton" inherits="MinArchPandariaButtonTemplate" parentKey="pandariaButton" />
 			<Button name="$parentDraenorButton" inherits="MinArchDraenorButtonTemplate" parentKey="draenorButton" />
+			<Button name="$parentBrokenIslesButton" inherits="MinArchBrokenIslesButtonTemplate" parentKey="brokenIslesButton" />
 			
 		</Frames>
 		<Scripts>
@@ -121,4 +122,5 @@
 			</OnLoad>
 		</Scripts>
 	</Frame>
+
 </Ui>

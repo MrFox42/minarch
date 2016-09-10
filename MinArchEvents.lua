@@ -183,7 +183,7 @@ function MinArch:MainEventAddonLoaded()
 	-- discard old unknown digsites
 	local name
 	if MinArchDigsitesGlobalDB then
-	    for i=1,7 do
+	    for i=1,8 do
 		for name,_ in pairs(MinArchDigsitesGlobalDB['continent'][i]) do
 			if MinArchDigsitesGlobalDB['continent'][i][name]['zone'] == 'Unknown' then
 				MinArchDigsitesGlobalDB['continent'][i][name] = nil

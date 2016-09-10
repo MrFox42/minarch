@@ -198,10 +198,6 @@ MinArchHistDB[ARCHAEOLOGY_RACE_TOLVIR] = {
 	}
 
 -- Troll Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_TROLL] = {
-		-- Crawling Claw has different icon for artifact and item
-		["interface\\icons\\trade_archaeology_trolltooth w goldfilling"] = "interface\\icons\\trade_archaeology_trolltooth-w-goldfilling"
-	}
 MinArchHistDB[ARCHAEOLOGY_RACE_TROLL] = {
 		[64377] = {}, -- Zin'roh, Destroyer of Worlds
 		[69824] = {}, -- Voodoo Figurine

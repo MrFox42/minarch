@@ -21,6 +21,8 @@ MinArchDigsitesGlobalDB["continent"] = {
 	},
 	[7] = {		-- Draenor
 	},
+	[8] = {		-- Broken Isles
+	},
 }
 
 MinArchDigsitesDB["continent"] = {
@@ -40,6 +42,8 @@ MinArchDigsitesDB["continent"] = {
 	},
 	[7] = {		-- Draenor
 	},
+	[8] = {		-- Broken Isles
+	},
 }
 
 -- don't spam about unknown digsites, only once each
@@ -57,7 +61,7 @@ function MinArch:UpdateActiveDigSites()
 
 	local tempmap = GetCurrentMapAreaID();
 	
-	for i = 1, 7 do
+	for i = 1, 8 do
 
 		if MinArchDigsitesDB["continent"][i] == nil then
 			MinArchDigsitesDB["continent"][i] = {}
@@ -73,7 +77,7 @@ function MinArch:UpdateActiveDigSites()
 		SetMapZoom(i);
 		
 		for a=1, GetNumMapLandmarks() do
-			local name, desc, tex, x, y = GetMapLandmarkInfo(a);
+			local type, name, desc, tex, x, y = GetMapLandmarkInfo(a);
 			if (tex == 177) then
 				name = tostring(name)
 
@@ -105,9 +109,9 @@ end
 
 function MinArch:CreateDigSitesList(ContID)
 
-	if (ContID < 1 or ContID > 7 ) then
+	if (ContID < 1 or ContID > 8 ) then
 		ContID = GetCurrentMapContinent();
-		if (ContID < 1 or ContID > 7 ) then
+		if (ContID < 1 or ContID > 8 ) then
 			ContID = 1;
 		end
 	end
@@ -124,11 +128,13 @@ function MinArch:CreateDigSitesList(ContID)
 		MinArchDigsites.pandariaButton:SetAlpha(1.0);
 	elseif (ContID == 7) then
 		MinArchDigsites.draenorButton:SetAlpha(1.0);
+	elseif (ContID == 8) then
+		MinArchDigsites.brokenIslesButton:SetAlpha(1.0);
 	end
 	
 	local scrollf = MinArchDSScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", MinArchDigsites);
 
-	for i = 1, 7 do
+	for i = 1, 8 do
 		if (MinArchScrollDS[i]) then
 			MinArchScrollDS[i]:Hide();
 		end
@@ -315,6 +321,7 @@ function MinArch:DimADIButtons()
 	MinArchDigsites.northrendButton:SetAlpha(0.5);
 	MinArchDigsites.pandariaButton:SetAlpha(0.5);
 	MinArchDigsites.draenorButton:SetAlpha(0.5);
+	MinArchDigsites.brokenIslesButton:SetAlpha(0.5);
 end
 
 function MinArch:ADIButtonTooltip(ContID)
@@ -381,12 +388,12 @@ function MinArch:ShowRaceIconsOnMap()
 	local count = 0;
 	if (WorldMapDetailFrame:IsVisible()) then
 		for a=1, GetNumMapLandmarks() do
-			local name, desc, tex, x, y = GetMapLandmarkInfo(a);
+			local type, name, desc, tex, x, y = GetMapLandmarkInfo(a);
 			local contID;
 			
 			if (tex == 177) then
 				count = count + 1;
-				for i = 1, 7 do
+				for i = 1, 8 do
 					for dname,digsite in pairs(MinArchDigsitesGlobalDB["continent"][i]) do
 						if (dname == name) then
 							contID = i;
@@ -483,7 +490,7 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 		tooltip:AddDoubleLine(digsite['subzone'], digsite['zone'], GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
 	
-	if (digsite['race'] ~= "Unknown") then
+	if (digsite['race'] ~= "Unknown" and digsite['race'] ~= nil) then
 		if (project ~= nil) then
 			tooltip:AddDoubleLine("Project: |c"..project_color..project, first_solve, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 		end
