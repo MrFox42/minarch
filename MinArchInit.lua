@@ -39,6 +39,11 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("WORLD_MAP_UPDATE");
 	self:RegisterEvent("UNIT_SPELLCAST_SENT");
 	self:RegisterEvent("PLAYER_ALIVE");
-	
+	hooksecurefunc("WorldMapTrackingOptionsDropDown_OnClick", MinArch_TrackingChanged);
+
 	ChatFrame1:AddMessage("Minimal Archaeology Digsites Initialized!");
 end
+
+function MinArch_TrackingChanged(self)
+	MinArch:TrackingChanged(self);
+end 

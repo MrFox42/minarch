@@ -184,6 +184,12 @@ function MinArch:MainEventAddonLoaded()
 	local name
 	if MinArchDigsitesGlobalDB then
 	    for i=1,8 do
+
+		-- populate missing entries immediately
+		if MinArchDigsitesGlobalDB["continent"][i] == nil then
+			MinArchDigsitesGlobalDB["continent"][i] = {}
+		end
+
 		for name,_ in pairs(MinArchDigsitesGlobalDB['continent'][i]) do
 			if MinArchDigsitesGlobalDB['continent'][i][name]['zone'] == 'Unknown' then
 				MinArchDigsitesGlobalDB['continent'][i][name] = nil
@@ -196,4 +202,11 @@ function MinArch:MainEventAddonLoaded()
 	MinArchIsReady = true;
 		
 	ChatFrame1:AddMessage("Minimal Archaeology Loaded!");
+end
+
+function MinArch:TrackingChanged(self)
+	-- update the map if digsites tracking is changed
+	if (self.value == "digsites") then
+		MinArch:ShowRaceIconsOnMap()
+	end
 end

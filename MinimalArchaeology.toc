@@ -2,7 +2,7 @@
 ## Title: Minimal Archaeology
 ## Author: Joseph O'Connor, Josef Drexler, Gyula Pataki
 ## Email: gyussz@live.com, jgmoconnor@gmail.com
-## Version: 7.0.3 (2016-09-10)
+## Version: 7.0.3.4 (2016-09-15)
 ## Notes: Archaeology UI replacement, Archaeology History and more... 
 ## DefaultState: Enabled
 ## LoadOnDemand: 0

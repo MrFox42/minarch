@@ -385,32 +385,38 @@ function MinArch:ShowRaceIconsOnMap()
 	MinArchMapFrame2:Hide();
 	MinArchMapFrame3:Hide();
 	MinArchMapFrame4:Hide();
-	local count = 0;
-	if (WorldMapDetailFrame:IsVisible()) then
-		for a=1, GetNumMapLandmarks() do
-			local type, name, desc, tex, x, y = GetMapLandmarkInfo(a);
-			local contID;
-			
-			if (tex == 177) then
-				count = count + 1;
-				for i = 1, 8 do
-					for dname,digsite in pairs(MinArchDigsitesGlobalDB["continent"][i]) do
-						if (dname == name) then
-							contID = i;
+
+	if (GetCVarBool('digsites')) then
+		local count = 0;
+		if (WorldMapDetailFrame:IsVisible()) then
+			for a=1, GetNumMapLandmarks() do
+				local type, name, desc, tex, x, y, mapLinkID, showInBattleMap = GetMapLandmarkInfo(a);
+				local contID;
+				
+				if (tex == 177) then
+					count = count + 1;
+					for i = 1, 8 do
+						for dname,digsite in pairs(MinArchDigsitesGlobalDB["continent"][i]) do
+							if (dname == name) then
+								contID = i;
+							end
 						end
 					end
-				end
 
-				if not contID then
-					ChatFrame1:AddMessage("Minimal Archaeology: Could not find continent for digsite "..name)
-				elseif (count == 1) then
-					MinArch:SetIcon(MinArchMapFrame1, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
-				elseif (count == 2) then
-					MinArch:SetIcon(MinArchMapFrame2, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
-				elseif (count == 3) then
-					MinArch:SetIcon(MinArchMapFrame3, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
-				elseif (count == 4) then
-					MinArch:SetIcon(MinArchMapFrame4, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
+					if not contID then
+						if not SpamBlock[name] then
+							ChatFrame1:AddMessage("Minimal Archaeology: Could not find continent for digsite "..name)
+							SpamBlock[name] = 1
+						end
+					elseif (count == 1) then
+						MinArch:SetIcon(MinArchMapFrame1, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
+					elseif (count == 2) then
+						MinArch:SetIcon(MinArchMapFrame2, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
+					elseif (count == 3) then
+						MinArch:SetIcon(MinArchMapFrame3, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
+					elseif (count == 4) then
+						MinArch:SetIcon(MinArchMapFrame4, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
+					end
 				end
 			end
 		end
@@ -501,3 +507,4 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	
 	tooltip:Show();
 end
+
