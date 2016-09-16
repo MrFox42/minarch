@@ -354,7 +354,6 @@ MinArchDigsiteList = {
 	["Digsite: Amberfall Mesa"] = ARCHAEOLOGY_RACE_DEMONIC,
 	["Digsite: Southern Helmouth Shallows"] = ARCHAEOLOGY_RACE_DEMONIC,
 	["Digsite: Skold-Ashil"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Old Coast Path"] = ARCHAEOLOGY_RACE_DEMONIC,
 	["Digsite: Aggramar's Vault"] = ARCHAEOLOGY_RACE_DEMONIC,
 	["Digsite: Warden's Bluff"] = ARCHAEOLOGY_RACE_DEMONIC,
 	["Digsite: Storm's Reach"] = ARCHAEOLOGY_RACE_DEMONIC,
