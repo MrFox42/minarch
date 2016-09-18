@@ -28,7 +28,7 @@
 		</Layers>
 		<Frames>
 			<Frame name="$parentHideArtifact" inherits="MATOptionBox" parentKey="hideArtifact">
-				<size x="130" y="380" />
+				<size x="170" y="375" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentAddonName">
 						<Offset>
@@ -239,7 +239,7 @@
 			</Frame>
 			
 			<Frame name="$parentFragmentCap" inherits="MATOptionBox" parentKey="capArtifact">
-				<size x="130" y="315" />
+				<size x="170" y="375" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentHideArtifact">
 						<Offset>
@@ -450,7 +450,7 @@
 			</Frame>
 			
 			<Frame name="$parentUseKeystones" inherits="MATOptionBox" parentKey="useKeystones">
-				<size x="130" y="295" />
+				<size x="170" y="355" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentFragmentCap">
 						<Offset>
@@ -481,12 +481,21 @@
 						</Anchors>
 					</CheckButton>
 					
-					<!-- Fossils do not have keystones -->
-					
+					<!-- Use Keystone 3 -->
+					<CheckButton name="$parent3" inherits="MATBUseKeystoneOption" id="3" parentKey="usekeystone3">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent2">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
 					<!-- Use Keystone 4 -->
 					<CheckButton name="$parent4" inherits="MATBUseKeystoneOption" id="4" parentKey="usekeystone4">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent2">
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent3">
 								<Offset>
 									<AbsDimension x="0" y="-20"></AbsDimension>
 								</Offset>
@@ -615,21 +624,13 @@
 						</Anchors>
 					</CheckButton>
 
-					<!-- Use Keystone 16 -->
-					<CheckButton name="$parent16" inherits="MATBUseKeystoneOption" id="16" parentKey="usekeystone16">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent15">
-								<Offset>
-									<AbsDimension x="0" y="-20"></AbsDimension>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</CheckButton>
+					
+					<!-- Fossils do not have keystones -->
 
 					<!-- Use Keystone 17 -->
 					<CheckButton name="$parent17" inherits="MATBUseKeystoneOption" id="17" parentKey="usekeystone17">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent16">
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent15">
 								<Offset>
 									<AbsDimension x="0" y="-20"></AbsDimension>
 								</Offset>
@@ -652,7 +653,7 @@
 			</Frame>
 			
 			<Frame name="$parentMiscOptions" inherits="MATOptionBox" parentKey="miscOptions">
-				<size x="200" y="115" />
+				<size x="400" y="105" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentHideArtifact">
 						<Offset>
@@ -686,9 +687,9 @@
 					<!-- Always start hidden -->
 					<CheckButton name="$parentStartHidden" inherits="MATBMiscOption" id="3" parentKey="startHidden">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentDisableSound">
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent">
 								<Offset>
-									<AbsDimension x="0" y="-20"></AbsDimension>
+									<AbsDimension x="200" y="-5"></AbsDimension>
 								</Offset>
 							</Anchor>
 						</Anchors>

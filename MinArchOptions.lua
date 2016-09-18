@@ -90,7 +90,7 @@ end
 function MinArch:UseKeystoneOptionToggle()
 	if (MinArchIsReady == true) then
 		for i=1, 18 do
-			if (i ~= 3) then -- no keystones for fossils
+			if (i ~= ARCHAEOLOGY_RACE_FOSSIL) then -- no keystones for fossils
 				MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] = MinArchOptionPanel.useKeystones["usekeystone"..i]:GetChecked()
 			end
 		end
@@ -147,7 +147,7 @@ function MinArch:OpenOptions()
 			MinArchOptionPanel.capArtifact["cap"..i].text:SetText(MinArch['artifacts'][i]['race']);
 			MinArchOptionPanel.capArtifact["cap"..i]:SetChecked(MinArchOptions['ABOptions'][i]['Cap']);
 			
-			if (i ~= 3) then
+			if (i ~= ARCHAEOLOGY_RACE_FOSSIL) then
 				MinArchOptionPanel.useKeystones["usekeystone"..i].text:SetText(MinArch['artifacts'][i]['race']);
 				MinArchOptionPanel.useKeystones["usekeystone"..i]:SetChecked(MinArchOptions['ABOptions'][i]['AlwaysUseKeystone']);
 			end
