@@ -1,6 +1,7 @@
 function MinArch:InitMain(self)
 	-- Update Artifacts
 	self:RegisterEvent("ARTIFACT_COMPLETE");
+	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
 	self:RegisterEvent("ARTIFACT_DIG_SITE_UPDATED");
 	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
 	self:RegisterEvent("SKILL_LINES_CHANGED");
@@ -34,6 +35,7 @@ function MinArch:InitHist(self)
 end
 
 function MinArch:InitDigsites(self)
+	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
 	self:RegisterEvent("ARTIFACT_DIG_SITE_UPDATED");
 	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
 	self:RegisterEvent("WORLD_MAP_UPDATE");

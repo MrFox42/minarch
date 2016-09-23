@@ -1,9 +1,11 @@
 function MinArch:EventMain(event, ...)
+	print (event);
+
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArchHideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();		
 	elseif (event == "SKILL_LINES_CHANGED") then
 		MinArch:UpdateArchaeologySkillBar();		
-	elseif (event == "ARTIFACT_DIG_SITE_UPDATED" and MinArchOptions['HideAfterDigsite'] == true) then
+	elseif ((event == "ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArchOptions['HideAfterDigsite'] == true) then
 		MinArchHideNext = true;
 	elseif (event == "ARTIFACT_COMPLETE" and MinArchHideNext == true and MinArchOptions['WaitForSolve'] == true) then
 		MinArch:HideMain();
