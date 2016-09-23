@@ -1,6 +1,4 @@
 function MinArch:EventMain(event, ...)
-	print (event);
-
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArchHideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();		
 	elseif (event == "SKILL_LINES_CHANGED") then
