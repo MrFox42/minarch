@@ -339,8 +339,9 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	local ax = 0;
 	local ay = 0;
 	local tempmap = GetCurrentMapAreaID();
+	local ContID, map = GetCurrentMapContinent();
 
-	SetMapZoom(GetCurrentMapContinent());
+	SetMapZoom(ContID);
 	ax, ay = GetPlayerMapPosition("player");
 	
 	ax = ax *100;
@@ -349,7 +350,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	local nearestDistance = nil;
 	local nearestDigSite = nil;
 	
-	for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][GetCurrentMapContinent()]) do
+	for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
 			local xd = math.abs(ax - tonumber(digsite["x"]));
 			local yd = math.abs(ay - tonumber(digsite["y"]));
 			local d = math.sqrt((xd*xd)+(yd*yd));
@@ -364,16 +365,18 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 				
 			end			
 	end
+
 	
-	if (MinArchDigsitesGlobalDB["continent"][tonumber(GetCurrentMapContinent())][nearestDigSite]["race"] == "Unknown") then
-		MinArchDigsitesGlobalDB["continent"][tonumber(GetCurrentMapContinent())][nearestDigSite]["race"] = Race;
+	
+	if (MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] == "Unknown") then
+		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] = Race;
 	end
 
 	SetMapToCurrentZone();
 
-	if (MinArchDigsitesGlobalDB["continent"][tonumber(GetCurrentMapContinent())][nearestDigSite]["subzone"] == "") then
-		MinArchDigsitesGlobalDB["continent"][tonumber(GetCurrentMapContinent())][nearestDigSite]["zone"] = GetZoneText();
-		MinArchDigsitesGlobalDB["continent"][tonumber(GetCurrentMapContinent())][nearestDigSite]["subzone"] = GetSubZoneText();
+	if (MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["subzone"] == "") then
+		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["zone"] = GetZoneText();
+		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["subzone"] = GetSubZoneText();
 	end
 
 	SetMapByID(tempmap);
