@@ -392,18 +392,18 @@ MinArchDigsiteList = {
 	["Digsite: Sundered Shoals"] = ARCHAEOLOGY_RACE_HIGHBORNE,
 	
 	-- Broken Isles - Val'sharah
-	["Digsite: Andu'talah"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Ashmane's Fall"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Black Rook Hold"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Bradensbrook"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Dreadroot"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Kal'delar"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Lightsong"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Shala'nir"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Southern Wash"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Sundersong Glade"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Thas'talah"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: The Crescent Vale"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: The Wildwood"] = ARCHAEOLOGY_RACE_DEMONIC,
-	["Digsite: Wretched Hollow"] = ARCHAEOLOGY_RACE_DEMONIC
+	["Digsite: Andu'talah"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Ashmane's Fall"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Black Rook Hold"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Bradensbrook"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Dreadroot"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Kal'delar"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Lightsong"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Shala'nir"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Southern Wash"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Sundersong Glade"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Thas'talah"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: The Crescent Vale"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: The Wildwood"] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	["Digsite: Wretched Hollow"] = ARCHAEOLOGY_RACE_HIGHBORNE
 }

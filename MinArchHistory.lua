@@ -26,7 +26,7 @@ function MinArch:GetHistory(RaceID)
 		if not name then
 			i = -1;
 		else
-			icon = icon:lower()
+			-- icon = icon:lower()
 			if  MinArchIconDB[RaceID] and MinArchIconDB[RaceID][icon] then
 				 icon = MinArchIconDB[RaceID][icon]
 			end
@@ -36,12 +36,13 @@ function MinArch:GetHistory(RaceID)
 				if (details["name"] == name and details["icon"] ~= icon) then
 					MinArchIconDB[RaceID] = MinArchIconDB[RaceID] or {}
 					MinArchIconDB[RaceID][icon] = details["icon"]
-					ChatFrame1:AddMessage("Minimal Archeology - icon discrepancy detected")
-					ChatFrame1:AddMessage("Race " .. RaceID .. ": " .. MinArch['artifacts'][RaceID]['race'])
-					ChatFrame1:AddMessage("Item " .. itemid .. ": " .. name)
-					ChatFrame1:AddMessage("Item icon '" .. details["icon"] .. "'")
-					ChatFrame1:AddMessage("Artifact icon '" .. icon .. "'")
-					ChatFrame1:AddMessage("Please submit a bug report with the contents of this message.")
+					-- TODO: toggle message
+					--ChatFrame1:AddMessage("Minimal Archeology - icon discrepancy detected")
+					--ChatFrame1:AddMessage("Race " .. RaceID .. ": " .. MinArch['artifacts'][RaceID]['race'])
+					--ChatFrame1:AddMessage("Item " .. itemid .. ": " .. name)
+					--ChatFrame1:AddMessage("Item icon '" .. details["icon"] .. "'")
+					--ChatFrame1:AddMessage("Artifact icon '" .. icon .. "'")
+					--ChatFrame1:AddMessage("Please submit a bug report with the contents of this message.")
 					icon = details["icon"]
 				end
 
