@@ -133,6 +133,7 @@ function MinArch:CreateDigSitesList(ContID)
 	end
 	
 	local scrollf = MinArchDSScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", MinArchDigsites);
+	scrollf:SetClipsChildren(true)
 
 	for i = 1, 8 do
 		if (MinArchScrollDS[i]) then
@@ -145,7 +146,7 @@ function MinArch:CreateDigSitesList(ContID)
 	
 	MinArchScrollDS[ContID]:Show();
 	
-	local scrollb = MinArchScrollDSBar or CreateFrame("Slider", "MinArchScrollDSBar", scrollf);
+	local scrollb = MinArchScrollDSBar or CreateFrame("Slider", "MinArchScrollDSBar", MinArchDigsites);
 	
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");

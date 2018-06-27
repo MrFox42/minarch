@@ -30,6 +30,7 @@ end
 
 function MinArch:InitHist(self)
 	self:RegisterEvent("ARTIFACT_HISTORY_READY");
+	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
 	RequestArtifactCompletionHistory();
 	ChatFrame1:AddMessage("Minimal Archaeology History Initialized!");
 end

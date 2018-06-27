@@ -1,6 +1,3 @@
 externals:
- libs/LibBabble-DigSites-3.0:
-  url: https://repos.wowace.com/wow/libbabble-digsites-3-0/tags/6.2-release1
-  tag: 6.2-release1
  libs/LibStub:
   url: https://repos.wowace.com/wow/libstub/trunk

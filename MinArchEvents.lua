@@ -25,7 +25,7 @@ function MinArch:EventMain(event, ...)
 		
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
 		MinArchMain:RegisterEvent("ARTIFACT_HISTORY_READY");
-	end	
+	end
 	
 	if (MinArchIsReady == true) then
 		MinArch:UpdateMain();
@@ -37,29 +37,34 @@ function MinArch:EventHist(event, ...)
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
 			for i = 1, 18 do
-				allGood = MinArch:LoadItemDetails(i) and allGood
+				allGood = MinArch:LoadItemDetails(i, event .. " {i=" .. i .. "}") and allGood
 			end
 
 			if allGood then
 				-- all item info available, unregister this event
+				ChatFrame1:AddMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").")
 				MinArchHist:UnregisterEvent(event)
 			else
 				-- not all item info available, try again when more details have been received
+				ChatFrame1:AddMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").")
 				MinArchHist:UnregisterEvent("ARTIFACT_HISTORY_READY")
 				MinArchHist:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
 			end
 
 			for i = 1, 18 do
-				MinArch:GetHistory(i);
+				MinArch:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
-			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage']);
-			-- MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage']);
+			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event);
 			
 			if (MinArchIsReady == true) then
 				MinArch:UpdateMain();
 			end
+		else
+			ChatFrame1:AddMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").")
 		end
+	elseif (event == "RESEARCH_ARTIFACT_UPDATE") then
+		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
 	end
 end
 

@@ -5,13 +5,13 @@
 	<Script file="MinArchHistory.lua"/>
 
 	<Frame name="MinArchHist"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
-		<size x="500" y="310" />
+		<size x="320" y="310" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>
 		<Frames>
 			<Frame name="$parentGrad">
-				<size x="376" y="30" />
+				<size x="376" y="60" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" x="12" y="-10"/>
 				</Anchors>

@@ -2,12 +2,13 @@
 ## Title: Minimal Archaeology
 ## Author: Joseph O'Connor, Josef Drexler, Gyula Pataki
 ## Email: gyussz@live.com, jgmoconnor@gmail.com
-## Version: 7.3.0 (2017-04-07)
+## Version: 7.3.5a (2018-06-27)
 ## Notes: Archaeology UI replacement, Archaeology History and more... 
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## SavedVariablesPerCharacter: MinArchOptions
 ## SavedVariables: MinArchDigsitesGlobalDB
+# Special thanks to joevt for the contribution
 
 libs\LibIconPath\Core.lua
 libs\LibStub\LibStub.lua

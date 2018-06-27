@@ -15,7 +15,6 @@
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_DEMONIC;
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DEMONIC);
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DEMONIC);
 			</OnClick>
 			<OnEnter>
 				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_DEMONIC)
@@ -49,7 +48,6 @@
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN);
 			</OnClick>
 			<OnEnter>
@@ -85,7 +83,6 @@
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_HIGHBORNE;
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_HIGHBORNE);
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_HIGHBORNE);
 			</OnClick>
 			<OnEnter>
 				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_HIGHBORNE)
@@ -119,7 +116,6 @@
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_OGRE;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_OGRE);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_OGRE);
 			</OnClick>
 			<OnEnter>
@@ -155,7 +151,6 @@
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_DRAENOR;
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DRAENOR);
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DRAENOR);
 			</OnClick>
 			<OnEnter>
 				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_DRAENOR)
@@ -189,7 +184,6 @@
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_ARAKKOA;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_ARAKKOA);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_ARAKKOA);
 			</OnClick>
 			<OnEnter>
@@ -225,7 +219,6 @@
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_MOGU;
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_MOGU);
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_MOGU);
 			</OnClick>
 			<OnEnter>
 				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_MOGU)
@@ -259,7 +252,6 @@
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_PANDAREN;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_PANDAREN);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_PANDAREN);
 			</OnClick>
 			<OnEnter>
@@ -295,7 +287,6 @@
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_MANTID;
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_MANTID);
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_MANTID);
 			</OnClick>
 			<OnEnter>
 				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_MANTID)
@@ -322,14 +313,13 @@
 	<Button name="MATBVrykul" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="240" y="-12"/>
+			<Anchor point="TOPLEFT" x="15" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_VRYKUL;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_VRYKUL);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_VRYKUL);
 			</OnClick>
 			<OnEnter>
@@ -357,14 +347,13 @@
 	<Button name="MATBTroll" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="265" y="-12"/>
+			<Anchor point="TOPLEFT" x="40" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_TROLL;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_TROLL);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_TROLL);
 			</OnClick>
 			<OnEnter>
@@ -392,14 +381,13 @@
 	<Button name="MATBTolvir" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="290" y="-15"/>
+			<Anchor point="TOPLEFT" x="65" y="-45"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_TOLVIR;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_TOLVIR);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_TOLVIR);
 			</OnClick>
 			<OnEnter>
@@ -427,14 +415,13 @@
 	<Button name="MATBOrc" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="315" y="-12"/>
+			<Anchor point="TOPLEFT" x="90" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_ORC;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_ORC);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_ORC);
 			</OnClick>
 			<OnEnter>
@@ -462,14 +449,13 @@
 	<Button name="MATBNerubian" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="340" y="-12"/>
+			<Anchor point="TOPLEFT" x="115" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_NERUBIAN;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_NERUBIAN);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_NERUBIAN);
 			</OnClick>
 			<OnEnter>
@@ -497,14 +483,13 @@
 	<Button name="MATBNightElf" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="365" y="-12"/>
+			<Anchor point="TOPLEFT" x="140" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_NIGHTELF;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_NIGHTELF);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_NIGHTELF);
 			</OnClick>
 			<OnEnter>
@@ -532,14 +517,13 @@
 	<Button name="MATBFossil" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="390" y="-14"/>
+			<Anchor point="TOPLEFT" x="165" y="-44"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_FOSSIL;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_FOSSIL);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_FOSSIL);
 			</OnClick>
 			<OnEnter>
@@ -567,14 +551,13 @@
 	<Button name="MATBDraenei" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="415" y="-12"/>
+			<Anchor point="TOPLEFT" x="190" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_DRAENEI;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DRAENEI);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DRAENEI);
 			</OnClick>
 			<OnEnter>
@@ -602,14 +585,13 @@
 	<Button name="MATBDwarf" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="440" y="-12"/>
+			<Anchor point="TOPLEFT" x="215" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_DWARF;
-				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DWARF);
 				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DWARF);
 			</OnClick>
 			<OnEnter>

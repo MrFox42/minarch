@@ -213,8 +213,7 @@
 				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_HIGHBORNE) then
 					MinArchHist.highborneButton:SetAlpha(1.0);
 				end
-				MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage']);
-				MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage']);
+				MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
 				MinArchHist:Show();
 			</OnClick>
 		</Scripts>
