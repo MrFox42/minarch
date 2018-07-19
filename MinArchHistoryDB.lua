@@ -1,6 +1,20 @@
 MinArchHistDB = {}
 MinArchIconDB = {}
 
+-- Drustvari Artifacts
+MinArchIconDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
+	
+}
+MinArchHistDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
+	
+}
+-- Zandalari Artifacts
+MinArchIconDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
+	
+}
+MinArchHistDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
+	
+}
 -- Demonic Artifacts
 MinArchIconDB[ARCHAEOLOGY_RACE_DEMONIC] = {
 		-- Wyrmy Tunkins item from Infernal Device project

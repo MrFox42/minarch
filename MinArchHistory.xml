@@ -25,6 +25,8 @@
 				</Scripts>
 			</Frame>
 		
+			<Button name="$parentDrustvariButton" inherits="MATBDrustvari" parentKey="drustvariButton" />
+			<Button name="$parentZandalariButton" inherits="MATBZandalari" parentKey="zandalariButton" />
 			<Button name="$parentDemonicButton" inherits="MATBDemonic" parentKey="demonicButton" />
 			<Button name="$parentHighmountainTaurenButton" inherits="MATBHighmountainTauren" parentKey="highmountainTaurenButton" />
 			<Button name="$parentHighborneButton" inherits="MATBHighborne" parentKey="highborneButton" />

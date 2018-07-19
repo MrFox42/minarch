@@ -51,7 +51,7 @@ local SpamBlock = {}
 
 function MinArch:UpdateActiveDigSites()
 	-- can't do anything until all races are known
-	if GetNumArchaeologyRaces()<18 then
+	if GetNumArchaeologyRaces()<ARCHAEOLOGY_NUM_RACES then
 		return
 	end
 	-- also digsite list must be initialized
@@ -59,7 +59,7 @@ function MinArch:UpdateActiveDigSites()
 		return
 	end
 
-	local tempmap = GetCurrentMapAreaID();
+	local tempmap = C_Map.GetBestMapForUnit("player");
 	
 	for i = 1, 8 do
 
@@ -74,43 +74,47 @@ function MinArch:UpdateActiveDigSites()
 			digsite["status"] = false;
 		end
 	
-		SetMapZoom(i);
+		-- SetMapZoom(i); -- TODO
 		
-		for a=1, GetNumMapLandmarks() do
-			local type, name, desc, tex, x, y = GetMapLandmarkInfo(a);
-			if (tex == 177) then
-				name = tostring(name)
+		-- TODO
 
-				MinArchDigsitesGlobalDB["continent"][i][name] = MinArchDigsitesGlobalDB["continent"][i][name] or {};
-				MinArchDigsitesDB      ["continent"][i][name] = MinArchDigsitesDB["continent"][i][name] or {};
-
-				-- if we don't have this in the DB yet, try to use the race from the digsite list
-				if not MinArchDigsitesGlobalDB["continent"][i][name]["race"] or MinArchDigsitesGlobalDB["continent"][i][name]["race"] == "Unknown" then
-					if MinArchDigsiteList[name] then
-						local race = GetArchaeologyRaceInfo(MinArchDigsiteList[name])
-						MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
-					elseif not SpamBlock[name] then
-						ChatFrame1:AddMessage("Minimal Archaeology: Unknown digsite "..name)
-						SpamBlock[name] = 1
-					end
-				end
-
-				MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
-				MinArchDigsitesGlobalDB["continent"][i][name]["x"] = tostring(x*100);
-				MinArchDigsitesGlobalDB["continent"][i][name]["y"] = tostring(y*100);
-				MinArchDigsitesGlobalDB["continent"][i][name]["zone"] = MinArchDigsitesGlobalDB["continent"][i][name]["zone"] or "See Map";
-				MinArchDigsitesGlobalDB["continent"][i][name]["subzone"] = MinArchDigsitesGlobalDB["continent"][i][name]["subzone"] or "";
-			end
-		end
+--		for a=1, GetNumMapLandmarks() do
+--			local type, name, desc, tex, x, y = GetMapLandmarkInfo(a);
+--			if (tex == 177) then
+--				name = tostring(name)
+--
+--				MinArchDigsitesGlobalDB["continent"][i][name] = MinArchDigsitesGlobalDB["continent"][i][name] or {};
+--				MinArchDigsitesDB      ["continent"][i][name] = MinArchDigsitesDB["continent"][i][name] or {};
+--
+--				-- if we don't have this in the DB yet, try to use the race from the digsite list
+--				if not MinArchDigsitesGlobalDB["continent"][i][name]["race"] or MinArchDigsitesGlobalDB["continent"][i][name]["race"] == "Unknown" then
+--					if MinArchDigsiteList[name] then
+--						local race = GetArchaeologyRaceInfo(MinArchDigsiteList[name])
+--						MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
+--					elseif not SpamBlock[name] then
+--						ChatFrame1:AddMessage("Minimal Archaeology: Unknown digsite "..name)
+--						SpamBlock[name] = 1
+--					end
+--				end
+--
+--				MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
+--				MinArchDigsitesGlobalDB["continent"][i][name]["x"] = tostring(x*100);
+--				MinArchDigsitesGlobalDB["continent"][i][name]["y"] = tostring(y*100);
+--				MinArchDigsitesGlobalDB["continent"][i][name]["zone"] = MinArchDigsitesGlobalDB["continent"][i][name]["zone"] or "See Map";
+--				MinArchDigsitesGlobalDB["continent"][i][name]["subzone"] = MinArchDigsitesGlobalDB["continent"][i][name]["subzone"] or "";
+--			end
+--		end
 	end
 	
-	SetMapByID(tempmap);
+	-- SetMapByID(tempmap);
 end
 
 function MinArch:CreateDigSitesList(ContID)
-
 	if (ContID < 1 or ContID > 8 ) then
-		ContID = GetCurrentMapContinent();
+		local tempmap = C_Map.GetBestMapForUnit("player");
+		local playerpos = C_Map.GetPlayerMapPosition(tempmap, "player");
+		ContID = MinArch:TranslateContinentId(C_Map.GetWorldPosFromMapPos(tempmap, playerpos));
+
 		if (ContID < 1 or ContID > 8 ) then
 			ContID = 1;
 		end
@@ -339,10 +343,11 @@ end
 function MinArch:UpdateActiveDigSitesRace(Race)
 	local ax = 0;
 	local ay = 0;
-	local tempmap = GetCurrentMapAreaID();
-	local ContID, map = GetCurrentMapContinent();
+	local tempmap = C_Map.GetBestMapForUnit("player");
+	local playerpos = C_Map.GetPlayerMapPosition(tempmap, "player");
+	local ContID = MinArch:TranslateContinentId(C_Map.GetWorldPosFromMapPos(tempmap, playerpos));
 
-	SetMapZoom(ContID);
+	-- SetMapZoom(ContID); -- TODO
 	ax, ay = GetPlayerMapPosition("player");
 	
 	ax = ax *100;
@@ -381,7 +386,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	end
 
 	SetMapByID(tempmap);
-	MinArch:ShowRaceIconsOnMap();
+	-- MinArch:ShowRaceIconsOnMap(); -- TODO
 end
 
 function MinArch:ShowRaceIconsOnMap()
@@ -445,7 +450,7 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
 	FRAME.icon:SetTexture("Interface/Icons/INV_MISC_QUESTIONMARK");
 	FRAME.icon:SetTexCoord(0, 1, 0, 1);
 	
-	for i=1,18 do
+	for i=1,ARCHAEOLOGY_NUM_RACES do
 		if (RACE == MinArch['artifacts'][i]['race']) then
 			FRAME.icon:SetTexture(MinArch['artifacts'][i]['raceicon']);
 			FRAME.icon:SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
@@ -480,7 +485,7 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	
 	local RACE = tostring(digsite["race"]);
 	
-	for i=1,18 do	
+	for i=1,ARCHAEOLOGY_NUM_RACES do
 		if (RACE == MinArch['artifacts'][i]['race']) then
 			MinArchTooltipIcon.icon:SetTexture(MinArch['artifacts'][i]['icon']);
 			progress = MinArch['artifacts'][i]['progress'] .. "/" .. MinArch['artifacts'][i]['total'];

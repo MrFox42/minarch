@@ -47,7 +47,7 @@
 	</Frame>
 	
 	<!-- Frames for showing digsite info, up to 4 digsites -->
-	<Frame name="MinArchMapFrame1" frameStrata="HIGH" visible="false" parent="WorldMapDetailFrame">
+	<Frame name="MinArchMapFrame1" frameStrata="HIGH" visible="false" parent="WorldMapFrame">
 		<size x="32" y="32" />
 		<Layers>
 			<Layer level="ARTWORK">
@@ -66,7 +66,7 @@
 		</Scripts>
 	</Frame>
 	
-	<Frame name="MinArchMapFrame2" frameStrata="HIGH" visible="false" parent="WorldMapDetailFrame">
+	<Frame name="MinArchMapFrame2" frameStrata="HIGH" visible="false" parent="WorldMapFrame">
 		<size x="32" y="32" />
 		<Layers>
 			<Layer level="ARTWORK">
@@ -85,7 +85,7 @@
 		</Scripts>
 	</Frame>
 	
-	<Frame name="MinArchMapFrame3" frameStrata="HIGH" visible="false" parent="WorldMapDetailFrame">
+	<Frame name="MinArchMapFrame3" frameStrata="HIGH" visible="false" parent="WorldMapFrame">
 		<size x="32" y="32" />
 		<Layers>
 			<Layer level="ARTWORK">
@@ -104,7 +104,7 @@
 		</Scripts>
 	</Frame>
 	
-	<Frame name="MinArchMapFrame4" frameStrata="HIGH" visible="false" parent="WorldMapDetailFrame">
+	<Frame name="MinArchMapFrame4" frameStrata="HIGH" visible="false" parent="WorldMapFrame">
 		<size x="32" y="32" />
 		<Layers>
 			<Layer level="ARTWORK">

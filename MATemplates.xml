@@ -212,6 +212,10 @@
 					MinArchHist.highmountainTaurenButton:SetAlpha(1.0);
 				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_HIGHBORNE) then
 					MinArchHist.highborneButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_ZANDALARI) then
+					MinArchHist.zandalariButton:SetAlpha(1.0);
+				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_DRUSTVARI) then
+					MinArchHist.drustvariButton:SetAlpha(1.0);
 				end
 				MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
 				MinArchHist:Show();

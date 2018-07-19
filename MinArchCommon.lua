@@ -1,10 +1,20 @@
 MinArch = {};
 MinArch['artifacts'] = {};
 MinArch['artifactbars'] = {};
-MinArch['barlinks'] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
+MinArch['barlinks'] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 MinArch['frame'] = {};
 MinArchOptions = {};
 MinArchOptions['ABOptions'] = {};
+MinArch['ContIDMap'] = {
+	[0] = 1, -- Kalimdor
+	[1] = 2, -- EK
+	[530] = 3, -- Outland
+	[571] = 4, -- Northrend
+	[730] = 5, -- Maelstrom
+	[870] = 6, -- Pandaria
+	[1116] = 7, -- Draenor
+	[1220] = 8, -- Broken Isles
+}
 
 MinArchHideNext = false;
 MinArchIsReady = false;
@@ -49,4 +59,12 @@ function MinArch:CommonFrameScale(scale)
 	MinArchMain:SetScale(scale);
 	MinArchHist:SetScale(scale);
 	MinArchDigsites:SetScale(scale);
+end
+
+function MinArch:TranslateContinentId(ContID)
+	if (MinArch.ContIDMap[ContID] ~= nil) then
+		return MinArch.ContIDMap[ContID];
+	end
+
+	return -1;
 end

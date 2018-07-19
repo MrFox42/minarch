@@ -50,7 +50,8 @@ end
 function MinArch:GetHistory(RaceID, caller)
 	local i = 1
 	while true do
-		local name, desc, rarity, icon, spelldesc, itemrare, _, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, i)
+		local name, desc, rarity, icon, spelldesc, itemrare, _, spellId, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, i)
+		
 		if not name then
 			break
 		end
@@ -82,7 +83,6 @@ function MinArch:GetHistory(RaceID, caller)
 		-- pass 2: match only the icon if no matches in pass 1 were found (because some artifact names are different than the items they give)
 		for pass = 1,2,1 do
 			for itemid, details in pairs(MinArchHistDB[RaceID]) do
-
 				if ((pass == 2 or details.name == name) and details.icon == icon) then
 					details.artifactname = name
 					foundCount = foundCount + 1
@@ -147,7 +147,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
 	if (not MinArch:IsItemDetailsLoaded(RaceID)) then
 		local allGood = true
-		for i = 1, 18 do
+		for i = 1, ARCHAEOLOGY_NUM_RACES do
 			allGood = MinArch:LoadItemDetails(i, nextcaller .. "{i=" .. i .. "}") and allGood
 		end
 
@@ -163,7 +163,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 	local PADDING = 5;
 	local width = 280; -- fixme get parent width
 	
-	for i=1, 18 do
+	for i=1, ARCHAEOLOGY_NUM_RACES do
 		if (MinArchScroll[i]) then
 			MinArchScroll[i]:Hide();
 		end
@@ -276,6 +276,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 					currentFontString:SetWordWrap(false)
 					currentFontString:SetJustifyH("RIGHT")
 					currentFontString:SetJustifyV("TOP")
+					
 					if not details.firstcomplete then
 						currentFontString:SetText("Incomplete")
 						currentFontString:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
@@ -406,6 +407,8 @@ function MinArch:CreateHistoryList(RaceID, caller)
 end
 
 function MinArch:DimHistoryButtons()
+	MinArchHist.drustvariButton:SetAlpha(0.5);
+	MinArchHist.zandalariButton:SetAlpha(0.5);
 	MinArchHist.demonicButton:SetAlpha(0.5);
 	MinArchHist.highmountainTaurenButton:SetAlpha(0.5);
 	MinArchHist.highborneButton:SetAlpha(0.5);

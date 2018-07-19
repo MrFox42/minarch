@@ -3,16 +3,16 @@ function MinArch:EventMain(event, ...)
 		MinArch:MaineEventHideAfterDigsite();		
 	elseif (event == "SKILL_LINES_CHANGED") then
 		MinArch:UpdateArchaeologySkillBar();		
-	elseif ((event == "ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArchOptions['HideAfterDigsite'] == true) then
+	elseif ((event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArchOptions['HideAfterDigsite'] == true) then
 		MinArchHideNext = true;
-	elseif (event == "ARTIFACT_COMPLETE" and MinArchHideNext == true and MinArchOptions['WaitForSolve'] == true) then
+	elseif (event == "RESEARCH_ARTIFACT_COMPLETE" and MinArchHideNext == true and MinArchOptions['WaitForSolve'] == true) then
 		MinArch:HideMain();
 		MinArchHideNext = false;
 		
-		MinArchHist:RegisterEvent("ARTIFACT_HISTORY_READY");
+		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		RequestArtifactCompletionHistory();
-	elseif (event == "PLAYER_ALIVE" or event == "ARTIFACT_COMPLETE") then
-		MinArchHist:RegisterEvent("ARTIFACT_HISTORY_READY");
+	elseif (event == "PLAYER_ALIVE" or event == "RESEARCH_ARTIFACT_COMPLETE") then
+		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		RequestArtifactCompletionHistory();
 	elseif (event == "ADDON_LOADED" and MinArch ~= nil and MinArchIsReady ~= true) then
 		MinArch:MainEventAddonLoaded();
@@ -20,11 +20,11 @@ function MinArch:EventMain(event, ...)
 		local addonname = ...;
 		
 		if (addonname == "Blizzard_ArchaeologyUI") then
-			MinArchMain:UnregisterEvent("ARTIFACT_HISTORY_READY");
+			MinArchMain:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
 		
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
-		MinArchMain:RegisterEvent("ARTIFACT_HISTORY_READY");
+		MinArchMain:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	end
 	
 	if (MinArchIsReady == true) then
@@ -33,10 +33,10 @@ function MinArch:EventMain(event, ...)
 end
 
 function MinArch:EventHist(event, ...)
-	if (event == "ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
+	if (event == "RESEARCH_ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
-			for i = 1, 18 do
+			for i = 1, ARCHAEOLOGY_NUM_RACES do
 				allGood = MinArch:LoadItemDetails(i, event .. " {i=" .. i .. "}") and allGood
 			end
 
@@ -47,12 +47,12 @@ function MinArch:EventHist(event, ...)
 			else
 				-- not all item info available, try again when more details have been received
 				ChatFrame1:AddMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").")
-				MinArchHist:UnregisterEvent("ARTIFACT_HISTORY_READY")
+				MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
 				MinArchHist:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
 			end
 
-			for i = 1, 18 do
+			for i = 1, ARCHAEOLOGY_NUM_RACES do
 				MinArch:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
 			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event);
@@ -80,7 +80,10 @@ function MinArch:EventDigsites(event, ...)
 					if (hasRace ~= nil) then
 						MinArch:UpdateActiveDigSitesRace(tostring(artifact['race']));
 						
-						local ContID = GetCurrentMapContinent();
+						local tempmap = C_Map.GetBestMapForUnit("player");
+						local playerpos = C_Map.GetPlayerMapPosition(tempmap, "player");
+						local ContID = MinArch:TranslateContinentId(C_Map.GetWorldPosFromMapPos(tempmap, playerpos));
+
 						if (ContID ~= nil) then
 							MinArch:CreateDigSitesList(ContID);
 							MinArch:CreateDigSitesList(ContID);
@@ -92,13 +95,19 @@ function MinArch:EventDigsites(event, ...)
 			
 		end
 	elseif (event == "WORLD_MAP_UPDATE" and MinArchIsReady == true) then		
-		MinArch:ShowRaceIconsOnMap();
+		-- MinArch:ShowRaceIconsOnMap(); -- TODO
 	else
 		MinArch:UpdateActiveDigSites();
-		local ContID = GetCurrentMapContinent();
-		if (ContID ~= nil) then
-			MinArch:CreateDigSitesList(ContID);
-			MinArch:CreateDigSitesList(ContID);
+		
+		local tempmap = C_Map.GetBestMapForUnit("player");
+		if (tempmanp ~= nil) then
+			local playerpos = C_Map.GetPlayerMapPosition(tempmap, "player");
+			local ContID = MinArch:TranslateContinentId(C_Map.GetWorldPosFromMapPos(tempmap, playerpos));
+
+			if (ContID ~= nil) then
+				MinArch:CreateDigSitesList(ContID);
+				MinArch:CreateDigSitesList(ContID);
+			end
 		end
 	end
 end
@@ -106,7 +115,7 @@ end
 function MinArch:MaineEventHideAfterDigsite()
 	if (MinArchOptions['WaitForSolve'] == true) then
 		local wait = false;
-		for i=1,18 do
+		for i=1,ARCHAEOLOGY_NUM_RACES do
 			MinArch:UpdateArtifact(i);
 			if (MinArch['artifacts'][i]['canSolve'] and MinArchOptions['ABOptions'][i]['Hide'] == false) then
 				wait = true;
@@ -176,7 +185,7 @@ function MinArch:MainEventAddonLoaded()
 	end
 
 	local i
-	for i=0,18 do
+	for i=0,ARCHAEOLOGY_NUM_RACES do
 		if (MinArchOptions['ABOptions'][i] == nil) then
 			MinArchOptions['ABOptions'][i] = {}; 
 			MinArchOptions['ABOptions'][i]['Hide'] = false;
@@ -212,6 +221,6 @@ end
 function MinArch:TrackingChanged(self)
 	-- update the map if digsites tracking is changed
 	if (self.value == "digsites") then
-		MinArch:ShowRaceIconsOnMap()
+		-- MinArch:ShowRaceIconsOnMap() -- TODO
 	end
 end

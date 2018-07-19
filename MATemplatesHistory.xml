@@ -3,11 +3,79 @@
 
 	<!-- TODO button order -->
 
+	<!-- Drustvari Button -->
+	<Button name="MATBDrustvari" virtual="true" >
+		<Size x="25" y="25"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" x="15" y="-12"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimHistoryButtons();
+				self:SetAlpha(1.0);
+				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_DRUSTVARI;
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_DRUSTVARI);
+			</OnClick>
+			<OnEnter>
+				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_DRUSTVARI)
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		<NormalTexture file="Interface\Archeology\Arch-Race-Drustvari.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</NormalTexture>
+		<PushedTexture file="Interface\Archeology\Arch-Race-Drustvari.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</PushedTexture>
+		<HighlightTexture file="Interface\Archeology\Arch-Race-Drustvari.blp" alphaMode="ADD">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</HighlightTexture>
+	</Button>
+
+	<!-- Zandalari Button -->
+	<Button name="MATBZandalari" virtual="true" >
+		<Size x="25" y="25"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" x="40" y="-12"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimHistoryButtons();
+				self:SetAlpha(1.0);
+				MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_ZANDALARI;
+				MinArch:CreateHistoryList(ARCHAEOLOGY_RACE_ZANDALARI);
+			</OnClick>
+			<OnEnter>
+				MinArch:HistoryButtonTooltip(ARCHAEOLOGY_RACE_ZANDALARI)
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		<NormalTexture file="Interface\Archeology\Arch-Race-Zandalari.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</NormalTexture>
+		<PushedTexture file="Interface\Archeology\Arch-Race-Zandalari.blp">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</PushedTexture>
+		<HighlightTexture file="Interface\Archeology\Arch-Race-Zandalari.blp" alphaMode="ADD">
+			<Size x="30" y="30"/>	
+			<TexCoords left="0.0234375" right="0.5625" top="0.078125" bottom="0.625"/>
+		</HighlightTexture>
+	</Button>
+
 	<!-- Demonic Button -->
 	<Button name="MATBDemonic" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="15" y="-12"/>
+			<Anchor point="TOPLEFT" x="65" y="-12"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -41,7 +109,7 @@
 	<Button name="MATBHighmountainTauren" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="40" y="-12"/>
+			<Anchor point="TOPLEFT" x="90" y="-12"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -75,7 +143,7 @@
 	<Button name="MATBHighborne" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="65" y="-12"/>
+			<Anchor point="TOPLEFT" x="115" y="-12"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -109,7 +177,7 @@
 	<Button name="MATBOgre" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="90" y="-15"/>
+			<Anchor point="TOPLEFT" x="140" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -143,7 +211,7 @@
 	<Button name="MATBDraenorClans" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="115" y="-15"/>
+			<Anchor point="TOPLEFT" x="165" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -177,7 +245,7 @@
 	<Button name="MATBArakkoa" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="140" y="-15"/>
+			<Anchor point="TOPLEFT" x="190" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -211,7 +279,7 @@
 	<Button name="MATBMogu" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="165" y="-15"/>
+			<Anchor point="TOPLEFT" x="215" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -245,7 +313,7 @@
 	<Button name="MATBPandaren" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="190" y="-15"/>
+			<Anchor point="TOPLEFT" x="240" y="-15"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -279,7 +347,7 @@
 	<Button name="MATBMantid" virtual="true" >
 		<Size x="22" y="22"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="215" y="-15"/>
+			<Anchor point="TOPLEFT" x="15" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -313,7 +381,7 @@
 	<Button name="MATBVrykul" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="15" y="-42"/>
+			<Anchor point="TOPLEFT" x="40" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -347,7 +415,7 @@
 	<Button name="MATBTroll" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="40" y="-42"/>
+			<Anchor point="TOPLEFT" x="65" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -381,7 +449,7 @@
 	<Button name="MATBTolvir" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="65" y="-45"/>
+			<Anchor point="TOPLEFT" x="90" y="-45"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -415,7 +483,7 @@
 	<Button name="MATBOrc" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="90" y="-42"/>
+			<Anchor point="TOPLEFT" x="115" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -449,7 +517,7 @@
 	<Button name="MATBNerubian" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="115" y="-42"/>
+			<Anchor point="TOPLEFT" x="140" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -483,7 +551,7 @@
 	<Button name="MATBNightElf" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="140" y="-42"/>
+			<Anchor point="TOPLEFT" x="165" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -517,7 +585,7 @@
 	<Button name="MATBFossil" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="165" y="-44"/>
+			<Anchor point="TOPLEFT" x="190" y="-44"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -551,7 +619,7 @@
 	<Button name="MATBDraenei" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="190" y="-42"/>
+			<Anchor point="TOPLEFT" x="215" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -585,7 +653,7 @@
 	<Button name="MATBDwarf" virtual="true" >
 		<Size x="25" y="25"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="215" y="-42"/>
+			<Anchor point="TOPLEFT" x="240" y="-42"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
