@@ -1,4 +1,4 @@
-## Interface: 60200
+## Interface: 80000
 ## Title: Lib: Babble-DigSites-3.0
 ## Version: 6.2-release1
 ## Notes: A library to help with localization of Archeology dig sites
