@@ -406,4 +406,57 @@ MinArchDigsiteList = {
 	["Digsite: The Crescent Vale"] = ARCHAEOLOGY_RACE_HIGHBORNE,
 	["Digsite: The Wildwood"] = ARCHAEOLOGY_RACE_HIGHBORNE,
 	["Digsite: Wretched Hollow"] = ARCHAEOLOGY_RACE_HIGHBORNE
+
+	--[[
+		
+		Digsite: Valley View	1643
+		Digsite: Brokenbough Roost	1643
+		Digsite: Fernwood Ridge	1643
+		Digsite: Rockslip Woodlands	1643
+		Digsite: Vigil Hill	1643
+		Digsite: Placid Springs	1643
+		Digsite: Stagheart Cliffs	1643
+		Digsite: Deathmist Hills	1643
+		Digsite: Gol Koval	1643
+		Digsite: Hunter's Run	1643
+		Digsite: Brackish Coast	1643
+		Digsite: Arom's Crossing	1643
+		Digsite: Corlain	1643
+		Digsite: Whitegrove Chapel	1643
+		Digsite: Crimson Forest	1643
+		Digsite: Iceveil Glacier	1643
+		Digsite: Seabreeze Shallows	1643
+		Digsite: Millstone Hills	1643
+		Digsite: Goldfield Farmstead	1643
+		Digsite: Roaming Hills	1643
+		Digsite: Dire Hills	1643
+		Digsite: Drowned Lands	1643
+		Digsite: Briny Flats	1643
+		Digsite: Windwhisper Summit	1643
+		
+		Digsite: Xibala	1642
+		Digsite: Tusk Isle	1642
+		Digsite: Dreadpearl Shallows	1642
+		Digsite: Atal'Gral	1642
+		Digsite: Savagelands	1642
+		Digsite: Old Merchant Road	1642
+		Digsite: Zeb'ahari	1642
+		Digsite: The Rivermarsh	1642
+		Digsite: Plains of Tojek	1642
+		Digsite: Terrace of Sorrows	1642
+		Digsite: The Far Reach	1642
+		Digsite: Natha'vor	1642
+		Digsite: Razorjaw River	1642
+		Digsite: Upper Frogmarsh	1642
+		Digsite: Xal'vor	1642
+		Digsite: Verdant Plateau	1642
+		Digsite: Arid Basin	1642
+		Digsite: The Eternal Spring	1642
+		Digsite: Whistlebloom Oasis	1642
+		Digsite: Port of Zem'lan	1642
+		Digsite: The Cracked Coast	1642
+		Digsite: Court of Zak'rajan	1642
+		Digsite: Terrace of the Fang	1642
+
+	]]--
 }

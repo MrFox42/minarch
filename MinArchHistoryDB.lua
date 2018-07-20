@@ -6,14 +6,32 @@ MinArchIconDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
 	
 }
 MinArchHistDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
+	[160751] = {}, -- Dance of the Dead
+	[161089] = {}, -- Restored Revenant
+	[160833] = {}, -- Fetish of the Tormented Mind
 	
+	[154921] = {pqid = 51950}, -- Ceremonial Bonesaw
+	[154922] = {pqid = 51951}, -- Ancient Runebound Tome
+	[154923] = {pqid = 51952}, -- Disembowling Sickle
+	[154924] = {pqid = 51953}, -- Jagged Blade of the Drust
+	[154925] = {pqid = 51954}, -- Ritual Fetish
+	[160741] = {pqid = 51955}, -- Soul Coffer
 }
 -- Zandalari Artifacts
 MinArchIconDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
 	
 }
 MinArchHistDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
-	
+	[160740] = {}, -- Croak Crock
+	[161080] = {}, -- Intact Direhorn Hatchling
+	[160753] = {}, -- Sanguinating Totem
+
+	[154913] = {pqid = 51926}, -- Akun'Jar Vase
+	[154914] = {pqid = 51929}, -- Urn of Passage
+	[154915] = {pqid = 51932}, -- Rezan Idol
+	[154916] = {pqid = 51934}, -- High Apothecary's Hood
+	[154917] = {pqid = 51936}, -- Bwonsamdi Voodoo Mask
+	[160743] = {pqid = 51937}, -- Blowgun of the Sethra
 }
 -- Demonic Artifacts
 MinArchIconDB[ARCHAEOLOGY_RACE_DEMONIC] = {
