@@ -414,7 +414,7 @@ function MinArch:ShowRaceIconsOnMap()
 
 					if not contID then
 						if not SpamBlock[name] then
-							ChatFrame1:AddMessage("Minimal Archaeology: Could not find continent for digsite "..name)
+							MinArch:DisplayStatusMessage("Minimal Archaeology: Could not find continent for digsite "..name)
 							SpamBlock[name] = 1
 						end
 					elseif (count == 1) then

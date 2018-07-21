@@ -17,6 +17,7 @@ function MinArch:InitMain(self)
 	MinArch['frame']['height'] = MinArchMain:GetHeight();
 	
 	for i=1,ARCHAEOLOGY_NUM_RACES do
+		-- Create the artifact bars for the main window
 		artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
 		artifactBar.parentKey = "artifactBar" .. i;
 		if (i == 1) then
@@ -33,14 +34,14 @@ function MinArch:InitMain(self)
 		MinArchOptions['ABOptions'][i]['Hide'] = false;
 	end
 	
-	ChatFrame1:AddMessage("Minimal Archaeology Initialized!");
+	MinArch:DisplayStatusMessage("Minimal Archaeology Initialized!");
 end
 
 function MinArch:InitHist(self)
 	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
 	RequestArtifactCompletionHistory();
-	ChatFrame1:AddMessage("Minimal Archaeology History Initialized!");
+	MinArch:DisplayStatusMessage("Minimal Archaeology History Initialized!");
 end
 
 function MinArch:InitDigsites(self)
@@ -52,7 +53,7 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("PLAYER_ALIVE");
 	-- hooksecurefunc(WorldMapTrackingOptionsButtonMixin, "OnSelection", MinArch_TrackingChanged); -- TODO
 
-	ChatFrame1:AddMessage("Minimal Archaeology Digsites Initialized!");
+	MinArch:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
 end
 
 function MinArch_TrackingChanged(self)

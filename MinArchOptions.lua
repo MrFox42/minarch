@@ -64,6 +64,8 @@ function MinArch:MiscOptionToolTip(MiscID)
 		GameTooltip:AddLine("Hide Minimal Archaeology after completing a digsite.", 1.0, 1.0, 1.0, 1);
 	elseif (MiscID == 5) then
 		GameTooltip:AddLine("Wait until all artifacts are solved before auto-hiding.", 1.0, 1.0, 1.0, 1);
+	elseif (MiscID == 6) then
+		GameTooltip:AddLine("Show Minimal Archaeology status messages in the chat.", 1.0, 1.0, 1.0, 1);
 	end
 	
 	GameTooltip:Show();
@@ -114,6 +116,9 @@ function MinArch:MiscOptionsToggle()
 		-- Start hidden
 		MinArchOptions['StartHidden'] = MinArchOptionPanel.miscOptions.startHidden:GetChecked()
 		
+		-- Show status messages
+		MinArchOptions['ShowStatusMessages'] = MinArchOptionPanel.miscOptions.showStatusMessages:GetChecked()
+
 		-- Hide after completing a digsite
 		MinArchOptions['HideAfterDigsite'] = MinArchOptionPanel.miscOptions.hideAfter:GetChecked()
 		if MinArchOptions['HideAfterDigsite'] then
@@ -162,6 +167,9 @@ function MinArch:OpenOptions()
 
 		MinArchOptionPanel.miscOptions.startHidden.text:SetText("Always Start Hidden");
 		MinArchOptionPanel.miscOptions.startHidden:SetChecked(MinArchOptions['StartHidden']);
+
+		MinArchOptionPanel.miscOptions.showStatusMessages.text:SetText("Show status messages");
+		MinArchOptionPanel.miscOptions.showStatusMessages:SetChecked(MinArchOptions['ShowStatusMessages']);
 
 		MinArchOptionPanel.miscOptions.hideAfter.text:SetText("Auto-Hide After Digsites");
 		MinArchOptionPanel.miscOptions.hideAfter:SetChecked(MinArchOptions['HideAfterDigsite']);

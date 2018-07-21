@@ -748,6 +748,17 @@
 							</Anchor>
 						</Anchors>
 					</CheckButton>
+
+					<!-- Show Status Messages -->
+					<CheckButton name="$parentShowStatusMessages" inherits="MATBMiscOption" id="6" parentKey="showStatusMessages">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentDisableSound">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
 					
 					<!-- Always start hidden -->
 					<CheckButton name="$parentStartHidden" inherits="MATBMiscOption" id="3" parentKey="startHidden">

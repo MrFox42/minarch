@@ -38,10 +38,10 @@ function MinArch:LoadItemDetails(RaceID, caller)
 
 	MinArch.HistoryListLoaded[RaceID] = allGood
 	if allGood then
-		--ChatFrame1:AddMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.")
-		--ChatFrame1:AddMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").")
+		--MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.")
+		--MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").")
 	else
-		--ChatFrame1:AddMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").")
+		--MinArch:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").")
 	end
 
 	return allGood
@@ -68,13 +68,13 @@ function MinArch:GetHistory(RaceID, caller)
 			if (details.name == name and details.icon ~= icon) then
 				MinArchIconDB[RaceID] = MinArchIconDB[RaceID] or {}
 				MinArchIconDB[RaceID][icon] = details.icon
-				-- TODO: toggle message
-				ChatFrame1:AddMessage("Minimal Archaeology - icon discrepancy detected")
-				ChatFrame1:AddMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
-				ChatFrame1:AddMessage("Item " .. itemid .. ": " .. details.name)
-				ChatFrame1:AddMessage("Item icon '" .. details.icon .. "'")
-				ChatFrame1:AddMessage("Artifact icon '" .. icon .. "'")
-				ChatFrame1:AddMessage("Please submit a bug report with the contents of this message.")
+				--[[ TODO: toggle message
+				MinArch:DisplayStatusMessage("Minimal Archaeology - icon discrepancy detected")
+				MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
+				MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name)
+				MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'")
+				MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'")
+				MinArch:DisplayStatusMessage("Please submit a bug report with the contents of this message.")]]--
 				icon = details.icon
 			end
 		end
@@ -87,13 +87,13 @@ function MinArch:GetHistory(RaceID, caller)
 					details.artifactname = name
 					foundCount = foundCount + 1
 					if foundCount > 1 then
-						ChatFrame1:AddMessage("Minimal Archaeology - found duplicate #" .. foundCount)
-						ChatFrame1:AddMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
-						ChatFrame1:AddMessage("Item " .. itemid .. ": " .. details.name)
-						ChatFrame1:AddMessage("Artifact: " .. name)
-						ChatFrame1:AddMessage("Item icon '" .. details.icon .. "'")
-						ChatFrame1:AddMessage("Artifact icon '" .. icon .. "'")
-						ChatFrame1:AddMessage("Please submit a bug report with the contents of this message.")
+						MinArch:DisplayStatusMessage("Minimal Archaeology - found duplicate #" .. foundCount)
+						MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
+						MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name)
+						MinArch:DisplayStatusMessage("Artifact: " .. name)
+						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'")
+						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'")
+						MinArch:DisplayStatusMessage("Please submit a bug report with the contents of this message.")
 					end
 					
 					--[[
@@ -102,13 +102,13 @@ function MinArch:GetHistory(RaceID, caller)
 					-- Gather the name and icon info here.
 					
 					if (details.name ~= name) then
-						ChatFrame1:AddMessage("Minimal Archaeology - item and artifact names differ")
-						ChatFrame1:AddMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
-						ChatFrame1:AddMessage("Item " .. itemid .. ": " .. details.name)
-						ChatFrame1:AddMessage("Artifact: " .. name)
-						ChatFrame1:AddMessage("Item icon '" .. details.icon .. "'")
-						ChatFrame1:AddMessage("Artifact icon '" .. icon .. "'")
-						ChatFrame1:AddMessage("Please submit a bug report with the contents of this message.")
+						MinArch:DisplayStatusMessage("Minimal Archaeology - item and artifact names differ")
+						MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
+						MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name)
+						MinArch:DisplayStatusMessage("Artifact: " .. name)
+						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'")
+						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'")
+						MinArch:DisplayStatusMessage("Please submit a bug report with the contents of this message.")
 					end
 					--]]
 					
@@ -130,11 +130,11 @@ function MinArch:GetHistory(RaceID, caller)
 		end
 		
 		if foundCount == 0 and MinArch:IsItemDetailsLoaded(RaceID) then
-			ChatFrame1:AddMessage("Minimal Archaeology - found unknown artifact")
-			ChatFrame1:AddMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
-			ChatFrame1:AddMessage("Artifact: " .. name)
-			ChatFrame1:AddMessage("Artifact icon '" .. icon .. "'")
-			ChatFrame1:AddMessage("Please submit a bug report with the contents of this message.")
+			MinArch:DisplayStatusMessage("Minimal Archaeology - found unknown artifact")
+			MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
+			MinArch:DisplayStatusMessage("Artifact: " .. name)
+			MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'")
+			MinArch:DisplayStatusMessage("Please submit a bug report with the contents of this message.")
 		end
 
 		i=i+1;
@@ -152,7 +152,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		end
 
 		if allGood then
-			ChatFrame1:AddMessage("Minimal Archaeology - All items are loaded now.")
+			MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now.")
 		else
 			return
 		end

@@ -42,11 +42,11 @@ function MinArch:EventHist(event, ...)
 
 			if allGood then
 				-- all item info available, unregister this event
-				ChatFrame1:AddMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").")
+				MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").")
 				MinArchHist:UnregisterEvent(event)
 			else
 				-- not all item info available, try again when more details have been received
-				ChatFrame1:AddMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").")
+				MinArch:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").")
 				MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
 				MinArchHist:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
@@ -61,7 +61,7 @@ function MinArch:EventHist(event, ...)
 				MinArch:UpdateMain();
 			end
 		else
-			ChatFrame1:AddMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").")
+			MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").")
 		end
 	elseif (event == "RESEARCH_ARTIFACT_UPDATE") then
 		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
@@ -151,6 +151,10 @@ function MinArch:MainEventAddonLoaded()
 			MinArch:HideMain();
 		end
 	end
+
+	if (MinArchOptions['ShowStatusMessages'] == nil) then
+		MinArchOptions['ShowStatusMessages'] = false;
+	end
 		
 	if (MinArchOptions['HideMain'] == nil) then
 		MinArch:ShowMain();
@@ -174,7 +178,7 @@ function MinArch:MainEventAddonLoaded()
 
 	if (MinArchOptions['HideAfterDigsite'] == nil) then
 		MinArchOptions['HideAfterDigsite'] = false;
-	end	
+	end
 		
 	if (MinArchOptions['WaitForSolve'] == nil) then
 		MinArchOptions['WaitForSolve'] = false;
@@ -215,7 +219,7 @@ function MinArch:MainEventAddonLoaded()
 	MinArch:CommonFrameScale(MinArchOptions['FrameScale']);
 	MinArchIsReady = true;
 		
-	ChatFrame1:AddMessage("Minimal Archaeology Loaded!");
+	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
 function MinArch:TrackingChanged(self)

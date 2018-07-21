@@ -68,3 +68,9 @@ function MinArch:TranslateContinentId(ContID)
 
 	return -1;
 end
+
+function MinArch:DisplayStatusMessage(message)
+	if (MinArchOptions['ShowStatusMessages'] == true) then
+		ChatFrame1:AddMessage(message);
+	end
+end
