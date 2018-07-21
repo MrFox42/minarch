@@ -7,7 +7,7 @@
 	<Script file="Bindings.lua"/>
 	
 	<Frame name="MinArchMain"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
-		<size x="300" y="510" />
+		<size x="300" y="560" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>
@@ -38,115 +38,9 @@
 					</Layer>
 				</Layers>
 			</StatusBar>
-		
-			<!-- Artifact Bars -->
-			<StatusBar name="$parentArtifactBar1" inherits="MATArtifactBar" parent="MinArchMain" id="1"  parentKey="artifactBar1">
-				<Anchors>
-					<Anchor point="TOP" x="-25" y="-50"/>
-				</Anchors>
-			</StatusBar>
-						
-			<StatusBar name="$parentArtifactBar2" inherits="MATArtifactBar" parent="MinArchMain" id="2"  parentKey="artifactBar2">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar1" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>	
 			
-			<StatusBar name="$parentArtifactBar3" inherits="MATArtifactBar" parent="MinArchMain" id="3"  parentKey="artifactBar3">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar2" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>		
-			
-			<StatusBar name="$parentArtifactBar4" inherits="MATArtifactBar" parent="MinArchMain" id="4"  parentKey="artifactBar4">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar3" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>		
-			
-			<StatusBar name="$parentArtifactBar5" inherits="MATArtifactBar" parent="MinArchMain" id="5"  parentKey="artifactBar5">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar4" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>
-			
-			<StatusBar name="$parentArtifactBar6" inherits="MATArtifactBar" parent="MinArchMain" id="6"  parentKey="artifactBar6">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar5" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>		
-			
-			<StatusBar name="$parentArtifactBar7" inherits="MATArtifactBar" parent="MinArchMain" id="7"  parentKey="artifactBar7">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar6" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>	
-			
-			<StatusBar name="$parentArtifactBar8" inherits="MATArtifactBar" parent="MinArchMain" id="8"  parentKey="artifactBar8">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar7" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>		
-			
-			<StatusBar name="$parentArtifactBar9" inherits="MATArtifactBar" parent="MinArchMain" id="9"  parentKey="artifactBar9">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar8" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>	
-			
-			<StatusBar name="$parentArtifactBar10" inherits="MATArtifactBar" parent="MinArchMain" id="10"  parentKey="artifactBar10">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar9" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>	
-			
-			<StatusBar name="$parentArtifactBar11" inherits="MATArtifactBar" parent="MinArchMain" id="11"  parentKey="artifactBar11">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar10" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>	
-			
-			<StatusBar name="$parentArtifactBar12" inherits="MATArtifactBar" parent="MinArchMain" id="12"  parentKey="artifactBar12">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar11" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>	
-			
-			<StatusBar name="$parentArtifactBar13" inherits="MATArtifactBar" parent="MinArchMain" id="13"  parentKey="artifactBar13">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar12" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>	
-			
-			<StatusBar name="$parentArtifactBar14" inherits="MATArtifactBar" parent="MinArchMain" id="14"  parentKey="artifactBar14">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar13" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>	
-			
-			<StatusBar name="$parentArtifactBar15" inherits="MATArtifactBar" parent="MinArchMain" id="15"  parentKey="artifactBar15">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar14" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>
+			<!-- Artifact Bars created in MinArch:InitMain -->
 
-			<StatusBar name="$parentArtifactBar16" inherits="MATArtifactBar" parent="MinArchMain" id="16"  parentKey="artifactBar16">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar15" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>
-
-			<StatusBar name="$parentArtifactBar17" inherits="MATArtifactBar" parent="MinArchMain" id="17"  parentKey="artifactBar17">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar16" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>
-
-			<StatusBar name="$parentArtifactBar18" inherits="MATArtifactBar" parent="MinArchMain" id="18"  parentKey="artifactBar18">
-				<Anchors>
-					<Anchor point="TOP" relativePoint="TOP" relativeTo="$parentArtifactBar17" x="0" y="-25"/>
-				</Anchors>
-			</StatusBar>
 		</Frames>
 		<Scripts>
 			<OnLoad>

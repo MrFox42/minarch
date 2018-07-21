@@ -17,9 +17,17 @@ function MinArch:InitMain(self)
 	MinArch['frame']['height'] = MinArchMain:GetHeight();
 	
 	for i=1,ARCHAEOLOGY_NUM_RACES do
+		artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
+		artifactBar.parentKey = "artifactBar" .. i;
+		if (i == 1) then
+			artifactBar:SetPoint("TOP", MinArchMain, "TOP", -25, -50);
+		else 
+			artifactBar:SetPoint("TOP", MinArch['artifactbars'][i-1], "TOP", 0, -25);
+		end
+
 		MinArch['artifacts'][i] = {}; 
 		MinArch['artifacts'][i]['appliedKeystones'] = 0;
-		MinArch['artifactbars'][i] = MinArchMain["artifactBar"..i];
+		MinArch['artifactbars'][i] = artifactBar;
 		MinArchOptions['ABOptions'][i] = {};
 		MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] = false;
 		MinArchOptions['ABOptions'][i]['Hide'] = false;
@@ -42,7 +50,7 @@ function MinArch:InitDigsites(self)
 	-- self:RegisterEvent("WORLD_MAP_UPDATE"); -- TODO
 	self:RegisterEvent("UNIT_SPELLCAST_SENT");
 	self:RegisterEvent("PLAYER_ALIVE");
-	-- hooksecurefunc("WorldMapTrackingOptionsDropDown_OnClick", MinArch_TrackingChanged); -- TODO
+	-- hooksecurefunc(WorldMapTrackingOptionsButtonMixin, "OnSelection", MinArch_TrackingChanged); -- TODO
 
 	ChatFrame1:AddMessage("Minimal Archaeology Digsites Initialized!");
 end
