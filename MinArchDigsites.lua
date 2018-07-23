@@ -330,14 +330,15 @@ function MinArch:DimADIButtons()
 end
 
 function MinArch:ADIButtonTooltip(ContID)
-	local continentNames = { GetMapContinents() } ;
+	-- TODO
+	--[[local continentNames = { GetMapContinents() } ;
 
 	GameTooltip:SetOwner(MinArchDigsites, "ANCHOR_TOPLEFT");
 
 	-- continentNames alternatively holds ID and name, so *2 to get name for given index
 	GameTooltip:AddLine(continentNames[ContID*2], 1.0, 1.0, 1.0, 1.0);
 
-	GameTooltip:Show();
+	GameTooltip:Show(); ]]--
 end
 
 function MinArch:UpdateActiveDigSitesRace(Race)

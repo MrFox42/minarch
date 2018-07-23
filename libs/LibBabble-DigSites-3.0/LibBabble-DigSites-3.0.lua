@@ -342,7 +342,7 @@ lib:SetBaseTranslations (
 	}
 )
 
-if GAME_LOCALE == "enUS" then
+if (true) then -- TEMPORARY HOTFIX FOR NON-ENGLISH CLIENTS 
 	lib:SetCurrentTranslations(true)
 
 elseif GAME_LOCALE == "deDE" then
