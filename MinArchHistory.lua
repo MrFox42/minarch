@@ -20,7 +20,7 @@ function MinArch:LoadItemDetails(RaceID, caller)
 			newItemCount = newItemCount + 1
 
 			local name, _, rarity, _, _, _, _, _, _, icon, sellPrice = GetItemInfo(itemid);
-		
+
 			if name ~= nil and icon ~= nil then
 				details.name = name
 				details.rarity = rarity
@@ -38,10 +38,10 @@ function MinArch:LoadItemDetails(RaceID, caller)
 
 	MinArch.HistoryListLoaded[RaceID] = allGood
 	if allGood then
-		--MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.")
-		--MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").")
+		-- MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.")
+		-- MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").")
 	else
-		--MinArch:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").")
+		MinArch:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").")
 	end
 
 	return allGood
@@ -68,7 +68,7 @@ function MinArch:GetHistory(RaceID, caller)
 			if (details.name == name and details.icon ~= icon) then
 				MinArchIconDB[RaceID] = MinArchIconDB[RaceID] or {}
 				MinArchIconDB[RaceID][icon] = details.icon
-				--[[ TODO: toggle message
+				--[[ TODO
 				MinArch:DisplayStatusMessage("Minimal Archaeology - icon discrepancy detected")
 				MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
 				MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name)
@@ -161,7 +161,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 	MinArch:GetHistory(RaceID, nextcaller)
 
 	local PADDING = 5;
-	local width = 280; -- fixme get parent width
+	local width = 260; -- fixme get parent width
 	
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		if (MinArchScroll[i]) then
@@ -211,9 +211,9 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		[1]={rarity=4},
 		[2]={rarity=3},
 		[3]={rarity=2},
-		[4]={rarity=0,goldmin=50000000}, -- put the Crown Jewels of Suramar higher up in the list
+		[4]={rarity=0,goldmin=500000}, -- put the Crown Jewels of Suramar higher up in the list
 		[5]={rarity=1},
-		[6]={rarity=0,goldmax=50000000},
+		[6]={rarity=0,goldmax=500000},
 	}
 
 	-- Calculate all font strings twice, because measurements are wrong if they are done only once.
@@ -253,7 +253,11 @@ function MinArch:CreateHistoryList(RaceID, caller)
 					currentFontString:SetWordWrap(true)
 					currentFontString:SetJustifyH("LEFT")
 					currentFontString:SetJustifyV("TOP")
-					currentFontString:SetText(" "..details.name)
+					local displayName = details.name;
+					if (strlen(details.name) > 31) then
+						displayName = strsub(details.name, 0, 28) .. '...';
+					end
+					currentFontString:SetText(" " .. displayName)
 					currentFontString:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
 				
 					cwidth = currentFontString:GetStringWidth()

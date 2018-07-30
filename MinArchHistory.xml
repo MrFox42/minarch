@@ -5,7 +5,7 @@
 	<Script file="MinArchHistory.lua"/>
 
 	<Frame name="MinArchHist"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
-		<size x="320" y="310" />
+		<size x="300" y="310" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>

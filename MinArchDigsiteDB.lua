@@ -405,58 +405,58 @@ MinArchDigsiteList = {
 	["Digsite: Thas'talah"] = ARCHAEOLOGY_RACE_HIGHBORNE,
 	["Digsite: The Crescent Vale"] = ARCHAEOLOGY_RACE_HIGHBORNE,
 	["Digsite: The Wildwood"] = ARCHAEOLOGY_RACE_HIGHBORNE,
-	["Digsite: Wretched Hollow"] = ARCHAEOLOGY_RACE_HIGHBORNE
+	["Digsite: Wretched Hollow"] = ARCHAEOLOGY_RACE_HIGHBORNE,
 
-	--[[
+	
 		
-		Digsite: Valley View	1643
-		Digsite: Brokenbough Roost	1643
-		Digsite: Fernwood Ridge	1643
-		Digsite: Rockslip Woodlands	1643
-		Digsite: Vigil Hill	1643
-		Digsite: Placid Springs	1643
-		Digsite: Stagheart Cliffs	1643
-		Digsite: Deathmist Hills	1643
-		Digsite: Gol Koval	1643
-		Digsite: Hunter's Run	1643
-		Digsite: Brackish Coast	1643
-		Digsite: Arom's Crossing	1643
-		Digsite: Corlain	1643
-		Digsite: Whitegrove Chapel	1643
-		Digsite: Crimson Forest	1643
-		Digsite: Iceveil Glacier	1643
-		Digsite: Seabreeze Shallows	1643
-		Digsite: Millstone Hills	1643
-		Digsite: Goldfield Farmstead	1643
-		Digsite: Roaming Hills	1643
-		Digsite: Dire Hills	1643
-		Digsite: Drowned Lands	1643
-		Digsite: Briny Flats	1643
-		Digsite: Windwhisper Summit	1643
-		
-		Digsite: Xibala	1642
-		Digsite: Tusk Isle	1642
-		Digsite: Dreadpearl Shallows	1642
-		Digsite: Atal'Gral	1642
-		Digsite: Savagelands	1642
-		Digsite: Old Merchant Road	1642
-		Digsite: Zeb'ahari	1642
-		Digsite: The Rivermarsh	1642
-		Digsite: Plains of Tojek	1642
-		Digsite: Terrace of Sorrows	1642
-		Digsite: The Far Reach	1642
-		Digsite: Natha'vor	1642
-		Digsite: Razorjaw River	1642
-		Digsite: Upper Frogmarsh	1642
-		Digsite: Xal'vor	1642
-		Digsite: Verdant Plateau	1642
-		Digsite: Arid Basin	1642
-		Digsite: The Eternal Spring	1642
-		Digsite: Whistlebloom Oasis	1642
-		Digsite: Port of Zem'lan	1642
-		Digsite: The Cracked Coast	1642
-		Digsite: Court of Zak'rajan	1642
-		Digsite: Terrace of the Fang	1642
+	["Digsite: Valley View"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Brokenbough Roost"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Fernwood Ridge"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Rockslip Woodlands"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Vigil Hill"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Placid Springs"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Stagheart Cliffs"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Deathmist Hills"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Gol Koval"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Hunter's Run"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Brackish Coast"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Arom's Crossing"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Corlain"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Whitegrove Chapel"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Crimson Forest"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Iceveil Glacier"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Seabreeze Shallows"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Millstone Hills"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Goldfield Farmstead"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Roaming Hills"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Dire Hills"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Drowned Lands"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Briny Flats"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	["Digsite: Windwhisper Summit"] = ARCHAEOLOGY_RACE_DRUSTVARI,
+	
+	["Digsite: Xibala"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Tusk Isle"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Dreadpearl Shallows"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Atal'Gral"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Savagelands"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Old Merchant Road"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Zeb'ahari"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: The Rivermarsh"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Plains of Tojek"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Terrace of Sorrows"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: The Far Reach"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Natha'vor"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Razorjaw River"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Upper Frogmarsh"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Xal'vor"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Verdant Plateau"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Arid Basin"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: The Eternal Spring"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Whistlebloom Oasis"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Port of Zem'lan"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: The Cracked Coast"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Court of Zak'rajan"] = ARCHAEOLOGY_RACE_ZANDALARI,
+	["Digsite: Terrace of the Fang"] = ARCHAEOLOGY_RACE_ZANDALARI,
 
-	]]--
+	
 }

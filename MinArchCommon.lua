@@ -1,19 +1,23 @@
 MinArch = {};
 MinArch['artifacts'] = {};
 MinArch['artifactbars'] = {};
-MinArch['barlinks'] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+MinArch['barlinks'] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}; -- TODO
 MinArch['frame'] = {};
 MinArchOptions = {};
 MinArchOptions['ABOptions'] = {};
+MinArch['activeUiMapID'] = nil;
+MinArch['MapContinents'] = {};
 MinArch['ContIDMap'] = {
-	[0] = 1, -- Kalimdor
-	[1] = 2, -- EK
-	[530] = 3, -- Outland
-	[571] = 4, -- Northrend
-	[730] = 5, -- Maelstrom
-	[870] = 6, -- Pandaria
-	[1116] = 7, -- Draenor
-	[1220] = 8, -- Broken Isles
+	[12] = 1, -- Kalimdor
+	[13] = 2, -- EK
+	[101] = 3, -- Outland
+	[113] = 4, -- Northrend
+	[948] = 5, -- Maelstrom
+	[424] = 6, -- Pandaria
+	[572] = 7, -- Draenor
+	[619] = 8, -- Broken Isles
+	[876] = 9, -- Kul Tiras 
+	[875] = 10, -- Zandalar
 }
 
 MinArchHideNext = false;
@@ -61,12 +65,40 @@ function MinArch:CommonFrameScale(scale)
 	MinArchDigsites:SetScale(scale);
 end
 
-function MinArch:TranslateContinentId(ContID)
-	if (MinArch.ContIDMap[ContID] ~= nil) then
-		return MinArch.ContIDMap[ContID];
+function MinArch:GetInternalContId()
+	local uiMapID = C_Map.GetBestMapForUnit("player");
+	if not uiMapID then
+		return nil;
+	end
+	local mapInfo = C_Map.GetMapInfo(uiMapID);
+	local ContID = MinArch.ContIDMap[mapInfo.parentMapID];
+
+	return ContID;
+end
+
+function MinArch:GetUiMapIdByContId(ContID)
+	for k, v in pairs(MinArch.ContIDMap) do
+		if (v == ContID) then
+			return k; 
+		end
 	end
 
-	return -1;
+	return nil;
+end
+
+function MinArch:GetNearestContinentId(uiMapID)
+	local mapInfo = C_Map.GetMapInfo(uiMapID);
+	if (mapInfo.mapType < 2) then
+		return nil;
+	end
+
+	if (mapInfo.mapType == 2) then
+		return uiMapID;
+	end
+
+	if (mapInfo.mapType > 2) then
+		return MinArch:GetNearestContinentId(mapInfo.parentMapID);
+	end
 end
 
 function MinArch:DisplayStatusMessage(message)

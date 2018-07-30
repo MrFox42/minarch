@@ -3,14 +3,14 @@ function MinArch:UpdateArchaeologySkillBar()
 	if (arch) then
 		local name, _, rank, maxRank = GetProfessionInfo(arch);
 		
-		if (rank ~= 700) then
+		if (rank ~= maxRank) then
 			MinArchMain.skillBar:SetMinMaxValues(0, maxRank);
 			MinArchMain.skillBar:SetValue(rank);
 			MinArchMain.skillBar.text:SetText(name.." "..rank.."/"..maxRank);
 		else
 			MinArchMain.skillBar:Hide();
 			MinArch['frame']['height'] = MinArch['frame']['defaultHeight'] - 25;
-			MinArchMain.artifactBar1:SetPoint("TOP", -25, -25);
+			MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
 		end		
 	else
 		MinArchMain.skillBar:SetMinMaxValues(0, 100);
