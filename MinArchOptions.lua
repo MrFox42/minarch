@@ -123,6 +123,7 @@ function MinArch:MiscOptionsToggle()
 
 		-- Show world map overlay icons
 		MinArchOptions['ShowWorldMapOverlay'] = MinArchOptionPanel.miscOptions.showWorldMapOverlay:GetChecked()
+		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 
 		-- Hide after completing a digsite
 		MinArchOptions['HideAfterDigsite'] = MinArchOptionPanel.miscOptions.hideAfter:GetChecked()
