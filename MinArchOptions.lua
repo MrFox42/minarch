@@ -66,6 +66,8 @@ function MinArch:MiscOptionToolTip(MiscID)
 		GameTooltip:AddLine("Wait until all artifacts are solved before auto-hiding.", 1.0, 1.0, 1.0, 1);
 	elseif (MiscID == 6) then
 		GameTooltip:AddLine("Show Minimal Archaeology status messages in the chat.", 1.0, 1.0, 1.0, 1);
+    elseif (MiscID == 7) then
+		GameTooltip:AddLine("Show race icons next to digsites on the world map.", 1.0, 1.0, 1.0, 1);
 	end
 	
 	GameTooltip:Show();
@@ -119,6 +121,9 @@ function MinArch:MiscOptionsToggle()
 		-- Show status messages
 		MinArchOptions['ShowStatusMessages'] = MinArchOptionPanel.miscOptions.showStatusMessages:GetChecked()
 
+		-- Show world map overlay icons
+		MinArchOptions['ShowWorldMapOverlay'] = MinArchOptionPanel.miscOptions.showWorldMapOverlay:GetChecked()
+
 		-- Hide after completing a digsite
 		MinArchOptions['HideAfterDigsite'] = MinArchOptionPanel.miscOptions.hideAfter:GetChecked()
 		if MinArchOptions['HideAfterDigsite'] then
@@ -170,6 +175,9 @@ function MinArch:OpenOptions()
 
 		MinArchOptionPanel.miscOptions.showStatusMessages.text:SetText("Show status messages");
 		MinArchOptionPanel.miscOptions.showStatusMessages:SetChecked(MinArchOptions['ShowStatusMessages']);
+
+		MinArchOptionPanel.miscOptions.showWorldMapOverlay.text:SetText("Show world map overlay icons");
+		MinArchOptionPanel.miscOptions.showWorldMapOverlay:SetChecked(MinArchOptions['ShowWorldMapOverlay']);
 
 		MinArchOptionPanel.miscOptions.hideAfter.text:SetText("Auto-Hide After Digsites");
 		MinArchOptionPanel.miscOptions.hideAfter:SetChecked(MinArchOptions['HideAfterDigsite']);

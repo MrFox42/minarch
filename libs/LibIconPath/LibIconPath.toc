@@ -2,5 +2,6 @@
 ## Title: Lib: IconPath
 ## Notes: Database of IconPaths
 ## Author: Ignifazius
+# Local changes made for Minimal Archaeology
 
 Core.lua

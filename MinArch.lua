@@ -83,6 +83,9 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 
 	if (MinArchOptions['ABOptions'][RaceIndex]['Cap'] == true) then
 		total = 200;
+		if (RaceIndex < ARCHAEOLOGY_RACE_MOGU) then
+			total = 250;
+		end
 	end
 	
 	ArtifactBar:SetMinMaxValues(0, total);

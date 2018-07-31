@@ -1,8 +1,8 @@
 ## Interface: 80000
 ## Title: Minimal Archaeology
-## Author: Joseph O'Connor, Josef Drexler, Gyula Pataki
+## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Email: gyussz@live.com, jgmoconnor@gmail.com
-## Version: 8.0.4.1 (2018-07-30)
+## Version: 8.0.5 (2018-07-31)
 ## Notes: Archaeology UI replacement, Archaeology History and more... 
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
@@ -12,7 +12,6 @@
 
 libs\LibIconPath\Core.lua
 libs\LibStub\LibStub.lua
-libs\LibBabble-DigSites-3.0\lib.xml
 
 MATemplates.xml
 MATemplatesHistory.xml

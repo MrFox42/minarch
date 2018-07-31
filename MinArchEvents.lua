@@ -153,6 +153,10 @@ function MinArch:MainEventAddonLoaded()
 	if (MinArchOptions['ShowStatusMessages'] == nil) then
 		MinArchOptions['ShowStatusMessages'] = false;
 	end
+
+	if (MinArchOptions['ShowWorldMapOverlay'] == nil) then
+		MinArchOptions['ShowWorldMapOverlay'] = false;
+	end
 		
 	if (MinArchOptions['HideMain'] == nil) then
 		MinArch:ShowMain();
@@ -233,6 +237,6 @@ function MinArch:MapLayerChanged(self)
 	-- update the map if digsites tracking is changed
 	if (self.mapID ~= nil) then
 		MinArch['activeUiMapID'] = self.mapID;
-		MinArch:ShowRaceIconsOnMap(self.mapID, self);
+		MinArch:ShowRaceIconsOnMap(self.mapID);
 	end
 end

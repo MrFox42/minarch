@@ -247,6 +247,75 @@
 		</HighlightTexture>
 	</Button>
 
+	<!-- Kul Tiras Button -->
+	<Button name="MinArchKulTirasButtonTemplate" virtual="true" >
+		<Size x="32" y="32"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" x="260" y="-12"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimADIButtons();
+				self:SetAlpha(1.0);
+				--MinArchOptions['CurrentHistory'] = 9;
+				MinArch:CreateDigSitesList(9);
+				MinArch:CreateDigSitesList(9);
+			</OnClick>
+			<OnEnter>
+				MinArch:ADIButtonTooltip(9);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		<NormalTexture file="Interface\Icons\inv_tiragardesound.blp">
+			<Size x="32" y="32"/>	
+			
+		</NormalTexture>
+		<PushedTexture file="Interface\Icons\inv_tiragardesound.blp">
+			<Size x="32" y="32"/>	
+			
+		</PushedTexture>
+		<HighlightTexture file="Interface\Icons\inv_tiragardesound.blp" alphaMode="ADD">
+			<Size x="32" y="32"/>	
+			
+		</HighlightTexture>
+	</Button>
+
+	<!-- Zandalar Button -->
+	<Button name="MinArchZandalarButtonTemplate" virtual="true" >
+		<Size x="32" y="32"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" x="295" y="-12"/>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				MinArch:DimADIButtons();
+				self:SetAlpha(1.0);
+				--MinArchOptions['CurrentHistory'] = 10;
+				MinArch:CreateDigSitesList(10);
+				MinArch:CreateDigSitesList(10);
+			</OnClick>
+			<OnEnter>
+				MinArch:ADIButtonTooltip(10);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		<NormalTexture file="Interface\Icons\inv_zuldazar.blp">
+			<Size x="32" y="32"/>	
+			
+		</NormalTexture>
+		<PushedTexture file="Interface\Icons\inv_zuldazar.blp">
+			<Size x="32" y="32"/>	
+			
+		</PushedTexture>
+		<HighlightTexture file="Interface\Icons\inv_zuldazar.blp" alphaMode="ADD">
+			<Size x="32" y="32"/>	
+			
+		</HighlightTexture>
+	</Button>
 
 
 </Ui>

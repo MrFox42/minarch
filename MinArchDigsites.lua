@@ -82,7 +82,7 @@ function MinArch:UpdateActiveDigSites()
 			digsite["status"] = false;
 		end
 	
-		
+		-- TODO
 		local uiMapID = MinArch:GetUiMapIdByContId(i);
 
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
@@ -102,6 +102,11 @@ function MinArch:UpdateActiveDigSites()
 					ChatFrame1:AddMessage("Minimal Archaeology: Unknown digsite "..name)
 					SpamBlock[name] = 1
 				end
+			end
+
+			local zone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
+			if (zone ~= nil) then
+				MinArchDigsitesGlobalDB["continent"][i][name]["zone"] = zone.name;
 			end
 
 			MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
@@ -136,8 +141,11 @@ function MinArch:CreateDigSitesList(ContID)
 		MinArchDigsites.draenorButton:SetAlpha(1.0);
 	elseif (ContID == 8) then
 		MinArchDigsites.brokenIslesButton:SetAlpha(1.0);
+	elseif (ContID == 9) then
+		MinArchDigsites.kulTirasButton:SetAlpha(1.0);
+	elseif (ContID == 10) then
+		MinArchDigsites.zandalarButton:SetAlpha(1.0);
 	end
-	-- TODO zandalar, kul tiras
 	
 	local scrollf = MinArchDSScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", MinArchDigsites);
 	scrollf:SetClipsChildren(true)
@@ -180,7 +188,7 @@ function MinArch:CreateDigSitesList(ContID)
 	local PADDING = 5;
 	
 	local height = 0;
-	local width = 261;
+	local width = 301;
 	
 	local count = 1;
 	
@@ -254,7 +262,7 @@ function MinArch:CreateDigSitesList(ContID)
 				end
 				
 				local currentMO = scrollc.mouseover[count];
-				currentMO:SetSize(261, cheight);
+				currentMO:SetSize(width, cheight);
 				currentMO:SetParent(scrollc);
 				currentMO:SetPoint("BOTTOMRIGHT", currentDigSite, "BOTTOMRIGHT", 0, 0);
 				
@@ -272,16 +280,16 @@ function MinArch:CreateDigSitesList(ContID)
 	end
 	
 	-- Set the size of the scroll child
-	scrollc:SetSize(261, height-2)
+	scrollc:SetSize(width, height-2)
 	 
 	-- Size and place the parent frame, and set the scrollchild to be the
 	-- frame of font strings we've created
-	scrollf:SetSize(261, 253)
+	scrollf:SetSize(width, 253)
 	scrollf:SetPoint("BOTTOMLEFT", MinArchDigsites, "BOTTOMLEFT", 12, 10)
 	scrollf:SetScrollChild(scrollc)
 	scrollf:Show()
 	 
-	scrollc:SetSize(261, height-2)
+	scrollc:SetSize(width, height-2)
 	 
 	-- Set up the scrollbar to work properly
 	local scrollMax = 0
@@ -330,6 +338,8 @@ function MinArch:DimADIButtons()
 	MinArchDigsites.pandariaButton:SetAlpha(0.5);
 	MinArchDigsites.draenorButton:SetAlpha(0.5);
 	MinArchDigsites.brokenIslesButton:SetAlpha(0.5);
+	MinArchDigsites.kulTirasButton:SetAlpha(0.5);
+	MinArchDigsites.zandalarButton:SetAlpha(0.5);
 end
 
 function MinArch:ADIButtonTooltip(ContID)
@@ -396,7 +406,7 @@ function MinArch:ShowRaceIconsOnMap(uiMapID)
 	MinArchMapFrame4:Hide();
 	MinArchMapFrame5:Hide();
 
-	if (GetCVarBool('digsites')) then
+	if (GetCVarBool('digsites') and MinArchOptions['ShowWorldMapOverlay'] == true) then
 		local count = 0;
 		
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do

@@ -2,6 +2,19 @@
 ..\FrameXML\UI.xsd">
 
 	<Script file="MinArchLocalizations.lua" />
+	<Script file="DigSiteLocales/DeDE.lua" />
+	<Script file="DigSiteLocales/EnGB.lua" />
+	<Script file="DigSiteLocales/EsES.lua" />
+	<Script file="DigSiteLocales/EsMX.lua" />
+	<Script file="DigSiteLocales/FrFR.lua" />
+	<Script file="DigSiteLocales/ItIT.lua" />
+	<Script file="DigSiteLocales/KoKR.lua" />
+	<Script file="DigSiteLocales/PtBR.lua" />
+	<Script file="DigSiteLocales/PtPT.lua" />
+	<Script file="DigSiteLocales/RuRU.lua" />
+	<Script file="DigSiteLocales/ZhCN.lua" />
+	<Script file="DigSiteLocales/ZhTW.lua" />
+	
 	<Script file="MinArchDigsiteDB.lua"/>
 	<Script file="MinArchDigsites.lua"/>
 
@@ -102,7 +115,7 @@
 	</Frame>
 
 	<Frame name="MinArchDigsites"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
-		<size x="300" y="310" />
+		<size x="340" y="310" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>
@@ -129,6 +142,8 @@
 			<Button name="$parentPandariaButton" inherits="MinArchPandariaButtonTemplate" parentKey="pandariaButton" />
 			<Button name="$parentDraenorButton" inherits="MinArchDraenorButtonTemplate" parentKey="draenorButton" />
 			<Button name="$parentBrokenIslesButton" inherits="MinArchBrokenIslesButtonTemplate" parentKey="brokenIslesButton" />
+			<Button name="$parentKulTirasButton" inherits="MinArchKulTirasButtonTemplate" parentKey="kulTirasButton" />
+			<Button name="$parentZandalarButton" inherits="MinArchZandalarButtonTemplate" parentKey="zandalarButton" />
 			
 		</Frames>
 		<Scripts>

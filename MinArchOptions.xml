@@ -32,7 +32,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentAddonName">
 						<Offset>
-							<AbsDimension x="10" y="-30"/>
+							<AbsDimension x="10" y="-15"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -718,11 +718,11 @@
 			</Frame>
 			
 			<Frame name="$parentMiscOptions" inherits="MATOptionBox" parentKey="miscOptions">
-				<size x="400" y="105" />
+				<size x="400" y="100" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentHideArtifact">
 						<Offset>
-							<AbsDimension x="0" y="-20"/>
+							<AbsDimension x="0" y="-15"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -753,6 +753,17 @@
 					<CheckButton name="$parentShowStatusMessages" inherits="MATBMiscOption" id="6" parentKey="showStatusMessages">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentDisableSound">
+								<Offset>
+									<AbsDimension x="0" y="-20"></AbsDimension>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
+					<!-- Show Status Messages -->
+					<CheckButton name="$parentShowWorldMapOverlay" inherits="MATBMiscOption" id="7" parentKey="showWorldMapOverlay">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentShowStatusMessages">
 								<Offset>
 									<AbsDimension x="0" y="-20"></AbsDimension>
 								</Offset>
