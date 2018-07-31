@@ -117,7 +117,7 @@ function MinArch:CreateDigSitesList(ContID)
 	if (ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
 		ContID = MinArch:GetInternalContId();
 
-		if (ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
+		if (ContID == nil or ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
 			ContID = 1;
 		end
 	end

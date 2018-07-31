@@ -71,7 +71,7 @@ function MinArch:GetInternalContId()
 		return nil;
 	end
 	local mapInfo = C_Map.GetMapInfo(uiMapID);
-	local ContID = MinArch.ContIDMap[mapInfo.parentMapID];
+	local ContID = MinArch.ContIDMap[MinArch:GetNearestContinentId(mapInfo.parentMapID)];
 
 	return ContID;
 end
