@@ -9,6 +9,9 @@ function MinArch:InitMain(self)
 			artifactBar:SetPoint("TOP", MinArch['artifactbars'][i-1], "TOP", 0, -25);
 		end
 
+		local barTexture = [[Interface\Archeology\Arch-Progress-Fill]];
+		artifactBar:SetStatusBarTexture(barTexture);
+
 		MinArch['artifacts'][i] = {}; 
 		MinArch['artifacts'][i]['appliedKeystones'] = 0;
 		MinArch['artifactbars'][i] = artifactBar;
@@ -28,6 +31,9 @@ function MinArch:InitMain(self)
 	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("ARCHAEOLOGY_FIND_COMPLETE");
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
+	self:RegisterEvent("QUEST_TURNED_IN");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	self:RegisterEvent("CVAR_UPDATE"); -- Tracking
 
 	-- Apply SavedVariables
 	self:RegisterEvent("ADDON_LOADED");
@@ -60,18 +66,31 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");
 	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
 	-- self:RegisterEvent("WORLD_MAP_UPDATE"); -- TODO
-	self:RegisterEvent("UNIT_SPELLCAST_SENT");
+	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
 	self:RegisterEvent("PLAYER_ALIVE");
-	-- hooksecurefunc(WorldMapTrackingOptionsButtonMixin, "OnSelection", MinArch_TrackingChanged); -- TODO
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
 end
 
+function MinArch:LoadRaceInfo()
+	for i = 1, ARCHAEOLOGY_NUM_RACES do
+		local name, t = GetArchaeologyRaceInfo(i);
+		if (t == nil) then
+			return;
+		end
+		MinArch.ArchaeologyRaces[name] = i;
+	end
+	MinArch.RacesLoaded = true;
+end
+
+
 function MinArch_TrackingChanged(self)
 	MinArch:TrackingChanged(self);
 end 
 
+
 function MinArch_MapLayerChanged(self)
+	self.detailTilePool:Acquire();
 	MinArch:MapLayerChanged(self);
 end

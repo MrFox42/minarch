@@ -5,8 +5,10 @@ MinArch['barlinks'] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}; -- T
 MinArch['frame'] = {};
 MinArchOptions = {};
 MinArchOptions['ABOptions'] = {};
-MinArch['activeUiMapID'] = nil;
+MinArch['activeUiMapID'] = 12;
+MinArch['ArchaeologyRaces'] = {};
 MinArch['MapContinents'] = {};
+MinArch['RacesLoaded'] = false;
 MinArch['ContIDMap'] = {
 	[12] = 1, -- Kalimdor
 	[13] = 2, -- EK
@@ -18,7 +20,29 @@ MinArch['ContIDMap'] = {
 	[619] = 8, -- Broken Isles
 	[876] = 9, -- Kul Tiras 
 	[875] = 10, -- Zandalar
-}
+};
+MinArch['ResearchBranchMap'] = {
+	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
+	[2] = ARCHAEOLOGY_RACE_DRAENEI, -- Draenei
+	[3] = ARCHAEOLOGY_RACE_FOSSIL, -- Fossil
+	[4] = ARCHAEOLOGY_RACE_NIGHTELF, -- Night Elf
+	[5] = ARCHAEOLOGY_RACE_NERUBIAN, -- Nerubian
+	[6] = ARCHAEOLOGY_RACE_ORC, -- Orc
+	[7] = ARCHAEOLOGY_RACE_TOLVIR, -- Tol\'vir
+	[8] = ARCHAEOLOGY_RACE_TROLL, -- Troll
+	[27] = ARCHAEOLOGY_RACE_VRYKUL, -- Vrykul
+	[29] = ARCHAEOLOGY_RACE_MANTID, -- Mantid
+	[229] = ARCHAEOLOGY_RACE_PANDAREN, -- Pandaren
+	[231] = ARCHAEOLOGY_RACE_MOGU, -- Mogu
+	[315] = ARCHAEOLOGY_RACE_ARAKKOA, -- Arakkoa
+	[350] = ARCHAEOLOGY_RACE_DRAENOR, -- Draenor Clans
+	[382] = ARCHAEOLOGY_RACE_OGRE, -- Ogre
+	[404] = ARCHAEOLOGY_RACE_HIGHBORNE, -- Highborne
+	[406] = ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, -- Highmountain Tauren
+	[408] = ARCHAEOLOGY_RACE_DEMONIC, -- Demonic
+	[423] = ARCHAEOLOGY_RACE_ZANDALARI, -- Zandalari
+	[424] = ARCHAEOLOGY_RACE_DRUSTVARI, -- Drust
+};
 
 MinArchHideNext = false;
 MinArchIsReady = false;
@@ -104,5 +128,40 @@ end
 function MinArch:DisplayStatusMessage(message)
 	if (MinArchOptions['ShowStatusMessages'] == true) then
 		ChatFrame1:AddMessage(message);
+	end
+end
+
+function MinArch:GetRaceNameByBranchId(branchID)
+	if (MinArch.ResearchBranchMap[branchID] ~= nil) then
+		local raceId = MinArch.ResearchBranchMap[branchID];
+		for name,id in pairs(MinArch.ArchaeologyRaces) do
+			if (id == raceId) then
+				return name;
+			end
+		end
+	end
+
+	return nil;
+end
+
+function MinArch:GetRaceIdByName(name)
+	if (MinArch.RacesLoaded == false) then
+		MinArch:LoadRaceInfo();
+	end
+	
+	return MinArch.ArchaeologyRaces[name];
+end
+
+function MinArch:TestForMissingDigsites()
+	for k, v in pairs(MinArch.DigsiteLocales.enGB) do
+		if (MinArchDigsiteList[k] == nil) then
+			print("Missing race for: " .. k);
+		end
+	end
+
+	for k, v in pairs(MinArchDigsiteList) do
+		if (MinArch.DigsiteLocales.enGB[k] == nil) then
+			print("Missing translation for: " .. k);
+		end
 	end
 end

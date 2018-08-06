@@ -25,8 +25,21 @@ function MinArch:EventMain(event, ...)
 		
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
 		MinArchMain:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+	elseif (event == "PLAYER_ENTERING_WORLD") then
+		MinArch:LoadRaceInfo();
 	end
 	
+	if (event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") then
+		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	end
+
+	if (event == "CVAR_UPDATE") then
+		local changedCVAR = ...;
+		if (changedCVAR == "SHOW_DIG_SITES") then
+			MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+		end
+	end
+
 	if (MinArchIsReady == true) then
 		C_Timer.After(0.5, function() 
 			MinArch:UpdateMain();
@@ -72,32 +85,17 @@ function MinArch:EventHist(event, ...)
 	end
 end
 
-local ArtifactSpell = GetSpellInfo(73979)
 function MinArch:EventDigsites(event, ...)
-	if (event == "UNIT_SPELLCAST_SENT") then
-		local unit, spellname, rank, desc = ...;
-		if spellname == ArtifactSpell and unit == "player" then
-			for index, artifact in pairs(MinArch['artifacts']) do
-				if (desc ~= nil and artifact['race'] ~= nil ) then
-					local hasRace = string.find(tostring(desc), tostring(artifact['race']));
-						
-					if (hasRace ~= nil) then
-						MinArch:UpdateActiveDigSitesRace(tostring(artifact['race']));
-						
-						local ContID = MinArch:GetInternalContId();
-
-						if (ContID ~= nil) then
-							MinArch:CreateDigSitesList(ContID);
-							MinArch:CreateDigSitesList(ContID);
-						end
-					end
-				end			
-			end	
-			
-			
+	if (event == "ARCHAEOLOGY_SURVEY_CAST") then
+		local _, _, branchID = ...;
+		local race = MinArch:GetRaceNameByBranchId(branchID);
+		if (race ~= nil) then
+			MinArch:UpdateActiveDigSitesRace(race);
+			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
+			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
 		end
 	elseif (event == "WORLD_MAP_UPDATE" and MinArchIsReady == true) then
-		-- MinArch:ShowRaceIconsOnMap();
+		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 	else
 		MinArch:UpdateActiveDigSites();
 		
@@ -155,7 +153,7 @@ function MinArch:MainEventAddonLoaded()
 	end
 
 	if (MinArchOptions['ShowWorldMapOverlay'] == nil) then
-		MinArchOptions['ShowWorldMapOverlay'] = false;
+		MinArchOptions['ShowWorldMapOverlay'] = true;
 	end
 		
 	if (MinArchOptions['HideMain'] == nil) then
@@ -221,7 +219,7 @@ function MinArch:MainEventAddonLoaded()
 	MinArch:CommonFrameScale(MinArchOptions['FrameScale']);
 	MinArchIsReady = true;
 	
-	-- MinArch:ShowRaceIconsOnMap();
+	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
@@ -229,7 +227,7 @@ end
 function MinArch:TrackingChanged(self)
 	-- update the map if digsites tracking is changed
 	if (self.value == "digsites") then
-		MinArch:ShowRaceIconsOnMap()
+		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID'])
 	end
 end
 

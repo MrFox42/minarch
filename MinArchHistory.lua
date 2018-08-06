@@ -97,7 +97,7 @@ function MinArch:GetHistory(RaceID, caller)
 					end
 					
 					--[[
-					--TO DO: In the tooltip, display icon/name/info for artifact and all associated item icons
+					--TODO: In the tooltip, display icon/name/info for artifact and all associated item icons
 					-- Change MinArchHistDB to include the alternate item IDs (for example, Orb of Sciallax can give 6 different relics items)
 					-- Gather the name and icon info here.
 					

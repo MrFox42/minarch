@@ -1,6 +1,7 @@
 MinArchScrollDS = {}
 MinArchDigsitesDB = {}		-- old dig site info per character
 MinArchDigsitesGlobalDB = {}	-- global dig site information
+MinArchMapFrames = {}
 
 MinArchDigsitesGlobalDB["continent"] = {
 	[1] = {		--Kalimdor
@@ -82,38 +83,38 @@ function MinArch:UpdateActiveDigSites()
 			digsite["status"] = false;
 		end
 	
-		-- TODO
-		local uiMapID = MinArch:GetUiMapIdByContId(i);
+		local zoneUiMapID = MinArch:GetUiMapIdByContId(i);
 
-		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
-			local name = tostring(digsite.name)
-			local x = digsite.position.x;
-			local y = digsite.position.y;
+		for mapkey, zone in pairs(C_Map.GetMapChildrenInfo(zoneUiMapID, 3)) do
+			local uiMapID = zone.mapID;
+			for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
+				local name = tostring(digsite.name)
+				local x = digsite.position.x;
+				local y = digsite.position.y;
 
-			MinArchDigsitesGlobalDB["continent"][i][name] = MinArchDigsitesGlobalDB["continent"][i][name] or {};
-			MinArchDigsitesDB      ["continent"][i][name] = MinArchDigsitesDB["continent"][i][name] or {};
+				MinArchDigsitesGlobalDB["continent"][i][name] = MinArchDigsitesGlobalDB["continent"][i][name] or {};
+				MinArchDigsitesDB      ["continent"][i][name] = MinArchDigsitesDB["continent"][i][name] or {};
 
-			-- if we don't have this in the DB yet, try to use the race from the digsite list
-			if not MinArchDigsitesGlobalDB["continent"][i][name]["race"] or MinArchDigsitesGlobalDB["continent"][i][name]["race"] == "Unknown" then
-				if MinArchDigsiteList[name] then
-					local race = GetArchaeologyRaceInfo(MinArchDigsiteList[name])
-					MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
-				elseif not SpamBlock[name] then
-					ChatFrame1:AddMessage("Minimal Archaeology: Unknown digsite "..name)
-					SpamBlock[name] = 1
+				-- if we don't have this in the DB yet, try to use the race from the digsite list
+				--if not MinArchDigsitesGlobalDB["continent"][i][name]["race"] or MinArchDigsitesGlobalDB["continent"][i][name]["race"] == "Unknown" then
+					if MinArchDigsiteList[name] then
+						local race = GetArchaeologyRaceInfo(MinArchDigsiteList[name])
+						MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
+					elseif not SpamBlock[name] then
+						ChatFrame1:AddMessage("Minimal Archaeology: Unknown digsite "..name)
+						SpamBlock[name] = 1
+					end
+				--end
+
+				local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
+				if (digsiteZone.mapID == uiMapID) then -- ignore nearby
+					MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
+					MinArchDigsitesGlobalDB["continent"][i][name]["x"] = tostring(x*100);
+					MinArchDigsitesGlobalDB["continent"][i][name]["y"] = tostring(y*100);
+					MinArchDigsitesGlobalDB["continent"][i][name]["zone"] = digsiteZone.name or "";
+					MinArchDigsitesGlobalDB["continent"][i][name]["subzone"] = MinArchDigsitesGlobalDB["continent"][i][name]["subzone"] or "";
 				end
 			end
-
-			local zone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
-			if (zone ~= nil) then
-				MinArchDigsitesGlobalDB["continent"][i][name]["zone"] = zone.name;
-			end
-
-			MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
-			MinArchDigsitesGlobalDB["continent"][i][name]["x"] = tostring(x*100);
-			MinArchDigsitesGlobalDB["continent"][i][name]["y"] = tostring(y*100);
-			MinArchDigsitesGlobalDB["continent"][i][name]["zone"] = MinArchDigsitesGlobalDB["continent"][i][name]["zone"] or "See Map";
-			MinArchDigsitesGlobalDB["continent"][i][name]["subzone"] = MinArchDigsitesGlobalDB["continent"][i][name]["subzone"] or "";
 		end
 	end
 end
@@ -357,20 +358,22 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	local ay = 0;
 	local ContID = MinArch:GetInternalContId();
 
-	-- SetMapZoom(ContID); -- TODO
-	ax, ay = GetPlayerMapPosition("player");
-	
-	ax = ax *100;
-	ay = ay *100;
+	local uiMapID = C_Map.GetBestMapForUnit("player");
+	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player");
+	local contId, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, playerPos);
+
+	ax = playerPos.x * 100;
+	ay = playerPos.y * 100;
 
 	local nearestDistance = nil;
 	local nearestDigSite = nil;
 	
 	for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
-			local xd = math.abs(ax - tonumber(digsite["x"]));
-			local yd = math.abs(ay - tonumber(digsite["y"]));
-			local d = math.sqrt((xd*xd)+(yd*yd));
-			
+		local xd = math.abs(ax - tonumber(digsite["x"]));
+		local yd = math.abs(ay - tonumber(digsite["y"]));
+		local d = math.sqrt((xd*xd)+(yd*yd));
+
+		if (MinArchDigsitesDB["continent"][ContID][name] and MinArchDigsitesDB["continent"][ContID][name]["status"] == true) then
 			if (nearestDigSite == nil) then
 				nearestDigSite = name;
 				nearestDistance = d;
@@ -379,32 +382,30 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 				nearestDigSite = name;
 				nearestDistance = d;
 				
-			end			
+			end
+		end
 	end
 
-	
-	
-	if (MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] == "Unknown") then
-		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] = Race;
+	MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] = Race;	
+	MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["zone"] = GetZoneText();
+	MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["subzone"] = GetSubZoneText();
+
+	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+end
+
+function MinArch:GetOrCreateMinArchMapFrame(i) 
+	if (MinArchMapFrames[i] == nil) then
+		MinArchMapFrames[i] = CreateFrame("Frame", "MinArchMapFrame" .. i, WorldMapFrame.ScrollContainer.Child, "MATMapFrame");
 	end
 
-	-- SetMapToCurrentZone();
-
-	if (MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["subzone"] == "") then
-		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["zone"] = GetZoneText();
-		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["subzone"] = GetSubZoneText();
-	end
-
-	-- MinArch:ShowRaceIconsOnMap();
+	return MinArchMapFrames[i];
 end
 
 function MinArch:ShowRaceIconsOnMap(uiMapID)
-	-- TODO
-	MinArchMapFrame1:Hide();
-	MinArchMapFrame2:Hide();
-	MinArchMapFrame3:Hide();
-	MinArchMapFrame4:Hide();
-	MinArchMapFrame5:Hide();
+	for i=1, #MinArchMapFrames do
+		MinArch:GetOrCreateMinArchMapFrame(i);
+		MinArchMapFrames[i]:Hide();
+	end
 
 	if (GetCVarBool('digsites') and MinArchOptions['ShowWorldMapOverlay'] == true) then
 		local count = 0;
@@ -416,8 +417,6 @@ function MinArch:ShowRaceIconsOnMap(uiMapID)
 			local x = digsite.position.x;
 			local y = digsite.position.y;
 
-			-- print(x, y);
-
 			count = count + 1;
 			
 			if not contID then
@@ -425,23 +424,16 @@ function MinArch:ShowRaceIconsOnMap(uiMapID)
 					MinArch:DisplayStatusMessage("Minimal Archaeology: Could not find continent for digsite "..name)
 					SpamBlock[name] = 1
 				end
-			elseif (count == 1) then
-				MinArch:SetIcon(MinArchMapFrame1, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
-			elseif (count == 2) then
-				MinArch:SetIcon(MinArchMapFrame2, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
-			elseif (count == 3) then
-				MinArch:SetIcon(MinArchMapFrame3, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
-			elseif (count == 4) then
-				MinArch:SetIcon(MinArchMapFrame4, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
-			elseif (count == 5) then
-				MinArch:SetIcon(MinArchMapFrame5, x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
+			else
+				MinArch:GetOrCreateMinArchMapFrame(count);
+				MinArch:SetIcon(MinArchMapFrames[count], x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
 			end
 		end
 	end
 end
 
 function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
-	local parentFrame = WorldMapFrame.ScrollContainer;
+	local parentFrame = WorldMapFrame.ScrollContainer.Child;
 	FRAME:SetScript("OnEnter", function()
 			MinArch:DigsiteMapTooltip(FRAME, NAME, DETAILS);
 		end);
@@ -454,16 +446,36 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
 	
 	local RACE = tostring(DETAILS["race"]);
 
+	local raceID = MinArch:GetRaceIdByName(RACE);
+	local posX = X * (parentFrame:GetWidth());
+	local posY = Y * (parentFrame:GetHeight()) * (-1);
+	local frameSize = 32;
+	local iconSize = 16;
+	local offsetX = 10;
+	local offsetY = 10;
+
+	-- Increase icon size for Zandalar and Kul Tiras
+	if (raceID == ARCHAEOLOGY_RACE_DRUSTVARI or raceID == ARCHAEOLOGY_RACE_ZANDALARI) then
+		frameSize = 112;
+		iconSize = 56;
+		offsetX = 35;
+		offsetY = 30;
+	end
+
+	FRAME:SetSize(frameSize, frameSize);
+	FRAME.icon:SetSize(iconSize, iconSize);
+	posX = posX - offsetX;
+	posY = posY + offsetY;
+
 	FRAME:SetParent(parentFrame);
-	FRAME:SetPoint("TOPLEFT", X*(parentFrame:GetWidth())-15, (Y*(parentFrame:GetHeight())*(-1)));
+	FRAME:SetFrameStrata("HIGH");
+	FRAME:SetPoint("TOPLEFT", posX, posY);
 	FRAME.icon:SetTexture("Interface/Icons/INV_MISC_QUESTIONMARK");
 	FRAME.icon:SetTexCoord(0, 1, 0, 1);
 	
-	for i=1,ARCHAEOLOGY_NUM_RACES do
-		if (RACE == MinArch['artifacts'][i]['race']) then
-			FRAME.icon:SetTexture(MinArch['artifacts'][i]['raceicon']);
-			FRAME.icon:SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
-		end
+	if (MinArch['artifacts'][raceID] and RACE == MinArch['artifacts'][raceID]['race']) then
+		FRAME.icon:SetTexture(MinArch['artifacts'][raceID]['raceicon']);
+		FRAME.icon:SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
 	end
 	
 	FRAME:Show();
@@ -510,9 +522,11 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	
 	tooltip:AddLine(name, 1.0, 1.0, 1.0, 1.0);
 	
-	if (digsite['subzone'] ~= "") then
-		tooltip:AddDoubleLine(digsite['subzone'], digsite['zone'], GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+	if (digsite['subzone'] == "") then
+		digsite['subzone'] = " ";
 	end
+	
+	tooltip:AddDoubleLine(digsite['subzone'], digsite['zone'], GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	
 	if (digsite['race'] ~= "Unknown" and digsite['race'] ~= nil) then
 		if (project ~= nil) then
