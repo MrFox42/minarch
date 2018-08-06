@@ -65,7 +65,6 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
 	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");
 	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
-	-- self:RegisterEvent("WORLD_MAP_UPDATE"); -- TODO
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
 	self:RegisterEvent("PLAYER_ALIVE");
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
@@ -91,6 +90,5 @@ end
 
 
 function MinArch_MapLayerChanged(self)
-	self.detailTilePool:Acquire();
 	MinArch:MapLayerChanged(self);
 end
