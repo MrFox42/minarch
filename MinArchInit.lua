@@ -28,6 +28,7 @@ function MinArch:InitMain(self)
 	self:RegisterEvent("SKILL_LINES_CHANGED");
 	self:RegisterEvent("PLAYER_ALIVE");
 	self:RegisterEvent("LOOT_CLOSED");
+	self:RegisterEvent("BAG_UPDATE");
 	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("ARCHAEOLOGY_FIND_COMPLETE");
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");

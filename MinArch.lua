@@ -224,7 +224,9 @@ function MinArch:KeystoneTooltip(self)
 		plural = "";
 	end
 	
-	GameTooltip:AddLine("You have "..artifact['heldKeystones'].." "..tostring(name)..plural, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
+	GameTooltip:SetItemByID(artifact['raceitemid']);
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddLine("You have "..artifact['heldKeystones'].." "..tostring(name)..plural .. " in your bags", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
 	GameTooltip:Show();
 end
 
