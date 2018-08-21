@@ -15,7 +15,7 @@ function MinArch:EventMain(event, ...)
 		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		RequestArtifactCompletionHistory();
 	elseif (event == "ADDON_LOADED" and MinArch ~= nil and MinArchIsReady ~= true) then
-		MinArch:MainEventAddonLoaded();
+		-- MinArch:MainEventAddonLoaded(); -- TODO remove this if everything checks out
 	elseif (event == "ADDON_LOADED") then
 		local addonname = ...;
 		
@@ -27,10 +27,6 @@ function MinArch:EventMain(event, ...)
 		MinArchMain:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		MinArch:LoadRaceInfo();
-	end
-	
-	if (event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") then
-		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 	end
 
 	if (event == "CVAR_UPDATE") then
@@ -163,13 +159,9 @@ function MinArch:MainEventAddonLoaded()
 			MinArch:HideMain();
 		end
 	end
-		
-	if (MinArchOptions['HideMinimap'] == nil) then
-		MinArchOptions['HideMinimap'] = false;
-	else
-		if (MinArchOptions['HideMinimap'] == true) then
-			MinArchMinimapButton:Hide();
-		end
+
+	if (MinArch.db.profile.hideMinimapButton) then
+		MinArchMinimapButton:Hide();
 	end
 		
 	if (MinArchOptions['DisableSound'] == nil) then
@@ -203,13 +195,13 @@ function MinArch:MainEventAddonLoaded()
 	if MinArchDigsitesGlobalDB then
 	    for i=1,ARCHAEOLOGY_NUM_CONTINENTS do
 
-		-- populate missing entries immediately
+		-- populate missing continents immediately
 		if MinArchDigsitesGlobalDB["continent"][i] == nil then
 			MinArchDigsitesGlobalDB["continent"][i] = {}
 		end
 
 		for name,_ in pairs(MinArchDigsitesGlobalDB['continent'][i]) do
-			if MinArchDigsitesGlobalDB['continent'][i][name]['zone'] == 'Unknown' then
+			if (MinArchDigsitesGlobalDB['continent'][i][name]['zone'] == 'Unknown' or MinArchDigsitesGlobalDB['continent'][i][name]['zone'] == 'See Map') then
 				MinArchDigsitesGlobalDB['continent'][i][name] = nil
 			end
 		end

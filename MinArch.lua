@@ -83,7 +83,7 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 
 	if (MinArchOptions['ABOptions'][RaceIndex]['Cap'] == true) then
 		total = 200;
-		if (RaceIndex < ARCHAEOLOGY_RACE_MOGU) then
+		if (RaceIndex < ARCHAEOLOGY_RACE_MOGU and RaceIndex > ARCHAEOLOGY_RACE_ZANDALARI) then
 			total = 250;
 		end
 	end

@@ -12,6 +12,7 @@ function MinArch:InitMain(self)
 		local barTexture = [[Interface\Archeology\Arch-Progress-Fill]];
 		artifactBar:SetStatusBarTexture(barTexture);
 
+
 		MinArch['artifacts'][i] = {}; 
 		MinArch['artifacts'][i]['appliedKeystones'] = 0;
 		MinArch['artifactbars'][i] = artifactBar;
@@ -19,6 +20,10 @@ function MinArch:InitMain(self)
 		MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] = false;
 		MinArchOptions['ABOptions'][i]['Hide'] = false;
 	end
+
+	local skillBarTexture = [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]];
+	MinArchMain.skillBar:SetStatusBarTexture(skillBarTexture);
+	MinArchMain.skillBar:SetStatusBarColor(0.03125, 0.85, 0);
 
 	-- Update Artifacts
 	self:RegisterEvent("RESEARCH_ARTIFACT_COMPLETE");
@@ -46,6 +51,45 @@ function MinArch:InitMain(self)
 	MinArch:DisplayStatusMessage("Minimal Archaeology Initialized!");
 end
 
+function MinArch:OnInitialize ()
+	-- Initialize Settings Database
+	MinArch:SetDynamicDefaults();
+	MinArch:InitDatabase();
+	MinArch:MainEventAddonLoaded();
+
+	-- Add to UISpecialFrames so windows close when the escape button is pressed
+	tinsert(UISpecialFrames, "MinArchMain");
+	-- TODO: close one by one
+	tinsert(UISpecialFrames, "MinArchHist");
+	tinsert(UISpecialFrames, "MinArchDigsites");
+end
+
+function MinArch:SetDynamicDefaults ()
+	for i=1, ARCHAEOLOGY_NUM_RACES do
+		MinArch.defaults.profile.raceOptions.hide[i] = false;
+		MinArch.defaults.profile.raceOptions.cap[i] = false;
+		MinArch.defaults.profile.raceOptions.keystone[i] = false;
+	end
+end
+
+function MinArch:RefreshConfig()
+	MinArch:DisplayStatusMessage("RefreshConfig called");
+end
+
+function MinArch:Shutdown()
+	MinArch:DisplayStatusMessage("ShutDown called");
+end
+
+function MinArch:InitDatabase()
+	self.db = LibStub("AceDB-3.0"):New("MinArchDB", self.defaults, true);
+	self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig");
+    self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig");
+    self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig");
+	self.db.RegisterCallback(self, "OnDatabaseShutdown", "Shutdown");
+	
+	-- todo: convert old settings
+end
+
 function MinArch:InitHist(self)
 	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
@@ -69,6 +113,7 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
 	self:RegisterEvent("PLAYER_ALIVE");
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
+	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
 end
@@ -92,4 +137,11 @@ end
 
 function MinArch_MapLayerChanged(self)
 	MinArch:MapLayerChanged(self);
+end
+
+function MinArch_WorldMapToggled()
+	if (WorldMapFrame.mapID ~= nil and WorldMapFrame:IsVisible()) then
+		MinArch['activeUiMapID'] = WorldMapFrame.mapID;
+		MinArch:ShowRaceIconsOnMap(WorldMapFrame.mapID);
+	end
 end

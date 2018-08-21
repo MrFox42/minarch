@@ -1,4 +1,25 @@
-MinArch = {};
+local AceAddon = LibStub("AceAddon-3.0");
+MinArch = LibStub("AceAddon-3.0"):NewAddon('Minimal Archaeology');
+MinArch.defaults = {
+	profile = {
+		hideMinimapButton = false,
+		
+		-- dynamic options
+		raceOptions = {
+			hide = {
+	
+			},
+			cap = {
+	
+			},
+			keystone = {
+				
+			}
+		}
+	},	
+}
+
+-- MinArch = {};
 MinArch['artifacts'] = {};
 MinArch['artifactbars'] = {};
 MinArch['barlinks'] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}; -- TODO
@@ -18,8 +39,12 @@ MinArch['ContIDMap'] = {
 	[424] = 6, -- Pandaria
 	[572] = 7, -- Draenor
 	[619] = 8, -- Broken Isles
-	[876] = 9, -- Kul Tiras 
+	[876] = 9, -- Kul Tiras
 	[875] = 10, -- Zandalar
+
+	-- alternate ids
+	[1014] = 9, -- Kul Tiras
+	[1011] = 10, -- Zandalar
 };
 MinArch['ResearchBranchMap'] = {
 	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
@@ -95,6 +120,9 @@ function MinArch:GetInternalContId()
 		return nil;
 	end
 	local mapInfo = C_Map.GetMapInfo(uiMapID);
+	if (mapInfo == nil) then
+		return nil;
+	end
 	local ContID = MinArch.ContIDMap[MinArch:GetNearestContinentId(mapInfo.parentMapID)];
 
 	return ContID;
@@ -112,8 +140,8 @@ end
 
 function MinArch:GetNearestContinentId(uiMapID)
 	local mapInfo = C_Map.GetMapInfo(uiMapID);
-	if (mapInfo.mapType < 2) then
-		return nil;
+	if (mapInfo == nil or mapInfo.mapType < 2) then
+		return 12; -- Return Kalimdor by default
 	end
 
 	if (mapInfo.mapType == 2) then
@@ -122,6 +150,26 @@ function MinArch:GetNearestContinentId(uiMapID)
 
 	if (mapInfo.mapType > 2) then
 		return MinArch:GetNearestContinentId(mapInfo.parentMapID);
+	end
+end
+
+function MinArch:GetNearestZoneId(uiMapID)
+	local mapInfo = C_Map.GetMapInfo(uiMapID);
+	if (mapInfo == nil or mapInfo.mapType < 3) then
+		return nil
+	end
+
+	if (mapInfo.mapType == 3) then
+		local parentInfo = C_Map.GetMapInfo(mapInfo.parentMapID);
+		if (parentInfo ~= nil and parentInfo.mapType == 3) then
+			-- For zones like Stranglethorn where the parent and child are both type 3
+			uiMapID = MinArch:GetNearestZoneId(mapInfo.parentMapID);
+		end
+		return uiMapID;
+	end
+
+	if (mapInfo.mapType > 3) then
+		return MinArch:GetNearestZoneId(mapInfo.parentMapID);
 	end
 end
 

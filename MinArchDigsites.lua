@@ -96,7 +96,7 @@ function MinArch:UpdateActiveDigSites()
 				MinArchDigsitesDB      ["continent"][i][name] = MinArchDigsitesDB["continent"][i][name] or {};
 
 				-- if we don't have this in the DB yet, try to use the race from the digsite list
-				--if not MinArchDigsitesGlobalDB["continent"][i][name]["race"] or MinArchDigsitesGlobalDB["continent"][i][name]["race"] == "Unknown" then
+				-- if not MinArchDigsitesGlobalDB["continent"][i][name]["race"] or MinArchDigsitesGlobalDB["continent"][i][name]["race"] == "Unknown" then
 					if MinArchDigsiteList[name] then
 						local race = GetArchaeologyRaceInfo(MinArchDigsiteList[name])
 						MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
@@ -106,8 +106,11 @@ function MinArch:UpdateActiveDigSites()
 					end
 				--end
 
+				-- TODO: removed digsites assigned to the wrong continent in old/buggy releases
+				
 				local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
-				if (digsiteZone.mapID == uiMapID) then -- ignore nearby
+				local zoneUiMapID = MinArch:GetNearestZoneId(digsiteZone.mapID);
+				if (zoneUiMapID ~= nil and (zoneUiMapID == uiMapID or zoneUiMapID == digsiteZone.parentMapID)) then
 					MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
 					MinArchDigsitesGlobalDB["continent"][i][name]["x"] = tostring(x*100);
 					MinArchDigsitesGlobalDB["continent"][i][name]["y"] = tostring(y*100);
@@ -117,6 +120,8 @@ function MinArch:UpdateActiveDigSites()
 			end
 		end
 	end
+
+	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 end
 
 function MinArch:CreateDigSitesList(ContID)
@@ -359,6 +364,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	local ContID = MinArch:GetInternalContId();
 
 	local uiMapID = C_Map.GetBestMapForUnit("player");
+	uiMapID = MinArch:GetNearestZoneId(uiMapID);
 	if (ContID == nil or uiMapID == nil) then
 		return false;
 	end
@@ -373,26 +379,35 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	local nearestDigSite = nil;
 	
 	for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
-		local xd = math.abs(ax - tonumber(digsite["x"]));
-		local yd = math.abs(ay - tonumber(digsite["y"]));
-		local d = math.sqrt((xd*xd)+(yd*yd));
+		if (ax == nil or digsite["x"] == nil or ay == nil or digsite["y"] == nil) then
+			MinArch:DisplayStatusMessage('MinArch: location error in ' .. GetZoneText() .. " " .. GetSubZoneText());
+		else
+			local xd = math.abs(ax - tonumber(digsite["x"]));
+			local yd = math.abs(ay - tonumber(digsite["y"]));
+			local d = math.sqrt((xd*xd)+(yd*yd));
 
-		if (MinArchDigsitesDB["continent"][ContID][name] and MinArchDigsitesDB["continent"][ContID][name]["status"] == true) then
-			if (nearestDigSite == nil) then
-				nearestDigSite = name;
-				nearestDistance = d;
-				
-			elseif (d < nearestDistance) then
-				nearestDigSite = name;
-				nearestDistance = d;
-				
+			if (MinArchDigsitesDB["continent"][ContID][name] and MinArchDigsitesDB["continent"][ContID][name]["status"] == true) then
+				if (nearestDigSite == nil) then
+					nearestDigSite = name;
+					nearestDistance = d;
+					
+				elseif (d < nearestDistance) then
+					nearestDigSite = name;
+					nearestDistance = d;
+					
+				end
 			end
 		end
 	end
 
-	MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] = Race;	
-	MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["zone"] = GetZoneText();
-	MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["subzone"] = GetSubZoneText();
+	if (nearestDistance ~= nil and nearestDistance <= 5) then
+		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] = Race;
+		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["zone"] = GetZoneText();
+		local subZone = GetSubZoneText();
+		if (subZone ~= "") then
+			MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["subzone"] = subZone;
+		end
+	end
 
 	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 end
@@ -480,7 +495,7 @@ function MinArch:ShowRaceIconsOnMap(uiMapID)
 			
 			if not contID then
 				if not SpamBlock[name] then
-					MinArch:DisplayStatusMessage("Minimal Archaeology: Could not find continent for digsite "..name)
+					MinArch:DisplayStatusMessage("Minimal Archaeology: Could not find continent for digsite "..name .. " " .. uiMapID)
 					SpamBlock[name] = 1
 				end
 			else

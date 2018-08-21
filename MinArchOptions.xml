@@ -727,21 +727,10 @@
 					</Anchor>
 				</Anchors>
 				<Frames>
-					<!-- Hide Minimap Button -->
-					<CheckButton name="$parentHideMinimap" inherits="MATBMiscOption" id="1" parentKey="hideMinimap">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent">
-								<Offset>
-									<AbsDimension x="5" y="-5"></AbsDimension>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</CheckButton>
-					
 					<!-- Disable notification sound -->
 					<CheckButton name="$parentDisableSound" inherits="MATBMiscOption" id="2" parentKey="disableSound">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentHideMinimap">
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent">
 								<Offset>
 									<AbsDimension x="0" y="-20"></AbsDimension>
 								</Offset>

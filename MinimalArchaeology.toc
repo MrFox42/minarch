@@ -2,16 +2,15 @@
 ## Title: Minimal Archaeology
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Email: gyussz@live.com, jgmoconnor@gmail.com
-## Version: 8.0.7a (2018-08-13)
+## Version: 8.0.7a (2018-08-x)
 ## Notes: Archaeology UI replacement, Archaeology History and more... 
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## SavedVariablesPerCharacter: MinArchOptions
-## SavedVariables: MinArchDigsitesGlobalDB
+## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
 # Special thanks to joevt for the contribution
 
-libs\LibIconPath\Core.lua
-libs\LibStub\LibStub.lua
+embeds.xml
 
 MATemplates.xml
 MATemplatesHistory.xml
@@ -21,4 +20,4 @@ MinArch.xml
 MinArchMinimap.xml
 MinArchHistory.xml
 MinArchDigsites.xml
-MinArchOptions.xml
+MinArchOptions.lua

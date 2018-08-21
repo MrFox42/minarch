@@ -26,6 +26,7 @@ function MinArch:MinimapButtonOnClick(self, button, down)
 			MinArchHideNext = false;
 		end
 	elseif (button == "RightButton") then
-		InterfaceOptionsFrame_OpenToCategory(MinArchOptionPanel);
+		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
 	end
 end

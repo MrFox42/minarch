@@ -54,9 +54,7 @@ end
 function MinArch:MiscOptionToolTip(MiscID)
 	GameTooltip:SetOwner(MinArchOptionPanel.miscOptions, "ANCHOR_TOPLEFT");
 	
-	if (MiscID == 1) then
-		GameTooltip:AddLine("Hide the Minimap button.", 1.0, 1.0, 1.0, 1);
-	elseif (MiscID == 2) then
+	if (MiscID == 2) then
 		GameTooltip:AddLine("Disable the sound that is played when an artifact can be solved.", 1.0, 1.0, 1.0, 1);
 	elseif (MiscID == 3) then
 		GameTooltip:AddLine("Always start Minimal Archaeology hidden.", 1.0, 1.0, 1.0, 1);
@@ -104,13 +102,6 @@ end
 
 function MinArch:MiscOptionsToggle()
 	if (MinArchIsReady == true) then
-		-- Hide Minimap button
-		MinArchOptions['HideMinimap'] = MinArchOptionPanel.miscOptions.hideMinimap:GetChecked()
-		if MinArchOptions['HideMinimap'] then
-			MinArchMinimapButton:Hide();
-		else
-			MinArchMinimapButton:Show();
-		end
 		
 		-- Disable Sound
 		MinArchOptions['DisableSound'] = MinArchOptionPanel.miscOptions.disableSound:GetChecked()
@@ -165,9 +156,6 @@ function MinArch:OpenOptions()
 		end
 		
 		-- Misc Options
-		MinArchOptionPanel.miscOptions.hideMinimap.text:SetText("Hide the Minimap Button");
-		MinArchOptionPanel.miscOptions.hideMinimap:SetChecked(MinArchOptions['HideMinimap']);
-		
 		MinArchOptionPanel.miscOptions.disableSound.text:SetText("Disable Sound");
 		MinArchOptionPanel.miscOptions.disableSound:SetChecked(MinArchOptions['DisableSound']);
 
@@ -194,4 +182,149 @@ function MinArch:OpenOptions()
 		MinArchOptionPanelFrameScaleSliderText:SetText(tostring(MinArchOptions['FrameScale']));
 		MinArchOptionPanel.frameScale.slider:SetValue(MinArchOptions['FrameScale']);
 	end
+end
+
+assert(MinArch);
+MinArch.Options = MinArch:NewModule("Options");
+
+local Options = MinArch.Options;
+local parent = MinArch;
+
+local general = {
+	name = "Minimal Archaeology",
+	handler = MinArch,
+	type = "group",
+	args = {
+		welcome = {
+			type = "group",
+			name = "Welcome!",
+			order = 1,
+			inline = true,
+			args = {
+				message = {
+					type = "description",
+					name = "Thanks for using Minimal Archaeology",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+			}
+		}
+	}
+}
+
+local settings = {
+	name = "Settings",
+	handler = MinArch,
+	type = 'group',
+	args = {
+		misc = {
+			type = 'group',
+			name = 'Miscellaneous options',
+			order = 1,
+			inline = true,
+			args = {
+				hideMinimapButton = {
+					type = "toggle",
+					name = "Hide Minimap Button",
+					desc = "Hide the minimap button",
+					get = function () return MinArch.db.profile.hideMinimapButton end,
+					set = function (_, newValue)
+						MinArch.db.profile.hideMinimapButton = newValue;
+
+						if newValue then
+							MinArchMinimapButton:Hide();
+						else
+							MinArchMinimapButton:Show();
+						end
+					end,
+					order = 1,
+				}
+			}
+		}
+	}
+}
+
+local raceSettings = {
+	name = "Race Settings",
+	handler = MinArch,
+	type = "group",
+	args = {
+		hide = {
+			type = 'group',
+			name = 'Hide',
+			order = 1,
+			inline = false,
+			args = {
+			}
+		},
+		cap = {
+			type = 'group',
+			name = 'Cap',
+			order = 2,
+			inline = false,
+			args = {
+			}
+		},
+		keystone = {
+			type = 'group',
+			name = 'Keystone',
+			order = 3,
+			inline = false,
+			args = {
+			}
+		}
+	}
+}
+
+function Options:OnInitialize()
+	for i=1, ARCHAEOLOGY_NUM_RACES do
+		local name = GetArchaeologyRaceInfo(i);
+		raceSettings.args.hide.args[name] = {
+			type = "toggle",
+			name = name,
+			desc = "Hide ",
+			order = i,
+			get = function () return MinArch.db.profile.raceOptions.hide[i] end,
+			set = function (_, newValue)
+				MinArch.db.profile.raceOptions.hide[i] = newValue;
+			end,
+		};
+		raceSettings.args.cap.args[name] = {
+			type = "toggle",
+			name = name,
+			desc = "cap",
+			order = i,
+			get = function () return MinArch.db.profile.raceOptions.cap[i] end,
+			set = function (_, newValue)
+				MinArch.db.profile.raceOptions.cap[i] = newValue;
+			end,
+		};
+		raceSettings.args.keystone.args[name] = {
+			type = "toggle",
+			name = name,
+			desc = "keystone",
+			order = i,
+			get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
+			set = function (_, newValue)
+				MinArch.db.profile.raceOptions.keystone[i] = newValue;
+			end,
+		};
+	end
+	
+	self:RegisterMenus();
+end
+
+function Options:RegisterMenus()
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", general);
+	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", "Minimal Archaeology");
+
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Settings", settings);
+	self.settings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Settings", "Settings", "Minimal Archaeology");
+	
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
+    self.settings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");
+
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(parent.db));
+    self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Profiles", "Profiles", "Minimal Archaeology");
 end
