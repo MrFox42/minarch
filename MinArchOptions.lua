@@ -6,7 +6,6 @@ function MinArch:OptionsLoad()
 	MinArchOptionPanel.name = "Minimal Archaeology";
 	
 	MinArchOptionPanel.hideArtifact.title:SetText("Hide");
-	MinArchOptionPanel.capArtifact.title:SetText("Fragment Cap");
 	MinArchOptionPanel.useKeystones.title:SetText("Auto Keystones");
 	MinArchOptionPanel.miscOptions.title:SetText("Miscellaneous Options");
 	
@@ -26,14 +25,6 @@ function MinArch:HideOptionToolTip(HideID)
 	if (MinArchIsReady == true) then
 		GameTooltip:SetOwner(MinArchOptionPanel.hideArtifact, "ANCHOR_TOPLEFT");
 		GameTooltip:AddLine("Hide the "..MinArch['artifacts'][HideID]['race'].." artifact bar even if it has been discovered.", 1.0, 1.0, 1.0, 1);
-		GameTooltip:Show();
-	end
-end
-
-function MinArch:CapOptionToolTip(CapID)
-	if (MinArchIsReady == true) then
-		GameTooltip:SetOwner(MinArchOptionPanel.capArtifact, "ANCHOR_TOPLEFT");
-		GameTooltip:AddLine("Use the fragment cap for the "..MinArch['artifacts'][CapID]['race'].." artifact bar.", 1.0, 1.0, 1.0, 1);
 		GameTooltip:Show();
 	end
 end
@@ -75,15 +66,6 @@ function MinArch:HideOptionToggle()
 	if (MinArchIsReady == true) then
 		for i=1, ARCHAEOLOGY_NUM_RACES do
 			MinArchOptions['ABOptions'][i]['Hide'] = MinArchOptionPanel.hideArtifact["hide"..i]:GetChecked()
-		end
-	end
-	MinArch:UpdateMain();
-end
-
-function MinArch:CapOptionToggle()
-	if (MinArchIsReady == true) then
-		for i=1, ARCHAEOLOGY_NUM_RACES do
-			MinArchOptions['ABOptions'][i]['Cap'] = MinArchOptionPanel.capArtifact["cap"..i]:GetChecked()
 		end
 	end
 	MinArch:UpdateMain();
@@ -145,10 +127,7 @@ function MinArch:OpenOptions()
 		for i=1, ARCHAEOLOGY_NUM_RACES do
 			MinArchOptionPanel.hideArtifact["hide"..i].text:SetText(MinArch['artifacts'][i]['race']);
 			MinArchOptionPanel.hideArtifact["hide"..i]:SetChecked(MinArchOptions['ABOptions'][i]['Hide']);
-			
-			MinArchOptionPanel.capArtifact["cap"..i].text:SetText(MinArch['artifacts'][i]['race']);
-			MinArchOptionPanel.capArtifact["cap"..i]:SetChecked(MinArchOptions['ABOptions'][i]['Cap']);
-			
+						
 			if (i ~= ARCHAEOLOGY_RACE_FOSSIL) then
 				MinArchOptionPanel.useKeystones["usekeystone"..i].text:SetText(MinArch['artifacts'][i]['race']);
 				MinArchOptionPanel.useKeystones["usekeystone"..i]:SetChecked(MinArchOptions['ABOptions'][i]['AlwaysUseKeystone']);
@@ -182,6 +161,17 @@ function MinArch:OpenOptions()
 		MinArchOptionPanelFrameScaleSliderText:SetText(tostring(MinArchOptions['FrameScale']));
 		MinArchOptionPanel.frameScale.slider:SetValue(MinArchOptions['FrameScale']);
 	end
+end
+
+-- New Code starts here
+
+function MinArch:CapOptionToggle()
+	if (MinArchIsReady == true) then
+		for i=1, ARCHAEOLOGY_NUM_RACES do
+			MinArchOptions['ABOptions'][i]['Cap'] = MinArch.db.profile.raceOptions.cap[i]
+		end
+	end
+	MinArch:UpdateMain();
 end
 
 assert(MinArch);
@@ -279,10 +269,10 @@ local raceSettings = {
 
 function Options:OnInitialize()
 	for i=1, ARCHAEOLOGY_NUM_RACES do
-		local name = GetArchaeologyRaceInfo(i);
-		raceSettings.args.hide.args[name] = {
+		-- local name = GetArchaeologyRaceInfo(i);
+		raceSettings.args.hide.args[tostring(i)] = {
 			type = "toggle",
-			name = name,
+			name = function () return GetArchaeologyRaceInfo(i) end,
 			desc = "Hide ",
 			order = i,
 			get = function () return MinArch.db.profile.raceOptions.hide[i] end,
@@ -290,25 +280,29 @@ function Options:OnInitialize()
 				MinArch.db.profile.raceOptions.hide[i] = newValue;
 			end,
 		};
-		raceSettings.args.cap.args[name] = {
+		raceSettings.args.cap.args[tostring(i)] = {
 			type = "toggle",
-			name = name,
-			desc = "cap",
+			name = function () return GetArchaeologyRaceInfo(i) end,
+			desc = function () 
+				return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
+			end,
 			order = i,
 			get = function () return MinArch.db.profile.raceOptions.cap[i] end,
 			set = function (_, newValue)
 				MinArch.db.profile.raceOptions.cap[i] = newValue;
+				MinArch:CapOptionToggle();
 			end,
 		};
-		raceSettings.args.keystone.args[name] = {
+		raceSettings.args.keystone.args[tostring(i)] = {
 			type = "toggle",
-			name = name,
+			name = function () return GetArchaeologyRaceInfo(i) end,
 			desc = "keystone",
 			order = i,
 			get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
 			set = function (_, newValue)
 				MinArch.db.profile.raceOptions.keystone[i] = newValue;
 			end,
+			disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
 		};
 	end
 	

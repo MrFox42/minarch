@@ -77,11 +77,15 @@ function MinArch:UpdateArtifact(RaceIndex)
 end
 
 function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
+	if (MinArchIsReady == false) then
+		return false;
+	end
+
 	local artifact = MinArch['artifacts'][RaceIndex];
 	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = GetItemInfo(artifact['raceitemid']);
 	local total = artifact['total']
 
-	if (MinArchOptions['ABOptions'][RaceIndex]['Cap'] == true) then
+	if (MinArch.db.profile.raceOptions.cap[RaceIndex] == true) then
 		total = 200;
 		if (RaceIndex < ARCHAEOLOGY_RACE_MOGU and RaceIndex > ARCHAEOLOGY_RACE_ZANDALARI) then
 			total = 250;

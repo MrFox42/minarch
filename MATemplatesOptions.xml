@@ -56,19 +56,7 @@
 			</OnEnter>
 		</Scripts>
 	</CheckButton>
-	
-	<!-- Cap Option Checkbox -->
-	<CheckButton name="MATCapOptionButton" inherits="MATBCheck" virtual="true">
-		<Scripts>
-			<OnClick>
-				MinArch:CapOptionToggle();
-			</OnClick>
-			<OnEnter>
-				MinArch:CapOptionToolTip(self:GetID());
-			</OnEnter>
-		</Scripts>
-	</CheckButton>
-	
+		
 	<!-- Use Keystone Option Checkbox -->
 	<CheckButton name="MATBUseKeystoneOption" inherits="MATBCheck" virtual="true">
 		<Scripts>

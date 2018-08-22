@@ -26,7 +26,9 @@ function MinArch:EventMain(event, ...)
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
 		MinArchMain:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
-		MinArch:LoadRaceInfo();
+		if (MinArch.RacesLoaded == false) then
+			MinArch:LoadRaceInfo();
+		end
 	end
 
 	if (event == "CVAR_UPDATE") then
@@ -185,7 +187,6 @@ function MinArch:MainEventAddonLoaded()
 		if (MinArchOptions['ABOptions'][i] == nil) then
 			MinArchOptions['ABOptions'][i] = {}; 
 			MinArchOptions['ABOptions'][i]['Hide'] = false;
-			MinArchOptions['ABOptions'][i]['Cap'] = false;
 			MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] = false;
 		end
 	end
