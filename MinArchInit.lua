@@ -90,6 +90,26 @@ function MinArch:InitDatabase()
 	-- todo: convert old settings
 end
 
+function MinArch:UpgradeSettings()
+	if (MinArch.db.profile.settingsVersion == 0) then
+		for i=1, ARCHAEOLOGY_NUM_RACES do
+			if (MinArchOptions['ABOptions'][i]['Cap'] ~= nil) then
+				MinArch.db.profile.raceOptions.cap[i] = MinArchOptions['ABOptions'][i]['Cap'];
+			end
+		end
+
+		if (MinArchOptions['HideMinimap'] ~= nil) then
+			MinArch.db.profile.hideMinimapButton = MinArchOptions['HideMinimap'];
+		end
+
+		if (MinArchOptions['DisableSound'] ~= nil) then
+			MinArch.db.profile.disableSound = MinArchOptions['DisableSound'];
+		end
+
+		MinArch.db.profile.settingsVersion = 1;
+	end
+end
+
 function MinArch:InitHist(self)
 	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");

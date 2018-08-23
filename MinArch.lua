@@ -123,8 +123,8 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 	end
 	
 	if (artifact['canSolve']) then
-		if (MinArchOptions['DisableSound'] == false and artifact['canSolvePrev'] ~= artifact['canSolve']) then
-			PlaySoundFile("Sound\\interface\\MapPing.wav")
+		if (MinArch.db.profile.disableSound == false and artifact['canSolvePrev'] ~= artifact['canSolve']) then
+			PlaySound(3175, "SFX");
 			artifact['canSolvePrev'] = artifact['canSolve'];
 		end
 		ArtifactBar.buttonSolve:Enable();

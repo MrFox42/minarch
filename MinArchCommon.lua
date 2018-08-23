@@ -1,8 +1,11 @@
 local AceAddon = LibStub("AceAddon-3.0");
 MinArch = LibStub("AceAddon-3.0"):NewAddon('Minimal Archaeology');
+-- MinArch.db.profile.
 MinArch.defaults = {
 	profile = {
+		settingsVersion = 0,
 		hideMinimapButton = false,
+		disableSound = false;
 		
 		-- dynamic options
 		raceOptions = {

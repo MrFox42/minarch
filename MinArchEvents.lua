@@ -165,11 +165,7 @@ function MinArch:MainEventAddonLoaded()
 	if (MinArch.db.profile.hideMinimapButton) then
 		MinArchMinimapButton:Hide();
 	end
-		
-	if (MinArchOptions['DisableSound'] == nil) then
-		MinArchOptions['DisableSound'] = false;
-	end
-
+	
 	if (MinArchOptions['HideAfterDigsite'] == nil) then
 		MinArchOptions['HideAfterDigsite'] = false;
 	end

@@ -45,9 +45,7 @@ end
 function MinArch:MiscOptionToolTip(MiscID)
 	GameTooltip:SetOwner(MinArchOptionPanel.miscOptions, "ANCHOR_TOPLEFT");
 	
-	if (MiscID == 2) then
-		GameTooltip:AddLine("Disable the sound that is played when an artifact can be solved.", 1.0, 1.0, 1.0, 1);
-	elseif (MiscID == 3) then
+	if (MiscID == 3) then
 		GameTooltip:AddLine("Always start Minimal Archaeology hidden.", 1.0, 1.0, 1.0, 1);
 	elseif (MiscID == 4) then
 		GameTooltip:AddLine("Hide Minimal Archaeology after completing a digsite.", 1.0, 1.0, 1.0, 1);
@@ -84,10 +82,6 @@ end
 
 function MinArch:MiscOptionsToggle()
 	if (MinArchIsReady == true) then
-		
-		-- Disable Sound
-		MinArchOptions['DisableSound'] = MinArchOptionPanel.miscOptions.disableSound:GetChecked()
-		
 		-- Start hidden
 		MinArchOptions['StartHidden'] = MinArchOptionPanel.miscOptions.startHidden:GetChecked()
 		
@@ -135,9 +129,6 @@ function MinArch:OpenOptions()
 		end
 		
 		-- Misc Options
-		MinArchOptionPanel.miscOptions.disableSound.text:SetText("Disable Sound");
-		MinArchOptionPanel.miscOptions.disableSound:SetChecked(MinArchOptions['DisableSound']);
-
 		MinArchOptionPanel.miscOptions.startHidden.text:SetText("Always Start Hidden");
 		MinArchOptionPanel.miscOptions.startHidden:SetChecked(MinArchOptions['StartHidden']);
 
@@ -199,20 +190,12 @@ local general = {
 					order = 1,
 				},
 			}
-		}
-	}
-}
-
-local settings = {
-	name = "Settings",
-	handler = MinArch,
-	type = 'group',
-	args = {
+		},
 		misc = {
 			type = 'group',
 			name = 'Miscellaneous options',
-			order = 1,
 			inline = true,
+			order = 2,
 			args = {
 				hideMinimapButton = {
 					type = "toggle",
@@ -229,6 +212,17 @@ local settings = {
 						end
 					end,
 					order = 1,
+				},
+				--MinArch.db.profile.disableSound
+				disableSound = {
+					type = "toggle",
+					name = "Disable Sound",
+					desc = "Disable the sound that is played when an artifact can be solved.",
+					get = function () return MinArch.db.profile.disableSound end,
+					set = function (_, newValue)
+						MinArch.db.profile.disableSound = newValue;
+					end,
+					order = 2,
 				}
 			}
 		}
@@ -267,44 +261,104 @@ local raceSettings = {
 	}
 }
 
+local ArchRaceGroupText = {
+	"Kul Tiras, Zuldazar",
+	"Broken Isles",
+	"Draenor",
+	"Pandaria",
+	"Northrend",
+	"Outland",
+	"Eastern Kingdoms, Kalimdor"
+};
+
+local ArchRaceGroups = {
+	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
+	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
+	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
+	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
+	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
+	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
+	{ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DRAENEI, ARCHAEOLOGY_RACE_DWARF}
+};
+
 function Options:OnInitialize()
-	for i=1, ARCHAEOLOGY_NUM_RACES do
-		-- local name = GetArchaeologyRaceInfo(i);
-		raceSettings.args.hide.args[tostring(i)] = {
-			type = "toggle",
-			name = function () return GetArchaeologyRaceInfo(i) end,
-			desc = "Hide ",
-			order = i,
-			get = function () return MinArch.db.profile.raceOptions.hide[i] end,
-			set = function (_, newValue)
-				MinArch.db.profile.raceOptions.hide[i] = newValue;
-			end,
-		};
-		raceSettings.args.cap.args[tostring(i)] = {
-			type = "toggle",
-			name = function () return GetArchaeologyRaceInfo(i) end,
-			desc = function () 
-				return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
-			end,
-			order = i,
-			get = function () return MinArch.db.profile.raceOptions.cap[i] end,
-			set = function (_, newValue)
-				MinArch.db.profile.raceOptions.cap[i] = newValue;
-				MinArch:CapOptionToggle();
-			end,
-		};
-		raceSettings.args.keystone.args[tostring(i)] = {
-			type = "toggle",
-			name = function () return GetArchaeologyRaceInfo(i) end,
-			desc = "keystone",
-			order = i,
-			get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
-			set = function (_, newValue)
-				MinArch.db.profile.raceOptions.keystone[i] = newValue;
-			end,
-			disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
-		};
+	local count = 0;
+	for group, races in pairs(ArchRaceGroups) do
+		local groupkey = 'group' .. tostring(group);
+
+		raceSettings.args.hide.args[groupkey] = {
+			type = 'group',
+			name = ArchRaceGroupText[group],
+			order = count,
+			inline = true,
+			args = {
+
+			}
+		}
+		raceSettings.args.cap.args[groupkey] = {
+			type = 'group',
+			name = ArchRaceGroupText[group],
+			order = count,
+			inline = true,
+			args = {
+
+			}
+		}
+		raceSettings.args.keystone.args[groupkey] = {
+			type = 'group',
+			name = ArchRaceGroupText[group],
+			order = count,
+			inline = true,
+			args = {
+
+			}
+		}
+		
+		for idx=1, #races do
+			local i = races[idx];
+			raceSettings.args.hide.args[groupkey].args['race' .. tostring(i)] = {
+				type = "toggle",
+				name = function () return GetArchaeologyRaceInfo(i) end,
+				desc = "Hide ",
+				order = i,
+				get = function () return MinArch.db.profile.raceOptions.hide[i] end,
+				set = function (_, newValue)
+					MinArch.db.profile.raceOptions.hide[i] = newValue;
+				end,
+			};
+			raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
+				type = "toggle",
+				name = function () return GetArchaeologyRaceInfo(i) end,
+				desc = function () 
+					return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
+				end,
+				order = i,
+				get = function () return MinArch.db.profile.raceOptions.cap[i] end,
+				set = function (_, newValue)
+					MinArch.db.profile.raceOptions.cap[i] = newValue;
+					MinArch:CapOptionToggle();
+				end,
+			};
+			raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
+				type = "toggle",
+				name = function () return GetArchaeologyRaceInfo(i) end,
+				desc = "keystone",
+				order = i,
+				get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
+				set = function (_, newValue)
+					MinArch.db.profile.raceOptions.keystone[i] = newValue;
+				end,
+				disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
+			};
+		end
+
+		count = count + 1;
 	end
+
+	--[[for i=1, ARCHAEOLOGY_NUM_RACES do
+		-- local name = GetArchaeologyRaceInfo(i);
+		
+	end]]--
 	
 	self:RegisterMenus();
 end
@@ -312,9 +366,6 @@ end
 function Options:RegisterMenus()
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", general);
 	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", "Minimal Archaeology");
-
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Settings", settings);
-	self.settings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Settings", "Settings", "Minimal Archaeology");
 	
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
     self.settings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");

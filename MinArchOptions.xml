@@ -494,17 +494,6 @@
 					</Anchor>
 				</Anchors>
 				<Frames>
-					<!-- Disable notification sound -->
-					<CheckButton name="$parentDisableSound" inherits="MATBMiscOption" id="2" parentKey="disableSound">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent">
-								<Offset>
-									<AbsDimension x="0" y="-20"></AbsDimension>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</CheckButton>
-
 					<!-- Show Status Messages -->
 					<CheckButton name="$parentShowStatusMessages" inherits="MATBMiscOption" id="6" parentKey="showStatusMessages">
 						<Anchors>
