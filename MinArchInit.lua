@@ -58,10 +58,13 @@ function MinArch:OnInitialize ()
 	MinArch:MainEventAddonLoaded();
 
 	-- Add to UISpecialFrames so windows close when the escape button is pressed
-	tinsert(UISpecialFrames, "MinArchMain");
-	-- TODO: close one by one
-	tinsert(UISpecialFrames, "MinArchHist");
-	tinsert(UISpecialFrames, "MinArchDigsites");
+	C_Timer.After(0.5, function()
+		tinsert(UISpecialFrames, "MinArchMain");
+		-- TODO: close one by one
+		tinsert(UISpecialFrames, "MinArchHist");
+		tinsert(UISpecialFrames, "MinArchDigsites");
+	end)
+	
 end
 
 function MinArch:SetDynamicDefaults ()
@@ -104,6 +107,10 @@ function MinArch:UpgradeSettings()
 
 		if (MinArchOptions['DisableSound'] ~= nil) then
 			MinArch.db.profile.disableSound = MinArchOptions['DisableSound'];
+		end
+
+		if (MinArchOptions['StartHidden'] ~= nil) then
+			MinArch.db.profile.startHidden = MinArchOptions['StartHidden']
 		end
 
 		MinArch.db.profile.settingsVersion = 1;

@@ -137,13 +137,9 @@ function MinArch:MainEventAddonLoaded()
 	if (MinArchOptions['CurrentHistPage'] == nil) then
 		MinArchOptions['CurrentHistPage'] = 1;
 	end
-		
-	if (MinArchOptions['StartHidden'] == nil) then
-		MinArchOptions['StartHidden'] = false;
-	else
-		if (MinArchOptions['StartHidden'] == true) then
-			MinArch:HideMain();
-		end
+
+	if (MinArch.db.profile.startHidden == true) then
+		MinArch:HideMain();
 	end
 
 	if (MinArchOptions['ShowStatusMessages'] == nil) then

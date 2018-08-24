@@ -45,9 +45,7 @@ end
 function MinArch:MiscOptionToolTip(MiscID)
 	GameTooltip:SetOwner(MinArchOptionPanel.miscOptions, "ANCHOR_TOPLEFT");
 	
-	if (MiscID == 3) then
-		GameTooltip:AddLine("Always start Minimal Archaeology hidden.", 1.0, 1.0, 1.0, 1);
-	elseif (MiscID == 4) then
+	if (MiscID == 4) then
 		GameTooltip:AddLine("Hide Minimal Archaeology after completing a digsite.", 1.0, 1.0, 1.0, 1);
 	elseif (MiscID == 5) then
 		GameTooltip:AddLine("Wait until all artifacts are solved before auto-hiding.", 1.0, 1.0, 1.0, 1);
@@ -82,9 +80,6 @@ end
 
 function MinArch:MiscOptionsToggle()
 	if (MinArchIsReady == true) then
-		-- Start hidden
-		MinArchOptions['StartHidden'] = MinArchOptionPanel.miscOptions.startHidden:GetChecked()
-		
 		-- Show status messages
 		MinArchOptions['ShowStatusMessages'] = MinArchOptionPanel.miscOptions.showStatusMessages:GetChecked()
 
@@ -129,9 +124,6 @@ function MinArch:OpenOptions()
 		end
 		
 		-- Misc Options
-		MinArchOptionPanel.miscOptions.startHidden.text:SetText("Always Start Hidden");
-		MinArchOptionPanel.miscOptions.startHidden:SetChecked(MinArchOptions['StartHidden']);
-
 		MinArchOptionPanel.miscOptions.showStatusMessages.text:SetText("Show status messages");
 		MinArchOptionPanel.miscOptions.showStatusMessages:SetChecked(MinArchOptions['ShowStatusMessages']);
 
@@ -223,6 +215,16 @@ local general = {
 						MinArch.db.profile.disableSound = newValue;
 					end,
 					order = 2,
+				},
+				startHidden = {
+					type = "toggle",
+					name = "Start Hidden",
+					desc = "Always start Minimal Archaeology hidden.",
+					get = function () return MinArch.db.profile.startHidden end,
+					set = function (_, newValue)
+						MinArch.db.profile.startHidden = newValue;
+					end,
+					order = 3,
 				}
 			}
 		}
@@ -232,7 +234,8 @@ local general = {
 local raceSettings = {
 	name = "Race Settings",
 	handler = MinArch,
-	type = "group",
+	type = "group",	
+	childGroups = "tab",
 	args = {
 		hide = {
 			type = 'group',

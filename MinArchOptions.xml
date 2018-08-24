@@ -516,17 +516,6 @@
 						</Anchors>
 					</CheckButton>
 					
-					<!-- Always start hidden -->
-					<CheckButton name="$parentStartHidden" inherits="MATBMiscOption" id="3" parentKey="startHidden">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent">
-								<Offset>
-									<AbsDimension x="200" y="-5"></AbsDimension>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</CheckButton>
-					
 					<!-- Hide after completing a digsite -->
 					<CheckButton name="$parentHideAfter" inherits="MATBMiscOption" id="4" parentKey="hideAfter">
 						<Anchors>
