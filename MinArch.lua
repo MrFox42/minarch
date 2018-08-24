@@ -256,12 +256,12 @@ end
 
 function MinArch:HideMain()
 	MinArchMain:Hide();
-	MinArchOptions['HideMain'] = true;
+	MinArch.db.profile.hideMain = true;
 end
 
 function MinArch:ShowMain()
 	MinArchMain:Show();
-	MinArchOptions['HideMain'] = false;
+	MinArch.db.profile.hideMain = false;
 end
 
 function MinArch:ToggleMain()

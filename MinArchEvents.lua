@@ -149,13 +149,9 @@ function MinArch:MainEventAddonLoaded()
 	if (MinArchOptions['ShowWorldMapOverlay'] == nil) then
 		MinArchOptions['ShowWorldMapOverlay'] = true;
 	end
-		
-	if (MinArchOptions['HideMain'] == nil) then
-		MinArch:ShowMain();
-	else
-		if (MinArchOptions['HideMain'] == true) then
-			MinArch:HideMain();
-		end
+	
+	if (MinArch.db.profile.hideMain == true) then
+		MinArch:HideMain();
 	end
 
 	if (MinArch.db.profile.hideMinimapButton) then

@@ -7,6 +7,7 @@ MinArch.defaults = {
 		hideMinimapButton = false,
 		disableSound = false;
 		startHidden = false;
+		hideMain = false;
 		
 		-- dynamic options
 		raceOptions = {
