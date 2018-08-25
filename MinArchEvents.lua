@@ -165,10 +165,6 @@ function MinArch:MainEventAddonLoaded()
 	if (MinArchOptions['WaitForSolve'] == nil) then
 		MinArchOptions['WaitForSolve'] = false;
 	end	
-		
-	if (MinArchOptions['FrameScale'] == nil) then
-		MinArchOptions['FrameScale'] = 100;
-	end
 
 	local i
 	for i=0,ARCHAEOLOGY_NUM_RACES do
@@ -197,7 +193,7 @@ function MinArch:MainEventAddonLoaded()
 	    end
 	end
 	
-	MinArch:CommonFrameScale(MinArchOptions['FrameScale']);
+	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
 	MinArchIsReady = true;
 	
 	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);

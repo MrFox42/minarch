@@ -5,9 +5,10 @@ MinArch.defaults = {
 	profile = {
 		settingsVersion = 0,
 		hideMinimapButton = false,
-		disableSound = false;
-		startHidden = false;
-		hideMain = false;
+		disableSound = false,
+		startHidden = false,
+		hideMain = false,
+		frameScale = 100,
 		
 		-- dynamic options
 		raceOptions = {
@@ -48,6 +49,7 @@ MinArch['ContIDMap'] = {
 	[875] = 10, -- Zandalar
 
 	-- alternate ids
+	[993] = 8, -- Broken Isles
 	[1014] = 9, -- Kul Tiras
 	[1011] = 10, -- Zandalar
 };

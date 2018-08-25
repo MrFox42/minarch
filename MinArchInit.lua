@@ -110,7 +110,11 @@ function MinArch:UpgradeSettings()
 		end
 
 		if (MinArchOptions['StartHidden'] ~= nil) then
-			MinArch.db.profile.startHidden = MinArchOptions['StartHidden']
+			MinArch.db.profile.startHidden = MinArchOptions['StartHidden'];
+		end
+
+		if (MinArchOptions['FrameScale'] ~= nil) then
+			MinArch.db.profile.frameScale = MinArchOptions['FrameScale'];
 		end
 
 		MinArch.db.profile.settingsVersion = 1;

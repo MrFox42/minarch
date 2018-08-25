@@ -539,36 +539,6 @@
 					</CheckButton>
 				</Frames>
 			</Frame>
-			
-			<Frame name="$parentFrameScale" inherits="MATOptionBox" parentKey="frameScale">
-				<size x="135" y="55" />
-				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentMiscOptions">
-						<Offset>
-							<AbsDimension x="10" y="0"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Frames>					
-					<Slider name="$parentSlider" inherits="OptionsSliderTemplate" parentKey="slider">
-						<Size>
-							<AbsDimension x="115" y="16"/>
-						</Size>
-						<Anchors>
-							<Anchor point="TOP" relativePoint="TOP" relativeTo="$parent">
-								<Offset>
-									<AbsDimension x="0" y="-20"/>
-								</Offset>
-							</Anchor>
-						</Anchors>
-						<Scripts>
-							<OnValueChanged>
-								MinArch:ScaleOptionsAdjust();
-							</OnValueChanged>
-						</Scripts>
-					</Slider>
-				</Frames>
-			</Frame>
 		</Frames>		
 		<Scripts>
             <OnLoad>

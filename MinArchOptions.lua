@@ -9,12 +9,6 @@ function MinArch:OptionsLoad()
 	MinArchOptionPanel.useKeystones.title:SetText("Auto Keystones");
 	MinArchOptionPanel.miscOptions.title:SetText("Miscellaneous Options");
 	
-	MinArchOptionPanelFrameScale.title:SetText("Scale");
-	MinArchOptionPanelFrameScaleSliderLow:SetText("30");
-	MinArchOptionPanelFrameScaleSliderHigh:SetText("100");
-	MinArchOptionPanel.frameScale.slider:SetMinMaxValues(30, 100);
-	MinArchOptionPanel.frameScale.slider:SetValueStep(5);
-	
 	MinArchOptionPanel.okay = MinArchOptionPanel:Hide();
 	MinArchOptionPanel.cancel = MinArchOptionPanel:Hide();
 		
@@ -102,14 +96,6 @@ function MinArch:MiscOptionsToggle()
 	end
 end
 
-function MinArch:ScaleOptionsAdjust()
-	if (MinArchIsReady == true) then
-		MinArchOptions['FrameScale'] = MinArchOptionPanel.frameScale.slider:GetValue();
-		MinArchOptionPanelFrameScaleSliderText:SetText(tostring(MinArchOptions['FrameScale']));		
-		MinArch:CommonFrameScale(MinArchOptions['FrameScale']);
-	end
-end
-
 function MinArch:OpenOptions()
 	if (MinArchIsReady == true) then
 		MinArch:UpdateMain();
@@ -140,9 +126,6 @@ function MinArch:OpenOptions()
 		end
 		MinArchOptionPanel.miscOptions.waitSolve:SetChecked(MinArchOptions['WaitForSolve']);
 		
-		-- Scale
-		MinArchOptionPanelFrameScaleSliderText:SetText(tostring(MinArchOptions['FrameScale']));
-		MinArchOptionPanel.frameScale.slider:SetValue(MinArchOptions['FrameScale']);
 	end
 end
 
@@ -225,6 +208,20 @@ local general = {
 						MinArch.db.profile.startHidden = newValue;
 					end,
 					order = 3,
+				},
+				scale = {
+					type = "range",
+					name = "Scale",
+					desc = "...",
+					min = 30,
+					max = 200,
+					step = 5,
+					get = function () return MinArch.db.profile.frameScale end,
+					set = function (_, newValue)
+						MinArch.db.profile.frameScale = newValue;
+						MinArch:CommonFrameScale(newValue);
+					end,
+					order = 99,
 				}
 			}
 		}
@@ -238,29 +235,29 @@ local raceSettings = {
 	childGroups = "tab",
 	args = {
 		hide = {
-			type = 'group',
-			name = 'Hide',
+			type = "group",
+			name = "Hide",
 			order = 1,
 			inline = false,
 			args = {
 			}
 		},
 		cap = {
-			type = 'group',
-			name = 'Cap',
+			type = "group",
+			name = "Cap",
 			order = 2,
 			inline = false,
 			args = {
 			}
 		},
 		keystone = {
-			type = 'group',
-			name = 'Keystone',
+			type = "group",
+			name = "Keystone",
 			order = 3,
 			inline = false,
 			args = {
 			}
-		}
+		},
 	}
 }
 
@@ -297,7 +294,7 @@ function Options:OnInitialize()
 			args = {
 
 			}
-		}
+		};
 		raceSettings.args.cap.args[groupkey] = {
 			type = 'group',
 			name = ArchRaceGroupText[group],
@@ -306,7 +303,7 @@ function Options:OnInitialize()
 			args = {
 
 			}
-		}
+		};
 		raceSettings.args.keystone.args[groupkey] = {
 			type = 'group',
 			name = ArchRaceGroupText[group],
@@ -315,7 +312,7 @@ function Options:OnInitialize()
 			args = {
 
 			}
-		}
+		};
 		
 		for idx=1, #races do
 			local i = races[idx];
