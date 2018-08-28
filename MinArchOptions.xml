@@ -493,17 +493,7 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<Frames>
-					<CheckButton name="$parentShowWorldMapOverlay" inherits="MATBMiscOption" id="7" parentKey="showWorldMapOverlay">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentShowStatusMessages">
-								<Offset>
-									<AbsDimension x="0" y="-20"></AbsDimension>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</CheckButton>
-					
+				<Frames>					
 					<!-- Hide after completing a digsite -->
 					<CheckButton name="$parentHideAfter" inherits="MATBMiscOption" id="4" parentKey="hideAfter">
 						<Anchors>

@@ -481,7 +481,7 @@ function MinArch:ShowRaceIconsOnMap(uiMapID)
 		MinArchMapFrames[i]:Hide();
 	end
 
-	if (GetCVarBool('digsites') and MinArchOptions['ShowWorldMapOverlay'] == true) then
+	if (GetCVarBool('digsites') and MinArch.db.profile.showWorldMapOverlay == true) then
 		local count = 0;
 		
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do

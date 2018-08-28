@@ -130,6 +130,10 @@ function MinArch:UpgradeSettings()
 			MinArch.db.profile.showStatusMessages = MinArchOptions['ShowStatusMessages'];
 		end
 
+		if (MinArchOptions['ShowWorldMapOverlay'] ~= nil) then
+			MinArch.db.profile.showWorldMapOverlay = MinArchOptions['ShowWorldMapOverlay'];
+		end
+
 		MinArch.db.profile.settingsVersion = 1;
 	end
 end

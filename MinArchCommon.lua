@@ -10,6 +10,7 @@ MinArch.defaults = {
 		hideMain = false,
 		frameScale = 100,
 		showStatusMessages = false,
+		showWorldMapOverlay = true,
 		
 		-- dynamic options
 		raceOptions = {

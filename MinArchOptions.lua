@@ -43,8 +43,6 @@ function MinArch:MiscOptionToolTip(MiscID)
 		GameTooltip:AddLine("Hide Minimal Archaeology after completing a digsite.", 1.0, 1.0, 1.0, 1);
 	elseif (MiscID == 5) then
 		GameTooltip:AddLine("Wait until all artifacts are solved before auto-hiding.", 1.0, 1.0, 1.0, 1);
-	elseif (MiscID == 7) then
-		GameTooltip:AddLine("Show race icons next to digsites on the world map.", 1.0, 1.0, 1.0, 1);
 	end
 	
 	GameTooltip:Show();
@@ -73,8 +71,6 @@ end
 function MinArch:MiscOptionsToggle()
 	if (MinArchIsReady == true) then
 		-- Show world map overlay icons
-		MinArchOptions['ShowWorldMapOverlay'] = MinArchOptionPanel.miscOptions.showWorldMapOverlay:GetChecked()
-		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 
 		-- Hide after completing a digsite
 		MinArchOptions['HideAfterDigsite'] = MinArchOptionPanel.miscOptions.hideAfter:GetChecked()
@@ -104,9 +100,6 @@ function MinArch:OpenOptions()
 			end
 		end
 		
-		MinArchOptionPanel.miscOptions.showWorldMapOverlay.text:SetText("Show world map overlay icons");
-		MinArchOptionPanel.miscOptions.showWorldMapOverlay:SetChecked(MinArchOptions['ShowWorldMapOverlay']);
-
 		MinArchOptionPanel.miscOptions.hideAfter.text:SetText("Auto-Hide After Digsites");
 		MinArchOptionPanel.miscOptions.hideAfter:SetChecked(MinArchOptions['HideAfterDigsite']);
 	
@@ -200,6 +193,17 @@ local general = {
 					end,
 					order = 3,
 				},
+				showWorldMapOverlay = {
+					type = "toggle",
+					name = "Show world map overlay icons",
+					desc = "Show race icons next to digsites on the world map.",
+					get = function () return MinArch.db.profile.showWorldMapOverlay end,
+					set = function (_, newValue)
+						MinArch.db.profile.showWorldMapOverlay = newValue;
+						MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+					end,
+					order = 4,
+				}
 				scale = {
 					type = "range",
 					name = "Scale",

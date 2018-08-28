@@ -141,10 +141,6 @@ function MinArch:MainEventAddonLoaded()
 	if (MinArch.db.profile.startHidden == true) then
 		MinArch:HideMain();
 	end
-
-	if (MinArchOptions['ShowWorldMapOverlay'] == nil) then
-		MinArchOptions['ShowWorldMapOverlay'] = true;
-	end
 	
 	if (MinArch.db.profile.hideMain == true) then
 		MinArch:HideMain();
