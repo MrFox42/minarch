@@ -203,7 +203,7 @@ local general = {
 						MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 					end,
 					order = 4,
-				}
+				},
 				scale = {
 					type = "range",
 					name = "Scale",
