@@ -1,11 +1,11 @@
 function MinArch:EventMain(event, ...)
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArchHideNext == true) then
-		MinArch:MaineEventHideAfterDigsite();		
+		MinArch:MaineEventHideAfterDigsite();
 	elseif (event == "SKILL_LINES_CHANGED") then
 		MinArch:UpdateArchaeologySkillBar();
-	elseif ((event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArchOptions['HideAfterDigsite'] == true) then
+	elseif ((event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArch.db.profile.hideAfterDigsite == true) then
 		MinArchHideNext = true;
-	elseif (event == "RESEARCH_ARTIFACT_COMPLETE" and MinArchHideNext == true and MinArchOptions['WaitForSolve'] == true) then
+	elseif (event == "RESEARCH_ARTIFACT_COMPLETE" and MinArchHideNext == true and MinArch.db.profile.waitForSolve == true) then
 		MinArch:HideMain();
 		MinArchHideNext = false;
 		
@@ -107,7 +107,8 @@ function MinArch:EventDigsites(event, ...)
 end
 
 function MinArch:MaineEventHideAfterDigsite()
-	if (MinArchOptions['WaitForSolve'] == true) then
+	-- TODO: fix hiding when multiple artifacts can be solved after each other
+	if (MinArch.db.profile.waitForSolve == true) then
 		local wait = false;
 		for i=1,ARCHAEOLOGY_NUM_RACES do
 			MinArch:UpdateArtifact(i);
@@ -149,14 +150,6 @@ function MinArch:MainEventAddonLoaded()
 	if (MinArch.db.profile.hideMinimapButton) then
 		MinArchMinimapButton:Hide();
 	end
-	
-	if (MinArchOptions['HideAfterDigsite'] == nil) then
-		MinArchOptions['HideAfterDigsite'] = false;
-	end
-		
-	if (MinArchOptions['WaitForSolve'] == nil) then
-		MinArchOptions['WaitForSolve'] = false;
-	end	
 
 	local i
 	for i=0,ARCHAEOLOGY_NUM_RACES do

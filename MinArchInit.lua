@@ -134,6 +134,14 @@ function MinArch:UpgradeSettings()
 			MinArch.db.profile.showWorldMapOverlay = MinArchOptions['ShowWorldMapOverlay'];
 		end
 
+		if (MinArchOptions['HideAfterDigsite'] ~= nil) then
+			MinArch.db.profile.hideAfterDigsite = MinArchOptions['HideAfterDigsite'];
+		end
+
+		if (MinArchOptions['WaitForSolve'] ~= nil) then
+			MinArch.db.profile.waitForSolve = MinArchOptions['WaitForSolve'];
+		end
+
 		MinArch.db.profile.settingsVersion = 1;
 	end
 end

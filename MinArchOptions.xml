@@ -483,40 +483,6 @@
 					
 				</Frames>
 			</Frame>
-			
-			<Frame name="$parentMiscOptions" inherits="MATOptionBox" parentKey="miscOptions">
-				<size x="400" y="100" />
-				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentHideArtifact">
-						<Offset>
-							<AbsDimension x="0" y="-15"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Frames>					
-					<!-- Hide after completing a digsite -->
-					<CheckButton name="$parentHideAfter" inherits="MATBMiscOption" id="4" parentKey="hideAfter">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentStartHidden">
-								<Offset>
-									<AbsDimension x="0" y="-20"></AbsDimension>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</CheckButton>
-					
-					<!-- Wait for solve -->
-					<CheckButton name="$parentWaitForSolve" inherits="MATBMiscOption" id="5" parentKey="waitSolve">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentHideAfter">
-								<Offset>
-									<AbsDimension x="20" y="-20"></AbsDimension>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</CheckButton>
-				</Frames>
-			</Frame>
 		</Frames>		
 		<Scripts>
             <OnLoad>

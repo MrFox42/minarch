@@ -11,6 +11,8 @@ MinArch.defaults = {
 		frameScale = 100,
 		showStatusMessages = false,
 		showWorldMapOverlay = true,
+		hideAfterDigsite = false,
+		waitForSolve = false,
 		
 		-- dynamic options
 		raceOptions = {

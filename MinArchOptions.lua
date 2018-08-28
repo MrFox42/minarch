@@ -36,18 +36,6 @@ function MinArch:UseKeystoneOptionToolTip(UseKeystoneID)
 	end
 end
 
-function MinArch:MiscOptionToolTip(MiscID)
-	GameTooltip:SetOwner(MinArchOptionPanel.miscOptions, "ANCHOR_TOPLEFT");
-	
-	if (MiscID == 4) then
-		GameTooltip:AddLine("Hide Minimal Archaeology after completing a digsite.", 1.0, 1.0, 1.0, 1);
-	elseif (MiscID == 5) then
-		GameTooltip:AddLine("Wait until all artifacts are solved before auto-hiding.", 1.0, 1.0, 1.0, 1);
-	end
-	
-	GameTooltip:Show();
-end
-
 function MinArch:HideOptionToggle()
 	if (MinArchIsReady == true) then
 		for i=1, ARCHAEOLOGY_NUM_RACES do
@@ -68,25 +56,6 @@ function MinArch:UseKeystoneOptionToggle()
 	MinArch:UpdateMain();
 end
 
-function MinArch:MiscOptionsToggle()
-	if (MinArchIsReady == true) then
-		-- Show world map overlay icons
-
-		-- Hide after completing a digsite
-		MinArchOptions['HideAfterDigsite'] = MinArchOptionPanel.miscOptions.hideAfter:GetChecked()
-		if MinArchOptions['HideAfterDigsite'] then
-			MinArchOptionPanel.miscOptions.waitSolve:Enable();
-			MinArchOptionPanel.miscOptions.waitSolve.text:SetAlpha(1.0);
-		else
-			MinArchOptionPanel.miscOptions.waitSolve:Disable();
-			MinArchOptionPanel.miscOptions.waitSolve.text:SetAlpha(0.5);
-		end
-		
-		-- Wait to solve artifacts
-		MinArchOptions['WaitForSolve'] = MinArchOptionPanel.miscOptions.waitSolve:GetChecked()
-	end
-end
-
 function MinArch:OpenOptions()
 	if (MinArchIsReady == true) then
 		MinArch:UpdateMain();
@@ -98,18 +67,7 @@ function MinArch:OpenOptions()
 				MinArchOptionPanel.useKeystones["usekeystone"..i].text:SetText(MinArch['artifacts'][i]['race']);
 				MinArchOptionPanel.useKeystones["usekeystone"..i]:SetChecked(MinArchOptions['ABOptions'][i]['AlwaysUseKeystone']);
 			end
-		end
-		
-		MinArchOptionPanel.miscOptions.hideAfter.text:SetText("Auto-Hide After Digsites");
-		MinArchOptionPanel.miscOptions.hideAfter:SetChecked(MinArchOptions['HideAfterDigsite']);
-	
-		MinArchOptionPanel.miscOptions.waitSolve.text:SetText("Wait to Solve Artifacts");
-		if (MinArchOptions['HideAfterDigsite'] == false) then
-			MinArchOptionPanel.miscOptions.waitSolve:Disable();			
-			MinArchOptionPanel.miscOptions.waitSolve.text:SetAlpha(0.5);
-		end
-		MinArchOptionPanel.miscOptions.waitSolve:SetChecked(MinArchOptions['WaitForSolve']);
-		
+		end		
 	end
 end
 
@@ -220,11 +178,39 @@ local general = {
 				}
 			}
 		},
+		autoHide = {
+			type = 'group',
+			name = 'Auto Hide main window',
+			inline = true,
+			order = 3,
+			args = {
+				hideAfterDigsite = {
+					type = "toggle",
+					name = "Auto-Hide after digsites",
+					desc = "Hide Minimal Archaeology after completing a digsite.",
+					get = function () return MinArch.db.profile.hideAfterDigsite end,
+					set = function (_, newValue)
+						MinArch.db.profile.hideAfterDigsite = newValue;
+					end,
+					order = 1,
+				},
+				waitForSolve = {
+					type = "toggle",
+					name = "Wait to solve artifacts",
+					desc = "Wait until all artifacts are solved before auto-hiding.",
+					get = function () return MinArch.db.profile.waitForSolve end,
+					set = function (_, newValue)
+						MinArch.db.profile.waitForSolve = newValue;
+					end,
+					disabled = function () return (MinArch.db.profile.hideAfterDigsite == false) end,
+				}
+			}
+		},
 		dev = {
 			type = 'group',
 			name = 'Developer Options',
 			inline = true,
-			order = 3,
+			order = 4,
 			args = {
 				showStatusMessages = {
 					type = "toggle",
@@ -368,11 +354,6 @@ function Options:OnInitialize()
 		count = count + 1;
 	end
 
-	--[[for i=1, ARCHAEOLOGY_NUM_RACES do
-		-- local name = GetArchaeologyRaceInfo(i);
-		
-	end]]--
-	
 	self:RegisterMenus();
 end
 
