@@ -494,18 +494,6 @@
 					</Anchor>
 				</Anchors>
 				<Frames>
-					<!-- Show Status Messages -->
-					<CheckButton name="$parentShowStatusMessages" inherits="MATBMiscOption" id="6" parentKey="showStatusMessages">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentDisableSound">
-								<Offset>
-									<AbsDimension x="0" y="-20"></AbsDimension>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</CheckButton>
-
-					<!-- Show Status Messages -->
 					<CheckButton name="$parentShowWorldMapOverlay" inherits="MATBMiscOption" id="7" parentKey="showWorldMapOverlay">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parentShowStatusMessages">

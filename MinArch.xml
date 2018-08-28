@@ -43,12 +43,11 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				MinArch:InitMain(self);
 				MinArch:CommonFrameLoad(self);
 			</OnLoad>
 			
 			<OnShow>
-				MinArch:UpdateMain();
+				
 			</OnShow>
 			
 			<OnEvent>

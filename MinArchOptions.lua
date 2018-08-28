@@ -43,9 +43,7 @@ function MinArch:MiscOptionToolTip(MiscID)
 		GameTooltip:AddLine("Hide Minimal Archaeology after completing a digsite.", 1.0, 1.0, 1.0, 1);
 	elseif (MiscID == 5) then
 		GameTooltip:AddLine("Wait until all artifacts are solved before auto-hiding.", 1.0, 1.0, 1.0, 1);
-	elseif (MiscID == 6) then
-		GameTooltip:AddLine("Show Minimal Archaeology status messages in the chat.", 1.0, 1.0, 1.0, 1);
-    elseif (MiscID == 7) then
+	elseif (MiscID == 7) then
 		GameTooltip:AddLine("Show race icons next to digsites on the world map.", 1.0, 1.0, 1.0, 1);
 	end
 	
@@ -74,9 +72,6 @@ end
 
 function MinArch:MiscOptionsToggle()
 	if (MinArchIsReady == true) then
-		-- Show status messages
-		MinArchOptions['ShowStatusMessages'] = MinArchOptionPanel.miscOptions.showStatusMessages:GetChecked()
-
 		-- Show world map overlay icons
 		MinArchOptions['ShowWorldMapOverlay'] = MinArchOptionPanel.miscOptions.showWorldMapOverlay:GetChecked()
 		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
@@ -109,10 +104,6 @@ function MinArch:OpenOptions()
 			end
 		end
 		
-		-- Misc Options
-		MinArchOptionPanel.miscOptions.showStatusMessages.text:SetText("Show status messages");
-		MinArchOptionPanel.miscOptions.showStatusMessages:SetChecked(MinArchOptions['ShowStatusMessages']);
-
 		MinArchOptionPanel.miscOptions.showWorldMapOverlay.text:SetText("Show world map overlay icons");
 		MinArchOptionPanel.miscOptions.showWorldMapOverlay:SetChecked(MinArchOptions['ShowWorldMapOverlay']);
 
@@ -222,6 +213,24 @@ local general = {
 						MinArch:CommonFrameScale(newValue);
 					end,
 					order = 99,
+				}
+			}
+		},
+		dev = {
+			type = 'group',
+			name = 'Developer Options',
+			inline = true,
+			order = 3,
+			args = {
+				showStatusMessages = {
+					type = "toggle",
+					name = "Show status messages",
+					desc = "Show Minimal Archaeology status messages in the chat.",
+					get = function () return MinArch.db.profile.showStatusMessages end,
+					set = function (_, newValue)
+						MinArch.db.profile.showStatusMessages = newValue;
+					end,
+					order = 1,
 				}
 			}
 		}

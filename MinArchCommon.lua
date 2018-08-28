@@ -9,6 +9,7 @@ MinArch.defaults = {
 		startHidden = false,
 		hideMain = false,
 		frameScale = 100,
+		showStatusMessages = false,
 		
 		-- dynamic options
 		raceOptions = {
@@ -181,7 +182,7 @@ function MinArch:GetNearestZoneId(uiMapID)
 end
 
 function MinArch:DisplayStatusMessage(message)
-	if (MinArchOptions['ShowStatusMessages'] == true) then
+	if (MinArch.db.profile.showStatusMessages == true) then
 		ChatFrame1:AddMessage(message);
 	end
 end

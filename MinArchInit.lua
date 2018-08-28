@@ -1,4 +1,9 @@
 function MinArch:InitMain(self)
+	-- Init frame scripts
+	MinArchMain:SetScript('OnShow', function ()
+		MinArch:UpdateMain();
+	end)
+
 	-- Create the artifact bars for the main window
 	for i=1,ARCHAEOLOGY_NUM_RACES do
 		artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
@@ -56,6 +61,10 @@ function MinArch:OnInitialize ()
 	MinArch:SetDynamicDefaults();
 	MinArch:InitDatabase();
 	MinArch:MainEventAddonLoaded();
+
+	MinArch:InitMain(MinArchMain);
+	MinArch:InitHist(MinArchHist);
+	MinArch:InitDigsites(MinArchDigsites);
 
 	-- Add to UISpecialFrames so windows close when the escape button is pressed
 	C_Timer.After(0.5, function()
@@ -115,6 +124,10 @@ function MinArch:UpgradeSettings()
 
 		if (MinArchOptions['FrameScale'] ~= nil) then
 			MinArch.db.profile.frameScale = MinArchOptions['FrameScale'];
+		end
+
+		if (MinArchOptions['ShowStatusMessages'] ~= nil) then
+			MinArch.db.profile.showStatusMessages = MinArchOptions['ShowStatusMessages'];
 		end
 
 		MinArch.db.profile.settingsVersion = 1;

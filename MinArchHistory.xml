@@ -50,7 +50,6 @@
 		<Scripts>
 			<OnLoad>
 				MinArch:CommonFrameLoad(self);
-				MinArch:InitHist(self);
 				self:Hide();
 			</OnLoad>
 			<OnEvent>

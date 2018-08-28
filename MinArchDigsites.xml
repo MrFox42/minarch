@@ -53,7 +53,6 @@
 		<Scripts>
 			<OnLoad>
 				MinArch:CommonFrameLoad(self);
-				MinArch:InitDigsites(self);
 				self:Hide();
 			</OnLoad>
 			<OnEvent>

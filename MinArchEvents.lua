@@ -142,10 +142,6 @@ function MinArch:MainEventAddonLoaded()
 		MinArch:HideMain();
 	end
 
-	if (MinArchOptions['ShowStatusMessages'] == nil) then
-		MinArchOptions['ShowStatusMessages'] = false;
-	end
-
 	if (MinArchOptions['ShowWorldMapOverlay'] == nil) then
 		MinArchOptions['ShowWorldMapOverlay'] = true;
 	end
