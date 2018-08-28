@@ -147,6 +147,10 @@ function MinArch:UpgradeSettings()
 			MinArch.db.profile.waitForSolve = MinArchOptions['WaitForSolve'];
 		end
 
+		if (MinArchOptions['MinimapPos'] ~= nil) then
+			MinArch.db.profile.minimapPos = MinArchOptions['MinimapPos'];
+		end
+
 		MinArch.db.profile.settingsVersion = 1;
 	end
 end

@@ -13,6 +13,7 @@ MinArch.defaults = {
 		showWorldMapOverlay = true,
 		hideAfterDigsite = false,
 		waitForSolve = false,
+		minimapPos = 45,
 		
 		-- dynamic options
 		raceOptions = {

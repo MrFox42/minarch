@@ -129,11 +129,7 @@ end
 
 function MinArch:MainEventAddonLoaded()
 	-- Apply Settins/SavedVariables
-	if (MinArchOptions['MinimapPos'] ~= nil) then
-		MinArch:MinimapButtonReposition();
-	else
-		MinArchOptions['MinimapPos'] = 45;
-	end
+	MinArch:MinimapButtonReposition();
 	
 	if (MinArchOptions['CurrentHistPage'] == nil) then
 		MinArchOptions['CurrentHistPage'] = 1;

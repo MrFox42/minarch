@@ -1,6 +1,6 @@
 -- Minimap Functions
 function MinArch:MinimapButtonReposition()
-	MinArchMinimapButton:SetPoint("TOPLEFT","Minimap","TOPLEFT",52-(80*cos(MinArchOptions.MinimapPos)),(80*sin(MinArchOptions.MinimapPos))-52)
+	MinArchMinimapButton:SetPoint("TOPLEFT","Minimap","TOPLEFT",52-(80*cos(MinArch.db.profile.minimapPos)),(80*sin(MinArch.db.profile.minimapPos))-52)
 end
 
 -- Drag the minimap button
@@ -12,7 +12,7 @@ function MinArch:MinimapButtonDraggingFrameOnUpdate()
 	xpos = xmin-xpos/UIParent:GetScale()+70 -- get coordinates as differences from the center of the minimap
 	ypos = ypos/UIParent:GetScale()-ymin-70
 
-	MinArchOptions.MinimapPos = math.deg(math.atan2(ypos,xpos)) -- save the degrees we are relative to the minimap center
+	MinArch.db.profile.minimapPos = math.deg(math.atan2(ypos,xpos)) -- save the degrees we are relative to the minimap center
 	MinArch:MinimapButtonReposition() -- move the button
 end
 
