@@ -45,7 +45,6 @@
 			<OnClick>
 				MinArch:DimADIButtons();
 				self:SetAlpha(1.0);
-				--MinArchOptions['CurrentHistory'] = 2;
 				MinArch:CreateDigSitesList(2);
 				MinArch:CreateDigSitesList(2);
 			</OnClick>
@@ -80,7 +79,6 @@
 			<OnClick>
 				MinArch:DimADIButtons();
 				self:SetAlpha(1.0);
-				--MinArchOptions['CurrentHistory'] = 3;
 				MinArch:CreateDigSitesList(3);
 				MinArch:CreateDigSitesList(3);
 			</OnClick>
@@ -115,7 +113,6 @@
 			<OnClick>
 				MinArch:DimADIButtons();
 				self:SetAlpha(1.0);
-				--MinArchOptions['CurrentHistory'] = 4;
 				MinArch:CreateDigSitesList(4);
 				MinArch:CreateDigSitesList(4);
 			</OnClick>
@@ -152,7 +149,6 @@
 			<OnClick>
 				MinArch:DimADIButtons();
 				self:SetAlpha(1.0);
-				--MinArchOptions['CurrentHistory'] = 6;
 				MinArch:CreateDigSitesList(6);
 				MinArch:CreateDigSitesList(6);
 			</OnClick>
@@ -187,7 +183,6 @@
 			<OnClick>
 				MinArch:DimADIButtons();
 				self:SetAlpha(1.0);
-				--MinArchOptions['CurrentHistory'] = 7;
 				MinArch:CreateDigSitesList(7);
 				MinArch:CreateDigSitesList(7);
 			</OnClick>
@@ -222,7 +217,6 @@
 			<OnClick>
 				MinArch:DimADIButtons();
 				self:SetAlpha(1.0);
-				--MinArchOptions['CurrentHistory'] = 8;
 				MinArch:CreateDigSitesList(8);
 				MinArch:CreateDigSitesList(8);
 			</OnClick>
@@ -257,7 +251,6 @@
 			<OnClick>
 				MinArch:DimADIButtons();
 				self:SetAlpha(1.0);
-				--MinArchOptions['CurrentHistory'] = 9;
 				MinArch:CreateDigSitesList(9);
 				MinArch:CreateDigSitesList(9);
 			</OnClick>
@@ -292,7 +285,6 @@
 			<OnClick>
 				MinArch:DimADIButtons();
 				self:SetAlpha(1.0);
-				--MinArchOptions['CurrentHistory'] = 10;
 				MinArch:CreateDigSitesList(10);
 				MinArch:CreateDigSitesList(10);
 			</OnClick>

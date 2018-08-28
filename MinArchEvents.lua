@@ -112,7 +112,7 @@ function MinArch:MaineEventHideAfterDigsite()
 		local wait = false;
 		for i=1,ARCHAEOLOGY_NUM_RACES do
 			MinArch:UpdateArtifact(i);
-			if (MinArch['artifacts'][i]['canSolve'] and MinArchOptions['ABOptions'][i]['Hide'] == false) then
+			if (MinArch['artifacts'][i]['canSolve'] and MinArch.db.profile.raceOptions.hide[i] == false) then
 				wait = true;
 			end
 		end
@@ -149,15 +149,6 @@ function MinArch:MainEventAddonLoaded()
 
 	if (MinArch.db.profile.hideMinimapButton) then
 		MinArchMinimapButton:Hide();
-	end
-
-	local i
-	for i=0,ARCHAEOLOGY_NUM_RACES do
-		if (MinArchOptions['ABOptions'][i] == nil) then
-			MinArchOptions['ABOptions'][i] = {}; 
-			MinArchOptions['ABOptions'][i]['Hide'] = false;
-			MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] = false;
-		end
 	end
 
 	-- discard old unknown digsites

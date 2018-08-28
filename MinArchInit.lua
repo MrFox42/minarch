@@ -21,9 +21,6 @@ function MinArch:InitMain(self)
 		MinArch['artifacts'][i] = {}; 
 		MinArch['artifacts'][i]['appliedKeystones'] = 0;
 		MinArch['artifactbars'][i] = artifactBar;
-		MinArchOptions['ABOptions'][i] = {};
-		MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] = false;
-		MinArchOptions['ABOptions'][i]['Hide'] = false;
 	end
 
 	local skillBarTexture = [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]];
@@ -107,6 +104,14 @@ function MinArch:UpgradeSettings()
 		for i=1, ARCHAEOLOGY_NUM_RACES do
 			if (MinArchOptions['ABOptions'][i]['Cap'] ~= nil) then
 				MinArch.db.profile.raceOptions.cap[i] = MinArchOptions['ABOptions'][i]['Cap'];
+			end
+
+			if (MinArchOptions['ABOptions'][i]['Hide'] ~= nil) then
+				MinArch.db.profile.raceOptions.hide[i] = MinArchOptions['ABOptions'][i]['Hide'];
+			end
+
+			if (MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] ~= nil) then
+				MinArch.db.profile.raceOptions.keystone[i] = MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'];
 			end
 		end
 

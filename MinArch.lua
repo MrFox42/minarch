@@ -43,7 +43,7 @@ function MinArch:UpdateArtifact(RaceIndex)
 		
 		-- KeyStones
 		local availablekeystones = 0;
-		if (MinArchOptions['ABOptions'][RaceIndex]['AlwaysUseKeystone']) then
+		if (MinArch.db.profile.raceOptions.keystone[RaceIndex]) then
 			MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 4;
 		end		
 		for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
@@ -151,11 +151,10 @@ function MinArch:UpdateMain()
 		if not MinArch:UpdateArtifact(i) then return end
 		
 		local artifact = MinArch['artifacts'][i];
-		local options = MinArchOptions['ABOptions'][i];
 		
-		if (artifact['total'] > 0 and options['Hide'] == false) then
+		if (artifact['total'] > 0 and MinArch.db.profile.raceOptions.hide[i] == false) then
 			activeBarIndex = activeBarIndex + 1;
-			MinArch:UpdateArtifactBar(i,MinArch['artifactbars'][activeBarIndex]);
+			MinArch:UpdateArtifactBar(i, MinArch['artifactbars'][activeBarIndex]);
 			MinArch['artifactbars'][activeBarIndex]:Show();
 			MinArch['barlinks'][activeBarIndex] = i;
 		end		

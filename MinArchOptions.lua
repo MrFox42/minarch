@@ -1,87 +1,3 @@
--- Options Panel Functions
-
-function MinArch:OptionsLoad()
-	MinArchOptionPanel.AddonName:SetText("Minimal Archaeology");
-	MinArchOptionPanel.AddonVersion:SetText(GetAddOnMetadata("MinimalArchaeology", "Version"));
-	MinArchOptionPanel.name = "Minimal Archaeology";
-	
-	MinArchOptionPanel.hideArtifact.title:SetText("Hide");
-	MinArchOptionPanel.useKeystones.title:SetText("Auto Keystones");
-	MinArchOptionPanel.miscOptions.title:SetText("Miscellaneous Options");
-	
-	MinArchOptionPanel.okay = MinArchOptionPanel:Hide();
-	MinArchOptionPanel.cancel = MinArchOptionPanel:Hide();
-		
-	InterfaceOptions_AddCategory(MinArchOptionPanel);
-end
-
-function MinArch:HideOptionToolTip(HideID)
-	if (MinArchIsReady == true) then
-		GameTooltip:SetOwner(MinArchOptionPanel.hideArtifact, "ANCHOR_TOPLEFT");
-		GameTooltip:AddLine("Hide the "..MinArch['artifacts'][HideID]['race'].." artifact bar even if it has been discovered.", 1.0, 1.0, 1.0, 1);
-		GameTooltip:Show();
-	end
-end
-
-function MinArch:UseKeystoneOptionToolTip(UseKeystoneID)
-	if (MinArchIsReady == true) then
-		local RuneName, _, _, _, _, _, _, _, _, _ = GetItemInfo(MinArch['artifacts'][UseKeystoneID]['raceitemid']);
-		local RaceName = MinArch['artifacts'][UseKeystoneID]['race'];
-		
-		if (RuneName ~= nil and RaceName ~= nil) then
-			GameTooltip:SetOwner(MinArchOptionPanel.useKeystones, "ANCHOR_TOPLEFT");
-			GameTooltip:AddLine("Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.", 1.0, 1.0, 1.0, 1);
-			GameTooltip:Show();
-		end
-	end
-end
-
-function MinArch:HideOptionToggle()
-	if (MinArchIsReady == true) then
-		for i=1, ARCHAEOLOGY_NUM_RACES do
-			MinArchOptions['ABOptions'][i]['Hide'] = MinArchOptionPanel.hideArtifact["hide"..i]:GetChecked()
-		end
-	end
-	MinArch:UpdateMain();
-end
-
-function MinArch:UseKeystoneOptionToggle()
-	if (MinArchIsReady == true) then
-		for i=1, ARCHAEOLOGY_NUM_RACES do
-			if (i ~= ARCHAEOLOGY_RACE_FOSSIL) then -- no keystones for fossils
-				MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] = MinArchOptionPanel.useKeystones["usekeystone"..i]:GetChecked()
-			end
-		end
-	end
-	MinArch:UpdateMain();
-end
-
-function MinArch:OpenOptions()
-	if (MinArchIsReady == true) then
-		MinArch:UpdateMain();
-		for i=1, ARCHAEOLOGY_NUM_RACES do
-			MinArchOptionPanel.hideArtifact["hide"..i].text:SetText(MinArch['artifacts'][i]['race']);
-			MinArchOptionPanel.hideArtifact["hide"..i]:SetChecked(MinArchOptions['ABOptions'][i]['Hide']);
-						
-			if (i ~= ARCHAEOLOGY_RACE_FOSSIL) then
-				MinArchOptionPanel.useKeystones["usekeystone"..i].text:SetText(MinArch['artifacts'][i]['race']);
-				MinArchOptionPanel.useKeystones["usekeystone"..i]:SetChecked(MinArchOptions['ABOptions'][i]['AlwaysUseKeystone']);
-			end
-		end		
-	end
-end
-
--- New Code starts here
-
-function MinArch:CapOptionToggle()
-	if (MinArchIsReady == true) then
-		for i=1, ARCHAEOLOGY_NUM_RACES do
-			MinArchOptions['ABOptions'][i]['Cap'] = MinArch.db.profile.raceOptions.cap[i]
-		end
-	end
-	MinArch:UpdateMain();
-end
-
 assert(MinArch);
 MinArch.Options = MinArch:NewModule("Options");
 
@@ -277,7 +193,7 @@ local ArchRaceGroups = {
 	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
 	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
 	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
-	{ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DRAENEI, ARCHAEOLOGY_RACE_DWARF}
+	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}
 };
 
 function Options:OnInitialize()
@@ -318,11 +234,14 @@ function Options:OnInitialize()
 			raceSettings.args.hide.args[groupkey].args['race' .. tostring(i)] = {
 				type = "toggle",
 				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = "Hide ",
+				desc = function () 
+					return "Hide the "..MinArch['artifacts'][i]['race'].." artifact bar even if it has been discovered."
+				end,
 				order = i,
 				get = function () return MinArch.db.profile.raceOptions.hide[i] end,
 				set = function (_, newValue)
 					MinArch.db.profile.raceOptions.hide[i] = newValue;
+					MinArch:UpdateMain();
 				end,
 			};
 			raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
@@ -335,17 +254,25 @@ function Options:OnInitialize()
 				get = function () return MinArch.db.profile.raceOptions.cap[i] end,
 				set = function (_, newValue)
 					MinArch.db.profile.raceOptions.cap[i] = newValue;
-					MinArch:CapOptionToggle();
+					MinArch:UpdateMain();
 				end,
 			};
 			raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
 				type = "toggle",
 				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = "keystone",
+				desc = function () 
+					local RuneName, _, _, _, _, _, _, _, _, _ = GetItemInfo(MinArch['artifacts'][i]['raceitemid']);
+					local RaceName = MinArch['artifacts'][i]['race'];
+					
+					if (RuneName ~= nil and RaceName ~= nil) then
+						return "Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.";
+					end
+				end,
 				order = i,
 				get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
 				set = function (_, newValue)
 					MinArch.db.profile.raceOptions.keystone[i] = newValue;
+					MinArch:UpdateMain();
 				end,
 				disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
 			};
