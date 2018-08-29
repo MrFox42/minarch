@@ -63,13 +63,13 @@ function MinArch:OnInitialize ()
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
 
-	-- Add to UISpecialFrames so windows close when the escape button is pressed
-	C_Timer.After(0.5, function()
+	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
+	--[[C_Timer.After(0.5, function()
 		tinsert(UISpecialFrames, "MinArchMain");
 		-- TODO: close one by one
 		tinsert(UISpecialFrames, "MinArchHist");
 		tinsert(UISpecialFrames, "MinArchDigsites");
-	end)
+	end)]]--
 	
 end
 
@@ -96,22 +96,24 @@ function MinArch:InitDatabase()
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig");
 	self.db.RegisterCallback(self, "OnDatabaseShutdown", "Shutdown");
 	
-	-- todo: convert old settings
+	MinArch:UpgradeSettings()
 end
 
 function MinArch:UpgradeSettings()
 	if (MinArch.db.profile.settingsVersion == 0) then
 		for i=1, ARCHAEOLOGY_NUM_RACES do
-			if (MinArchOptions['ABOptions'][i]['Cap'] ~= nil) then
-				MinArch.db.profile.raceOptions.cap[i] = MinArchOptions['ABOptions'][i]['Cap'];
-			end
+			if (MinArchOptions['ABOptions'][i] ~= nil) then
+				if (MinArchOptions['ABOptions'][i]['Cap'] ~= nil) then
+					MinArch.db.profile.raceOptions.cap[i] = MinArchOptions['ABOptions'][i]['Cap'];
+				end
 
-			if (MinArchOptions['ABOptions'][i]['Hide'] ~= nil) then
-				MinArch.db.profile.raceOptions.hide[i] = MinArchOptions['ABOptions'][i]['Hide'];
-			end
+				if (MinArchOptions['ABOptions'][i]['Hide'] ~= nil) then
+					MinArch.db.profile.raceOptions.hide[i] = MinArchOptions['ABOptions'][i]['Hide'];
+				end
 
-			if (MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] ~= nil) then
-				MinArch.db.profile.raceOptions.keystone[i] = MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'];
+				if (MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'] ~= nil) then
+					MinArch.db.profile.raceOptions.keystone[i] = MinArchOptions['ABOptions'][i]['AlwaysUseKeystone'];
+				end
 			end
 		end
 
