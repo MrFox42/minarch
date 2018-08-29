@@ -3,7 +3,14 @@
 
 ### 8.0.7 BETA
 
-- Settings menu revamped from the ground up
+- Settings menu revamped from the ground up with profiles support (Your old settings should migrate automatically)
+- Right clicking the minimap icon now correctly opens MinArch settings
+- Added item tooltip for keystones in the main window
+- Keystone count should now update when the player withdraws them from the guild bank
+- Fixed dig site icon misalignment after talking with certain flight masters
+- Fixed Archaeology skill progress bar background
+- Fixed cap for Drust and Zandalari fragments
+- The ping sound now correctly plays when there's a solve available (if sounds are not disabled)
 
 ## Known issues
 

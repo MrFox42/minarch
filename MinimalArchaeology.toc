@@ -15,7 +15,6 @@ embeds.xml
 MATemplates.xml
 MATemplatesHistory.xml
 MATemplatesDigsites.xml
-MATemplatesOptions.xml
 MinArch.xml
 MinArchMinimap.xml
 MinArchHistory.xml
