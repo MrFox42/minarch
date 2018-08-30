@@ -23,6 +23,8 @@ externals:
         url: https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
         tag: latest
 
+enable-nolib-creation: no
+
 manual-changelog:
     filename: CHANGELOG.md
     markup-type: markdown

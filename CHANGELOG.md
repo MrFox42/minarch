@@ -1,7 +1,7 @@
 # Minimal Archaeology
 ## Latest Version
 
-### 8.0.7 BETA
+### 8.0.7
 
 - Settings menu revamped from the ground up with profiles support (Your old settings should migrate automatically)
 - Right clicking the minimap icon now correctly opens MinArch settings
