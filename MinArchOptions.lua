@@ -76,6 +76,7 @@ local general = {
 						MinArch.db.profile.showWorldMapOverlay = newValue;
 						MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 					end,
+					width = "double",
 					order = 4,
 				},
 				scale = {

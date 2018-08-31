@@ -11,6 +11,7 @@
 - Fixed Archaeology skill progress bar background
 - Fixed cap for Drust and Zandalari fragments
 - The ping sound now correctly plays when there's a solve available (if sounds are not disabled)
+- Fixed an issue caused by the default archaeology UI reporting wrong fragment counts
 
 ## Known issues
 
@@ -41,4 +42,4 @@
 - Added support for Zandalari and Drustvari dig sites
 - Fixed dig site window continent tooltips
 - Fixed artifact bar refresh issues
--Fixed sort order for some history items
+- Fixed sort order for some history items

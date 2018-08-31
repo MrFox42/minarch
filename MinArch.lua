@@ -21,7 +21,7 @@ end
 
 function MinArch:UpdateArtifact(RaceIndex)
 	local numArtifacts = GetNumArtifactsByRace(RaceIndex);
-	local rName, rTexture, rItemID, numFragmentsCollected = GetArchaeologyRaceInfo(RaceIndex);
+	local rName, rTexture, rItemID, numFragmentsCollected, projectAmount = GetArchaeologyRaceInfo(RaceIndex);
 
 	-- no data available yet?
 	if numArtifacts == nil or not rName then return nil end
@@ -30,7 +30,7 @@ function MinArch:UpdateArtifact(RaceIndex)
 	MinArch['artifacts'][RaceIndex]['raceitemid'] = rItemID;
 	MinArch['artifacts'][RaceIndex]['raceicon'] = rTexture;
 	
-	if (numArtifacts == 0) then
+	if (numArtifacts == 0 or projectAmount == 0) then
 		MinArch['artifacts'][RaceIndex]['numKeystones'] = 0;
 		MinArch['artifacts'][RaceIndex]['heldKeystones'] = 0;
 		MinArch['artifacts'][RaceIndex]['progress'] = 0;
