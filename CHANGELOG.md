@@ -12,12 +12,13 @@
 
 ## Recent updates
 
-### 8.0.8
+### 8.0.8 - 8.0.8.1
 
 - History window now indicates which artifact is available from the current Legion archaeology questline
 - Auto-show main window in dig sites, on survey, and/or when a solve becomes available
 - Added an option to show more detailed debug messages
 - World map overlay icons are now immediately show/hide when dig sites are toggled on the map
+- **8.0.8.1**: Changing settings profiles should now immediately apply the changes
 
 ### 8.0.7
 

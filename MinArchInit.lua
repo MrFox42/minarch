@@ -86,7 +86,13 @@ end
 
 function MinArch:RefreshConfig()
 	MinArch:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
-	-- TODO
+	
+	MinArch:RefreshMinimapButton();
+	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
+	MinArchShowOnSurvey = true;
+	MinArchShowInDigsite = true;
+	MinArch:UpdateMain();
 end
 
 function MinArch:Shutdown()
