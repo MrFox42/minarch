@@ -31,12 +31,37 @@ function MinArch:EventMain(event, ...)
 		end
 	end
 
+	if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
+		if (MinArch.db.profile.autoShowOnSurvey) then
+			MinArch:ShowMain();
+			MinArchShowOnSurvey = false;
+		end
+	end
+	if ((event == "PLAYER_STOPPED_MOVING" or event == "PLAYER_ENTERING_WORLD") and MinArchShowInDigsite == true) then
+		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite(5)) then
+			MinArch:ShowMain();
+			MinArchShowInDigsite = false;
+		end
+		return
+	end
+
+	if (event == "ARTIFACT_DIGSITE_COMPLETE") then
+		MinArchShowOnSurvey = true;
+		MinArchShowInDigsite = true;
+	end
+
+	if (event == "QUEST_LOG_UPDATE") then
+		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	end
+
 	if (event == "CVAR_UPDATE") then
 		local changedCVAR = ...;
 		if (changedCVAR == "SHOW_DIG_SITES") then
 			MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 		end
 	end
+
+	
 
 	if (MinArchIsReady == true) then
 		C_Timer.After(0.5, function() 
@@ -55,11 +80,11 @@ function MinArch:EventHist(event, ...)
 
 			if allGood then
 				-- all item info available, unregister this event
-				MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").")
+				MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").", MINARCH_MSG_DEBUG)
 				MinArchHist:UnregisterEvent(event)
 			else
 				-- not all item info available, try again when more details have been received
-				MinArch:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").")
+				MinArch:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").", MINARCH_MSG_DEBUG)
 				MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
 				MinArchHist:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
@@ -76,9 +101,11 @@ function MinArch:EventHist(event, ...)
 				end)
 			end
 		else
-			MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").")
+			MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
 		end
 	elseif (event == "RESEARCH_ARTIFACT_UPDATE") then
+		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
+	elseif (event == "QUEST_ACCEPTED" or event == "QUEST_TURNED_IN" or event == "QUEST_REMOVED" or event == "QUESTLINE_UPDATE") then
 		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
 	end
 end

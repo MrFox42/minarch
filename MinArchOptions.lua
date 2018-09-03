@@ -70,7 +70,7 @@ local general = {
 				showWorldMapOverlay = {
 					type = "toggle",
 					name = "Show world map overlay icons",
-					desc = "Show race icons next to digsites on the world map.",
+					desc = "Show race icons next to dig sites on the world map.",
 					get = function () return MinArch.db.profile.showWorldMapOverlay end,
 					set = function (_, newValue)
 						MinArch.db.profile.showWorldMapOverlay = newValue;
@@ -97,14 +97,14 @@ local general = {
 		},
 		autoHide = {
 			type = 'group',
-			name = 'Auto Hide main window',
+			name = 'Auto-hide main window',
 			inline = true,
 			order = 3,
 			args = {
 				hideAfterDigsite = {
 					type = "toggle",
-					name = "Auto-hide after digsites",
-					desc = "Hide Minimal Archaeology after completing a digsite.",
+					name = "Auto-hide after dig sites",
+					desc = "Hide Minimal Archaeology after completing a dig site.",
 					get = function () return MinArch.db.profile.hideAfterDigsite end,
 					set = function (_, newValue)
 						MinArch.db.profile.hideAfterDigsite = newValue;
@@ -123,11 +123,51 @@ local general = {
 				}
 			}
 		},
+		autoShow = {
+			type = 'group',
+			name = 'Auto-show main window',
+			inline = true,
+			order = 4,
+			args = {
+				autoShowOnSurvey = {
+					type = "toggle",
+					name = "Show when surveying",
+					desc = "Auto-show Minimal Archaeology when surveying in a dig site.",
+					get = function () return MinArch.db.profile.autoShowOnSurvey end,
+					set = function (_, newValue)
+						MinArch.db.profile.autoShowOnSurvey = newValue;
+						MinArchShowOnSurvey = true;
+					end,
+					order = 1,
+				},
+				autoShowOnSolve = {
+					type = "toggle",
+					name = "Show for solves",
+					desc = "Auto-show Minimal Archaeology when a solve becomes available.",
+					get = function () return MinArch.db.profile.autoShowOnSolve end,
+					set = function (_, newValue)
+						MinArch.db.profile.autoShowOnSolve = newValue;
+					end,
+					order = 2,
+				},
+				autoShowInDigsites = {
+					type = "toggle",
+					name = "Show in dig sites",
+					desc = "Auto-show Minimal Archaeology when moving around in a dig site.",
+					get = function () return MinArch.db.profile.autoShowInDigsites end,
+					set = function (_, newValue)
+						MinArch.db.profile.autoShowInDigsites = newValue;
+						MinArchShowInDigsite = true;
+					end,
+					order = 3,
+				},
+			}
+		},
 		dev = {
 			type = 'group',
 			name = 'Developer Options',
 			inline = true,
-			order = 4,
+			order = 5,
 			args = {
 				showStatusMessages = {
 					type = "toggle",
@@ -138,6 +178,16 @@ local general = {
 						MinArch.db.profile.showStatusMessages = newValue;
 					end,
 					order = 1,
+				},
+				showDebugMessages = {
+					type = "toggle",
+					name = "Show debug messages",
+					desc = "Show debug messages in the chat. Debug messages show more detailed information about the addon than status messages.",
+					get = function () return MinArch.db.profile.showDebugMessages end,
+					set = function (_, newValue)
+						MinArch.db.profile.showDebugMessages = newValue;
+					end,
+					order = 2,
 				}
 			}
 		}

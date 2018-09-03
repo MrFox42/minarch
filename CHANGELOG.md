@@ -1,6 +1,19 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 8.0.8
+
+- History window now indicates which artifact is available from the current Legion archaeology questline
+- Auto-show main window in dig sites, on survey, and/or when a solve becomes available
+- Added an option to show more detailed debug messages
+- World map overlay icons are now immediately show/hide when dig sites are toggled on the map
+
+## Known issues
+
+- Main window auto-hides after solving an artifact, even if there's another solve available
+
+## Recent updates
+
 ### 8.0.7
 
 - Settings menu revamped from the ground up with profiles support (Your old settings should migrate automatically)
@@ -13,13 +26,7 @@
 - The ping sound now correctly plays when there's a solve available (if sounds are not disabled)
 - Fixed an issue caused by the default archaeology UI reporting wrong fragment counts
 
-## Known issues
-
-- Main window auto-hides after solving an artifact, even if there's another solve available
-
-## Recent updates
-
-### 8.0.6.1
+### 8.0.6.x
 - Fixed a display issue with the progress bars in the main window
 - Dig site zone/subzone is now correctly detected and updated (subzone is only updated when digging)
 - Map overlay dig site icons are now working correctly (they now respect pan and zoom and they're hidden if the dig sites (shovel icons) are hidden
@@ -43,3 +50,7 @@
 - Fixed dig site window continent tooltips
 - Fixed artifact bar refresh issues
 - Fixed sort order for some history items
+
+### 8.0.3
+- Added an option to toggle Minimal Archaeology status messages in the chat (messages are now hidden by default)
+- Made some internal changes to the code related to artifact bars, you should not notice any difference

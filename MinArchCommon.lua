@@ -1,4 +1,5 @@
 local AceAddon = LibStub("AceAddon-3.0");
+
 MinArch = LibStub("AceAddon-3.0"):NewAddon('Minimal Archaeology');
 -- MinArch.db.profile.
 MinArch.defaults = {
@@ -10,10 +11,14 @@ MinArch.defaults = {
 		hideMain = false,
 		frameScale = 100,
 		showStatusMessages = false,
+		showDebugMessages = false,
 		showWorldMapOverlay = true,
 		hideAfterDigsite = false,
 		waitForSolve = false,
 		minimapPos = 45,
+		autoShowOnSurvey = false,
+		autoShowOnSolve = false,
+		autoShowInDigsites = false,
 		
 		-- dynamic options
 		raceOptions = {
@@ -83,6 +88,8 @@ MinArch['ResearchBranchMap'] = {
 
 MinArchHideNext = false;
 MinArchIsReady = false;
+MinArchShowOnSurvey = true;
+MinArchShowInDigsite = true;
 
 SLASH_MINARCH1 = "/minarch"
 SlashCmdList["MINARCH"] = function(msg, editBox)
@@ -185,8 +192,12 @@ function MinArch:GetNearestZoneId(uiMapID)
 	end
 end
 
-function MinArch:DisplayStatusMessage(message)
-	if (MinArch.db.profile.showStatusMessages == true) then
+function MinArch:DisplayStatusMessage(message, msgtype)
+	if (msgtype == MINARCH_MSG_STATUS and MinArch.db.profile.showStatusMessages == true) then
+		ChatFrame1:AddMessage(message);
+	end
+
+	if (msgtype == MINARCH_MSG_DEBUG and MinArch.db.profile.showDebugMessages == true) then
 		ChatFrame1:AddMessage(message);
 	end
 end

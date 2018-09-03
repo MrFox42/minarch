@@ -41,6 +41,8 @@ function MinArch:InitMain(self)
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	self:RegisterEvent("QUEST_LOG_UPDATE");
+	self:RegisterEvent("PLAYER_STOPPED_MOVING");
 	self:RegisterEvent("CVAR_UPDATE"); -- Tracking
 
 	-- Apply SavedVariables
@@ -62,7 +64,6 @@ function MinArch:OnInitialize ()
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
-
 	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
 	--[[C_Timer.After(0.5, function()
 		tinsert(UISpecialFrames, "MinArchMain");
@@ -82,11 +83,11 @@ function MinArch:SetDynamicDefaults ()
 end
 
 function MinArch:RefreshConfig()
-	MinArch:DisplayStatusMessage("RefreshConfig called");
+	MinArch:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
 end
 
 function MinArch:Shutdown()
-	MinArch:DisplayStatusMessage("ShutDown called");
+	MinArch:DisplayStatusMessage("ShutDown called", MINARCH_MSG_DEBUG);
 end
 
 function MinArch:InitDatabase()
@@ -160,6 +161,10 @@ end
 function MinArch:InitHist(self)
 	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
+	self:RegisterEvent("QUEST_ACCEPTED");
+	self:RegisterEvent("QUEST_TURNED_IN");
+	self:RegisterEvent("QUEST_REMOVED");	
+	self:RegisterEvent("QUESTLINE_UPDATE");
 	RequestArtifactCompletionHistory();
 	MinArch:DisplayStatusMessage("Minimal Archaeology History Initialized!");
 end

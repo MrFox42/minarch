@@ -123,10 +123,16 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 	end
 	
 	if (artifact['canSolve']) then
-		if (MinArch.db.profile.disableSound == false and artifact['canSolvePrev'] ~= artifact['canSolve']) then
-			PlaySound(3175, "SFX");
+		if (artifact['canSolvePrev'] ~= artifact['canSolve']) then
+			if (MinArch.db.profile.disableSound == false) then
+				PlaySound(3175, "SFX");
+			end
+			if (MinArch.db.profile.autoShowOnSolve) then
+				MinArch:ShowMain();
+			end
 			artifact['canSolvePrev'] = artifact['canSolve'];
 		end
+
 		ArtifactBar.buttonSolve:Enable();
 	else
 		ArtifactBar.buttonSolve:Disable();
@@ -268,5 +274,21 @@ function MinArch:ToggleMain()
 		MinArch:HideMain()
 	else
 		MinArch:ShowMain()
+	end
+end
+
+function MinArch:ToggleHistory()
+	if (MinArchHist:IsVisible()) then
+		MinArchHist:Hide()
+	else
+		MinArchHist:Show()
+	end
+end
+
+function MinArch:ToggleDigsites()
+	if (MinArchDigsites:IsVisible()) then
+		MinArchDigsites:Hide()
+	else
+		MinArchDigsites:Show()
 	end
 end

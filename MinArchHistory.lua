@@ -38,10 +38,10 @@ function MinArch:LoadItemDetails(RaceID, caller)
 
 	MinArch.HistoryListLoaded[RaceID] = allGood
 	if allGood then
-		-- MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.")
-		-- MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").")
+		MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.", MINARCH_MSG_DEBUG)
+		MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").", MINARCH_MSG_DEBUG)
 	else
-		MinArch:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").")
+		MinArch:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").", MINARCH_MSG_DEBUG)
 	end
 
 	return allGood
@@ -68,13 +68,11 @@ function MinArch:GetHistory(RaceID, caller)
 			if (details.name == name and details.icon ~= icon) then
 				MinArchIconDB[RaceID] = MinArchIconDB[RaceID] or {}
 				MinArchIconDB[RaceID][icon] = details.icon
-				--[[ TODO
-				MinArch:DisplayStatusMessage("Minimal Archaeology - icon discrepancy detected")
-				MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
-				MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name)
-				MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'")
-				MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'")
-				MinArch:DisplayStatusMessage("Please submit a bug report with the contents of this message.")]]--
+				MinArch:DisplayStatusMessage("Minimal Archaeology - icon discrepancy detected", MINARCH_MSG_DEBUG)
+				MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+				MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+				MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+				MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
 				icon = details.icon
 			end
 		end
@@ -87,30 +85,25 @@ function MinArch:GetHistory(RaceID, caller)
 					details.artifactname = name
 					foundCount = foundCount + 1
 					if foundCount > 1 then
-						MinArch:DisplayStatusMessage("Minimal Archaeology - found duplicate #" .. foundCount)
-						MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
-						MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name)
-						MinArch:DisplayStatusMessage("Artifact: " .. name)
-						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'")
-						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'")
-						MinArch:DisplayStatusMessage("Please submit a bug report with the contents of this message.")
+						MinArch:DisplayStatusMessage("Minimal Archaeology - found duplicate #" .. foundCount, MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
 					end
 					
-					--[[
 					--TODO: In the tooltip, display icon/name/info for artifact and all associated item icons
 					-- Change MinArchHistDB to include the alternate item IDs (for example, Orb of Sciallax can give 6 different relics items)
 					-- Gather the name and icon info here.
-					
-					if (details.name ~= name) then
-						MinArch:DisplayStatusMessage("Minimal Archaeology - item and artifact names differ")
-						MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
-						MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name)
-						MinArch:DisplayStatusMessage("Artifact: " .. name)
-						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'")
-						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'")
-						MinArch:DisplayStatusMessage("Please submit a bug report with the contents of this message.")
-					end
-					--]]
+					--[[if (details.name ~= name) then
+						MinArch:DisplayStatusMessage("Minimal Archaeology - item and artifact names differ", MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+					end]]--
 					
 					details.firstcomplete = firstcomplete
 					details.totalcomplete = totalcomplete
@@ -130,15 +123,39 @@ function MinArch:GetHistory(RaceID, caller)
 		end
 		
 		if foundCount == 0 and MinArch:IsItemDetailsLoaded(RaceID) then
-			MinArch:DisplayStatusMessage("Minimal Archaeology - found unknown artifact")
-			MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)))
-			MinArch:DisplayStatusMessage("Artifact: " .. name)
-			MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'")
-			MinArch:DisplayStatusMessage("Please submit a bug report with the contents of this message.")
+			MinArch:DisplayStatusMessage("Minimal Archaeology - found unknown artifact", MINARCH_MSG_DEBUG)
+			MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+			MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
+			MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
 		end
 
 		i=i+1;
 	end
+end
+
+function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
+	local qLineId = MinArchHistDB[RaceID][artifactID]['qline'];
+	if (qLineId == nil) then
+		return false;
+	end
+
+	local availableQuestLines = C_QuestLine.GetAvailableQuestLines(619);
+
+	local qLineQuests = C_QuestLine.GetQuestLineQuests(qLineId);
+	for i=1, #qLineQuests do
+		if (C_QuestLog.IsOnQuest(qLineQuests[i])) then
+			return true, true;
+		end
+
+		
+		for k, quest in pairs(availableQuestLines) do
+			if (quest.questID == qLineQuests[i]) then
+				return true
+			end
+		end
+	end
+	
+	return false
 end
 
 function MinArch:CreateHistoryList(RaceID, caller)
@@ -152,7 +169,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		end
 
 		if allGood then
-			MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now.")
+			MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now.", MINARCH_MSG_DEBUG)
 		else
 			return
 		end
@@ -222,7 +239,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 	for pass = 1, 2, 1 do
 		local height = 0;
 		local count = 0;
-		local currentArtifact, currentFontString, cwidth, cheight, mouseframe
+		local currentArtifact, currentFontString, cwidth, cheight, mouseframe, tmpText
 		
 		for group, gparams in ipairs(groups) do
 			--print ("Group:", group, "rarity:", gparams.rarity, "min:", gparams.goldmin, "max:", gparams.goldmax)
@@ -245,8 +262,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 						scrollc.artifacts[count] = currentArtifact
 					end
 				
-					-- DESCRIPTION
-					
+					-- Description
 					currentFontString = currentArtifact.description
 					currentFontString:SetSize(width, 100)
 					currentFontString:SetFontObject("ChatFontSmall")
@@ -272,8 +288,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 						height = height + PADDING
 					end
 				
-					-- STATUS
-				
+					-- Status
 					currentFontString = currentArtifact.status
 					currentFontString:SetSize(width, 100)
 					currentFontString:SetFontObject("ChatFontSmall")
@@ -296,6 +311,25 @@ function MinArch:CreateHistoryList(RaceID, caller)
 						currentFontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
 					end
 				
+					-- Legion quests
+					local isQuestAvailable = false;
+					local isOnQuest = false;
+					if (RaceID == ARCHAEOLOGY_RACE_DEMONIC or RaceID == ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN or RaceID == ARCHAEOLOGY_RACE_HIGHBORNE) then
+						isQuestAvailable, isOnQuest = MinArch:IsQuestAvailableForArtifact(RaceID, itemid)
+						tmpText = "";
+						if (details.totalcomplete and details.totalcomplete > 0) then
+							tmpText = "#" .. (details.totalcomplete + 1) .. " ";
+						end
+
+						if (isQuestAvailable and isOnQuest) then
+							currentFontString:SetText(tmpText .. "On quest");
+							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
+						elseif (isQuestAvailable) then
+							currentFontString:SetText(tmpText .. "Quest available");
+							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
+						end
+					end
+
 					cwidth = currentFontString:GetStringWidth()
 					currentFontString:SetSize(cwidth + 5, cheight)
 				
@@ -307,9 +341,8 @@ function MinArch:CreateHistoryList(RaceID, caller)
 						currentFontString:SetPoint("RIGHT", scrollc, "RIGHT", statusoffset, 0)
 						currentFontString:SetPoint("TOP", scrollc.artifacts[count - 1].status, "TOP", 0, - PADDING - cheight)
 					end
-					
-					-- PRISTINE
-					
+
+					-- Pristine
 					if MinArch.HasPristine[RaceID] == true then
 						currentFontString = currentArtifact.pristine
 						currentFontString:SetSize(width, 100)
@@ -344,8 +377,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 					height = height + cheight
 					--print("height", height, "cheight", cheight)
 					
-					-- TOOLTIP
-					
+					-- Tooltip					
 					mouseframe = currentArtifact.mouseframe
 					mouseframe:SetSize(width, cheight)
 					mouseframe:SetPoint("BOTTOMRIGHT", currentFontString, "BOTTOMRIGHT", 0, 0)

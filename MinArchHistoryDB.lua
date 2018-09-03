@@ -39,11 +39,11 @@ MinArchIconDB[ARCHAEOLOGY_RACE_DEMONIC] = {
 		["interface\\icons\\inv_archaeology_70_wyrmytunkins"] = "interface\\icons\\inv_pet_wyrmtongue",
 	}
 MinArchHistDB[ARCHAEOLOGY_RACE_DEMONIC] = {
-		[131743] = {}, -- Blood of Young Mannoroth
-		[131724] = {}, -- Crystalline Eye of Undravius
-		[131735] = {}, -- Imp Generator
-		[131732] = {}, -- Purple Hills of Mac'Aree
-		[136922] = {}, -- Wyrmy Tunkins // Infernal Device
+		[131743] = {qline = 330}, -- Blood of Young Mannoroth
+		[131724] = {qline = 321}, -- Crystalline Eye of Undravius
+		[131735] = {qline = 325}, -- Imp Generator
+		[131732] = {qline = 332}, -- Purple Hills of Mac'Aree
+		[136922] = {qline = 327}, -- Wyrmy Tunkins // Infernal Device
 		
 		[130920] = {pqid = 40363}, -- Houndstooth Hauberk
 		[130919] = {pqid = 40362}, -- Orb of Inner Chaos
@@ -54,9 +54,9 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DEMONIC] = {
 
 -- Highmountain Tauren Artifacts
 MinArchHistDB[ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN] = {
-		[131733] = {}, -- Spear of Rethu
-		[131734] = {}, -- Spirit of Eche'ro
-		[131736] = {}, -- Prizerock Neckband
+		[131733] = {qline = 323}, -- Spear of Rethu
+		[131734] = {qline = 333}, -- Spirit of Eche'ro
+		[131736] = {qline = 329}, -- Prizerock Neckband
 		
 		[130915] = {pqid = 40358}, -- Stonewood Bow
 		[130914] = {pqid = 40357}, -- Drogbar Gem-Roller
@@ -71,11 +71,11 @@ MinArchIconDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
 		["interface\\icons\\inv_icon_shadowcouncilorb_purple"] = "interface\\icons\\inv_jewelcrafting_taladiterecrystal",
 	}
 MinArchHistDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
-		[131717] = {}, -- Starlight Beacon
-		[131740] = {}, -- Crown Jewels of Suramar
-		[131745] = {}, -- Key of Kalyndras
-		[131744] = {}, -- Key to Nar'thalas Academy
-		[134078] = {}, -- Dark Shard of Sciallax // Orb of Sciallax gives one of 6 relics
+		[131717] = {qline = 322}, -- Starlight Beacon
+		[131740] = {qline = 324}, -- Crown Jewels of Suramar
+		[131745] = {qline = 326}, -- Key of Kalyndras
+		[131744] = {qline = 331}, -- Key to Nar'thalas Academy
+		[134078] = {qline = 328}, -- Dark Shard of Sciallax // Orb of Sciallax gives one of 6 relics
 		
 		[130910] = {pqid = 40353}, -- Nobleman's Letter Opener
 		[130909] = {pqid = 40352}, -- Pre-War Highborne Tapestry

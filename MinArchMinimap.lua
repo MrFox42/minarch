@@ -19,12 +19,22 @@ end
 -- Hide/Show the minimap button
 function MinArch:MinimapButtonOnClick(self, button, down)
 	if (button == "LeftButton") then
-		if (MinArchMain:IsVisible()) then
-			MinArch:HideMain();
+		local shiftKeyIsDown = IsShiftKeyDown();
+		local ctrlKeyIsDown = IsControlKeyDown();
+
+		if shiftKeyIsDown then
+			MinArch:ToggleHistory();
+		elseif ctrlKeyIsDown then
+			MinArch:ToggleDigsites();
 		else
-			MinArch:ShowMain();
-			MinArchHideNext = false;
+			if (MinArchMain:IsVisible()) then
+				MinArch:HideMain();
+			else
+				MinArch:ShowMain();
+				MinArchHideNext = false;
+			end
 		end
+
 	elseif (button == "RightButton") then
 		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
 		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
