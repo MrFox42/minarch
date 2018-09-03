@@ -64,6 +64,8 @@ function MinArch:OnInitialize ()
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
+
+	MinArch:InitLDB();
 	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
 	--[[C_Timer.After(0.5, function()
 		tinsert(UISpecialFrames, "MinArchMain");
@@ -84,6 +86,7 @@ end
 
 function MinArch:RefreshConfig()
 	MinArch:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
+	-- TODO
 end
 
 function MinArch:Shutdown()
@@ -155,6 +158,12 @@ function MinArch:UpgradeSettings()
 		end
 
 		MinArch.db.profile.settingsVersion = 1;
+	end
+
+	if (MinArch.db.profile.settingsVersion == 1) then
+		MinArch.db.profile.minimap.hide = MinArch.db.profile.hideMinimapButton;
+
+		MinArch.db.profile.settingsVersion = 2;
 	end
 end
 

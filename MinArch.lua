@@ -4,6 +4,7 @@ function MinArch:UpdateArchaeologySkillBar()
 		local name, _, rank, maxRank = GetProfessionInfo(arch);
 		
 		if (rank ~= maxRank) then
+			MinArchMain.skillBar:Show();
 			MinArchMain.skillBar:SetMinMaxValues(0, maxRank);
 			MinArchMain.skillBar:SetValue(rank);
 			MinArchMain.skillBar.text:SetText(name.." "..rank.."/"..maxRank);

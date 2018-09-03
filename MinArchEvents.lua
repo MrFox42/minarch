@@ -156,7 +156,6 @@ end
 
 function MinArch:MainEventAddonLoaded()
 	-- Apply Settins/SavedVariables
-	MinArch:MinimapButtonReposition();
 	
 	if (MinArchOptions['CurrentHistPage'] == nil) then
 		MinArchOptions['CurrentHistPage'] = 1;
@@ -168,10 +167,6 @@ function MinArch:MainEventAddonLoaded()
 	
 	if (MinArch.db.profile.hideMain == true) then
 		MinArch:HideMain();
-	end
-
-	if (MinArch.db.profile.hideMinimapButton) then
-		MinArchMinimapButton:Hide();
 	end
 
 	-- discard old unknown digsites

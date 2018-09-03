@@ -34,15 +34,11 @@ local general = {
 					type = "toggle",
 					name = "Hide Minimap Button",
 					desc = "Hide the minimap button",
-					get = function () return MinArch.db.profile.hideMinimapButton end,
+					get = function () return MinArch.db.profile.minimap.hide end,
 					set = function (_, newValue)
-						MinArch.db.profile.hideMinimapButton = newValue;
+						MinArch.db.profile.minimap.hide = newValue;
 
-						if newValue then
-							MinArchMinimapButton:Hide();
-						else
-							MinArchMinimapButton:Show();
-						end
+						MinArch:RefreshMinimapButton();
 					end,
 					order = 1,
 				},

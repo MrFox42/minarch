@@ -1,18 +1,23 @@
 # Minimal Archaeology
 ## Latest Version
 
-### 8.0.8
+### 8.0.9
 
-- History window now indicates which artifact is available from the current Legion archaeology questline
-- Auto-show main window in dig sites, on survey, and/or when a solve becomes available
-- Added an option to show more detailed debug messages
-- World map overlay icons are now immediately show/hide when dig sites are toggled on the map
+- Minimal Archaeology is now compatible with LibDataBroker-1.1
+- Archaeology skill bar is now immediately displayed when a new skill rank is learned after being maxed out
 
 ## Known issues
 
 - Main window auto-hides after solving an artifact, even if there's another solve available
 
 ## Recent updates
+
+### 8.0.8
+
+- History window now indicates which artifact is available from the current Legion archaeology questline
+- Auto-show main window in dig sites, on survey, and/or when a solve becomes available
+- Added an option to show more detailed debug messages
+- World map overlay icons are now immediately show/hide when dig sites are toggled on the map
 
 ### 8.0.7
 

@@ -5,7 +5,6 @@ MinArch = LibStub("AceAddon-3.0"):NewAddon('Minimal Archaeology');
 MinArch.defaults = {
 	profile = {
 		settingsVersion = 0,
-		hideMinimapButton = false,
 		disableSound = false,
 		startHidden = false,
 		hideMain = false,
@@ -15,10 +14,13 @@ MinArch.defaults = {
 		showWorldMapOverlay = true,
 		hideAfterDigsite = false,
 		waitForSolve = false,
-		minimapPos = 45,
 		autoShowOnSurvey = false,
 		autoShowOnSolve = false,
 		autoShowInDigsites = false,
+		minimap = {
+			minimapPos = 45,
+			hide = false
+		},
 		
 		-- dynamic options
 		raceOptions = {
@@ -31,7 +33,11 @@ MinArch.defaults = {
 			keystone = {
 				
 			}
-		}
+		},
+
+		-- deprecated, left for compatibility
+		hideMinimapButton = false,
+		minimapPos = 45,
 	},	
 }
 
