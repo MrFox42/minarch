@@ -172,8 +172,6 @@ function MinArch:MainEventAddonLoaded()
 
 	if (MinArch.db.profile.hideMinimapButton) then
 		MinArchMinimapButton:Hide();
-	else
-		MinArchMinimapButton:Show();
 	end
 
 	-- discard old unknown digsites
