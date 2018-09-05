@@ -24,28 +24,6 @@
 					</OnLoad>
 				</Scripts>
 			</Frame>
-		
-			<Button name="$parentDrustvariButton" inherits="MATBDrustvari" parentKey="drustvariButton" />
-			<Button name="$parentZandalariButton" inherits="MATBZandalari" parentKey="zandalariButton" />
-			<Button name="$parentDemonicButton" inherits="MATBDemonic" parentKey="demonicButton" />
-			<Button name="$parentHighmountainTaurenButton" inherits="MATBHighmountainTauren" parentKey="highmountainTaurenButton" />
-			<Button name="$parentHighborneButton" inherits="MATBHighborne" parentKey="highborneButton" />
-			<Button name="$parentOgreButton" inherits="MATBOgre" parentKey="ogreButton" />
-			<Button name="$parentDraenorClansButton" inherits="MATBDraenorClans" parentKey="draenorClansButton" />
-			<Button name="$parentArakkoaButton" inherits="MATBArakkoa" parentKey="arakkoaButton" />
-			<Button name="$parentMoguButton" inherits="MATBMogu" parentKey="moguButton" />
-			<Button name="$parentPandarenButton" inherits="MATBPandaren" parentKey="pandarenButton" />
-			<Button name="$parentMantidButton" inherits="MATBMantid" parentKey="mantidButton" />
-			<Button name="$parentVrykulButton" inherits="MATBVrykul" parentKey="vrykulButton" />
-			<Button name="$parentTrollButton" inherits="MATBTroll" parentKey="trollButton" />
-			<Button name="$parentTolvirButton" inherits="MATBTolvir" parentKey="tolvirButton" />
-			<Button name="$parentOrcButton" inherits="MATBOrc" parentKey="orcButton" />
-			<Button name="$parentNerubianButton" inherits="MATBNerubian" parentKey="nerubianButton" />
-			<Button name="$parentNightElfButton" inherits="MATBNightElf" parentKey="nightelfButton" />
-			<Button name="$parentFossilButton" inherits="MATBFossil" parentKey="fossilButton" />
-			<Button name="$parentDraeneiButton" inherits="MATBDraenei" parentKey="draeneiButton" />
-			<Button name="$parentDwarfButton" inherits="MATBDwarf" parentKey="dwarfButton" />
-			
 		</Frames>
 		<Scripts>
 			<OnLoad>

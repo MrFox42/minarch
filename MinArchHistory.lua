@@ -20,7 +20,7 @@ function MinArch:LoadItemDetails(RaceID, caller)
 			newItemCount = newItemCount + 1
 
 			local name, _, rarity, _, _, _, _, _, _, icon, sellPrice = GetItemInfo(itemid);
-
+			
 			if name ~= nil and icon ~= nil then
 				details.name = name
 				details.rarity = rarity
@@ -51,7 +51,7 @@ function MinArch:GetHistory(RaceID, caller)
 	local i = 1
 	while true do
 		local name, desc, rarity, icon, spelldesc, itemrare, _, spellId, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, i)
-		
+
 		if not name then
 			break
 		end
@@ -225,12 +225,13 @@ function MinArch:CreateHistoryList(RaceID, caller)
 	scrollc.artifacts = scrollc.artifacts or {};
 
 	local groups = {
-		[1]={rarity=4},
-		[2]={rarity=3},
-		[3]={rarity=2},
-		[4]={rarity=0,goldmin=500000}, -- put the Crown Jewels of Suramar higher up in the list
-		[5]={rarity=1},
-		[6]={rarity=0,goldmax=500000},
+		[1]={rarity=7},
+		[2]={rarity=4},
+		[3]={rarity=3},
+		[4]={rarity=2},
+		[5]={rarity=0,goldmin=500000}, -- put the Crown Jewels of Suramar higher up in the list
+		[6]={rarity=1},
+		[7]={rarity=0,goldmax=500000},
 	}
 
 	-- Calculate all font strings twice, because measurements are wrong if they are done only once.
@@ -443,26 +444,11 @@ function MinArch:CreateHistoryList(RaceID, caller)
 end
 
 function MinArch:DimHistoryButtons()
-	MinArchHist.drustvariButton:SetAlpha(0.5);
-	MinArchHist.zandalariButton:SetAlpha(0.5);
-	MinArchHist.demonicButton:SetAlpha(0.5);
-	MinArchHist.highmountainTaurenButton:SetAlpha(0.5);
-	MinArchHist.highborneButton:SetAlpha(0.5);
-	MinArchHist.draeneiButton:SetAlpha(0.5);
-	MinArchHist.fossilButton:SetAlpha(0.5);
-	MinArchHist.nightelfButton:SetAlpha(0.5);
-	MinArchHist.nerubianButton:SetAlpha(0.5);
-	MinArchHist.orcButton:SetAlpha(0.5);
-	MinArchHist.tolvirButton:SetAlpha(0.5);
-	MinArchHist.trollButton:SetAlpha(0.5);
-	MinArchHist.vrykulButton:SetAlpha(0.5);
-	MinArchHist.mantidButton:SetAlpha(0.5);
-	MinArchHist.pandarenButton:SetAlpha(0.5);
-	MinArchHist.moguButton:SetAlpha(0.5);
-	MinArchHist.arakkoaButton:SetAlpha(0.5);
-	MinArchHist.draenorClansButton:SetAlpha(0.5);
-	MinArchHist.ogreButton:SetAlpha(0.5);
-	MinArchHist.dwarfButton:SetAlpha(0.5);
+	for i=1, ARCHAEOLOGY_NUM_RACES do
+		if (MinArch.raceButtons[i]) then
+			MinArch.raceButtons[i]:SetAlpha(0.5);
+		end
+	end
 end
 
 function MinArch:HistoryTooltip(self, RaceID, ItemID)
@@ -513,7 +499,7 @@ function MinArch:HistoryTooltip(self, RaceID, ItemID)
 end
 
 function MinArch:HistoryButtonTooltip(RaceID)
-	GameTooltip:SetOwner(MinArchHist, "ANCHOR_TOPLEFT");
+	GameTooltip:SetOwner(MinArch.raceButtons[RaceID], "ANCHOR_TOPLEFT");
 	GameTooltip:AddLine((MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), 1.0, 1.0, 1.0, 1.0)
 	GameTooltip:Show();
 end

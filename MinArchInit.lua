@@ -181,7 +181,73 @@ function MinArch:InitHist(self)
 	self:RegisterEvent("QUEST_REMOVED");	
 	self:RegisterEvent("QUESTLINE_UPDATE");
 	RequestArtifactCompletionHistory();
+
+	MinArch:InitRaceButtons(self);
+
+	self:SetScript("OnShow", function ()
+		MinArch:DimHistoryButtons();
+		MinArch.raceButtons[MinArchOptions['CurrentHistPage']]:SetAlpha(1.0);
+		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
+	end)
+
 	MinArch:DisplayStatusMessage("Minimal Archaeology History Initialized!");
+end
+
+function MinArch:InitRaceButtons(self)
+	local baseX = 15;
+	local baseY = -15;
+	local currX = baseX;
+	local currY = baseY;
+	local sizeX = 25;
+	local sizeY = 25;
+	local lineBreak = 10;
+
+	for i=1, ARCHAEOLOGY_NUM_RACES do
+		if (MinArchRaceConfig[i] ~= nil) then
+			local raceButton = CreateFrame("Button", "MinArchRaceButton" .. i, self);
+			raceButton:SetPoint("TOPLEFT", self, "TOPLEFT", currX, currY);
+			currX = currX + sizeX;
+			
+			if (i == 10) then
+				currX = baseX;
+				currY = currY - sizeY;
+			end
+			raceButton:SetSize(sizeX, sizeY);
+			raceButton:SetNormalTexture(MinArchRaceConfig[i].texture);
+			raceButton:GetNormalTexture():SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
+			raceButton:GetNormalTexture():SetSize(sizeX, sizeY);
+			
+			raceButton:SetPushedTexture(MinArchRaceConfig[i].texture);
+			raceButton:GetPushedTexture():SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
+			raceButton:GetPushedTexture():SetSize(sizeX, sizeY);
+			
+			raceButton:SetHighlightTexture(MinArchRaceConfig[i].texture);
+			raceButton:GetHighlightTexture():SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
+			raceButton:GetHighlightTexture():SetSize(sizeX, sizeY);
+			raceButton:GetHighlightTexture().alphaMode = "ADD";
+
+			raceButton:SetScript("OnClick", function (self) 
+				MinArch:DimHistoryButtons();
+				self:SetAlpha(1.0);
+				MinArchOptions['CurrentHistPage'] = i;
+				MinArch:CreateHistoryList(i);
+			end)
+
+			raceButton:SetScript("OnEnter", function () 
+				MinArch:HistoryButtonTooltip(i)
+			end)
+
+			raceButton:SetScript("OnLeave", function () 
+				GameTooltip:Hide();
+			end)
+
+			MinArch.raceButtons[i] = raceButton;
+		end
+	end
+end
+
+function MinArch:RefreshRaceButtons()
+
 end
 
 function MinArch:InitDigsites(self)

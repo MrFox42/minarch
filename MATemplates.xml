@@ -188,50 +188,7 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-			    MinArch:DimHistoryButtons();
-				if (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_DWARF) then
-					MinArchHist.dwarfButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_DRAENEI) then
-					MinArchHist.draeneiButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_FOSSIL) then
-					MinArchHist.fossilButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_NIGHTELF) then
-					MinArchHist.nightelfButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_NERUBIAN) then
-					MinArchHist.nerubianButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_ORC) then
-					MinArchHist.orcButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_TOLVIR) then
-					MinArchHist.tolvirButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_TROLL) then
-					MinArchHist.trollButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_VRYKUL) then
-					MinArchHist.vrykulButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_MANTID) then
-					MinArchHist.mantidButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_PANDAREN) then
-					MinArchHist.pandarenButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_MOGU) then
-					MinArchHist.moguButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_ARAKKOA) then
-					MinArchHist.arakkoaButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_DRAENOR) then
-					MinArchHist.draenorClansButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_OGRE) then
-					MinArchHist.ogreButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_DEMONIC) then
-					MinArchHist.demonicButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN) then
-					MinArchHist.highmountainTaurenButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_HIGHBORNE) then
-					MinArchHist.highborneButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_ZANDALARI) then
-					MinArchHist.zandalariButton:SetAlpha(1.0);
-				elseif (MinArchOptions['CurrentHistPage'] == ARCHAEOLOGY_RACE_DRUSTVARI) then
-					MinArchHist.drustvariButton:SetAlpha(1.0);
-				end
-				MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
-				MinArchHist:Show();
+			    MinArchHist:Show();
 			</OnClick>
 		</Scripts>
 		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\HistButtonUp.tga"/>
