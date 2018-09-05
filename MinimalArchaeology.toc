@@ -12,7 +12,7 @@
 
 embeds.xml
 
-MinArchStatic.lua
+MinArchDefines.lua
 MATemplates.xml
 MATemplatesDigsites.xml
 MinArch.xml

@@ -3,7 +3,7 @@
 
 	<Script file="MinArchInit.lua"/>
 	<Script file="MinArchEvents.lua"/>
-	<Script file="MinArch.lua"/>
+	<Script file="MinArchMain.lua"/>
 	
 	<Frame name="MinArchMain"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
 		<size x="300" y="560" />
