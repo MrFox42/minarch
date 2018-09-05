@@ -277,19 +277,3 @@ function MinArch:ToggleMain()
 		MinArch:ShowMain()
 	end
 end
-
-function MinArch:ToggleHistory()
-	if (MinArchHist:IsVisible()) then
-		MinArchHist:Hide()
-	else
-		MinArchHist:Show()
-	end
-end
-
-function MinArch:ToggleDigsites()
-	if (MinArchDigsites:IsVisible()) then
-		MinArchDigsites:Hide()
-	else
-		MinArchDigsites:Show()
-	end
-end

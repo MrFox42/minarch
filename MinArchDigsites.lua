@@ -1,6 +1,6 @@
 MinArchScrollDS = {}
-MinArchDigsitesDB = {}		-- old dig site info per character
-MinArchDigsitesGlobalDB = {}	-- global dig site information
+MinArchDigsitesDB = {} -- old dig site info per character
+MinArchDigsitesGlobalDB = {} -- global dig site information
 MinArchMapFrames = {}
 
 MinArchDigsitesGlobalDB["continent"] = {
@@ -614,3 +614,10 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	tooltip:Show();
 end
 
+function MinArch:ToggleDigsites()
+	if (MinArchDigsites:IsVisible()) then
+		MinArchDigsites:Hide()
+	else
+		MinArchDigsites:Show()
+	end
+end

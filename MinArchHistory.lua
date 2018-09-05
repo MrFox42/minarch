@@ -503,3 +503,11 @@ function MinArch:HistoryButtonTooltip(RaceID)
 	GameTooltip:AddLine((MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), 1.0, 1.0, 1.0, 1.0)
 	GameTooltip:Show();
 end
+
+function MinArch:ToggleHistory()
+	if (MinArchHist:IsVisible()) then
+		MinArchHist:Hide()
+	else
+		MinArchHist:Show()
+	end
+end
