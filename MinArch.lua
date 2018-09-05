@@ -31,7 +31,7 @@ MinArch.ContIDMap = {
 	[876] = 9, -- Kul Tiras
 	[875] = 10, -- Zandalar
 
-	-- alternate ids
+	-- alternate ids -- TODO: separate
 	[993] = 8, -- Broken Isles
 	[1014] = 9, -- Kul Tiras
 	[1011] = 10, -- Zandalar

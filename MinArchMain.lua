@@ -60,7 +60,7 @@ function MinArch:UpdateArtifact(RaceIndex)
 		local progress, modifier, total = GetArtifactProgress();
 		
 		MinArch['artifacts'][RaceIndex]['numKeystones'] = numKeystones;
-		MinArch['artifacts'][RaceIndex]['heldKeystones'] =  GetItemCount(rItemID, false, false);
+		MinArch['artifacts'][RaceIndex]['heldKeystones'] = GetItemCount(rItemID, false, false);
 		MinArch['artifacts'][RaceIndex]['progress'] = progress;
 		MinArch['artifacts'][RaceIndex]['modifier'] = modifier;
 		MinArch['artifacts'][RaceIndex]['total'] = total;

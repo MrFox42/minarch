@@ -43,6 +43,9 @@ function MinArch:InitMain(self)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("QUEST_LOG_UPDATE");
 	self:RegisterEvent("PLAYER_STOPPED_MOVING");
+	self:RegisterEvent("ZONE_CHANGED");
+	self:RegisterEvent("ZONE_CHANGED_INDOORS");
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 	self:RegisterEvent("CVAR_UPDATE"); -- Tracking
 
 	-- Apply SavedVariables

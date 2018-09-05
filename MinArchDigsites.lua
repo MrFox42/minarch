@@ -412,6 +412,57 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
 end
 
+function MinArch:GetNearestDigsite()
+	if (IsInInstance()) then
+		return false;
+	end
+
+	local nearestDistance = nil;
+	local nearestDigSite = nil;
+	local nearestDigSiteDetails = nil;
+	local ax = 0;
+	local ay = 0;
+	local ContID = MinArch:GetInternalContId();
+
+	local uiMapID = MinArch:GetUiMapIdByContId(ContID);
+	if (ContID == nil or uiMapID == nil) then
+		return false;
+	end
+	
+	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player");
+	if (playerPos == nil) then
+		return false;
+	end
+
+	local contId, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, playerPos);
+
+	ax = playerPos.x * 100;
+	ay = playerPos.y * 100;
+
+	for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
+		local name = tostring(digsite.name)
+		local digsitex = digsite.position.x * 100;
+		local digsitey = digsite.position.y * 100;
+
+		local xd = math.abs(ax - tonumber(digsitex));
+		local yd = math.abs(ay - tonumber(digsitey));
+		local d = math.sqrt((xd*xd)+(yd*yd));
+
+		if (MinArchDigsitesDB["continent"][ContID][name] and MinArchDigsitesDB["continent"][ContID][name]["status"] == true) then
+			if (nearestDigSite == nil) then
+				nearestDigSite = name;
+				nearestDistance = d;				
+			elseif (d < nearestDistance) then
+				nearestDigSite = name;
+				nearestDistance = d;
+			end
+			nearestDigSiteDetails = MinArchDigsitesGlobalDB["continent"][ContID][nearestDigSite];
+		end
+	end
+
+	return nearestDigSite, nearestDistance, nearestDigSiteDetails;
+end
+
 function MinArch:IsNearDigSite (distance)
 	if (IsInInstance()) then
 		return false;

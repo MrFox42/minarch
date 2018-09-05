@@ -1,3 +1,5 @@
+local eventTimer = nil;
+
 function MinArch:EventMain(event, ...)
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArchHideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();
@@ -29,6 +31,7 @@ function MinArch:EventMain(event, ...)
 		if (MinArch.RacesLoaded == false) then
 			MinArch:LoadRaceInfo();
 		end
+		MinArch:RefreshMinimapButton(event);
 	end
 
 	if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
@@ -61,11 +64,20 @@ function MinArch:EventMain(event, ...)
 		end
 	end
 
-	
+	if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
+		MinArch:RefreshMinimapButton(event);
+		return
+	end
 
 	if (MinArchIsReady == true) then
-		C_Timer.After(0.5, function() 
+		if (eventTimer ~= nil) then
+			eventTimer:Cancel();
+		end
+
+		eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
+			MinArch:RefreshMinimapButton();
+			eventTimer = nil;
 		end)
 	end
 end
@@ -96,7 +108,7 @@ function MinArch:EventHist(event, ...)
 			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event);
 			
 			if (MinArchIsReady == true) then
-				C_Timer.After(0.5, function() 
+				C_Timer.After(0.5, function()
 					MinArch:UpdateMain();
 				end)
 			end

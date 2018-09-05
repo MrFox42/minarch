@@ -14,6 +14,22 @@ function MinArch:RefreshMinimapButton()
 	else
 		icon:Show("MinArch");
 	end
+
+	local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
+	if (digSiteData) then
+		local text = digSiteData.race;
+
+		local raceID = MinArch:GetRaceIdByName(digSiteData.race);
+		if (MinArch['artifacts'][raceID]) then
+			if (MinArch['artifacts'][raceID]['canSolve']) then
+			    text = text .. " (Solvable)";
+			elseif (MinArch['artifacts'][raceID]['progress'] ~= nil and MinArch['artifacts'][raceID]['total'] ~= nil) then
+				text = text .. " " .. MinArch['artifacts'][raceID]['progress'] .. "/" .. MinArch['artifacts'][raceID]['total'];
+			end
+		end
+
+		dataobj.text = text;
+	end
 end
 
 -- Hide/Show the minimap button

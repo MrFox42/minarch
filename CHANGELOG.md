@@ -7,6 +7,7 @@
 - Archaeology skill bar is now immediately displayed when a new skill rank is learned after being maxed out
 - Spear of Rethu is now correctly appears in the list of Highmountain Tauren artifacts
 - History window race buttons code completely rewritten, normally you should not notice any difference
+- Optimized CPU usage
 
 ## Known issues
 
