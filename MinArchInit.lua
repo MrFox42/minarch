@@ -56,6 +56,10 @@ function MinArch:InitMain(self)
 end
 
 function MinArch:OnInitialize ()
+	for i=1, ARCHAEOLOGY_NUM_RACES do
+		MinArch.barlinks[i] = {};
+	end
+
 	-- Initialize Settings Database
 	MinArch:SetDynamicDefaults();
 	MinArch:InitDatabase();

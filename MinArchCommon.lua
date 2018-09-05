@@ -42,18 +42,18 @@ MinArch.defaults = {
 }
 
 -- MinArch = {};
-MinArch['artifacts'] = {};
-MinArch['artifactbars'] = {};
-MinArch['barlinks'] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}; -- TODO
+MinArch.artifacts = {};
+MinArch.artifactbars = {};
+MinArch.barlinks = {};
 MinArch.raceButtons = {};
 MinArch['frame'] = {};
 MinArchOptions = {};
-MinArchOptions['ABOptions'] = {};
-MinArch['activeUiMapID'] = 12;
-MinArch['ArchaeologyRaces'] = {};
-MinArch['MapContinents'] = {};
-MinArch['RacesLoaded'] = false;
-MinArch['ContIDMap'] = {
+MinArchOptions.ABOptions = {};
+MinArch.activeUiMapID = 12;
+MinArch.ArchaeologyRaces = {};
+MinArch.MapContinents = {};
+MinArch.RacesLoaded = false;
+MinArch.ContIDMap = {
 	[12] = 1, -- Kalimdor
 	[13] = 2, -- EK
 	[101] = 3, -- Outland
@@ -70,7 +70,7 @@ MinArch['ContIDMap'] = {
 	[1014] = 9, -- Kul Tiras
 	[1011] = 10, -- Zandalar
 };
-MinArch['ResearchBranchMap'] = {
+MinArch.ResearchBranchMap = {
 	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
 	[2] = ARCHAEOLOGY_RACE_DRAENEI, -- Draenei
 	[3] = ARCHAEOLOGY_RACE_FOSSIL, -- Fossil
