@@ -5,7 +5,7 @@ local Options = MinArch.Options;
 local parent = MinArch;
 
 local general = {
-	name = "Minimal Archaeology",
+	name = "Minimal Archaeology v" .. GetAddOnMetadata("MinimalArchaeology", "Version"),
 	handler = MinArch,
 	type = "group",
 	args = {

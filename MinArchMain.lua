@@ -212,8 +212,6 @@ function MinArch:ShowArtifactTooltip(BarIndex)
 		end
 	end
 	
-	
-	
 	MinArchTooltipIcon:Show();
 	GameTooltip:Show();
 end
