@@ -31,7 +31,7 @@ function MinArch:EventMain(event, ...)
 		if (MinArch.RacesLoaded == false) then
 			MinArch:LoadRaceInfo();
 		end
-		MinArch:RefreshMinimapButton(event);
+		MinArch:RefreshLDBButton(event);
 	end
 
 	if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
@@ -65,7 +65,7 @@ function MinArch:EventMain(event, ...)
 	end
 
 	if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
-		MinArch:RefreshMinimapButton(event);
+		MinArch:RefreshLDBButton(event);
 		return
 	end
 
@@ -76,7 +76,7 @@ function MinArch:EventMain(event, ...)
 
 		eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
-			MinArch:RefreshMinimapButton();
+			MinArch:RefreshLDBButton();
 			eventTimer = nil;
 		end)
 	end

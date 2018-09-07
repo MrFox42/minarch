@@ -9,12 +9,15 @@ function MinArch:InitLDB()
 end
 
 function MinArch:RefreshMinimapButton()
+	icon:Refresh("MinArch", MinArch.db.profile.minimap)
 	if (MinArch.db.profile.minimap.hide) then
 		icon:Hide("MinArch");
 	else
 		icon:Show("MinArch");
 	end
+end
 
+function MinArch:RefreshLDBButton()
 	local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 	if (digSiteData) then
 		local text = digSiteData.race;

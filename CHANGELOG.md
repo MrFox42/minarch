@@ -9,6 +9,7 @@
 - History window race buttons code completely rewritten, normally you should not notice any difference
 - Optimized CPU usage
 - **8.0.9.1** DataBroker tooltip now properly shows amounts when a keystone is applied
+- **8.0.9.2** Minimap button should no longer behave oddly with minimap button addons 
 
 ## Known issues
 
