@@ -24,7 +24,11 @@ function MinArch:RefreshMinimapButton()
 			if (MinArch['artifacts'][raceID]['canSolve']) then
 			    text = text .. " (Solvable)";
 			elseif (MinArch['artifacts'][raceID]['progress'] ~= nil and MinArch['artifacts'][raceID]['total'] ~= nil) then
-				text = text .. " " .. MinArch['artifacts'][raceID]['progress'] .. "/" .. MinArch['artifacts'][raceID]['total'];
+				local progress = MinArch['artifacts'][raceID]['progress'];
+				if (MinArch['artifacts'][raceID]['appliedKeystones'] > 0) then
+					progress = progress + MinArch['artifacts'][raceID]['modifier']
+				end
+				text = text .. " " .. progress .. "/" .. MinArch['artifacts'][raceID]['total'];
 			end
 		end
 
@@ -64,7 +68,7 @@ end
 function dataobj:OnEnter()
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
-	GameTooltip:ClearLines()
+	GameTooltip:ClearLines();
 	GameTooltip:AddLine("Minimal Arcaeology", 1, 0.819, 0.003);
 	
 	
