@@ -177,6 +177,7 @@ function MinArch:UpdateMain()
 	end
 		
 	MinArchMain:SetHeight(MinArchFrameHeight);
+	MinArch:RefreshLDBButton();
 end
 
 function MinArch:ShowArtifactTooltip(BarIndex)
@@ -255,7 +256,7 @@ function MinArch:KeystoneClick(self, button, down)
 		
 	MinArch:UpdateArtifact(artifactIndex);
 	MinArch:UpdateArtifactBar(artifactIndex,MinArch['artifactbars'][self:GetID()]);
-	
+	MinArch:RefreshLDBButton();
 end
 
 function MinArch:HideMain()

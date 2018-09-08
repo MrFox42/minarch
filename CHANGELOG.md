@@ -8,8 +8,9 @@
 - Spear of Rethu is now correctly appears in the list of Highmountain Tauren artifacts
 - History window race buttons code completely rewritten, normally you should not notice any difference
 - Optimized CPU usage
-- **8.0.9.1** DataBroker tooltip now properly shows amounts when a keystone is applied
+- **8.0.9.1** DataBroker button now properly shows amounts when a keystone is applied
 - **8.0.9.2** Minimap button should no longer behave oddly with minimap button addons 
+- **8.0.9.3** DataBroker button should now update properly when settings changed or keystones  clicked
 
 ## Known issues
 
