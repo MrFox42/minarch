@@ -36,9 +36,10 @@ function MinArch:InitMain(self)
 	self:RegisterEvent("PLAYER_ALIVE");
 	self:RegisterEvent("LOOT_CLOSED");
 	self:RegisterEvent("BAG_UPDATE");
-	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+	-- self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("ARCHAEOLOGY_FIND_COMPLETE");
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
+	self:RegisterEvent("ARCHAEOLOGY_CLOSED"); 
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("QUEST_LOG_UPDATE");
@@ -201,7 +202,7 @@ function MinArch:InitHist(self)
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("QUEST_REMOVED");	
 	self:RegisterEvent("QUESTLINE_UPDATE");
-	RequestArtifactCompletionHistory();
+	-- RequestArtifactCompletionHistory();
 
 	MinArch:InitRaceButtons(self);
 
@@ -291,6 +292,7 @@ function MinArch:InitDigsites(self)
 	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
 	hooksecurefunc(MapCanvasScrollControllerMixin, "ZoomIn", MinArch_FlightMapZoomIn);
 	hooksecurefunc(MapCanvasScrollControllerMixin, "ZoomOut", MinArch_FlightMapZoomOut);
+	hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
 end
@@ -328,4 +330,10 @@ function MinArch_FlightMapZoomIn()
 end
 function MinArch_FlightMapZoomOut()
 	MinArch:ShowRaceIconsOnMap(FlightMapFrame.mapID);
+end
+function MinArch_ShowUIPanel(...)
+	local panel = ...;
+	if (panel:GetName() == "ArchaeologyFrame") then
+		MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+	end
 end

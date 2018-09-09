@@ -11,6 +11,7 @@
 - **8.0.9.1** DataBroker button now properly shows amounts when a keystone is applied
 - **8.0.9.2** Minimap button should no longer behave oddly with minimap button addons 
 - **8.0.9.3** DataBroker button should now update properly when settings changed or keystones  clicked
+- **8.0.9.4** History window updates should now be more reliable
 
 ## Known issues
 
