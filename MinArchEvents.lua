@@ -1,4 +1,5 @@
 local eventTimer = nil;
+local histEventTimer = nil;
 
 function MinArch:EventMain(event, ...)
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArchHideNext == true) then
@@ -11,22 +12,22 @@ function MinArch:EventMain(event, ...)
 		MinArch:HideMain();
 		MinArchHideNext = false;
 		
-		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
-		RequestArtifactCompletionHistory();
+		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--RequestArtifactCompletionHistory();
 	elseif (event == "PLAYER_ALIVE" or event == "RESEARCH_ARTIFACT_COMPLETE") then
-		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
-		RequestArtifactCompletionHistory();
+		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--RequestArtifactCompletionHistory();
 	elseif (event == "ADDON_LOADED" and MinArch ~= nil and MinArchIsReady ~= true) then
 		-- MinArch:MainEventAddonLoaded(); -- TODO remove this if everything checks out
 	elseif (event == "ADDON_LOADED") then
 		local addonname = ...;
 		
 		if (addonname == "Blizzard_ArchaeologyUI") then
-			MinArchMain:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+			MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
 		
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
-		MinArchMain:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		if (MinArch.RacesLoaded == false) then
 			MinArch:LoadRaceInfo();
@@ -40,8 +41,8 @@ function MinArch:EventMain(event, ...)
 			MinArchShowOnSurvey = false;
 		end
 	end
-	if ((event == "PLAYER_STOPPED_MOVING" or event == "PLAYER_ENTERING_WORLD") and MinArchShowInDigsite == true) then
-		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite(5)) then
+	if ((event == "PLAYER_STOPPED_MOVING" or event == "PLAYER_ENTERING_WORLD")) then
+		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite(5) and MinArchShowInDigsite == true) then
 			MinArch:ShowMain();
 			MinArchShowInDigsite = false;
 		end
@@ -55,6 +56,7 @@ function MinArch:EventMain(event, ...)
 
 	if (event == "QUEST_LOG_UPDATE") then
 		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+		return;
 	end
 
 	if (event == "CVAR_UPDATE") then
@@ -77,12 +79,14 @@ function MinArch:EventMain(event, ...)
 		eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
 			MinArch:RefreshLDBButton();
+			RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
 	end
 end
 
 function MinArch:EventHist(event, ...)
+	local updateHistory = false;
 	if (event == "RESEARCH_ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
@@ -93,11 +97,12 @@ function MinArch:EventHist(event, ...)
 			if allGood then
 				-- all item info available, unregister this event
 				MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").", MINARCH_MSG_DEBUG)
-				MinArchHist:UnregisterEvent(event)
+				-- MinArchHist:UnregisterEvent(event)
+				MinArchHist:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
 			else
 				-- not all item info available, try again when more details have been received
 				MinArch:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").", MINARCH_MSG_DEBUG)
-				MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
+				-- MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
 				MinArchHist:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
 			end
@@ -105,20 +110,25 @@ function MinArch:EventHist(event, ...)
 			for i = 1, ARCHAEOLOGY_NUM_RACES do
 				MinArch:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
-			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event);
-			
-			if (MinArchIsReady == true) then
-				C_Timer.After(0.5, function()
-					MinArch:UpdateMain();
-				end)
-			end
+			updateHistory = true;
 		else
 			MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
 		end
 	elseif (event == "RESEARCH_ARTIFACT_UPDATE") then
-		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
+		updateHistory = true;
 	elseif (event == "QUEST_ACCEPTED" or event == "QUEST_TURNED_IN" or event == "QUEST_REMOVED" or event == "QUESTLINE_UPDATE") then
-		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
+		updateHistory = true;
+	end
+
+	if (updateHistory) then
+		if (histEventTimer ~= nil) then
+			histEventTimer:Cancel();
+		end
+
+		histEventTimer = C_Timer.NewTimer(0.5, function()
+			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
+			histEventTimer = nil;
+		end)
 	end
 end
 

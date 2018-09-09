@@ -202,6 +202,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 	scrollc:SetSize(width, 230)
 
 	local scrollb = MinArchScrollBar or CreateFrame("Slider", "MinArchScrollBar", MinArchHist)
+	local scrollPos = scrollb:GetValue() or 0;
 
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
@@ -418,7 +419,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		scrollb:SetSize(16, 230)
 		scrollb:SetPoint("TOPLEFT", scrollf, "TOPRIGHT", 0, 0)
 		scrollb:SetMinMaxValues(0, scrollMax)
-		scrollb:SetValue(0)
+		scrollb:SetValue(scrollPos)
 		scrollb:SetScript("OnValueChanged", function(self)
 			scrollf:SetVerticalScroll(self:GetValue())
 		end)
