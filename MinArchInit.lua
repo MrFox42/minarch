@@ -73,6 +73,20 @@ function MinArch:OnInitialize ()
 	MinArch:InitDigsites(MinArchDigsites);
 
 	MinArch:InitLDB();
+
+	MinArchTooltipIcon:SetScript("OnShow", function (self)
+		self:ClearAllPoints();
+		local tooltip = self:GetParent();
+		local tooltipWidth = tooltip:GetWidth();
+		local cursorPosX = GetCursorPosition();
+		
+		if (tooltipWidth/2 > cursorPosX) then
+			MinArchTooltipIcon:SetPoint("TOPRIGHT", tooltip, "TOPRIGHT", 65, 0);
+		else
+			MinArchTooltipIcon:SetPoint("TOPLEFT", tooltip, "TOPLEFT", -65, 0);
+		end
+	end)
+
 	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
 	--[[C_Timer.After(0.5, function()
 		tinsert(UISpecialFrames, "MinArchMain");
@@ -272,8 +286,11 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
 	self:RegisterEvent("PLAYER_ALIVE");
+	self:RegisterEvent("TAXIMAP_OPENED");
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
 	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
+	hooksecurefunc(MapCanvasScrollControllerMixin, "ZoomIn", MinArch_FlightMapZoomIn);
+	hooksecurefunc(MapCanvasScrollControllerMixin, "ZoomOut", MinArch_FlightMapZoomOut);
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
 end
@@ -304,4 +321,11 @@ function MinArch_WorldMapToggled()
 		MinArch['activeUiMapID'] = WorldMapFrame.mapID;
 		MinArch:ShowRaceIconsOnMap(WorldMapFrame.mapID);
 	end
+end
+
+function MinArch_FlightMapZoomIn()
+	MinArch:ShowRaceIconsOnMap(FlightMapFrame.mapID);
+end
+function MinArch_FlightMapZoomOut()
+	MinArch:ShowRaceIconsOnMap(FlightMapFrame.mapID);
 end

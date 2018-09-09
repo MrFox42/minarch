@@ -45,6 +45,14 @@
 					</Anchors>
 				</Texture>
 			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parentOverlay" parentKey="iconoverlay" alphaMode="BLEND">
+					<size x="30" y="30" />
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="CENTER" relativeTo="$parent" x="0" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
 		</Layers>
 	</Frame>
 	

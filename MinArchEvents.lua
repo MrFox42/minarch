@@ -133,6 +133,10 @@ function MinArch:EventDigsites(event, ...)
 		end
 	elseif (event == "WORLD_MAP_UPDATE" and MinArchIsReady == true) then
 		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	elseif (event == "TAXIMAP_OPENED" and MinArchIsReady == true) then
+		if (FlightMapFrame and FlightMapFrame:IsVisible()) then
+			MinArch:ShowRaceIconsOnMap(FlightMapFrame.mapID);
+		end
 	else
 		MinArch:UpdateActiveDigSites();
 		

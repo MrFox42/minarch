@@ -520,7 +520,20 @@ end
 
 function MinArch:GetOrCreateMinArchMapFrame(i) 
 	if (MinArchMapFrames[i] == nil) then
-		MinArchMapFrames[i] = CreateFrame("Frame", "MinArchMapFrame" .. i, WorldMapFrame.ScrollContainer.Child, "MATMapFrame");
+		local mapFrame = CreateFrame("Frame", "MinArchMapFrame" .. i, WorldMapFrame.ScrollContainer.Child, "MATMapFrame");
+
+		local shovelFrame = CreateFrame("Frame", "MinArchMapFrameShovel" .. i, mapFrame, nil, 'shovelFrame');
+		shovelFrame:SetFrameStrata("LOW");
+		shovelFrame.texture = shovelFrame:CreateTexture();
+		-- 177 Arch-Icon-Marker
+		-- 200
+		shovelFrame:SetSize(36, 36);
+		shovelFrame.texture:SetSize(36, 36);
+		shovelFrame.texture:SetPoint("TOPLEFT", mapFrame, "TOPLEFT", -12, 12);
+		shovelFrame.texture:SetTexture([[Interface/ARCHEOLOGY/Arch-Icon-Marker]]);
+
+		mapFrame.shovelFrame = shovelFrame;
+		MinArchMapFrames[i] = mapFrame;
 	end
 
 	return MinArchMapFrames[i];
@@ -530,12 +543,15 @@ function MinArch:ShowRaceIconsOnMap(uiMapID)
 	for i=1, #MinArchMapFrames do
 		MinArch:GetOrCreateMinArchMapFrame(i);
 		MinArchMapFrames[i]:Hide();
+		MinArchMapFrames[i].shovelFrame:Hide();
+		MinArchMapFrames[i]:ClearAllPoints();
 	end
 
 	if (GetCVarBool('digsites') and MinArch.db.profile.showWorldMapOverlay == true) then
 		local count = 0;
 		
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
+			local textureIndex = digsite.textureIndex;
 			local continentUiMapID = MinArch:GetNearestContinentId(uiMapID);
 			local contID = MinArch.ContIDMap[continentUiMapID];
 			local name = digsite.name;
@@ -559,14 +575,33 @@ end
 
 function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
 	local parentFrame = WorldMapFrame.ScrollContainer.Child;
+	local isFlightMap = false;
+	if (FlightMapFrame and FlightMapFrame:IsVisible()) then
+		parentFrame = FlightMapFrame.ScrollContainer.Child;
+		isFlightMap = true;
+		if (FlightMapFrame:IsZoomingIn() or FlightMapFrame:IsAtMaxZoom()) then
+			-- TODO: create a base scale and a common scale function
+			FRAME.icon:SetScale(1);
+			FRAME.shovelFrame:SetScale(1);
+		else
+			FRAME.icon:SetScale(1)
+			FRAME.shovelFrame:SetScale(2);
+		end
+	else
+		FRAME.icon:SetScale(1);
+		FRAME.shovelFrame:SetScale(1);
+	end
+	-- TODO: taxiframe
+	--[[if (TaxiFrame and TaxiFrame:IsVisible()) then
+		parentFrame = TaxiFrame;
+	end]]--
+
 	FRAME:SetScript("OnEnter", function()
 			MinArch:DigsiteMapTooltip(FRAME, NAME, DETAILS);
 		end);
 	FRAME:SetScript("OnLeave", function()
 			MinArchTooltipIcon:Hide();
-			MinArchTooltipIcon:SetParent(GameTooltip);								
-			MinArchTooltipIcon:SetPoint("TOPRIGHT", GameTooltip, "TOPLEFT");
-			WorldMapTooltip:Hide();
+			GameTooltip:Hide();
 		end);
 	
 	local RACE = tostring(DETAILS["race"]);
@@ -586,6 +621,12 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
 		offsetX = 35;
 		offsetY = 30;
 	end
+	if (FlightMapFrame and FlightMapFrame:IsVisible()) then
+		frameSize = 42;
+		iconSize = 42;
+		offsetX = 0;
+		offsetY = 0;
+	end
 
 	FRAME:SetSize(frameSize, frameSize);
 	FRAME.icon:SetSize(iconSize, iconSize);
@@ -604,6 +645,9 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
 	end
 	
 	FRAME:Show();
+	if (isFlightMap) then
+		FRAME.shovelFrame:Show();
+	end
 end
 
 
@@ -614,12 +658,8 @@ function MinArch:DigsiteHistoryTooltip(self, name, digsite)
 end
 
 function MinArch:DigsiteMapTooltip(self, name, digsite)
-	
-	MinArchTooltipIcon:SetParent(WorldMapTooltip);
-	MinArchTooltipIcon:SetPoint("TOPRIGHT", WorldMapTooltip, "TOPLEFT");
-	WorldMapTooltip:SetOwner(self, "ANCHOR_BOTTOM");	
-	
-	MinArch:DigsiteTooltip(self, name, digsite, WorldMapTooltip);
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM");
+	MinArch:DigsiteTooltip(self, name, digsite, GameTooltip);
 end
 
 function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
@@ -658,11 +698,13 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 			tooltip:AddDoubleLine("Project: |c"..project_color..project, first_solve, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 		end
 		tooltip:AddDoubleLine("Race: |cffffffff"..digsite['race'], "|cffffffff"..progress.." fragments", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
-		MinArchTooltipIcon:Show();
 	end
 	
-	
 	tooltip:Show();
+
+	if (digsite['race'] ~= "Unknown" and digsite['race'] ~= nil) then
+		MinArchTooltipIcon:Show();
+	end
 end
 
 function MinArch:ToggleDigsites()
