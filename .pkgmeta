@@ -30,6 +30,9 @@ tools-used:
     - LibDataBroker-1.1
     - LibIconPath
 
+optional-dependencies:
+    - TomTom
+
 enable-nolib-creation: no
 
 manual-changelog:

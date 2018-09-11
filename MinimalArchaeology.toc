@@ -21,4 +21,5 @@ MinArch.xml
 MinArchMinimap.lua
 MinArchHistory.xml
 MinArchDigsites.xml
+MinArchNavigation.lua
 MinArchOptions.lua

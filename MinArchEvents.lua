@@ -25,7 +25,9 @@ function MinArch:EventMain(event, ...)
 		if (addonname == "Blizzard_ArchaeologyUI") then
 			MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
-		
+		if (addonname == "TomTom") then
+			MinArch.TomTomAvailable = true;
+		end
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
 		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then

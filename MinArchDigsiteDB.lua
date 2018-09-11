@@ -2,6 +2,8 @@
 -- TODO: check if anything is missing
 
 MinArchDigsiteList = {
+	 -- TODO some digsites have matching names
+
 	-- Misc/Removed
 	[DS("Biel'aran Ridge Digsite")] = ARCHAEOLOGY_RACE_NIGHTELF,
 	[DS("Nar'shola (Middle Tier) Digsite")] = ARCHAEOLOGY_RACE_NIGHTELF,

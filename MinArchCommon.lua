@@ -73,6 +73,7 @@ function MinArch:GetInternalContId()
 	return ContID;
 end
 
+-- Return uiMapID by internal MinArch ContID index
 function MinArch:GetUiMapIdByContId(ContID)
 	for k, v in pairs(MinArch.ContIDMap) do
 		if (v == ContID) then

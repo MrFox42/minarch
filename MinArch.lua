@@ -32,9 +32,9 @@ MinArch.ContIDMap = {
 	[875] = 10, -- Zandalar
 
 	-- alternate ids -- TODO: separate
-	[993] = 8, -- Broken Isles
-	[1014] = 9, -- Kul Tiras
-	[1011] = 10, -- Zandalar
+	-- [993] = 8, -- Broken Isles
+	-- [1014] = 9, -- Kul Tiras
+	-- [1011] = 10, -- Zandalar
 };
 MinArch.ResearchBranchMap = {
 	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
