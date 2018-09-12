@@ -18,6 +18,14 @@ MinArch.defaults = {
 			minimapPos = 45,
 			hide = false
 		},
+		TomTom = {
+			enable = true,
+			arrow = true,
+			persistance = false,
+			exclusive = false,
+			autoWayOnMove = false,
+			autoWayOnComplete = true
+		},
 		
 		-- dynamic options
 		raceOptions = {

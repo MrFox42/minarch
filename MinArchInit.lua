@@ -273,6 +273,10 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
 	self:RegisterEvent("PLAYER_ALIVE");
+	self:RegisterEvent("ZONE_CHANGED");
+	self:RegisterEvent("ZONE_CHANGED_INDOORS");
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
 	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
 	hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);

@@ -36,6 +36,8 @@ function MinArch:RefreshLDBButton()
 		end
 
 		dataobj.text = text;
+	else
+		dataobj.text = 'n/a';
 	end
 end
 

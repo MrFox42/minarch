@@ -1,8 +1,12 @@
 MinArch.waypoint = nil;
 MinArch.TomTomAvailable = (_G.TomTom ~= nil);
 
+local function IsNavivagationEnabled()
+	return (MinArch.TomTomAvailable and MinArch.db.profile.TomTom.enable);
+end
+
 function MinArch:SetWayToDigsite(digsiteName, digsite)
-	if not MinArch.TomTomAvailable then return end;
+	if not IsNavivagationEnabled() then return end;
 
 	if (MinArch.waypoint ~= nil) then
 		_G.TomTom:RemoveWaypoint(MinArch.waypoint);
@@ -16,8 +20,10 @@ function MinArch:SetWayToDigsite(digsiteName, digsite)
 end
 
 function MinArch:SetWayToNearestDigsite()
-    if not MinArch.TomTomAvailable then return end;
+    if not IsNavivagationEnabled() then return end;
     
 	local digsiteName, distance, digsite = MinArch:GetNearestDigsite();
-	MinArch:SetWayToDigsite(digsiteName, digsite);
+	if (digsite) then
+		MinArch:SetWayToDigsite(digsiteName, digsite);
+	end
 end

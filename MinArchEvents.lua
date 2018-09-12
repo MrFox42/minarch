@@ -80,7 +80,6 @@ function MinArch:EventMain(event, ...)
 
 		eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
-			MinArch:RefreshLDBButton();
 			RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
@@ -145,6 +144,10 @@ function MinArch:EventDigsites(event, ...)
 		end
 	elseif (event == "WORLD_MAP_UPDATE" and MinArchIsReady == true) then
 		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	elseif (event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
+		if (MinArch.db.profile.TomTom.autoWayOnMove) then
+			MinArch:SetWayToNearestDigsite();
+		end
 	else
 		MinArch:UpdateActiveDigSites();
 		
