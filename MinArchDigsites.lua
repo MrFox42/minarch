@@ -536,7 +536,7 @@ function MinArch:ShowRaceIconsOnMap()
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
 			local pin = WorldMapFrame:AcquirePin("DigSitePinTemplate", digsite);
 			local continentUiMapID = MinArch:GetNearestContinentId(uiMapID);
-			local contID = MinArch.ContIDMap[continentUiMapID];
+			local contID = MinArch:GetInternalContId(continentUiMapID);
 			local name = digsite.name;
 			local x = digsite.position.x;
 			local y = digsite.position.y;

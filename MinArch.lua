@@ -18,23 +18,6 @@ MinArchOptions.ABOptions = {};
 MinArch.ArchaeologyRaces = {};
 MinArch.MapContinents = {};
 MinArch.RacesLoaded = false;
-MinArch.ContIDMap = {
-	[12] = 1, -- Kalimdor
-	[13] = 2, -- EK
-	[101] = 3, -- Outland
-	[113] = 4, -- Northrend
-	[948] = 5, -- Maelstrom
-	[424] = 6, -- Pandaria
-	[572] = 7, -- Draenor
-	[619] = 8, -- Broken Isles
-	[876] = 9, -- Kul Tiras
-	[875] = 10, -- Zandalar
-
-	-- alternate ids -- TODO: separate
-	-- [993] = 8, -- Broken Isles
-	-- [1014] = 9, -- Kul Tiras
-	-- [1011] = 10, -- Zandalar
-};
 MinArch.ResearchBranchMap = {
 	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
 	[2] = ARCHAEOLOGY_RACE_DRAENEI, -- Draenei
@@ -57,6 +40,48 @@ MinArch.ResearchBranchMap = {
 	[423] = ARCHAEOLOGY_RACE_ZANDALARI, -- Zandalari
 	[424] = ARCHAEOLOGY_RACE_DRUSTVARI, -- Drust
 };
+
+-- MinArch.db.profile.
+MinArch.defaults = {
+	profile = {
+		settingsVersion = 0,
+		disableSound = false,
+		startHidden = false,
+		hideMain = false,
+		frameScale = 100,
+		showStatusMessages = false,
+		showDebugMessages = false,
+		showWorldMapOverlay = true,
+		hideAfterDigsite = false,
+		waitForSolve = false,
+		autoShowOnSurvey = false,
+		autoShowOnSolve = false,
+		autoShowInDigsites = false,
+		minimap = {
+			minimapPos = 45,
+			hide = false
+		},
+		TomTom = {
+			enable = true,
+			arrow = true,
+			persistance = false,
+			exclusive = true,
+			autoWayOnMove = false,
+			autoWayOnComplete = true
+		},
+		
+		-- dynamic options
+		raceOptions = {
+			hide = {},
+			cap = {},
+			keystone = {}
+		},
+
+		-- deprecated, left for compatibility
+		hideMinimapButton = false,
+		minimapPos = 45,
+	},	
+}
 
 MinArchRaceConfig = {};
 for i=1, ARCHAEOLOGY_NUM_RACES do

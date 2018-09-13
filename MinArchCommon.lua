@@ -1,49 +1,24 @@
--- MinArch.db.profile.
-MinArch.defaults = {
-	profile = {
-		settingsVersion = 0,
-		disableSound = false,
-		startHidden = false,
-		hideMain = false,
-		frameScale = 100,
-		showStatusMessages = false,
-		showDebugMessages = false,
-		showWorldMapOverlay = true,
-		hideAfterDigsite = false,
-		waitForSolve = false,
-		autoShowOnSurvey = false,
-		autoShowOnSolve = false,
-		autoShowInDigsites = false,
-		minimap = {
-			minimapPos = 45,
-			hide = false
-		},
-		TomTom = {
-			enable = true,
-			arrow = true,
-			persistance = false,
-			exclusive = false,
-			autoWayOnMove = false,
-			autoWayOnComplete = true
-		},
-		
-		-- dynamic options
-		raceOptions = {
-			hide = {
-	
-			},
-			cap = {
-	
-			},
-			keystone = {
-				
-			}
-		},
+-- Local variables
 
-		-- deprecated, left for compatibility
-		hideMinimapButton = false,
-		minimapPos = 45,
-	},	
+-- uiMapIDs for continents [uiMapID] = internalContID
+local MinArchContIDMap = {
+	[12] = 1, -- Kalimdor
+	[13] = 2, -- EK
+	[101] = 3, -- Outland
+	[113] = 4, -- Northrend
+	[948] = 5, -- Maelstrom
+	[424] = 6, -- Pandaria
+	[572] = 7, -- Draenor
+	[619] = 8, -- Broken Isles
+	[876] = 9, -- Kul Tiras
+	[875] = 10, -- Zandalar
+};
+
+-- Alternate uiMapIDs (flight maps) for continents ([uiMapID] = internalContID) 
+local MinArchAlternateContIDMap = {
+	[993] = 8, -- Broken Isles Flight map
+	[1014] = 9, -- Kul Tiras Flight map
+	[1011] = 10, -- Zandalar Flight map
 }
 
 function MinArch:CommonFrameLoad(self)
@@ -67,8 +42,8 @@ function MinArch:CommonFrameScale(scale)
 	MinArchDigsites:SetScale(scale);
 end
 
-function MinArch:GetInternalContId()
-	local uiMapID = C_Map.GetBestMapForUnit("player");
+function MinArch:GetInternalContId(uiMapID)
+	uiMapID = uiMapID or C_Map.GetBestMapForUnit("player");
 	if not uiMapID then
 		return nil;
 	end
@@ -76,14 +51,20 @@ function MinArch:GetInternalContId()
 	if (mapInfo == nil) then
 		return nil;
 	end
-	local ContID = MinArch.ContIDMap[MinArch:GetNearestContinentId(mapInfo.parentMapID)];
+	local nearestContinentID = MinArch:GetNearestContinentId(uiMapID);
+	local ContID = MinArchContIDMap[nearestContinentID];
+	
+	-- check for alternate IDs
+	if (ContID == nil) then
+		ContID = MinArchAlternateContIDMap[nearestContinentID];
+	end
 
 	return ContID;
 end
 
 -- Return uiMapID by internal MinArch ContID index
 function MinArch:GetUiMapIdByContId(ContID)
-	for k, v in pairs(MinArch.ContIDMap) do
+	for k, v in pairs(MinArchContIDMap) do
 		if (v == ContID) then
 			return k; 
 		end
