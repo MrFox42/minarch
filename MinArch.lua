@@ -15,7 +15,6 @@ MinArch.raceButtons = {};
 MinArch.frame = {};
 MinArchOptions = {};
 MinArchOptions.ABOptions = {};
-MinArch.activeUiMapID = 12;
 MinArch.ArchaeologyRaces = {};
 MinArch.MapContinents = {};
 MinArch.RacesLoaded = false;

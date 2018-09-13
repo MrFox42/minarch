@@ -122,7 +122,7 @@ function MinArch:UpdateActiveDigSites()
 		end
 	end
 
-	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	MinArch:ShowRaceIconsOnMap();
 end
 
 function MinArch:CreateDigSitesList(ContID)
@@ -273,13 +273,18 @@ function MinArch:CreateDigSitesList(ContID)
 				currentMO:SetParent(scrollc);
 				currentMO:SetPoint("BOTTOMRIGHT", currentDigSite, "BOTTOMRIGHT", 0, 0);
 				
+				currentMO:SetScript("OnMouseUp", function(self, button)
+					if (button == "LeftButton") then
+						MinArch:SetWayToDigsiteOnClick(digsiteName, digsite);
+					end
+				end)
 				currentMO:SetScript("OnEnter", function(self)
-											MinArch:DigsiteHistoryTooltip(self, name, digsite);
-										end)
+					MinArch:DigsiteHistoryTooltip(self, name, digsite);
+				end)
 				currentMO:SetScript("OnLeave", function()
-											MinArchTooltipIcon:Hide();
-											GameTooltip:Hide()
-										end)
+					MinArchTooltipIcon:Hide();
+					GameTooltip:Hide()
+				end)
 				
 				count = count+1
 			end
@@ -409,7 +414,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 		end
 	end
 
-	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	MinArch:ShowRaceIconsOnMap();
 end
 
 function MinArch:GetNearestDigsite()
@@ -460,7 +465,7 @@ function MinArch:GetNearestDigsite()
 	return nearestDigSite, nearestDistance, nearestDigSiteDetails;
 end
 
-function MinArch:IsNearDigSite (distance)
+function MinArch:IsNearDigSite(distance)
 	if (IsInInstance()) then
 		return false;
 	end
@@ -500,14 +505,9 @@ function MinArch:IsNearDigSite (distance)
 		local d = math.sqrt((xd*xd)+(yd*yd));
 
 		if (MinArchDigsitesDB["continent"][ContID][name] and MinArchDigsitesDB["continent"][ContID][name]["status"] == true) then
-			if (nearestDigSite == nil) then
+			if (nearestDigSite == nil or d < nearestDistance) then
 				nearestDigSite = name;
 				nearestDistance = d;
-				
-			elseif (d < nearestDistance) then
-				nearestDigSite = name;
-				nearestDistance = d;
-				
 			end
 		end
 	end
@@ -515,7 +515,7 @@ function MinArch:IsNearDigSite (distance)
 	return nearestDistance ~= nil and nearestDistance < distance;
 end
 
-function MinArch:GetOrCreateMinArchMapFrame(i) 
+function MinArch:GetOrCreateMinArchMapFrame(i)
 	if (MinArchMapFrames[i] == nil) then
 		MinArchMapFrames[i] = CreateFrame("Frame", "MinArchMapFrame" .. i, WorldMapFrame.ScrollContainer.Child, "MATMapFrame");
 	end
@@ -523,16 +523,18 @@ function MinArch:GetOrCreateMinArchMapFrame(i)
 	return MinArchMapFrames[i];
 end
 
-function MinArch:ShowRaceIconsOnMap(uiMapID)
+function MinArch:ShowRaceIconsOnMap()
 	for i=1, #MinArchMapFrames do
 		MinArch:GetOrCreateMinArchMapFrame(i);
 		MinArchMapFrames[i]:Hide();
 	end
 
-	if (GetCVarBool('digsites') and MinArch.db.profile.showWorldMapOverlay == true) then
+	local uiMapID = WorldMapFrame.mapID;
+	if (WorldMapFrame:IsVisible() and uiMapID and GetCVarBool('digsites') and MinArch.db.profile.showWorldMapOverlay == true) then
 		local count = 0;
 		
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
+			local pin = WorldMapFrame:AcquirePin("DigSitePinTemplate", digsite);
 			local continentUiMapID = MinArch:GetNearestContinentId(uiMapID);
 			local contID = MinArch.ContIDMap[continentUiMapID];
 			local name = digsite.name;
@@ -548,14 +550,13 @@ function MinArch:ShowRaceIconsOnMap(uiMapID)
 				end
 			else
 				MinArch:GetOrCreateMinArchMapFrame(count);
-				MinArch:SetIcon(MinArchMapFrames[count], x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)])
+				MinArch:SetIcon(MinArchMapFrames[count], x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)], pin)
 			end
 		end
 	end
 end
 
-function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
-	local parentFrame = WorldMapFrame.ScrollContainer.Child;
+function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame)
 	FRAME:SetScript("OnEnter", function()
 			MinArch:DigsiteMapTooltip(FRAME, NAME, DETAILS);
 		end);
@@ -569,29 +570,16 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
 	local RACE = tostring(DETAILS["race"]);
 
 	local raceID = MinArch:GetRaceIdByName(RACE);
-	local posX = X * (parentFrame:GetWidth());
-	local posY = Y * (parentFrame:GetHeight()) * (-1);
 	local frameSize = 32;
 	local iconSize = 16;
-	local offsetX = 10;
-	local offsetY = 10;
-
-	-- Increase icon size for Zandalar and Kul Tiras
-	if (raceID == ARCHAEOLOGY_RACE_DRUSTVARI or raceID == ARCHAEOLOGY_RACE_ZANDALARI) then
-		frameSize = 112;
-		iconSize = 56;
-		offsetX = 35;
-		offsetY = 30;
-	end
+	local offsetX = 7;
+	local offsetY = -7;
 
 	FRAME:SetSize(frameSize, frameSize);
 	FRAME.icon:SetSize(iconSize, iconSize);
-	posX = posX - offsetX;
-	posY = posY + offsetY;
 
 	FRAME:SetParent(parentFrame);
-	FRAME:SetFrameStrata("HIGH");
-	FRAME:SetPoint("TOPLEFT", posX, posY);
+	FRAME:SetPoint("BOTTOMLEFT", offsetX, offsetY);
 	FRAME.icon:SetTexture("Interface/Icons/INV_MISC_QUESTIONMARK");
 	FRAME.icon:SetTexCoord(0, 1, 0, 1);
 	
@@ -602,7 +590,6 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS)
 	
 	FRAME:Show();
 end
-
 
 function MinArch:DigsiteHistoryTooltip(self, name, digsite)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");

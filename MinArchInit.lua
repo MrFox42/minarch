@@ -96,7 +96,7 @@ function MinArch:RefreshConfig()
 	MinArch:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
 	
 	MinArch:RefreshMinimapButton();
-	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	MinArch:ShowRaceIconsOnMap();
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
 	MinArchShowOnSurvey = true;
 	MinArchShowInDigsite = true;
@@ -307,8 +307,7 @@ end
 
 function MinArch_WorldMapToggled()
 	if (WorldMapFrame.mapID ~= nil and WorldMapFrame:IsVisible()) then
-		MinArch['activeUiMapID'] = WorldMapFrame.mapID;
-		MinArch:ShowRaceIconsOnMap(WorldMapFrame.mapID);
+		MinArch:ShowRaceIconsOnMap();
 	end
 end
 

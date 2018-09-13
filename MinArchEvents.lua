@@ -57,14 +57,14 @@ function MinArch:EventMain(event, ...)
 	end
 
 	if (event == "QUEST_LOG_UPDATE") then
-		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+		MinArch:ShowRaceIconsOnMap();
 		return;
 	end
 
 	if (event == "CVAR_UPDATE") then
 		local changedCVAR = ...;
 		if (changedCVAR == "SHOW_DIG_SITES") then
-			MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+			MinArch:ShowRaceIconsOnMap();
 		end
 	end
 
@@ -143,12 +143,18 @@ function MinArch:EventDigsites(event, ...)
 			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
 		end
 	elseif (event == "WORLD_MAP_UPDATE" and MinArchIsReady == true) then
-		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+		MinArch:ShowRaceIconsOnMap();
 	elseif (event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
 		if (MinArch.db.profile.TomTom.autoWayOnMove) then
 			MinArch:SetWayToNearestDigsite();
 		end
 	else
+		if (event == "ARTIFACT_DIGSITE_COMPLETE" or event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED") then
+			if (MinArch.db.profile.TomTom.autoWayOnComplete) then
+				MinArch:SetWayToNearestDigsite();
+			end
+		end
+
 		MinArch:UpdateActiveDigSites();
 		
 		local ContID = MinArch:GetInternalContId();
@@ -217,22 +223,27 @@ function MinArch:MainEventAddonLoaded()
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
 	MinArchIsReady = true;
 	
-	MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+	MinArch:ShowRaceIconsOnMap();
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
 function MinArch:TrackingChanged(self)
-	-- update the map if digsites tracking is changed
+	-- update the map if digsites tracking has changed
 	if (self.value == "digsites") then
-		MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID'])
+		MinArch:ShowRaceIconsOnMap()
 	end
 end
 
 function MinArch:MapLayerChanged(self)
-	-- update the map if digsites tracking is changed
+	-- update the map when map layer has changed
 	if (self.mapID ~= nil) then
-		MinArch['activeUiMapID'] = self.mapID;
-		MinArch:ShowRaceIconsOnMap(self.mapID);
+		if (WorldMapFrame.isMaximized) then
+			C_Timer.After(0.11, function () 
+				MinArch:ShowRaceIconsOnMap();
+			end)
+		else
+			MinArch:ShowRaceIconsOnMap();
+		end
 	end
 end

@@ -70,7 +70,7 @@ local general = {
 					get = function () return MinArch.db.profile.showWorldMapOverlay end,
 					set = function (_, newValue)
 						MinArch.db.profile.showWorldMapOverlay = newValue;
-						MinArch:ShowRaceIconsOnMap(MinArch['activeUiMapID']);
+						MinArch:ShowRaceIconsOnMap();
 					end,
 					width = "double",
 					order = 4,
