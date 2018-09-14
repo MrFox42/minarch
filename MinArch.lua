@@ -65,7 +65,6 @@ MinArch.defaults = {
 			enable = true,
 			arrow = true,
 			persistance = false,
-			exclusive = true,
 			autoWayOnMove = false,
 			autoWayOnComplete = true,
 			waypoints = {}

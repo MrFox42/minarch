@@ -36,10 +36,6 @@ function MinArch:EventMain(event, ...)
 			MinArch:LoadRaceInfo();
 		end
 		MinArch:RefreshLDBButton(event);
-
-		if (MinArch.TomTomAvailable) then
-			MinArch:RefreshDigsiteWaypoints();
-		end
 	end
 
 	if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
@@ -160,6 +156,10 @@ function MinArch:EventDigsites(event, ...)
 	if (ContID ~= nil) then
 		MinArch:CreateDigSitesList(ContID);
 		MinArch:CreateDigSitesList(ContID);
+	end
+
+	if (event == "PLAYER_ENTERING_WORLD") then
+		MinArch:RefreshDigsiteWaypoints();
 	end
 
 	if (--[[event == "ARTIFACT_DIGSITE_COMPLETE" or]] event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED") then

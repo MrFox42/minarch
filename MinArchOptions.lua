@@ -200,18 +200,6 @@ local general = {
 					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
 					order = 3,
 				},
-				exclusive = {
-					type = "toggle",
-					name = "Exclusive mode",
-					desc = "Only allow one waypoint to be created by MinArch",
-					get = function () return MinArch.db.profile.TomTom.exclusive end,
-					set = function (_, newValue)
-						MinArch.db.profile.TomTom.exclusive = newValue;
-						-- TODO: remove all active waypoints created by minarch if disabled
-					end,
-					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
-					order = 4,
-				},
 				autoway = {
 					type = 'group',
 					name = 'Automatically create waypoints for the closest digsite.',
