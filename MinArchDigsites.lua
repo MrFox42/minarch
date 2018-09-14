@@ -275,7 +275,7 @@ function MinArch:CreateDigSitesList(ContID)
 				
 				currentMO:SetScript("OnMouseUp", function(self, button)
 					if (button == "LeftButton") then
-						MinArch:SetWayToDigsiteOnClick(digsiteName, digsite);
+						MinArch:SetWayToDigsiteOnClick(name, digsite);
 					end
 				end)
 				currentMO:SetScript("OnEnter", function(self)

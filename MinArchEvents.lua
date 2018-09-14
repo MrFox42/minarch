@@ -4,6 +4,7 @@ local histEventTimer = nil;
 function MinArch:EventMain(event, ...)
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArchHideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();
+		return;
 	elseif (event == "SKILL_LINES_CHANGED") then
 		MinArch:UpdateArchaeologySkillBar();
 	elseif ((event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArch.db.profile.hideAfterDigsite == true) then
@@ -35,6 +36,10 @@ function MinArch:EventMain(event, ...)
 			MinArch:LoadRaceInfo();
 		end
 		MinArch:RefreshLDBButton(event);
+
+		if (MinArch.TomTomAvailable) then
+			MinArch:RefreshDigsiteWaypoints();
+		end
 	end
 
 	if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
@@ -134,6 +139,7 @@ function MinArch:EventHist(event, ...)
 end
 
 function MinArch:EventDigsites(event, ...)
+	print(event);
 	if (event == "ARCHAEOLOGY_SURVEY_CAST") then
 		local _, _, branchID = ...;
 		local race = MinArch:GetRaceNameByBranchId(branchID);
@@ -142,26 +148,29 @@ function MinArch:EventDigsites(event, ...)
 			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
 			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
 		end
+		return;
 	elseif (event == "WORLD_MAP_UPDATE" and MinArchIsReady == true) then
 		MinArch:ShowRaceIconsOnMap();
-	elseif (event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
-		if (MinArch.db.profile.TomTom.autoWayOnMove) then
+		return;
+	end
+
+	MinArch:UpdateActiveDigSites();
+	local ContID = MinArch:GetInternalContId();
+
+	if (ContID ~= nil) then
+		MinArch:CreateDigSitesList(ContID);
+		MinArch:CreateDigSitesList(ContID);
+	end
+
+	if (--[[event == "ARTIFACT_DIGSITE_COMPLETE" or]] event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED") then
+		if (MinArch.db.profile.TomTom.autoWayOnComplete) then
 			MinArch:SetWayToNearestDigsite();
 		end
-	else
-		if (event == "ARTIFACT_DIGSITE_COMPLETE" or event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED") then
-			if (MinArch.db.profile.TomTom.autoWayOnComplete) then
-				MinArch:SetWayToNearestDigsite();
-			end
-		end
+	end
 
-		MinArch:UpdateActiveDigSites();
-		
-		local ContID = MinArch:GetInternalContId();
-
-		if (ContID ~= nil) then
-			MinArch:CreateDigSitesList(ContID);
-			MinArch:CreateDigSitesList(ContID);
+	if (event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
+		if (MinArch.db.profile.TomTom.autoWayOnMove) then
+			MinArch:SetWayToNearestDigsite();
 		end
 	end
 end

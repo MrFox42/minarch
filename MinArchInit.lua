@@ -270,7 +270,7 @@ function MinArch:InitDigsites(self)
 
 	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
 	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");
-	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
+	-- self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
 	self:RegisterEvent("PLAYER_ALIVE");
 	self:RegisterEvent("ZONE_CHANGED");

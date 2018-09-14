@@ -67,7 +67,8 @@ MinArch.defaults = {
 			persistance = false,
 			exclusive = true,
 			autoWayOnMove = false,
-			autoWayOnComplete = true
+			autoWayOnComplete = true,
+			waypoints = {}
 		},
 		
 		-- dynamic options
