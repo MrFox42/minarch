@@ -135,7 +135,6 @@ function MinArch:EventHist(event, ...)
 end
 
 function MinArch:EventDigsites(event, ...)
-	print(event);
 	if (event == "ARCHAEOLOGY_SURVEY_CAST") then
 		local _, _, branchID = ...;
 		local race = MinArch:GetRaceNameByBranchId(branchID);

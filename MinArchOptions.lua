@@ -169,18 +169,21 @@ local general = {
 				enable = {
 					type = "toggle",
 					name = "Enable TomTom",
-					desc = "Enables TomTom Integration in MinArch",
+					desc = "Enables TomTom integration in MinArch.",
 					get = function () return MinArch.db.profile.TomTom.enable end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.enable = newValue;
-						-- TODO: remove all active waypoints created by minarch if disabled
+
+						if (newValue == false) then
+							MinArch:ClearAllDigsiteWaypoints();
+						end
 					end,
 					order = 1,
 				},
 				arrow = {
 					type = "toggle",
 					name = "Show Arrow",
-					desc = "...",
+					desc = "Show arrow for waypoints created by MinArch. This won't change already existing waypoints.",
 					get = function () return MinArch.db.profile.TomTom.arrow end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.arrow = newValue;
@@ -188,14 +191,13 @@ local general = {
 					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
 					order = 2,
 				},
-				persistance = {
+				persistent = {
 					type = "toggle",
 					name = "Persist waypoints",
-					desc = "Toggle waypoint persistance. This won't change already existing waypoints.",
-					get = function () return MinArch.db.profile.TomTom.persistance end,
+					desc = "Toggle waypoint persistence. This won't change already existing waypoints.",
+					get = function () return MinArch.db.profile.TomTom.persistent end,
 					set = function (_, newValue)
-						MinArch.db.profile.TomTom.persistance = newValue;
-						-- TODO: remove all active waypoints from savedvariables if disabled
+						MinArch.db.profile.TomTom.persistent = newValue;
 					end,
 					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
 					order = 3,
@@ -204,12 +206,12 @@ local general = {
 					type = 'group',
 					name = 'Automatically create waypoints for the closest digsite.',
 					inline = true,
-					order = 5,
+					order = 4,
 					args = {
 						autoWayOnMove = {
 							type = "toggle",
 							name = "Continuously",
-							desc = "Automatically create a waypoint to the closest digsite",
+							desc = "Continuously create/update the automatic waypoint to the closest digsite.",
 							get = function () return MinArch.db.profile.TomTom.autoWayOnMove end,
 							set = function (_, newValue)
 								MinArch.db.profile.TomTom.autoWayOnMove = newValue;
@@ -220,7 +222,7 @@ local general = {
 						autoWayOnComplete = {
 							type = "toggle",
 							name = "When completed",
-							desc = "Automatically create a waypoint to the closest digsite",
+							desc = "Automatically create a waypoint to the closest digsite after depleting one.",
 							get = function () return MinArch.db.profile.TomTom.autoWayOnComplete end,
 							set = function (_, newValue)
 								MinArch.db.profile.TomTom.autoWayOnComplete = newValue;

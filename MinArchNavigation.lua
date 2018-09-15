@@ -9,7 +9,7 @@ end
 local function SetWayToDigsite(title, digsite, isAuto)
 	if not IsNavivagationEnabled() then return end;
 	
-	local persistent = MinArch.db.profile.TomTom.persistance;
+	local persistent = MinArch.db.profile.TomTom.persistent;
 	if (isAuto) then
 		persistent = false
 	end
@@ -67,6 +67,9 @@ end
 
 function MinArch:ClearAllDigsiteWaypoints()
 	if not IsNavivagationEnabled() then return end;
+
+	-- Make sure waypoints are up to date
+	MinArch:RefreshDigsiteWaypoints();
 
 	for title, waypoint in pairs(MinArch.db.profile.TomTom.waypoints) do
 		MinArch.db.profile.TomTom.waypoints[title] = nil;
