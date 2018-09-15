@@ -44,13 +44,13 @@ function MinArch:SetWayToDigsiteOnClick(digsiteName, digsite)
 
 	previousDigsite = digsiteName;
 	local newWaypoint = SetWayToDigsite(digsiteName, digsite);
-	MinArch.db.profile.TomTom.waypoints[digsiteName] = newWaypoint;
+	MinArch.db.char.TomTom.waypoints[digsiteName] = newWaypoint;
 end
 
 function MinArch:RefreshDigsiteWaypoints(forceRefresh)
 	if not MinArch:IsNavigationEnabled() and not forceRefresh then return end;
 
-	for title, waypoint in pairs(MinArch.db.profile.TomTom.waypoints) do
+	for title, waypoint in pairs(MinArch.db.char.TomTom.waypoints) do
 		if (_G.TomTom:WaypointExists(waypoint[1], waypoint[2], waypoint[3], title)) then
 			-- re-add waypoint so we have the correct data
 			local newWaypoint = _G.TomTom:AddWaypoint(waypoint[1], waypoint[2], waypoint[3], {
@@ -58,9 +58,9 @@ function MinArch:RefreshDigsiteWaypoints(forceRefresh)
 				crazy = waypoint.crazy,
 				persistent = waypoint.persistent,
 			});
-			MinArch.db.profile.TomTom.waypoints[title] = newWaypoint;
+			MinArch.db.char.TomTom.waypoints[title] = newWaypoint;
 		else
-			MinArch.db.profile.TomTom.waypoints[title] = nil;
+			MinArch.db.char.TomTom.waypoints[title] = nil;
 		end
 	end
 end
@@ -73,8 +73,8 @@ function MinArch:ClearAllDigsiteWaypoints()
 		_G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
 	end
 
-	for title, waypoint in pairs(MinArch.db.profile.TomTom.waypoints) do
-		MinArch.db.profile.TomTom.waypoints[title] = nil;
+	for title, waypoint in pairs(MinArch.db.char.TomTom.waypoints) do
+		MinArch.db.char.TomTom.waypoints[title] = nil;
 		_G.TomTom:RemoveWaypoint(waypoint);
 	end
 end

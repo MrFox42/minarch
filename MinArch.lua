@@ -43,6 +43,11 @@ MinArch.ResearchBranchMap = {
 
 -- MinArch.db.profile.
 MinArch.defaults = {
+	char = {
+		TomTom = {
+			waypoints = {}
+		}
+	},
 	profile = {
 		settingsVersion = 0,
 		disableSound = false,
@@ -66,8 +71,7 @@ MinArch.defaults = {
 			arrow = true,
 			persistent = false,
 			autoWayOnMove = false,
-			autoWayOnComplete = true,
-			waypoints = {}
+			autoWayOnComplete = true
 		},
 		
 		-- dynamic options
