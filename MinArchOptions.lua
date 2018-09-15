@@ -66,7 +66,7 @@ local general = {
 				showWorldMapOverlay = {
 					type = "toggle",
 					name = "Show world map overlay icons",
-					desc = "Show race icons next to dig sites on the world map.",
+					desc = "Show race icons next to digsites on the world map.",
 					get = function () return MinArch.db.profile.showWorldMapOverlay end,
 					set = function (_, newValue)
 						MinArch.db.profile.showWorldMapOverlay = newValue;
@@ -99,8 +99,8 @@ local general = {
 			args = {
 				hideAfterDigsite = {
 					type = "toggle",
-					name = "Auto-hide after dig sites",
-					desc = "Hide Minimal Archaeology after completing a dig site.",
+					name = "Auto-hide after digsites",
+					desc = "Hide Minimal Archaeology after completing a digsite.",
 					get = function () return MinArch.db.profile.hideAfterDigsite end,
 					set = function (_, newValue)
 						MinArch.db.profile.hideAfterDigsite = newValue;
@@ -128,7 +128,7 @@ local general = {
 				autoShowOnSurvey = {
 					type = "toggle",
 					name = "Show when surveying",
-					desc = "Auto-show Minimal Archaeology when surveying in a dig site.",
+					desc = "Auto-show Minimal Archaeology when surveying in a digsite.",
 					get = function () return MinArch.db.profile.autoShowOnSurvey end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnSurvey = newValue;
@@ -148,8 +148,8 @@ local general = {
 				},
 				autoShowInDigsites = {
 					type = "toggle",
-					name = "Show in dig sites",
-					desc = "Auto-show Minimal Archaeology when moving around in a dig site.",
+					name = "Show in digsites",
+					desc = "Auto-show Minimal Archaeology when moving around in a digsite.",
 					get = function () return MinArch.db.profile.autoShowInDigsites end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowInDigsites = newValue;
@@ -169,13 +169,18 @@ local general = {
 				enable = {
 					type = "toggle",
 					name = "Enable TomTom",
-					desc = "Enables TomTom integration in MinArch.",
+					desc = "Toggles TomTom integration in MinArch. Disabling TomTom integration will remove all waypoints created by MinArch",
 					get = function () return MinArch.db.profile.TomTom.enable end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.enable = newValue;
 
-						if (newValue == false) then
+						if (newValue) then
+							MinArchMainAutoWayButton:Show();
+							MinArchDigsitesAutoWayButton:Show();
+						else
 							MinArch:ClearAllDigsiteWaypoints();
+							MinArchMainAutoWayButton:Hide();
+							MinArchDigsitesAutoWayButton:Hide();
 						end
 					end,
 					order = 1,

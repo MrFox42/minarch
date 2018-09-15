@@ -27,7 +27,7 @@
 			<Frame name="$parentGrad">
 				<size x="277" y="37" />
 				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" x="12" y="-10"/>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" x="12" y="-20"/>
 				</Anchors>
 				<Scripts>
 					<OnLoad>

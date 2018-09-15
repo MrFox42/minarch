@@ -2,12 +2,12 @@ MinArch.autoWaypoint = nil;
 MinArch.TomTomAvailable = (_G.TomTom ~= nil);
 local previousDigsite = nil;
 
-local function IsNavivagationEnabled()
+function MinArch:IsNavigationEnabled()
 	return (MinArch.TomTomAvailable and MinArch.db.profile.TomTom.enable);
 end
 
 local function SetWayToDigsite(title, digsite, isAuto)
-	if not IsNavivagationEnabled() then return end;
+	if not MinArch:IsNavigationEnabled() then return end;
 	
 	local persistent = MinArch.db.profile.TomTom.persistent;
 	if (isAuto) then
@@ -25,7 +25,7 @@ local function SetWayToDigsite(title, digsite, isAuto)
 end
 
 function MinArch:SetWayToNearestDigsite()
-	if not IsNavivagationEnabled() then return end;
+	if not MinArch:IsNavigationEnabled() then return end;
 	
 	local digsiteName, distance, digsite = MinArch:GetNearestDigsite();
 	if (digsite and (digsiteName ~= previousDigsite or distance > 1.7)) then
@@ -40,15 +40,15 @@ function MinArch:SetWayToNearestDigsite()
 end
 
 function MinArch:SetWayToDigsiteOnClick(digsiteName, digsite)
-	if not IsNavivagationEnabled() then return end;
+	if not MinArch:IsNavigationEnabled() then return end;
 
 	previousDigsite = digsiteName;
 	local newWaypoint = SetWayToDigsite(digsiteName, digsite);
 	MinArch.db.profile.TomTom.waypoints[digsiteName] = newWaypoint;
 end
 
-function MinArch:RefreshDigsiteWaypoints()
-	if not IsNavivagationEnabled() then return end;
+function MinArch:RefreshDigsiteWaypoints(forceRefresh)
+	if not MinArch:IsNavigationEnabled() and not forceRefresh then return end;
 
 	for title, waypoint in pairs(MinArch.db.profile.TomTom.waypoints) do
 		if (_G.TomTom:WaypointExists(waypoint[1], waypoint[2], waypoint[3], title)) then
@@ -66,10 +66,12 @@ function MinArch:RefreshDigsiteWaypoints()
 end
 
 function MinArch:ClearAllDigsiteWaypoints()
-	if not IsNavivagationEnabled() then return end;
-
 	-- Make sure waypoints are up to date
-	MinArch:RefreshDigsiteWaypoints();
+	MinArch:RefreshDigsiteWaypoints(true);
+
+	if (MinArch.autoWaypoint ~= nil) then
+		_G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
+	end
 
 	for title, waypoint in pairs(MinArch.db.profile.TomTom.waypoints) do
 		MinArch.db.profile.TomTom.waypoints[title] = nil;

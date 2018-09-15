@@ -139,6 +139,12 @@ function MinArch:GetRaceIdByName(name)
 	return MinArch.ArchaeologyRaces[name];
 end
 
+function MinArch:ShowWindowButtonTooltip(button, text)
+	GameTooltip:SetOwner(button, "ANCHOR_BOTTOMRIGHT");
+	GameTooltip:AddLine(text, 1.0, 1.0, 1.0, 1.0)
+	GameTooltip:Show();
+end
+
 function MinArch:TestForMissingDigsites()
 	for k, v in pairs(MinArch.DigsiteLocales.enGB) do
 		if (MinArchDigsiteList[k] == nil) then

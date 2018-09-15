@@ -2,6 +2,11 @@ function MinArch:InitMain(self)
 	-- Init frame scripts
 	MinArchMain:SetScript('OnShow', function ()
 		MinArch:UpdateMain();
+		if (MinArch:IsNavigationEnabled()) then 
+			MinArchMainAutoWayButton:Show();
+		else
+			MinArchMainAutoWayButton:Hide();
+		end
 	end)
 
 	-- Create the artifact bars for the main window
@@ -26,6 +31,8 @@ function MinArch:InitMain(self)
 	local skillBarTexture = [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]];
 	MinArchMain.skillBar:SetStatusBarTexture(skillBarTexture);
 	MinArchMain.skillBar:SetStatusBarColor(0.03125, 0.85, 0);
+
+	MinArch:CreateAutoWaypointButton(MinArchMain, -90, 3);
 
 	-- Update Artifacts
 	self:RegisterEvent("RESEARCH_ARTIFACT_COMPLETE");
@@ -258,6 +265,30 @@ function MinArch:RefreshRaceButtons()
 
 end
 
+function MinArch:CreateAutoWaypointButton(parent, x, y)
+	local button = CreateFrame("Button", "$parentAutoWayButton", parent);
+	button:SetSize(21, 21);
+	button:SetPoint("TOPRIGHT", x, y);
+	
+	button:SetNormalTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]]);
+	button:GetNormalTexture():SetRotation(1.570796);
+	button:SetPushedTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Down]]);
+	button:GetPushedTexture():SetRotation(1.570796);
+	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
+	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
+
+	button:SetScript("OnClick", function() 
+		MinArch:SetWayToNearestDigsite()
+	end)
+
+	button:SetScript("OnEnter", function()
+		MinArch:ShowWindowButtonTooltip(button, "Create waypoint to the closest available digsite");
+	end)
+	button:SetScript("OnLeave", function() 
+		GameTooltip:Hide();
+	end)
+end
+
 function MinArch:InitDigsites(self)
 	local continents = C_Map.GetMapChildrenInfo(947, 2);
 	for k, v in pairs(continents) do
@@ -267,6 +298,16 @@ function MinArch:InitDigsites(self)
 	for k, v in pairs(continents) do
 		MinArch.MapContinents[v.mapID] = v.name;
 	end
+
+	self:SetScript("OnShow", function() 
+		if (MinArch:IsNavigationEnabled()) then 
+			MinArchDigsitesAutoWayButton:Show();
+		else
+			MinArchDigsitesAutoWayButton:Hide();
+		end
+	end)
+
+	MinArch:CreateAutoWaypointButton(self, -30, 3);
 
 	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
 	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");

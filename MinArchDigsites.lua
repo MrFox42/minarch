@@ -225,11 +225,11 @@ function MinArch:CreateDigSitesList(ContID)
 				currentDigSite:SetSize(cwidth+5, cheight)
 				
 				if count == 1 then
-				  currentDigSite:SetPoint("TOPLEFT",scrollc, "TOPLEFT", 0, 0)
-				  height = height + cheight
+					currentDigSite:SetPoint("TOPLEFT",scrollc, "TOPLEFT", 0, 0)
+					height = height + cheight
 				else
-				  currentDigSite:SetPoint("TOPLEFT", scrollc.digsites[count - 2], "BOTTOMLEFT", 0, - PADDING)
-				  height = height + cheight + PADDING
+					currentDigSite:SetPoint("TOPLEFT", scrollc.digsites[count - 2], "BOTTOMLEFT", 0, - PADDING)
+					height = height + cheight + PADDING
 				end
 				
 				count = count+1;
@@ -296,7 +296,7 @@ function MinArch:CreateDigSitesList(ContID)
 	 
 	-- Size and place the parent frame, and set the scrollchild to be the
 	-- frame of font strings we've created
-	scrollf:SetSize(width, 253)
+	scrollf:SetSize(width, 241)
 	scrollf:SetPoint("BOTTOMLEFT", MinArchDigsites, "BOTTOMLEFT", 12, 10)
 	scrollf:SetScrollChild(scrollc)
 	scrollf:Show()
@@ -305,8 +305,8 @@ function MinArch:CreateDigSitesList(ContID)
 	 
 	-- Set up the scrollbar to work properly
 	local scrollMax = 0
-	if height > 253 then
-		scrollMax = height - 253
+	if height > 241 then
+		scrollMax = height - 241
 	end
 	
 	if (scrollMax == 0) then
@@ -316,7 +316,7 @@ function MinArch:CreateDigSitesList(ContID)
 	end
 	
 	scrollb:SetOrientation("VERTICAL");
-	scrollb:SetSize(16, 253)
+	scrollb:SetSize(16, 241)
 	scrollb:SetPoint("TOPLEFT", scrollf, "TOPRIGHT", 0, 0)
 	scrollb:SetMinMaxValues(0, scrollMax)
 	scrollb:SetValue(0)
@@ -557,6 +557,11 @@ function MinArch:ShowRaceIconsOnMap()
 end
 
 function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame)
+	FRAME:SetScript("OnMouseUp", function(self, button)
+		if (button == "LeftButton") then
+			MinArch:SetWayToDigsiteOnClick(NAME, DETAILS);
+		end
+	end)
 	FRAME:SetScript("OnEnter", function()
 			MinArch:DigsiteMapTooltip(FRAME, NAME, DETAILS);
 		end);
@@ -645,6 +650,9 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 		MinArchTooltipIcon:Show();
 	end
 	
+	if (MinArch:IsNavigationEnabled()) then
+		tooltip:AddLine("Hint: Left-Click to create waypoint here.", 0, 1, 0)
+	end
 	
 	tooltip:Show();
 end

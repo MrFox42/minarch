@@ -5,7 +5,7 @@
 	<Button name="MinArchKalimdorButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="15" y="-12"/>
+			<Anchor point="TOPLEFT" x="15" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -39,7 +39,7 @@
 	<Button name="MinArchEasterButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="50" y="-12"/>
+			<Anchor point="TOPLEFT" x="50" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -73,7 +73,7 @@
 	<Button name="MinArchOutlandsButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="85" y="-12"/>
+			<Anchor point="TOPLEFT" x="85" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -107,7 +107,7 @@
 	<Button name="MinArchNorthrendButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="120" y="-12"/>
+			<Anchor point="TOPLEFT" x="120" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -143,7 +143,7 @@
 	<Button name="MinArchPandariaButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="155" y="-12"/>
+			<Anchor point="TOPLEFT" x="155" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -177,7 +177,7 @@
 	<Button name="MinArchDraenorButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="190" y="-12"/>
+			<Anchor point="TOPLEFT" x="190" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -211,7 +211,7 @@
 	<Button name="MinArchBrokenIslesButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="225" y="-12"/>
+			<Anchor point="TOPLEFT" x="225" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -245,7 +245,7 @@
 	<Button name="MinArchKulTirasButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="260" y="-12"/>
+			<Anchor point="TOPLEFT" x="260" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -279,7 +279,7 @@
 	<Button name="MinArchZandalarButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
 		<Anchors>
-			<Anchor point="TOPLEFT" x="295" y="-12"/>
+			<Anchor point="TOPLEFT" x="295" y="-20"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>

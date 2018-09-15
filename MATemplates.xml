@@ -174,6 +174,12 @@
 					end
 				end
 			</OnClick>
+			<OnEnter>
+				MinArch:ShowWindowButtonTooltip(self, "Open Profession Window");
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\ArchButtonUp.tga"/>
 		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\ArchButtonDown.tga"/>
@@ -190,6 +196,12 @@
 			<OnClick>
 			    MinArchHist:Show();
 			</OnClick>
+			<OnEnter>
+				MinArch:ShowWindowButtonTooltip(self, "Open History");
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\HistButtonUp.tga"/>
 		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\HistButtonDown.tga"/>
@@ -211,6 +223,12 @@
 				
 				MinArchDigsites:Show();
 			</OnClick>
+			<OnEnter>
+				MinArch:ShowWindowButtonTooltip(self, "Open Digsites");
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\DigSiteButtonUp.tga"/>
 		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\DigSiteButtonDown.tga"/>
