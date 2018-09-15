@@ -125,6 +125,17 @@ local general = {
 			inline = true,
 			order = 4,
 			args = {
+				autoShowInDigsites = {
+					type = "toggle",
+					name = "Show in digsites",
+					desc = "Auto-show Minimal Archaeology when moving around in a digsite.",
+					get = function () return MinArch.db.profile.autoShowInDigsites end,
+					set = function (_, newValue)
+						MinArch.db.profile.autoShowInDigsites = newValue;
+						MinArchShowInDigsite = true;
+					end,
+					order = 1,
+				},
 				autoShowOnSurvey = {
 					type = "toggle",
 					name = "Show when surveying",
@@ -134,7 +145,7 @@ local general = {
 						MinArch.db.profile.autoShowOnSurvey = newValue;
 						MinArchShowOnSurvey = true;
 					end,
-					order = 1,
+					order = 2,
 				},
 				autoShowOnSolve = {
 					type = "toggle",
@@ -144,16 +155,15 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnSolve = newValue;
 					end,
-					order = 2,
+					order = 3,
 				},
-				autoShowInDigsites = {
+				autoShowOnCap = {
 					type = "toggle",
-					name = "Show in digsites",
-					desc = "Auto-show Minimal Archaeology when moving around in a digsite.",
-					get = function () return MinArch.db.profile.autoShowInDigsites end,
+					name = "Show on cap",
+					desc = "Auto-show Minimal Archaeology when the fragment cap is reached with a race.",
+					get = function () return MinArch.db.profile.autoShowOnCap end,
 					set = function (_, newValue)
-						MinArch.db.profile.autoShowInDigsites = newValue;
-						MinArchShowInDigsite = true;
+						MinArch.db.profile.autoShowOnCap = newValue;
 					end,
 					order = 3,
 				},

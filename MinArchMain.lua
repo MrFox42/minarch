@@ -87,10 +87,7 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 	local total = artifact['total']
 
 	if (MinArch.db.profile.raceOptions.cap[RaceIndex] == true) then
-		total = 200;
-		if (RaceIndex < ARCHAEOLOGY_RACE_MOGU and RaceIndex > ARCHAEOLOGY_RACE_ZANDALARI) then
-			total = 250;
-		end
+		total = MinArchRaceConfig[RaceIndex].fragmentCap
 	end
 	
 	ArtifactBar:SetMinMaxValues(0, total);
@@ -138,6 +135,10 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 	else
 		ArtifactBar.buttonSolve:Disable();
 	end	
+
+	if (MinArch.db.profile.autoShowOnCap and artifact['progress'] == total) then
+		MinArch:ShowMain();
+	end
 end
 
 function MinArch:SolveArtifact(BarIndex)

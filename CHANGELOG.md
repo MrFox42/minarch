@@ -1,6 +1,20 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 8.0.10
+
+- TomTom integration: you can now set TomTom waypoints directly from MinArch. Also, there are two new options for creating automatic digsite waypoints
+- Opening the history window in a digsite will now list projects related to that digsite
+- Added an option to auto-show the main window, when a fragment cap is reached with one of the races
+- DataBroker button now follows MinArch fragment cap settings
+- Optimized World Map overlay icons
+
+## Known issues
+
+- Main window auto-hides after solving an artifact, even if there's another solve available
+
+## Recent updates
+
 ### 8.0.9
 
 - Minimal Archaeology is now DataBroker compatible
@@ -12,12 +26,6 @@
 - **8.0.9.2** Minimap button should no longer behave oddly with minimap button addons 
 - **8.0.9.3** DataBroker button should now update properly when settings changed or keystones  clicked
 - **8.0.9.4** History window updates should now be more reliable
-
-## Known issues
-
-- Main window auto-hides after solving an artifact, even if there's another solve available
-
-## Recent updates
 
 ### 8.0.8 - 8.0.8.1
 

@@ -201,6 +201,12 @@ function MinArch:InitHist(self)
 
 	self:SetScript("OnShow", function ()
 		MinArch:DimHistoryButtons();
+
+		local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
+		if (digSite and distance <= 2) then
+			MinArchOptions['CurrentHistPage'] = MinArch:GetRaceIdByName(digSiteData.race)
+		end
+
 		MinArch.raceButtons[MinArchOptions['CurrentHistPage']]:SetAlpha(1.0);
 		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
 	end)
