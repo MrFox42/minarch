@@ -639,8 +639,14 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	if (digsite['subzone'] == "") then
 		digsite['subzone'] = " ";
 	end
+
+	local coords = ""
+	if (digsite.x and digsite.y) then
+		coords = " (" .. string.format("%.2f", digsite.x) .. ", " .. string.format("%.2f", digsite.y) .. ")";
+	end
 	
-	tooltip:AddDoubleLine(digsite['subzone'], digsite['zone'], GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+	tooltip:AddDoubleLine(digsite.subzone, digsite.zone, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+	tooltip:AddDoubleLine(" ", coords, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	
 	if (digsite['race'] ~= "Unknown" and digsite['race'] ~= nil) then
 		if (project ~= nil) then
