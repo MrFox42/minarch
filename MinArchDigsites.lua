@@ -59,6 +59,7 @@ MinArchDigsitesDB["continent"] = {
 local SpamBlock = {}
 
 function MinArch:UpdateActiveDigSites()
+	MinArch.RelevantRaces = {};
 	-- can't do anything until all races are known
 	if GetNumArchaeologyRaces()<ARCHAEOLOGY_NUM_RACES then
 		return
@@ -67,9 +68,9 @@ function MinArch:UpdateActiveDigSites()
 	if not MinArchDigsiteList then
 		return
 	end
-
-	local tempmap = C_Map.GetBestMapForUnit("player");
 	
+	local playerContID = MinArch:GetInternalContId();
+
 	for i = 1, ARCHAEOLOGY_NUM_CONTINENTS do
 
 		if MinArchDigsitesDB["continent"][i] == nil then
@@ -106,13 +107,16 @@ function MinArch:UpdateActiveDigSites()
 					end
 				--end
 
-				-- TODO: removed digsites assigned to the wrong continent in old/buggy releases
+				-- TODO: remove digsites assigned to the wrong continent in old/buggy releases
 				
 				local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
-				local zoneUiMapID = MinArch:GetNearestZoneId(digsiteZone.mapID);
-				if (zoneUiMapID ~= nil and (zoneUiMapID == uiMapID or zoneUiMapID == digsiteZone.parentMapID)) then
+				local currentZoneUiMapID = MinArch:GetNearestZoneId(digsiteZone.mapID);
+				if (currentZoneUiMapID ~= nil and (currentZoneUiMapID == uiMapID or currentZoneUiMapID == digsiteZone.parentMapID)) then
+					if (playerContID == i and MinArchDigsiteList[name]) then
+						MinArch.RelevantRaces[MinArchDigsiteList[name]] = true;
+					end
 					MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
-					MinArchDigsitesGlobalDB["continent"][i][name]["uiMapID"] = zoneUiMapID;
+					MinArchDigsitesGlobalDB["continent"][i][name]["uiMapID"] = currentZoneUiMapID;
 					MinArchDigsitesGlobalDB["continent"][i][name]["x"] = tostring(x*100);
 					MinArchDigsitesGlobalDB["continent"][i][name]["y"] = tostring(y*100);
 					MinArchDigsitesGlobalDB["continent"][i][name]["zone"] = digsiteZone.name or "";

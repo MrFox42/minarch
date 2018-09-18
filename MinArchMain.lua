@@ -11,7 +11,7 @@ function MinArch:UpdateArchaeologySkillBar()
 		else
 			MinArchMain.skillBar:Hide();
 			MinArch['frame']['height'] = MinArch['frame']['defaultHeight'] - 25;
-			MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
+			MinArchMainToggleBar:SetPoint("TOPLEFT", 25, -15);
 		end		
 	else
 		MinArchMain.skillBar:SetMinMaxValues(0, 100);
@@ -154,13 +154,15 @@ end
 
 function MinArch:UpdateMain()
 	local activeBarIndex = 0;
+	local point, relativeTo, relativePoint, xOfs, yOfs = MinArchMain:GetPoint()
+	local x1, size1 = MinArchMain:GetSize();
 	
 	for i=1,ARCHAEOLOGY_NUM_RACES do
 		if not MinArch:UpdateArtifact(i) then return end
 		
 		local artifact = MinArch['artifacts'][i];
 		
-		if (artifact['total'] > 0 and MinArch.db.profile.raceOptions.hide[i] == false) then
+		if (artifact['total'] > 0 and MinArch.db.profile.raceOptions.hide[i] == false and MinArch:IsRaceRelevant(i)) then
 			activeBarIndex = activeBarIndex + 1;
 			MinArch:UpdateArtifactBar(i, MinArch['artifactbars'][activeBarIndex]);
 			MinArch['artifactbars'][activeBarIndex]:Show();
@@ -176,8 +178,19 @@ function MinArch:UpdateMain()
 			MinArchFrameHeight = MinArchFrameHeight - 25;
 		end
 	end
-		
+
+	if (MinArch.firstRun == false) then
+		MinArchMain:ClearAllPoints();
+		if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
+			MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchFrameHeight) / 2 )));
+		else
+			MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+		end
+	else
+		MinArch.firstRun = false;
+	end
 	MinArchMain:SetHeight(MinArchFrameHeight);
+	
 	MinArch:RefreshLDBButton();
 end
 

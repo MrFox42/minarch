@@ -8,6 +8,7 @@ MinArchIsReady = false;
 MinArchShowOnSurvey = true;
 MinArchShowInDigsite = true;
 
+MinArch.firstRun = true;
 MinArch.artifacts = {};
 MinArch.artifactbars = {};
 MinArch.barlinks = {};
@@ -18,6 +19,7 @@ MinArchOptions.ABOptions = {};
 MinArch.ArchaeologyRaces = {};
 MinArch.MapContinents = {};
 MinArch.RacesLoaded = false;
+MinArch.RelevantRaces = {};
 MinArch.ResearchBranchMap = {
 	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
 	[2] = ARCHAEOLOGY_RACE_DRAENEI, -- Draenei
@@ -63,6 +65,10 @@ MinArch.defaults = {
 		autoShowOnSolve = false,
 		autoShowInDigsites = false,
 		autoShowOnCap = true,
+		relevancy = {
+			relevantOnly = true,
+
+		},
 		minimap = {
 			minimapPos = 45,
 			hide = false

@@ -131,6 +131,22 @@ function MinArch:GetRaceNameByBranchId(branchID)
 	return nil;
 end
 
+function MinArch:IsRaceRelevant(raceID)
+	if (not MinArch.db.profile.relevancy.relevantOnly) then 
+		return true;
+	end
+
+	if (MinArch.RelevantRaces[raceID]) then
+		return true;
+	end
+
+	if (MinArch['artifacts'][raceID]['canSolve']) then
+		return true;
+	end
+
+	return false;
+end
+
 function MinArch:GetRaceIdByName(name)
 	if (MinArch.RacesLoaded == false) then
 		MinArch:LoadRaceInfo();

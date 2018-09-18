@@ -9,19 +9,35 @@ function MinArch:InitMain(self)
 		end
 	end)
 
+	-- Create the toggles bar
+	-- TODO Font size
+	local toggleBar = CreateFrame("Frame", "$parentToggleBar", MinArchMain);
+	toggleBar:SetSize(200, 20);
+	toggleBar:SetPoint("TOPLEFT", 25, -40);
+	local relCheckButton = CreateFrame("CheckButton", "$parentCheckButton", toggleBar, "ChatConfigCheckButtonTemplate");
+	relCheckButton:SetPoint("TOPLEFT", -10, 0);
+	relCheckButton.Text:SetText("Relevant only");
+	relCheckButton.tooltip = "Only show relevant races. Check the settings to customize relevancy options.";
+	relCheckButton:SetChecked(MinArch.db.profile.relevancy.relevantOnly);
+	relCheckButton:SetScript("OnClick", function(self, button)
+		if (button == "LeftButton") then
+			MinArch.db.profile.relevancy.relevantOnly = self:GetChecked();
+			MinArch:UpdateMain();
+		end
+	end);
+
 	-- Create the artifact bars for the main window
 	for i=1,ARCHAEOLOGY_NUM_RACES do
-		artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
+		local artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
 		artifactBar.parentKey = "artifactBar" .. i;
 		if (i == 1) then
-			artifactBar:SetPoint("TOP", MinArchMain, "TOP", -25, -50);
+			artifactBar:SetPoint("TOP", toggleBar, "TOP", 0, -25);
 		else 
 			artifactBar:SetPoint("TOP", MinArch['artifactbars'][i-1], "TOP", 0, -25);
 		end
 
 		local barTexture = [[Interface\Archeology\Arch-Progress-Fill]];
 		artifactBar:SetStatusBarTexture(barTexture);
-
 
 		MinArch['artifacts'][i] = {}; 
 		MinArch['artifacts'][i]['appliedKeystones'] = 0;
@@ -88,7 +104,11 @@ function MinArch:OnInitialize ()
 		tinsert(UISpecialFrames, "MinArchHist");
 		tinsert(UISpecialFrames, "MinArchDigsites");
 	end)]]--
-	
+
+	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
+	MinArchIsReady = true;
+	MinArch:ShowRaceIconsOnMap();
+	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
 function MinArch:SetDynamicDefaults ()

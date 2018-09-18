@@ -5,10 +5,10 @@
 	<Script file="MinArchEvents.lua"/>
 	<Script file="MinArchMain.lua"/>
 	
-	<Frame name="MinArchMain"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
-		<size x="300" y="560" />
+	<Frame name="MinArchMain" inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
+		<size x="300" y="580" />
 		<Anchors>
-			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
+			<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="UIParent" />
 		</Anchors>
 		<Frames>
 			<!-- Top Level Buttons (Hist|Arch|X) -->
@@ -39,7 +39,6 @@
 			</StatusBar>
 			
 			<!-- Artifact Bars created in MinArch:InitMain -->
-
 		</Frames>
 		<Scripts>
 			<OnLoad>

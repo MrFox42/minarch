@@ -149,6 +149,7 @@ function MinArch:EventDigsites(event, ...)
 		return;
 	end
 
+	-- TODO: internal events for updates
 	MinArch:UpdateActiveDigSites();
 	local ContID = MinArch:GetInternalContId();
 
@@ -227,13 +228,6 @@ function MinArch:MainEventAddonLoaded()
 		end
 	    end
 	end
-	
-	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
-	MinArchIsReady = true;
-	
-	MinArch:ShowRaceIconsOnMap();
-
-	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
 function MinArch:TrackingChanged(self)
