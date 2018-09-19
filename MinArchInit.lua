@@ -209,14 +209,7 @@ function MinArch:UpgradeSettings()
 end
 
 function MinArch:InitHist(self)
-	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
-	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
-	self:RegisterEvent("QUEST_ACCEPTED");
-	self:RegisterEvent("QUEST_TURNED_IN");
-	self:RegisterEvent("QUEST_REMOVED");	
-	self:RegisterEvent("QUESTLINE_UPDATE");
-	-- RequestArtifactCompletionHistory();
-
+	MinArch:InitQuestIndicator(self);
 	MinArch:InitRaceButtons(self);
 
 	self:SetScript("OnShow", function ()
@@ -231,7 +224,29 @@ function MinArch:InitHist(self)
 		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
 	end)
 
+	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
+	self:RegisterEvent("QUEST_ACCEPTED");
+	self:RegisterEvent("QUEST_TURNED_IN");
+	self:RegisterEvent("QUEST_REMOVED");	
+	self:RegisterEvent("QUESTLINE_UPDATE");
+	-- RequestArtifactCompletionHistory();
+
 	MinArch:DisplayStatusMessage("Minimal Archaeology History Initialized!");
+end
+
+function MinArch:InitQuestIndicator(self)
+	local qi = CreateFrame("Button", "MinArchHistQuestIndicator", self);
+	qi:SetSize(16,16);
+	
+	qi.texture = qi:CreateTexture(nil, "OVERLAY");
+	qi.texture:SetAllPoints(qi);
+	--qi.texture:SetSize(20,20);
+	qi.texture:SetTexture([[Interface\QuestTypeIcons]]);
+	qi.texture:SetTexCoord(0, 0.140625, 0.28125, 0.5625);
+	qi:EnableMouse(false);
+	qi:SetAlpha(0.9);
+	qi:Hide();
 end
 
 function MinArch:InitRaceButtons(self)

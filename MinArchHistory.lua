@@ -317,18 +317,23 @@ function MinArch:CreateHistoryList(RaceID, caller)
 					local isQuestAvailable = false;
 					local isOnQuest = false;
 					if (RaceID == ARCHAEOLOGY_RACE_DEMONIC or RaceID == ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN or RaceID == ARCHAEOLOGY_RACE_HIGHBORNE) then
-						isQuestAvailable, isOnQuest = MinArch:IsQuestAvailableForArtifact(RaceID, itemid)
-						tmpText = "";
-						if (details.totalcomplete and details.totalcomplete > 0) then
-							tmpText = "#" .. (details.totalcomplete + 1) .. " ";
-						end
+						isQuestAvailable, isOnQuest = MinArch:IsQuestAvailableForArtifact(RaceID, itemid);
+						if (isQuestAvailable) then
+							tmpText = "";
+							if (details.totalcomplete and details.totalcomplete > 0) then
+								tmpText = "#" .. (details.totalcomplete + 1) .. " ";
+							end
 
-						if (isQuestAvailable and isOnQuest) then
-							currentFontString:SetText(tmpText .. "On quest");
-							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
-						elseif (isQuestAvailable) then
-							currentFontString:SetText(tmpText .. "Quest available");
-							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
+							if (isQuestAvailable and isOnQuest) then
+								currentFontString:SetText(tmpText .. "On quest");
+								currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
+							else
+								currentFontString:SetText(tmpText .. "Quest available");
+								currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
+							end
+
+							MinArchHistQuestIndicator:SetPoint("BOTTOMRIGHT", MinArch.raceButtons[RaceID], "BOTTOMRIGHT", 2, 2);
+							MinArchHistQuestIndicator:Show();
 						end
 					end
 
