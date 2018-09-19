@@ -20,6 +20,7 @@ MinArch.ArchaeologyRaces = {};
 MinArch.MapContinents = {};
 MinArch.RacesLoaded = false;
 MinArch.RelevantRaces = {};
+MinArch.qLineRaces = {ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE};
 MinArch.ResearchBranchMap = {
 	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
 	[2] = ARCHAEOLOGY_RACE_DRAENEI, -- Draenei

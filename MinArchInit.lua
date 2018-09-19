@@ -245,7 +245,7 @@ function MinArch:InitQuestIndicator(self)
 	qi.texture:SetTexture([[Interface\QuestTypeIcons]]);
 	qi.texture:SetTexCoord(0, 0.140625, 0.28125, 0.5625);
 	qi:EnableMouse(false);
-	qi:SetAlpha(0.9);
+	qi:SetAlpha(0.6);
 	qi:Hide();
 end
 

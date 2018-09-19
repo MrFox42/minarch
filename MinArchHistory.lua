@@ -3,6 +3,11 @@ MinArchScroll = {}
 MinArch.HistoryListLoaded = {}
 MinArch.HasPristine = {}
 
+local qLineQuests = {};
+local currentQuestArtifact = nil;
+local currentQuestArtifactRace = nil;
+local isOnArtifactQuestLine = false;
+
 function MinArch:IsItemDetailsLoaded(RaceID)
 	return MinArch.HistoryListLoaded[RaceID] or false
 end
@@ -133,6 +138,31 @@ function MinArch:GetHistory(RaceID, caller)
 	end
 end
 
+function MinArch:GetCurrentQuestArtifact()
+	for i=1, #MinArch.qLineRaces do
+		local RaceID = MinArch.qLineRaces[i];
+
+		for itemid, details in pairs(MinArchHistDB[RaceID]) do
+			local isQuestAvailable, isOnQuest = MinArch:IsQuestAvailableForArtifact(RaceID, itemid);
+
+			if (isQuestAvailable) then
+				currentQuestArtifact = itemid;
+				isOnArtifactQuestLine = isOnQuest;
+				currentQuestArtifactRace = RaceID;
+				MinArchHistQuestIndicator:SetPoint("BOTTOMRIGHT", MinArch.raceButtons[RaceID], "BOTTOMRIGHT", 2, 2);
+				MinArchHistQuestIndicator:Show();
+
+				return;
+			end
+		end		
+	end
+
+	currentQuestArtifact = nil;
+	currentQuestArtifactRace = nil;
+	isOnArtifactQuestLine = false;
+	MinArchHistQuestIndicator:Hide();
+end
+
 function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 	local qLineId = MinArchHistDB[RaceID][artifactID]['qline'];
 	if (qLineId == nil) then
@@ -141,15 +171,15 @@ function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 
 	local availableQuestLines = C_QuestLine.GetAvailableQuestLines(619);
 
-	local qLineQuests = C_QuestLine.GetQuestLineQuests(qLineId);
-	for i=1, #qLineQuests do
-		if (C_QuestLog.IsOnQuest(qLineQuests[i])) then
+	qLineQuests[qLineId] = qLineQuests[qLineId] or C_QuestLine.GetQuestLineQuests(qLineId);
+	for i=1, #qLineQuests[qLineId] do
+		if (C_QuestLog.IsOnQuest(qLineQuests[qLineId][i])) then
 			return true, true;
 		end
 
 		
 		for k, quest in pairs(availableQuestLines) do
-			if (quest.questID == qLineQuests[i]) then
+			if (quest.questID == qLineQuests[qLineId][i]) then
 				return true
 			end
 		end
@@ -158,7 +188,10 @@ function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 	return false
 end
 
-function MinArch:CreateHistoryList(RaceID, caller)
+function MinArch:CreateHistoryList(RaceID, caller)	
+	MinArch:GetCurrentQuestArtifact();
+	MinArchHistQuestIndicator:SetAlpha((RaceID == currentQuestArtifactRace) and 0.9 or 0.6);
+
 	caller = (caller or "race button")
 	local nextcaller = (caller or "race button") .. " -> CreateHistoryList(" .. ((MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) or ("Race" .. RaceID)) .. ")"
 
@@ -314,28 +347,21 @@ function MinArch:CreateHistoryList(RaceID, caller)
 					end
 				
 					-- Legion quests
-					local isQuestAvailable = false;
-					local isOnQuest = false;
-					if (RaceID == ARCHAEOLOGY_RACE_DEMONIC or RaceID == ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN or RaceID == ARCHAEOLOGY_RACE_HIGHBORNE) then
-						isQuestAvailable, isOnQuest = MinArch:IsQuestAvailableForArtifact(RaceID, itemid);
-						if (isQuestAvailable) then
-							tmpText = "";
-							if (details.totalcomplete and details.totalcomplete > 0) then
-								tmpText = "#" .. (details.totalcomplete + 1) .. " ";
-							end
+					if (currentQuestArtifact == itemid) then
+						tmpText = "";
+						if (details.totalcomplete and details.totalcomplete > 0) then
+							tmpText = "#" .. (details.totalcomplete + 1) .. " ";
+						end
 
-							if (isQuestAvailable and isOnQuest) then
-								currentFontString:SetText(tmpText .. "On quest");
-								currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
-							else
-								currentFontString:SetText(tmpText .. "Quest available");
-								currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
-							end
-
-							MinArchHistQuestIndicator:SetPoint("BOTTOMRIGHT", MinArch.raceButtons[RaceID], "BOTTOMRIGHT", 2, 2);
-							MinArchHistQuestIndicator:Show();
+						if (isOnArtifactQuestLine) then
+							currentFontString:SetText(tmpText .. "On quest");
+							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
+						else
+							currentFontString:SetText(tmpText .. "Quest available");
+							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
 						end
 					end
+					
 
 					cwidth = currentFontString:GetStringWidth()
 					currentFontString:SetSize(cwidth + 5, cheight)
@@ -452,7 +478,7 @@ end
 function MinArch:DimHistoryButtons()
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		if (MinArch.raceButtons[i]) then
-			MinArch.raceButtons[i]:SetAlpha(0.5);
+			MinArch.raceButtons[i]:SetAlpha(0.4);
 		end
 	end
 end

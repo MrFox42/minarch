@@ -179,7 +179,7 @@ function MinArch:UpdateMain()
 		end
 	end
 
-	if (MinArch.firstRun == false) then
+	if (MinArch.firstRun == false and relativeTo ~= nil) then
 		MinArchMain:ClearAllPoints();
 		if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
 			MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchFrameHeight) / 2 )));
@@ -187,6 +187,7 @@ function MinArch:UpdateMain()
 			MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
 		end
 	else
+		MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
 		MinArch.firstRun = false;
 	end
 	MinArchMain:SetHeight(MinArchFrameHeight);
