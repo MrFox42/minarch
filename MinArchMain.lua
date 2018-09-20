@@ -150,6 +150,7 @@ function MinArch:SolveArtifact(BarIndex)
 	MinArch['artifacts'][MinArch['barlinks'][BarIndex]]['appliedKeystones'] = 0;
 	
 	SolveArtifact();
+	MinArch:CreateHistoryList(MinArch['barlinks'][BarIndex], "SolveArtifact");
 end
 
 function MinArch:UpdateMain()

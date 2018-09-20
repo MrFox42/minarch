@@ -188,7 +188,13 @@ function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 	return false
 end
 
-function MinArch:CreateHistoryList(RaceID, caller)	
+function MinArch:CreateHistoryList(RaceID, caller)
+	if (RaceID ~= MinArchOptions.CurrentHistPage) then
+		MinArch:DimHistoryButtons();
+		MinArchOptions.CurrentHistPage = RaceID;
+		MinArch.raceButtons[RaceID]:SetAlpha(1.0);
+	end
+	
 	MinArch:GetCurrentQuestArtifact();
 	MinArchHistQuestIndicator:SetAlpha((RaceID == currentQuestArtifactRace) and 0.9 or 0.6);
 
