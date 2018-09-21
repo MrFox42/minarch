@@ -90,8 +90,8 @@ MinArch.defaults = {
 		},
 
 		-- deprecated, left for compatibility
-		hideMinimapButton = false,
-		minimapPos = 45,
+		hideMinimapButton = false, -- moved into minimap (databroker)
+		minimapPos = 45,           -- not needed anymore (databroker)
 	},	
 }
 
