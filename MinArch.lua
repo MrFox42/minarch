@@ -67,8 +67,10 @@ MinArch.defaults = {
 		autoShowInDigsites = false,
 		autoShowOnCap = true,
 		relevancy = {
-			relevantOnly = true,
-
+			relevantOnly = false,
+			nearby = true,
+			continentSpecific = false,
+			solvable = true
 		},
 		minimap = {
 			minimapPos = 45,

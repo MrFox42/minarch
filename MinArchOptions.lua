@@ -22,6 +22,31 @@ local general = {
 					width = "full",
 					order = 1,
 				},
+				raceButton = {
+					type = "execute",
+					name = "Race Settings",
+					order = 2,
+					func = function ()
+						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
+					end,
+				},
+				TomTomButton = {
+					type = "execute",
+					name = "TomTom Settings",
+					order = 3,
+					func = function ()
+						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
+					end,
+				},
+				deBbutton = {
+					type = "execute",
+					name = "Dev Settings",
+					order = 4,
+					func = function ()
+						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.devSettings);
+					end,
+				},
+				
 			}
 		},
 		misc = {
@@ -42,7 +67,6 @@ local general = {
 					end,
 					order = 1,
 				},
-				--MinArch.db.profile.disableSound
 				disableSound = {
 					type = "toggle",
 					name = "Disable Sound",
@@ -169,6 +193,151 @@ local general = {
 				},
 			}
 		},
+		relevancy = {
+			type = 'group',
+			name = 'Relevancy Options',
+			inline = true,
+			order = 6,
+			args = {
+				message = {
+					type = "description",
+					name = "Customize which races you would like to be displayed in the Main window when the relevant races switch is toggled.",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+				nearby = {
+					type = "toggle",
+					name = "Nearby",
+					desc = "Show races which have currently available digsites on your current continent.",
+					get = function () return MinArch.db.profile.relevancy.nearby end,
+					set = function (_, newValue)
+						MinArch.db.profile.relevancy.nearby = newValue;
+						MinArch:UpdateMain();
+					end,
+					order = 2,
+				},
+				continentSpecific = {
+					type = "toggle",
+					name = "Continent-specific",
+					desc = "Show races which could be available on your current continent (or expansion), even if they don't have an active digsite at the moment.",
+					get = function () return MinArch.db.profile.relevancy.continentSpecific end,
+					set = function (_, newValue)
+						MinArch.db.profile.relevancy.continentSpecific = newValue;
+						MinArch:UpdateMain();
+					end,
+					order = 3,
+				},
+				solvable = {
+					type = "toggle",
+					name = "Solvable",
+					desc = "Show races which have a solve available, even if they're neither available nor related to your current continent.",
+					get = function () return MinArch.db.profile.relevancy.solvable end,
+					set = function (_, newValue)
+						MinArch.db.profile.relevancy.solvable = newValue;
+						MinArch:UpdateMain();
+					end,
+					order = 4,
+				},
+			}
+		},
+	}
+}
+
+local raceSettings = {
+	name = "Race Settings",
+	handler = MinArch,
+	type = "group",	
+	childGroups = "tab",
+	args = {
+		hide = {
+			type = "group",
+			name = "Hide",
+			order = 1,
+			inline = false,
+			args = {
+			}
+		},
+		cap = {
+			type = "group",
+			name = "Cap",
+			order = 2,
+			inline = false,
+			args = {
+			}
+		},
+		keystone = {
+			type = "group",
+			name = "Keystone",
+			order = 3,
+			inline = false,
+			args = {
+			}
+		},
+	}
+}
+
+local ArchRaceGroupText = {
+	"Kul Tiras, Zuldazar",
+	"Broken Isles",
+	"Draenor",
+	"Pandaria",
+	"Northrend",
+	"Outland",
+	"Eastern Kingdoms, Kalimdor"
+};
+
+local ArchRaceGroups = {
+	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
+	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
+	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
+	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
+	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
+	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
+	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}
+};
+
+local devSettings = {
+	name = "Tester/Developer Settings",
+	handler = MinArch,
+	type = "group",
+	args = {
+		dev = {
+			type = 'group',
+			name = 'Debug messages',
+			inline = true,
+			order = 1,
+			args = {
+				showStatusMessages = {
+					type = "toggle",
+					name = "Show status messages",
+					desc = "Show Minimal Archaeology status messages in the chat.",
+					get = function () return MinArch.db.profile.showStatusMessages end,
+					set = function (_, newValue)
+						MinArch.db.profile.showStatusMessages = newValue;
+					end,
+					order = 1,
+				},
+				showDebugMessages = {
+					type = "toggle",
+					name = "Show debug messages",
+					desc = "Show debug messages in the chat. Debug messages show more detailed information about the addon than status messages.",
+					get = function () return MinArch.db.profile.showDebugMessages end,
+					set = function (_, newValue)
+						MinArch.db.profile.showDebugMessages = newValue;
+					end,
+					order = 2,
+				}
+			}
+		}
+	}
+}
+
+local TomTomSettings = {
+	name = "MinArch - TomTom Settings",
+	handler = MinArch,
+	type = "group",
+	args = {
 		tomtom = {
 			type = 'group',
 			name = 'TomTom Options',
@@ -249,89 +418,8 @@ local general = {
 				},
 			},
 		},
-		dev = {
-			type = 'group',
-			name = 'Developer Options',
-			inline = true,
-			order = 6,
-			args = {
-				showStatusMessages = {
-					type = "toggle",
-					name = "Show status messages",
-					desc = "Show Minimal Archaeology status messages in the chat.",
-					get = function () return MinArch.db.profile.showStatusMessages end,
-					set = function (_, newValue)
-						MinArch.db.profile.showStatusMessages = newValue;
-					end,
-					order = 1,
-				},
-				showDebugMessages = {
-					type = "toggle",
-					name = "Show debug messages",
-					desc = "Show debug messages in the chat. Debug messages show more detailed information about the addon than status messages.",
-					get = function () return MinArch.db.profile.showDebugMessages end,
-					set = function (_, newValue)
-						MinArch.db.profile.showDebugMessages = newValue;
-					end,
-					order = 2,
-				}
-			}
-		}
 	}
 }
-
-local raceSettings = {
-	name = "Race Settings",
-	handler = MinArch,
-	type = "group",	
-	childGroups = "tab",
-	args = {
-		hide = {
-			type = "group",
-			name = "Hide",
-			order = 1,
-			inline = false,
-			args = {
-			}
-		},
-		cap = {
-			type = "group",
-			name = "Cap",
-			order = 2,
-			inline = false,
-			args = {
-			}
-		},
-		keystone = {
-			type = "group",
-			name = "Keystone",
-			order = 3,
-			inline = false,
-			args = {
-			}
-		},
-	}
-}
-
-local ArchRaceGroupText = {
-	"Kul Tiras, Zuldazar",
-	"Broken Isles",
-	"Draenor",
-	"Pandaria",
-	"Northrend",
-	"Outland",
-	"Eastern Kingdoms, Kalimdor"
-};
-
-local ArchRaceGroups = {
-	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
-	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
-	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
-	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
-	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
-	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
-	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}
-};
 
 function Options:OnInitialize()
 	local count = 0;
@@ -426,7 +514,13 @@ function Options:RegisterMenus()
 	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", "Minimal Archaeology");
 	
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
-    self.settings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");
+	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");
+	
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch TomTom Settings", TomTomSettings);
+	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch TomTom Settings", "TomTom Settings", "Minimal Archaeology");
+	
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Developer Settings", devSettings);
+    self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Developer Settings", "Developer Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(parent.db));
     self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Profiles", "Profiles", "Minimal Archaeology");

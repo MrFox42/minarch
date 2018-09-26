@@ -203,7 +203,7 @@ function MinArch:MainEventAddonLoaded()
 		MinArchOptions['CurrentHistPage'] = 1;
 	end
 
-	if (MinArch.db.profile.startHidden == true) then
+	if (MinArch.db.profile.startHidden == true and not MinArch.overrideStartHidden) then
 		MinArch:HideMain();
 	end
 	

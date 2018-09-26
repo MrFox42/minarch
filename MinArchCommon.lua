@@ -14,6 +14,19 @@ local MinArchContIDMap = {
 	[875] = 10, -- Zandalar
 };
 
+local MinArchContinentRaces = {
+	[1] = {ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}, -- Kalimdor
+	[2] = {ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}, -- EK
+	[3] = {ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI}, -- Outland
+	[4] = {ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_TROLL}, -- Northrend
+	[5] = {}, -- Maelstrom
+	[6] = {ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID}, -- Pandaria
+	[7] = {ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA}, -- Draenor
+	[8] = {ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE}, -- Broken Isles
+	[9] = {ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI}, -- Kul Tiras
+	[10] = {ARCHAEOLOGY_RACE_ZANDALARI, ARCHAEOLOGY_RACE_DRUSTVARI}, -- Zandalar
+};
+
 -- Alternate uiMapIDs (flight maps) for continents ([uiMapID] = internalContID) 
 local MinArchAlternateContIDMap = {
 	[993] = 8, -- Broken Isles Flight map
@@ -136,12 +149,23 @@ function MinArch:IsRaceRelevant(raceID)
 		return true;
 	end
 
-	if (MinArch.RelevantRaces[raceID]) then
+	if (MinArch.RelevantRaces[raceID] and MinArch.db.profile.relevancy.nearby) then
 		return true;
 	end
 
-	if (MinArch['artifacts'][raceID]['canSolve']) then
+	if (MinArch['artifacts'][raceID]['canSolve'] and MinArch.db.profile.relevancy.solvable) then
 		return true;
+	end
+
+	if (MinArch.db.profile.relevancy.continentSpecific) then
+		local contID = MinArch:GetInternalContId();
+		if (MinArchContinentRaces[contID]) then
+			for i=1, #MinArchContinentRaces[contID] do
+				if (MinArchContinentRaces[contID][i] == raceID) then
+					return true;
+				end
+			end
+		end
 	end
 
 	return false;

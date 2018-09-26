@@ -125,8 +125,12 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 			if (MinArch.db.profile.disableSound == false) then
 				PlaySound(3175, "SFX");
 			end
-			if (MinArch.db.profile.autoShowOnSolve) then
-				MinArch:ShowMain();
+			if (MinArch.db.profile.autoShowOnSolve and MinArch:IsRaceRelevant(RaceIndex)) then
+				if (MinArch.firstRun) then
+					MinArch.overrideStartHidden = true;
+				else
+					MinArch:ShowMain();
+				end
 			end
 			artifact['canSolvePrev'] = artifact['canSolve'];
 		end
@@ -180,7 +184,11 @@ function MinArch:UpdateMain()
 		end
 	end
 
-	if (MinArch.firstRun == false and relativeTo ~= nil) then
+	if (MinArch.firstRun == false and relativeTo == nil) then
+		MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+	end
+
+	if (MinArch.firstRun == false) then
 		MinArchMain:ClearAllPoints();
 		if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
 			MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchFrameHeight) / 2 )));
