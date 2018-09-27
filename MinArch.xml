@@ -8,7 +8,7 @@
 	<Frame name="MinArchMain" inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
 		<size x="300" y="580" />
 		<Anchors>
-			<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="UIParent" />
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>
 		<Frames>
 			<!-- Top Level Buttons (Hist|Arch|X) -->

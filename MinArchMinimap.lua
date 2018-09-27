@@ -24,7 +24,7 @@ function MinArch:RefreshLDBButton()
 
 		local raceID = MinArch:GetRaceIdByName(digSiteData.race);
 		if (MinArch['artifacts'][raceID]) then
-			local progress = MinArch['artifacts'][raceID]['progress'];
+			local progress = MinArch['artifacts'][raceID]['progress'] or 0;
 			if (MinArch.db.profile.raceOptions.cap[raceID] == true) then
 				text = text .. " " .. progress .. "/" .. MinArchRaceConfig[raceID].fragmentCap;
 			else
@@ -32,7 +32,6 @@ function MinArch:RefreshLDBButton()
 					text = text .. " (Solvable)";
 				elseif (MinArch['artifacts'][raceID]['progress'] ~= nil and MinArch['artifacts'][raceID]['total'] ~= nil) then
 					if (MinArch['artifacts'][raceID]['appliedKeystones'] > 0) then
-						-- todo: keystone count
 						progress = progress + (MinArch['artifacts'][raceID]['modifier'])
 					end
 					text = text .. " " .. progress .. "/" .. MinArch['artifacts'][raceID]['total'];

@@ -15,8 +15,11 @@ function MinArch:InitMain(self)
 	toggleBar:SetSize(200, 20);
 	toggleBar:SetPoint("TOPLEFT", 25, -40);
 	local relCheckButton = CreateFrame("CheckButton", "$parentCheckButton", toggleBar, "ChatConfigCheckButtonTemplate");
+	relCheckButton:SetSize(20, 20);
 	relCheckButton:SetPoint("TOPLEFT", -10, 0);
 	relCheckButton.Text:SetText("Relevant only");
+	relCheckButton.Text:SetFont("Fonts\\FRIZQT__.ttf",11);
+	relCheckButton.Text:SetPoint("TOP", 0, -4)
 	relCheckButton.tooltip = "Only show relevant races. Check the settings to customize relevancy options.";
 	relCheckButton:SetChecked(MinArch.db.profile.relevancy.relevantOnly);
 	relCheckButton:SetScript("OnClick", function(self, button)

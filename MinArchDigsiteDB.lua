@@ -1,5 +1,4 @@
 -- list of all digsites with type
--- TODO: check if anything is missing
 
 MinArchDigsiteList = {
 	 -- TODO some digsites have matching names

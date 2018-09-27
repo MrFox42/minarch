@@ -1,6 +1,20 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 8.0.11 beta
+
+- Toggle relevant races
+- Quest icon overlay for race icons in the history window
+- Switch race in the history window automatically when solving an artifact
+- World Quest Tracker "Slot machine" fix for MinArch tooltips
+- Moved around some settings into submenus, added buttons for them in the main settings menu
+
+## Known issues
+
+- Main window auto-hides after solving an artifact, even if there's another solve available
+
+## Recent updates
+
 ### 8.0.10
 
 - TomTom integration: you can now set TomTom waypoints directly from MinArch. Also, there are two new options for creating automatic digsite waypoints
@@ -8,12 +22,6 @@
 - Added an option to auto-show the main window, when a fragment cap is reached with one of the races
 - DataBroker button now follows MinArch fragment cap settings
 - Optimized World Map overlay icons
-
-## Known issues
-
-- Main window auto-hides after solving an artifact, even if there's another solve available
-
-## Recent updates
 
 ### 8.0.9
 
