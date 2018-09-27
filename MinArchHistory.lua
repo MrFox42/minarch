@@ -309,12 +309,12 @@ function MinArch:CreateHistoryList(RaceID, caller)
 					currentFontString:SetFontObject("ChatFontSmall")
 					currentFontString:SetWordWrap(true)
 					currentFontString:SetJustifyH("LEFT")
-					currentFontString:SetJustifyV("TOP")
+					currentFontString:SetJustifyV("CENTER")
 					local displayName = details.name;
 					if (strlen(details.name) > 31) then
 						displayName = strsub(details.name, 0, 28) .. '...';
 					end
-					currentFontString:SetText(" " .. displayName)
+					currentFontString:SetText(" |T" .. strsub(details.icon, 0, -5) .. ":16:16:0:0|t " .. displayName)
 					currentFontString:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
 				
 					cwidth = currentFontString:GetStringWidth()

@@ -19,13 +19,19 @@ function MinArch:InitMain(self)
 	relCheckButton:SetPoint("TOPLEFT", -10, 0);
 	relCheckButton.Text:SetText("Relevant only");
 	relCheckButton.Text:SetFont("Fonts\\FRIZQT__.ttf",11);
-	relCheckButton.Text:SetPoint("TOP", 0, -4)
-	relCheckButton.tooltip = "Only show relevant races. Check the settings to customize relevancy options.";
+	relCheckButton.Text:SetPoint("TOP", 0, -4);
+	relCheckButton.tooltip = "Only show relevant races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r";
 	relCheckButton:SetChecked(MinArch.db.profile.relevancy.relevantOnly);
 	relCheckButton:SetScript("OnClick", function(self, button)
 		if (button == "LeftButton") then
 			MinArch.db.profile.relevancy.relevantOnly = self:GetChecked();
 			MinArch:UpdateMain();
+		end
+	end);
+	relCheckButton:SetScript("OnMouseUp", function(self, button)
+		if (button == "RightButton") then
+			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
+			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
 		end
 	end);
 

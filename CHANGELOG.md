@@ -4,6 +4,7 @@
 ### 8.0.11 beta
 
 - Toggle relevant races
+- Added race icons to the history window
 - Quest icon overlay for race icons in the history window
 - Switch race in the history window automatically when solving an artifact
 - World Quest Tracker "Slot machine" fix for MinArch tooltips

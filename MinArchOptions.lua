@@ -192,55 +192,7 @@ local general = {
 					order = 3,
 				},
 			}
-		},
-		relevancy = {
-			type = 'group',
-			name = 'Relevancy Options',
-			inline = true,
-			order = 6,
-			args = {
-				message = {
-					type = "description",
-					name = "Customize which races you would like to be displayed in the Main window when the relevant races switch is toggled.",
-					fontSize = "small",
-					width = "full",
-					order = 1,
-				},
-				nearby = {
-					type = "toggle",
-					name = "Nearby",
-					desc = "Show races which have currently available digsites on your current continent.",
-					get = function () return MinArch.db.profile.relevancy.nearby end,
-					set = function (_, newValue)
-						MinArch.db.profile.relevancy.nearby = newValue;
-						MinArch:UpdateMain();
-					end,
-					order = 2,
-				},
-				continentSpecific = {
-					type = "toggle",
-					name = "Continent-specific",
-					desc = "Show races which could be available on your current continent (or expansion), even if they don't have an active digsite at the moment.",
-					get = function () return MinArch.db.profile.relevancy.continentSpecific end,
-					set = function (_, newValue)
-						MinArch.db.profile.relevancy.continentSpecific = newValue;
-						MinArch:UpdateMain();
-					end,
-					order = 3,
-				},
-				solvable = {
-					type = "toggle",
-					name = "Solvable",
-					desc = "Show races which have a solve available, even if they're neither available nor related to your current continent.",
-					get = function () return MinArch.db.profile.relevancy.solvable end,
-					set = function (_, newValue)
-						MinArch.db.profile.relevancy.solvable = newValue;
-						MinArch:UpdateMain();
-					end,
-					order = 4,
-				},
-			}
-		},
+		}
 	}
 }
 
@@ -250,18 +202,81 @@ local raceSettings = {
 	type = "group",	
 	childGroups = "tab",
 	args = {
+		relevancy = {
+			type = 'group',
+			name = 'Relevancy',
+			inline = false,
+			order = 1,
+			args = {
+				message = {
+					type = "description",
+					name = "Customize which races you would like to be displayed in the Main window when the relevant races switch is toggled.\n",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
+				relevancySub = {
+					type = 'group',
+					name = 'Customize relevancy',
+					order = 2,
+					inline = true,
+					args = {
+						nearby = {
+							type = "toggle",
+							name = "Available nearby",
+							desc = "Show races which have currently available digsites on your current continent.",
+							get = function () return MinArch.db.profile.relevancy.nearby end,
+							set = function (_, newValue)
+								MinArch.db.profile.relevancy.nearby = newValue;
+								MinArch:UpdateMain();
+							end,
+							order = 1,
+						},
+						continentSpecific = {
+							type = "toggle",
+							name = "Continent-specific",
+							desc = "Show races which could be available on your current continent (or expansion), even if they don't have an active digsite at the moment.",
+							get = function () return MinArch.db.profile.relevancy.continentSpecific end,
+							set = function (_, newValue)
+								MinArch.db.profile.relevancy.continentSpecific = newValue;
+								MinArch:UpdateMain();
+							end,
+							order = 2,
+						},
+						solvable = {
+							type = "toggle",
+							name = "Solvable",
+							desc = "Show races which have a solve available, even if they're neither available nor related to your current continent.",
+							get = function () return MinArch.db.profile.relevancy.solvable end,
+							set = function (_, newValue)
+								MinArch.db.profile.relevancy.solvable = newValue;
+								MinArch:UpdateMain();
+							end,
+							order = 3,
+						},
+					},
+				},
+			}
+		},
 		hide = {
 			type = "group",
 			name = "Hide",
-			order = 1,
+			order = 2,
 			inline = false,
 			args = {
+				message = {
+					type = "description",
+					name = "Check races you would like to hide at all times. This overrides relevancy settings.\n",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
 			}
 		},
 		cap = {
 			type = "group",
 			name = "Cap",
-			order = 2,
+			order = 3,
 			inline = false,
 			args = {
 			}
@@ -269,7 +284,7 @@ local raceSettings = {
 		keystone = {
 			type = "group",
 			name = "Keystone",
-			order = 3,
+			order = 4,
 			inline = false,
 			args = {
 			}
@@ -334,7 +349,7 @@ local devSettings = {
 }
 
 local TomTomSettings = {
-	name = "MinArch - TomTom Settings",
+	name = "MinArch - TomTom",
 	handler = MinArch,
 	type = "group",
 	args = {
@@ -342,13 +357,14 @@ local TomTomSettings = {
 			type = 'group',
 			name = 'TomTom Options',
 			inline = true,
-			order = 5,
+			order = 1,
 			disabled = function () return (MinArch.TomTomAvailable == false) end,
 			args = {
 				enable = {
 					type = "toggle",
-					name = "Enable TomTom",
+					name = "Enable TomTom integration in MinArch",
 					desc = "Toggles TomTom integration in MinArch. Disabling TomTom integration will remove all waypoints created by MinArch",
+					width = "full",
 					get = function () return MinArch.db.profile.TomTom.enable end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.enable = newValue;
@@ -386,35 +402,35 @@ local TomTomSettings = {
 					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
 					order = 3,
 				},
-				autoway = {
-					type = 'group',
-					name = 'Automatically create waypoints for the closest digsite.',
-					inline = true,
-					order = 4,
-					args = {
-						autoWayOnMove = {
-							type = "toggle",
-							name = "Continuously",
-							desc = "Continuously create/update the automatic waypoint to the closest digsite.",
-							get = function () return MinArch.db.profile.TomTom.autoWayOnMove end,
-							set = function (_, newValue)
-								MinArch.db.profile.TomTom.autoWayOnMove = newValue;
-							end,
-							disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
-							order = 1,
-						},
-						autoWayOnComplete = {
-							type = "toggle",
-							name = "When completed",
-							desc = "Automatically create a waypoint to the closest digsite after completing one.",
-							get = function () return MinArch.db.profile.TomTom.autoWayOnComplete end,
-							set = function (_, newValue)
-								MinArch.db.profile.TomTom.autoWayOnComplete = newValue;
-							end,
-							disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
-							order = 1,
-						},
-					},
+			},
+		},
+		autoway = {
+			type = 'group',
+			name = 'Automatically create waypoints for the closest digsite.',
+			inline = true,
+			order = 2,
+			args = {
+				autoWayOnMove = {
+					type = "toggle",
+					name = "Continuously",
+					desc = "Continuously create/update the automatic waypoint to the closest digsite.",
+					get = function () return MinArch.db.profile.TomTom.autoWayOnMove end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.autoWayOnMove = newValue;
+					end,
+					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
+					order = 1,
+				},
+				autoWayOnComplete = {
+					type = "toggle",
+					name = "When completed",
+					desc = "Automatically create a waypoint to the closest digsite after completing one.",
+					get = function () return MinArch.db.profile.TomTom.autoWayOnComplete end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.autoWayOnComplete = newValue;
+					end,
+					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
+					order = 1,
 				},
 			},
 		},
@@ -422,17 +438,17 @@ local TomTomSettings = {
 }
 
 function Options:OnInitialize()
-	local count = 0;
+	local count = 1;
 	for group, races in pairs(ArchRaceGroups) do
 		local groupkey = 'group' .. tostring(group);
 
 		raceSettings.args.hide.args[groupkey] = {
 			type = 'group',
 			name = ArchRaceGroupText[group],
-			order = count,
+			order = count+1,
 			inline = true,
 			args = {
-
+				
 			}
 		};
 		raceSettings.args.cap.args[groupkey] = {
