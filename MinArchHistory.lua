@@ -190,8 +190,8 @@ end
 
 function MinArch:CreateHistoryList(RaceID, caller)
 	if (RaceID ~= MinArchOptions.CurrentHistPage) then
-		MinArch:DimHistoryButtons();
 		MinArchOptions.CurrentHistPage = RaceID;
+		MinArch:DimHistoryButtons();
 		MinArch.raceButtons[RaceID]:SetAlpha(1.0);
 	end
 	

@@ -222,12 +222,12 @@ function MinArch:InitHist(self)
 	MinArch:InitRaceButtons(self);
 
 	self:SetScript("OnShow", function ()
-		MinArch:DimHistoryButtons();
-
+		
 		local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 		if (digSite and distance <= 2) then
 			MinArchOptions['CurrentHistPage'] = MinArch:GetRaceIdByName(digSiteData.race)
 		end
+		MinArch:DimHistoryButtons();
 
 		MinArch.raceButtons[MinArchOptions['CurrentHistPage']]:SetAlpha(1.0);
 		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
@@ -292,9 +292,9 @@ function MinArch:InitRaceButtons(self)
 			raceButton:GetHighlightTexture().alphaMode = "ADD";
 
 			raceButton:SetScript("OnClick", function (self) 
+				MinArchOptions['CurrentHistPage'] = i;
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
-				MinArchOptions['CurrentHistPage'] = i;
 				MinArch:CreateHistoryList(i);
 			end)
 
