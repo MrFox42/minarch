@@ -18,7 +18,7 @@
 	<Script file="MinArchDigsiteDB.lua"/>
 	<Script file="MinArchDigsites.lua"/>
 
-	<Frame name="MinArchDigsites"  inherits="MATBasic" frameStrata="MEDIUM" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
+	<Frame name="MinArchDigsites"  inherits="MATBasic" frameStrata="LOW" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
 		<size x="340" y="310" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />

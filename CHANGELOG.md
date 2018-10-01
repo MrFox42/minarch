@@ -1,14 +1,14 @@
 # Minimal Archaeology
 ## Latest Version
 
-### 8.0.11 beta
+### 8.0.11
 
-- Toggle relevant races
-- Added race icons to the history window
-- Quest icon overlay for race icons in the history window
-- Switch race in the history window automatically when solving an artifact
-- World Quest Tracker "Slot machine" fix for MinArch tooltips
+- You can now toggle relevant races in the main window based on 3 customizable settings (proximity, continent/expansion, available to solve)
+- Added item icons to the history window
+- Added a quest icon overlay besides the race icon which has an available legion archaeology questline
+- History window automatically switches race when solving an artifact
 - Moved around some settings into submenus, added buttons for them in the main settings menu
+- MinArch windows should no stay behind vendor or other npc related windows
 
 ## Known issues
 
