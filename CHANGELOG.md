@@ -3,7 +3,7 @@
 
 ### 8.0.11
 
-- You can now toggle relevant races in the main window based on 3 customizable settings (proximity, continent/expansion, available to solve)
+- You can now toggle relevant races in the main window based on 3 customizable settings: proximity, continent/expansion, available to solve
 - Added item icons to the history window
 - Added a quest icon overlay besides the race icon which has an available legion archaeology questline
 - History window automatically switches race when solving an artifact
