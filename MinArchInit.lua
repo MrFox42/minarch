@@ -1,3 +1,81 @@
+local function CreateAutoWaypointButton(parent, x, y)
+	local button = CreateFrame("Button", "$parentAutoWayButton", parent);
+	button:SetSize(21, 21);
+	button:SetPoint("TOPLEFT", x, y);
+	
+	button:SetNormalTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]]);
+	button:GetNormalTexture():SetRotation(1.570796);
+	button:SetPushedTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Down]]);
+	button:GetPushedTexture():SetRotation(1.570796);
+	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
+	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
+
+	button:SetScript("OnClick", function() 
+		MinArch:SetWayToNearestDigsite()
+	end)
+
+	button:SetScript("OnEnter", function()
+		MinArch:ShowWindowButtonTooltip(button, "Create waypoint to the closest available digsite");
+	end)
+	button:SetScript("OnLeave", function() 
+		GameTooltip:Hide();
+	end)
+end
+
+function MinArch:SetRelevancyToggleButtonTexture()
+	local button = MinArchMainRelevancyButton;
+	if (MinArch.db.profile.relevancy.relevantOnly) then		
+		button:SetNormalTexture([[Interface\Buttons\UI-Panel-ExpandButton-Up]]);
+		button:SetPushedTexture([[Interface\Buttons\UI-Panel-ExpandButton-Down]]);
+	else
+		button:SetNormalTexture([[Interface\Buttons\UI-Panel-CollapseButton-Up]]);
+		button:SetPushedTexture([[Interface\Buttons\UI-Panel-CollapseButton-Down]]);
+	end
+
+	button:SetBackdrop( { 
+		bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]], 
+		edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0, 
+		insets = { left = 0.5, right = 1, top = 2.4, bottom = 1.4 }
+	});
+	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
+	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
+end
+
+local function ShowRelevancyButtonTooltip()
+	local button = MinArchMainRelevancyButton;
+	if (MinArch.db.profile.relevancy.relevantOnly) then	
+		MinArch:ShowWindowButtonTooltip(button, "Show all races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
+	else
+		MinArch:ShowWindowButtonTooltip(button, "Only show relevant races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
+	end
+end
+
+local function CreateRelevancyToggleButton(parent, x, y)
+	local button = CreateFrame("Button", "$parentRelevancyButton", parent);
+	button:SetSize(23.5, 23.5);
+	button:SetPoint("TOPLEFT", x, y);
+	MinArch:SetRelevancyToggleButtonTexture();
+
+	button:SetScript("OnClick", function(self, button)
+		if (button == "LeftButton") then
+			MinArch.db.profile.relevancy.relevantOnly = (not MinArch.db.profile.relevancy.relevantOnly);
+			MinArch:SetRelevancyToggleButtonTexture();
+			MinArch:UpdateMain();
+			ShowRelevancyButtonTooltip();
+		end
+	end);
+	button:SetScript("OnMouseUp", function(self, button)
+		if (button == "RightButton") then
+			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
+			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
+		end
+	end);
+	button:SetScript("OnEnter", ShowRelevancyButtonTooltip)
+	button:SetScript("OnLeave", function() 
+		GameTooltip:Hide();
+	end)
+end
+
 function MinArch:InitMain(self)
 	-- Init frame scripts
 	MinArchMain:SetScript('OnShow', function ()
@@ -9,38 +87,12 @@ function MinArch:InitMain(self)
 		end
 	end)
 
-	-- Create the toggles bar
-	-- TODO Font size
-	local toggleBar = CreateFrame("Frame", "$parentToggleBar", MinArchMain);
-	toggleBar:SetSize(200, 20);
-	toggleBar:SetPoint("TOPLEFT", 25, -40);
-	local relCheckButton = CreateFrame("CheckButton", "$parentCheckButton", toggleBar, "ChatConfigCheckButtonTemplate");
-	relCheckButton:SetSize(20, 20);
-	relCheckButton:SetPoint("TOPLEFT", -10, 0);
-	relCheckButton.Text:SetText("Relevant only");
-	relCheckButton.Text:SetFont("Fonts\\FRIZQT__.ttf",11);
-	relCheckButton.Text:SetPoint("TOP", 0, -4);
-	relCheckButton.tooltip = "Only show relevant races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r";
-	relCheckButton:SetChecked(MinArch.db.profile.relevancy.relevantOnly);
-	relCheckButton:SetScript("OnClick", function(self, button)
-		if (button == "LeftButton") then
-			MinArch.db.profile.relevancy.relevantOnly = self:GetChecked();
-			MinArch:UpdateMain();
-		end
-	end);
-	relCheckButton:SetScript("OnMouseUp", function(self, button)
-		if (button == "RightButton") then
-			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
-			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
-		end
-	end);
-
 	-- Create the artifact bars for the main window
 	for i=1,ARCHAEOLOGY_NUM_RACES do
 		local artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
 		artifactBar.parentKey = "artifactBar" .. i;
 		if (i == 1) then
-			artifactBar:SetPoint("TOP", toggleBar, "TOP", 0, -25);
+			artifactBar:SetPoint("TOP", MinArchMain, "TOP", -25, -50);
 		else 
 			artifactBar:SetPoint("TOP", MinArch['artifactbars'][i-1], "TOP", 0, -25);
 		end
@@ -57,7 +109,8 @@ function MinArch:InitMain(self)
 	MinArchMain.skillBar:SetStatusBarTexture(skillBarTexture);
 	MinArchMain.skillBar:SetStatusBarColor(0.03125, 0.85, 0);
 
-	MinArch:CreateAutoWaypointButton(MinArchMain, -90, 3);
+	CreateAutoWaypointButton(MinArchMain, 31, 3);
+	CreateRelevancyToggleButton(MinArchMain, 10, 4);
 
 	-- Update Artifacts
 	self:RegisterEvent("RESEARCH_ARTIFACT_COMPLETE");
@@ -315,30 +368,6 @@ function MinArch:RefreshRaceButtons()
 
 end
 
-function MinArch:CreateAutoWaypointButton(parent, x, y)
-	local button = CreateFrame("Button", "$parentAutoWayButton", parent);
-	button:SetSize(21, 21);
-	button:SetPoint("TOPRIGHT", x, y);
-	
-	button:SetNormalTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]]);
-	button:GetNormalTexture():SetRotation(1.570796);
-	button:SetPushedTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Down]]);
-	button:GetPushedTexture():SetRotation(1.570796);
-	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
-	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
-
-	button:SetScript("OnClick", function() 
-		MinArch:SetWayToNearestDigsite()
-	end)
-
-	button:SetScript("OnEnter", function()
-		MinArch:ShowWindowButtonTooltip(button, "Create waypoint to the closest available digsite");
-	end)
-	button:SetScript("OnLeave", function() 
-		GameTooltip:Hide();
-	end)
-end
-
 function MinArch:InitDigsites(self)
 	local continents = C_Map.GetMapChildrenInfo(947, 2);
 	for k, v in pairs(continents) do
@@ -357,7 +386,7 @@ function MinArch:InitDigsites(self)
 		end
 	end)
 
-	MinArch:CreateAutoWaypointButton(self, -30, 3);
+	CreateAutoWaypointButton(self, 15, 3);
 
 	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
 	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");

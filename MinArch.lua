@@ -1,7 +1,7 @@
 -- Minimal Archaeology
 
 local AceAddon = LibStub("AceAddon-3.0");
-MinArch = LibStub("AceAddon-3.0"):NewAddon('Minimal Archaeology');
+MinArch = AceAddon:NewAddon('Minimal Archaeology');
 
 MinArchHideNext = false;
 MinArchIsReady = false;

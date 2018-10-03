@@ -46,7 +46,6 @@ local general = {
 						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.devSettings);
 					end,
 				},
-				
 			}
 		},
 		misc = {
@@ -199,7 +198,7 @@ local general = {
 local raceSettings = {
 	name = "Race Settings",
 	handler = MinArch,
-	type = "group",	
+	type = "group",
 	childGroups = "tab",
 	args = {
 		relevancy = {
@@ -448,7 +447,6 @@ function Options:OnInitialize()
 			order = count+1,
 			inline = true,
 			args = {
-				
 			}
 		};
 		raceSettings.args.cap.args[groupkey] = {
@@ -457,7 +455,6 @@ function Options:OnInitialize()
 			order = count,
 			inline = true,
 			args = {
-
 			}
 		};
 		raceSettings.args.keystone.args[groupkey] = {
@@ -466,16 +463,14 @@ function Options:OnInitialize()
 			order = count,
 			inline = true,
 			args = {
-
 			}
 		};
-		
 		for idx=1, #races do
 			local i = races[idx];
 			raceSettings.args.hide.args[groupkey].args['race' .. tostring(i)] = {
 				type = "toggle",
 				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function () 
+				desc = function ()
 					return "Hide the "..MinArch['artifacts'][i]['race'].." artifact bar even if it has been discovered."
 				end,
 				order = i,

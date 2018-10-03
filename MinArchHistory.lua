@@ -484,7 +484,7 @@ end
 function MinArch:DimHistoryButtons()
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		if (MinArch.raceButtons[i] and i ~= MinArchOptions.CurrentHistPage) then
-			MinArch.raceButtons[i]:SetAlpha(MinArch:IsRaceRelevant(i) and 0.5 or 0.2);
+			MinArch.raceButtons[i]:SetAlpha(MinArch:IsRaceRelevant(i) and 0.5 or 0.3);
 		end
 	end
 end

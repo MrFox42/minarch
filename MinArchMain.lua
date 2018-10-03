@@ -11,7 +11,7 @@ function MinArch:UpdateArchaeologySkillBar()
 		else
 			MinArchMain.skillBar:Hide();
 			MinArch['frame']['height'] = MinArch['frame']['defaultHeight'] - 25;
-			MinArchMainToggleBar:SetPoint("TOPLEFT", 25, -15);
+			MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
 		end		
 	else
 		MinArchMain.skillBar:SetMinMaxValues(0, 100);

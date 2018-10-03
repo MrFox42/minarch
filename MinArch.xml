@@ -6,7 +6,7 @@
 	<Script file="MinArchMain.lua"/>
 	
 	<Frame name="MinArchMain" inherits="MATBasic" frameStrata="LOW" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
-		<size x="300" y="580" />
+		<size x="300" y="560" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>
