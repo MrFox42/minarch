@@ -76,9 +76,84 @@ local function CreateRelevancyToggleButton(parent, x, y)
 	end)
 end
 
+local function CreateCrateButton(parent, x, y)
+	local button = CreateFrame("Button", "$parentCrateButton", parent, "SecureActionButtonTemplate");
+	button:SetAttribute("type", "item");
+	
+	button:SetSize(25, 25);
+	button:SetPoint("TOPLEFT", x, y);
+
+	button:SetNormalTexture([[Interface\AddOns\MinimalArchaeology\Textures\CrateButtonUp]]);
+	button:SetPushedTexture([[Interface\AddOns\MinimalArchaeology\Textures\CrateButtonDown]]);
+	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
+	
+	local overlay = CreateFrame("Frame", "$parentGlow", button);
+	overlay:SetSize(28, 28);
+	overlay:SetPoint("TOPLEFT", button, "TOPLEFT", -5, 5);
+	overlay.texture = overlay:CreateTexture(nil, "OVERLAY");
+	overlay.texture:SetAllPoints(overlay);
+	overlay.texture:SetTexture([[Interface\Buttons\CheckButtonGlow]]);
+	overlay:Hide();
+
+	--[[button:SetScript("OnClick", function(self, button)
+		if (button == "LeftButton") then
+			if (MinArch.nextCratable ~= nil) then
+				UseContainerItem(MinArch.nextCratable.bagID, MinArch.nextCratable.slot);
+			end
+		end
+	end);]]
+	button:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
+		if (MinArch.nextCratable ~= nil) then
+			GameTooltip:SetItemByID(MinArch.nextCratable.itemID);
+			GameTooltip:AddLine(" ");
+		else
+			GameTooltip:AddLine("You don't have anything to crate.");
+		end
+		
+		GameTooltip:Show();
+	end)
+	button:SetScript("OnLeave", function() 
+		GameTooltip:Hide();
+	end)
+end
+
+MinArch.nextCratable = nil;
+function MinArch:RefreshCrateButtonGlow()
+	-- TODO: double check the item
+	-- TODO: check performance, optimalize if needed
+	for i = 1, ARCHAEOLOGY_RACE_MANTID do
+		for artifactID, data in pairs(MinArchHistDB[i]) do
+			if (data.pqid) then
+				-- iterate containers
+				for bagID = 0, 4 do
+					local numSlots = GetContainerNumSlots(bagID);
+					for slot = 0, numSlots do
+						local itemID = select(10, GetContainerItemInfo(bagID, slot))
+						if (itemID == artifactID) then
+							MinArch.nextCratable = {
+								itemID = itemID,
+								bagID = bagID,
+								slot = slot
+							}
+							
+							MinArchMainCrateButton:SetAttribute("item", "item:" .. itemID);
+							MinArchMainCrateButtonGlow:Show();
+							return;
+						end
+					end
+				end
+			end
+		end
+	end
+
+	MinArchMainCrateButtonGlow:Hide();
+	MinArch.nextCratable = nil;
+end
+
 function MinArch:InitMain(self)
 	-- Init frame scripts
-	MinArchMain:SetScript('OnShow', function ()
+	self:SetScript('OnShow', function ()
 		MinArch:UpdateMain();
 		if (MinArch:IsNavigationEnabled()) then 
 			MinArchMainAutoWayButton:Show();
@@ -92,7 +167,7 @@ function MinArch:InitMain(self)
 		local artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
 		artifactBar.parentKey = "artifactBar" .. i;
 		if (i == 1) then
-			artifactBar:SetPoint("TOP", MinArchMain, "TOP", -25, -50);
+			artifactBar:SetPoint("TOP", self, "TOP", -25, -50);
 		else 
 			artifactBar:SetPoint("TOP", MinArch['artifactbars'][i-1], "TOP", 0, -25);
 		end
@@ -106,11 +181,12 @@ function MinArch:InitMain(self)
 	end
 
 	local skillBarTexture = [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]];
-	MinArchMain.skillBar:SetStatusBarTexture(skillBarTexture);
-	MinArchMain.skillBar:SetStatusBarColor(0.03125, 0.85, 0);
+	self.skillBar:SetStatusBarTexture(skillBarTexture);
+	self.skillBar:SetStatusBarColor(0.03125, 0.85, 0);
 
-	CreateAutoWaypointButton(MinArchMain, 31, 3);
-	CreateRelevancyToggleButton(MinArchMain, 10, 4);
+	CreateAutoWaypointButton(self, 53, 3);
+	CreateCrateButton(self, 32, 1);
+	CreateRelevancyToggleButton(self, 10, 4);
 
 	-- Update Artifacts
 	self:RegisterEvent("RESEARCH_ARTIFACT_COMPLETE");

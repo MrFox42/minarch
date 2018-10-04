@@ -82,6 +82,7 @@ function MinArch:EventMain(event, ...)
 		eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
 			RequestArtifactCompletionHistory();
+			MinArch:RefreshCrateButtonGlow();
 			eventTimer = nil;
 		end)
 	end
