@@ -8,7 +8,8 @@
 - Added a quest icon overlay besides the race icon which has an available legion archaeology questline
 - History window automatically switches race when solving an artifact
 - Moved around some settings into submenus, added buttons for them in the main settings menu
-- MinArch windows should now stay behind vendor or other npc related windows
+- MinArch windows should no stay behind vendor or other npc related windows
+- **8.0.11.1**: Main window delays updates if the player is in combat, fixing *combat lockdown* lua errors
 
 ## Known issues
 
