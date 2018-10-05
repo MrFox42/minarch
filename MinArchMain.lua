@@ -208,7 +208,8 @@ function MinArch:UpdateMain()
 	MinArchMain:SetHeight(MinArchFrameHeight);
 	
 	MinArch:RefreshLDBButton();
-	MinArch:DimHistoryButtons()
+	MinArch:RefreshCrateButtonGlow();
+	MinArch:DimHistoryButtons();
 end
 
 function MinArch:ShowArtifactTooltip(BarIndex)
