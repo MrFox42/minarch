@@ -74,6 +74,11 @@ function MinArch:EventMain(event, ...)
 		return
 	end
 
+	if (event == "PLAYER_REGEN_ENABLED") then
+		MinArchMain:UnregisterEvent("PLAYER_REGEN_ENABLED");
+		MinArch:DisplayStatusMessage("Main update after combat", MINARCH_MSG_DEBUG);
+	end
+
 	if (MinArchIsReady == true) then
 		if (eventTimer ~= nil) then
 			eventTimer:Cancel();

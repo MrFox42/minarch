@@ -158,6 +158,12 @@ function MinArch:SolveArtifact(BarIndex)
 end
 
 function MinArch:UpdateMain()
+	if (UnitAffectingCombat("player")) then
+		MinArch:DisplayStatusMessage("Main update delayed until combat ends", MINARCH_MSG_DEBUG);
+		MinArchMain:RegisterEvent("PLAYER_REGEN_ENABLED");
+		return;
+	end
+
 	local activeBarIndex = 0;
 	local point, relativeTo, relativePoint, xOfs, yOfs = MinArchMain:GetPoint()
 	local x1, size1 = MinArchMain:GetSize();
