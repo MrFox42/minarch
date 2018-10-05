@@ -409,6 +409,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 		end
 	end
 
+	-- print("UpdateActiveDigSitesRace", nearestDigSite, nearestDistance);
 	if (nearestDistance ~= nil and nearestDistance <= 5) then
 		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] = Race;
 		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["zone"] = GetZoneText();
@@ -420,6 +421,8 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 
 	MinArch:ShowRaceIconsOnMap();
 end
+
+-- 4.999981 = 1.2480282
 
 function MinArch:GetNearestDigsite()
 	if (IsInInstance()) then
@@ -466,6 +469,7 @@ function MinArch:GetNearestDigsite()
 		end
 	end
 
+	-- print("GetNearestDigsite", nearestDigSite, nearestDistance);
 	return nearestDigSite, nearestDistance, nearestDigSiteDetails;
 end
 
@@ -516,6 +520,7 @@ function MinArch:IsNearDigSite(distance)
 		end
 	end
 
+	-- print("IsNearDigSite", nearestDigSite, nearestDistance);
 	return nearestDistance ~= nil and nearestDistance < distance;
 end
 

@@ -79,7 +79,6 @@ end
 local function CreateCrateButton(parent, x, y)
 	local button = CreateFrame("Button", "$parentCrateButton", parent, "SecureActionButtonTemplate");
 	button:SetAttribute("type", "item");
-	
 	button:SetSize(25, 25);
 	button:SetPoint("TOPLEFT", x, y);
 
@@ -95,15 +94,8 @@ local function CreateCrateButton(parent, x, y)
 	overlay.texture:SetTexture([[Interface\Buttons\CheckButtonGlow]]);
 	overlay:Hide();
 
-	--[[button:SetScript("OnClick", function(self, button)
-		if (button == "LeftButton") then
-			if (MinArch.nextCratable ~= nil) then
-				UseContainerItem(MinArch.nextCratable.bagID, MinArch.nextCratable.slot);
-			end
-		end
-	end);]]
 	button:SetScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
+		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
 		if (MinArch.nextCratable ~= nil) then
 			GameTooltip:SetItemByID(MinArch.nextCratable.itemID);
 			GameTooltip:AddLine(" ");
@@ -120,8 +112,6 @@ end
 
 MinArch.nextCratable = nil;
 function MinArch:RefreshCrateButtonGlow()
-	-- TODO: double check the item
-	-- TODO: check performance, optimalize if needed
 	for i = 1, ARCHAEOLOGY_RACE_MANTID do
 		for artifactID, data in pairs(MinArchHistDB[i]) do
 			if (data.pqid) then
@@ -129,7 +119,7 @@ function MinArch:RefreshCrateButtonGlow()
 				for bagID = 0, 4 do
 					local numSlots = GetContainerNumSlots(bagID);
 					for slot = 0, numSlots do
-						local itemID = select(10, GetContainerItemInfo(bagID, slot))
+						local itemID = GetContainerItemID(bagID, slot);
 						if (itemID == artifactID) then
 							MinArch.nextCratable = {
 								itemID = itemID,
