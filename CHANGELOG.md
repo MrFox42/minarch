@@ -1,6 +1,18 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 8.0.12
+
+- Replaced relevancy toggle button with a collapse/expand button
+- Added a **Crate button** that glows when you have an artifact in your inventory that you can crate
+- Windows now automatically hide in combat, and auto-show after combat if they were visible
+
+## Known issues
+
+- Main window auto-hides after solving an artifact, even if there's another solve available
+
+## Recent updates
+
 ### 8.0.11
 
 - You can now toggle relevant races in the main window based on 3 customizable settings: proximity, continent/expansion, available to solve
@@ -10,12 +22,6 @@
 - Moved around some settings into submenus, added buttons for them in the main settings menu
 - MinArch windows should now stay behind vendor or other npc related windows
 - **8.0.11.1**: Main window delays updates if the player is in combat, fixing *combat lockdown* lua errors
-
-## Known issues
-
-- Main window auto-hides after solving an artifact, even if there's another solve available
-
-## Recent updates
 
 ### 8.0.10
 
