@@ -2,6 +2,7 @@
 
 local AceAddon = LibStub("AceAddon-3.0");
 MinArch = AceAddon:NewAddon('Minimal Archaeology');
+MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
 
 MinArchHideNext = false;
 MinArchIsReady = false;

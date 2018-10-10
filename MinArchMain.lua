@@ -158,7 +158,7 @@ function MinArch:SolveArtifact(BarIndex)
 end
 
 function MinArch:UpdateMain()
-	if (UnitAffectingCombat("player")) then
+	if (InCombatLockdown()) then
 		MinArch:DisplayStatusMessage("Main update delayed until combat ends", MINARCH_MSG_DEBUG);
 		MinArchMain:RegisterEvent("PLAYER_REGEN_ENABLED");
 		return;
@@ -297,8 +297,12 @@ function MinArch:HideMain()
 end
 
 function MinArch:ShowMain()
-	MinArchMain:Show();
-	MinArch.db.profile.hideMain = false;
+	if (UnitAffectingCombat("player")) then
+		MinArchMain.showAfterCombat = true;
+	else
+		MinArchMain:Show();
+		MinArch.db.profile.hideMain = false;
+	end
 end
 
 function MinArch:ToggleMain()

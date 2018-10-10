@@ -1,6 +1,36 @@
 local eventTimer = nil;
 local histEventTimer = nil;
 
+function MinArch:EventHelper(event, ...)
+	if (event == "PLAYER_REGEN_DISABLED") then
+		if (MinArchMain:IsVisible()) then
+			MinArch:HideMain();
+			MinArchMain.showAfterCombat = true;
+		end
+		if (MinArchHist:IsVisible()) then
+			MinArchHist:Hide();
+			MinArchHist.showAfterCombat = true;
+		end
+		if (MinArchDigsites:IsVisible()) then
+			MinArchDigsites:Hide();
+			MinArchDigsites.showAfterCombat = true;
+		end
+	elseif (event == "PLAYER_REGEN_ENABLED") then
+		if (MinArchMain.showAfterCombat) then
+			MinArch:ShowMain();
+			MinArchMain.showAfterCombat = false;
+		end
+		if (MinArchHist.showAfterCombat) then
+			MinArchHist:Show();
+			MinArchHist.showAfterCombat = false;
+		end
+		if (MinArchDigsites.showAfterCombat) then
+			MinArchDigsites:Show();
+			MinArchDigsites.showAfterCombat = false;
+		end
+	end
+end
+
 function MinArch:EventMain(event, ...)
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArchHideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();

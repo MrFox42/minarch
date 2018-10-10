@@ -210,6 +210,19 @@ function MinArch:InitMain(self)
 	MinArch:DisplayStatusMessage("Minimal Archaeology Initialized!");
 end
 
+function MinArch:InitHelperFrame(self)
+	self:RegisterEvent("PLAYER_REGEN_DISABLED");
+	self:RegisterEvent("PLAYER_REGEN_ENABLED");
+
+	MinArchMain.showAfterCombat = false;
+	MinArchHist.showAfterCombat = false;
+	MinArchDigsites.showAfterCombat = false;
+
+	self:SetScript("OnEvent", function(self, event, ...)
+		MinArch:EventHelper(event, ...);
+	end)	
+end
+
 function MinArch:OnInitialize ()
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		MinArch.barlinks[i] = {};
@@ -223,6 +236,7 @@ function MinArch:OnInitialize ()
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
+	MinArch:InitHelperFrame(MinArchHelper);
 
 	MinArch:InitLDB();
 	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
