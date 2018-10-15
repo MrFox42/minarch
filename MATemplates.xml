@@ -194,7 +194,7 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-			    MinArchHist:Show();
+			    MinArch:ShowHistory();
 			</OnClick>
 			<OnEnter>
 				MinArch:ShowWindowButtonTooltip(self, "Open History");
@@ -221,7 +221,7 @@
 				MinArch:CreateDigSitesList(0);
 				MinArch:CreateDigSitesList(0);
 				
-				MinArchDigsites:Show();
+				MinArch:ShowDigsites();
 			</OnClick>
 			<OnEnter>
 				MinArch:ShowWindowButtonTooltip(self, "Open Digsites");

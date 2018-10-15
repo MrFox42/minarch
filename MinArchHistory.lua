@@ -542,10 +542,22 @@ function MinArch:HistoryButtonTooltip(RaceID)
 	GameTooltip:Show();
 end
 
+function MinArch:HideHistory()
+	MinArchHist:Hide();
+end
+
+function MinArch:ShowHistory()
+	if (UnitAffectingCombat("player")) then
+		MinArchHist.showAfterCombat = true;
+	else
+		MinArchHist:Show();
+	end
+end
+
 function MinArch:ToggleHistory()
 	if (MinArchHist:IsVisible()) then
-		MinArchHist:Hide()
+		MinArch:HideHistory();
 	else
-		MinArchHist:Show()
+		MinArch:ShowHistory();
 	end
 end

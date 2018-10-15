@@ -674,10 +674,22 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	tooltip:Show();
 end
 
+function MinArch:HideDigsites()
+	MinArchDigsites:Hide();
+end
+
+function MinArch:ShowDigsites()
+	if (UnitAffectingCombat("player")) then
+		MinArchDigsites.showAfterCombat = true;
+	else
+		MinArchDigsites:Show();
+	end
+end
+
 function MinArch:ToggleDigsites()
 	if (MinArchDigsites:IsVisible()) then
-		MinArchDigsites:Hide()
+		MinArch:HideDigsites();
 	else
-		MinArchDigsites:Show()
+		MinArch:ShowDigsites();
 	end
 end

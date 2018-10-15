@@ -8,11 +8,11 @@ function MinArch:EventHelper(event, ...)
 			MinArchMain.showAfterCombat = true;
 		end
 		if (MinArchHist:IsVisible()) then
-			MinArchHist:Hide();
+			MinArch:HideHistory();
 			MinArchHist.showAfterCombat = true;
 		end
 		if (MinArchDigsites:IsVisible()) then
-			MinArchDigsites:Hide();
+			MinArch:HideDigsites();
 			MinArchDigsites.showAfterCombat = true;
 		end
 	elseif (event == "PLAYER_REGEN_ENABLED") then
@@ -21,11 +21,11 @@ function MinArch:EventHelper(event, ...)
 			MinArchMain.showAfterCombat = false;
 		end
 		if (MinArchHist.showAfterCombat) then
-			MinArchHist:Show();
+			MinArch:ShowHistory();
 			MinArchHist.showAfterCombat = false;
 		end
 		if (MinArchDigsites.showAfterCombat) then
-			MinArchDigsites:Show();
+			MinArch:ShowDigsites();
 			MinArchDigsites.showAfterCombat = false;
 		end
 	end

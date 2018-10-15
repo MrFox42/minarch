@@ -99,6 +99,7 @@ local function CreateCrateButton(parent, x, y)
 		if (MinArch.nextCratable ~= nil) then
 			GameTooltip:SetItemByID(MinArch.nextCratable.itemID);
 			GameTooltip:AddLine(" ");
+			GameTooltip:AddLine("Click to crate this artifact");
 		else
 			GameTooltip:AddLine("You don't have anything to crate.");
 		end
