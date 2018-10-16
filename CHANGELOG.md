@@ -6,6 +6,7 @@
 - Replaced relevancy toggle button with a collapse/expand button
 - Added a **Crate button** that glows when you have an artifact in your inventory that you can crate
 - Windows now automatically hide in combat, and auto-show after combat if they were visible
+- **8.0.12.1**: Fixed a lua error thrown when opening certain UI panels
 
 ## Known issues
 
