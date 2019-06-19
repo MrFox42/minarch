@@ -196,8 +196,6 @@ function MinArch:UpdateMain()
 		MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
 	end
 
-	print(point, UIParent, relativePoint, xOfs, yOfs);
-
 	if (MinArch.firstRun == false) then
 		MinArchMain:ClearAllPoints();
 		if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
