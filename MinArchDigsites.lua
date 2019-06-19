@@ -679,11 +679,11 @@ function MinArch:HideDigsites()
 end
 
 function MinArch:ShowDigsites()
-	if (UnitAffectingCombat("player")) then
-		MinArchDigsites.showAfterCombat = true;
-	else
+	--if (UnitAffectingCombat("player")) then
+	--	MinArchDigsites.showAfterCombat = true;
+	--else
 		MinArchDigsites:Show();
-	end
+	--end
 end
 
 function MinArch:ToggleDigsites()

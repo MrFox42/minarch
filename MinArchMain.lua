@@ -299,12 +299,12 @@ function MinArch:HideMain()
 end
 
 function MinArch:ShowMain()
-	if (UnitAffectingCombat("player")) then
-		MinArchMain.showAfterCombat = true;
-	else
+	--if (UnitAffectingCombat("player")) then
+	--	MinArchMain.showAfterCombat = true;
+	--else
 		MinArchMain:Show();
 		MinArch.db.profile.hideMain = false;
-	end
+	--end
 end
 
 function MinArch:ToggleMain()

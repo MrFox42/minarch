@@ -547,11 +547,11 @@ function MinArch:HideHistory()
 end
 
 function MinArch:ShowHistory()
-	if (UnitAffectingCombat("player")) then
-		MinArchHist.showAfterCombat = true;
-	else
+	--if (UnitAffectingCombat("player")) then
+	--	MinArchHist.showAfterCombat = true;
+	--else
 		MinArchHist:Show();
-	end
+	--end
 end
 
 function MinArch:ToggleHistory()

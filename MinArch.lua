@@ -62,6 +62,7 @@ MinArch.defaults = {
 		showDebugMessages = false,
 		showWorldMapOverlay = true,
 		hideAfterDigsite = false,
+		hideInCombat = false,
 		waitForSolve = false,
 		autoShowOnSurvey = false,
 		autoShowOnSolve = false,

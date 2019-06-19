@@ -50,6 +50,7 @@ function dataobj:OnClick(button)
 	if (button == "LeftButton") then
 		local shiftKeyIsDown = IsShiftKeyDown();
 		local ctrlKeyIsDown = IsControlKeyDown();
+		local altKeyDown = IsAltKeyDown();
 
 		if shiftKeyIsDown then
 			MinArch:ToggleHistory();
@@ -58,6 +59,10 @@ function dataobj:OnClick(button)
 		else
 			if (MinArchMain:IsVisible()) then
 				MinArch:HideMain();
+				if (altKeyDown) then
+					MinArch:HideHistory();
+					MinArch:HideDigsites();
+				end
 			else
 				MinArch:ShowMain();
 				MinArchHideNext = false;
@@ -86,6 +91,7 @@ function dataobj:OnEnter()
 	GameTooltip:AddLine("Hint: Left-Click to toggle MinArch main window.", 0, 1, 0)
 	GameTooltip:AddLine("Shift + Left-Click to toggle MinArch history window.", 0, 1, 0)
 	GameTooltip:AddLine("Ctrl + Left-Click to toggle MinArch dig sites window.", 0, 1, 0)
+	GameTooltip:AddLine("Alt + Left-Click to hide every MinArch window.", 0, 1, 0)
 	GameTooltip:AddLine("Right-click to open settings", 0, 1, 0)
 
 	GameTooltip:Show()

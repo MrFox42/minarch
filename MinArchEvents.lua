@@ -2,7 +2,7 @@ local eventTimer = nil;
 local histEventTimer = nil;
 
 function MinArch:EventHelper(event, ...)
-	if (event == "PLAYER_REGEN_DISABLED") then
+	if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.hideInCombat) then
 		if (MinArchMain:IsVisible()) then
 			MinArch:HideMain();
 			MinArchMain.showAfterCombat = true;

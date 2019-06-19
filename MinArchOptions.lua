@@ -139,7 +139,18 @@ local general = {
 						MinArch.db.profile.waitForSolve = newValue;
 					end,
 					disabled = function () return (MinArch.db.profile.hideAfterDigsite == false) end,
-				}
+					order = 2
+				},
+				hideInCombat = {
+					type = "toggle",
+					name = "Auto-hide in combat",
+					desc = "Hide Minimal Archaeology when combat starts, and re-open it after combat.",
+					get = function () return MinArch.db.profile.hideInCombat end,
+					set = function (_, newValue)
+						MinArch.db.profile.hideInCombat = newValue;
+					end,
+					order = 3,
+				},
 			}
 		},
 		autoShow = {

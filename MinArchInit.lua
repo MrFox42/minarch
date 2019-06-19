@@ -77,7 +77,7 @@ local function CreateRelevancyToggleButton(parent, x, y)
 end
 
 local function CreateCrateButton(parent, x, y)
-	local button = CreateFrame("Button", "$parentCrateButton", parent, "SecureActionButtonTemplate");
+	local button = CreateFrame("Button", "$parentCrateButton", parent, "InsecureActionButtonTemplate");
 	button:SetAttribute("type", "item");
 	button:SetSize(25, 25);
 	button:SetPoint("TOPLEFT", x, y);
