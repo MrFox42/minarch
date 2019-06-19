@@ -190,9 +190,13 @@ function MinArch:UpdateMain()
 		end
 	end
 
+	MinArchMain:ClearAllPoints();
+
 	if (MinArch.firstRun == false and relativeTo == nil) then
 		MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
 	end
+
+	print(point, UIParent, relativePoint, xOfs, yOfs);
 
 	if (MinArch.firstRun == false) then
 		MinArchMain:ClearAllPoints();
@@ -202,7 +206,7 @@ function MinArch:UpdateMain()
 			MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
 		end
 	else
-		MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+		MinArchMain:SetPoint(point, "UIParent", relativePoint, xOfs, yOfs);
 		MinArch.firstRun = false;
 	end
 	MinArchMain:SetHeight(MinArchFrameHeight);
