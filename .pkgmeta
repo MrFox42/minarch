@@ -27,15 +27,15 @@ externals:
         tag: latest
 
 ignore:
-    libs/LibStub
-    libs/AceAddon-3.0
-    libs/AceConfig-3.0
-    libs/AceConsole-3.0
-    libs/AceDB-3.0
-    libs/AceDBOptions-3.0
-    libs/AceGUI-3.0
-    libs/CallbackHandler-1.0
-    libs/LibDBIcon-1.0
+    - libs/LibStub
+    - libs/AceAddon-3.0
+    - libs/AceConfig-3.0
+    - libs/AceConsole-3.0
+    - libs/AceDB-3.0
+    - libs/AceDBOptions-3.0
+    - libs/AceGUI-3.0
+    - libs/CallbackHandler-1.0
+    - libs/LibDBIcon-1.0
 
 tools-used:
     - LibDataBroker-1.1
