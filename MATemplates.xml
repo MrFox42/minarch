@@ -166,7 +166,11 @@
 		<Scripts>
 			<OnClick>
 				if IsAddOnLoaded("Blizzard_ArchaeologyUI") then
-					ShowUIPanel(ArchaeologyFrame);
+					if (ArchaeologyFrame:IsVisible()) then
+						HideUIPanel(ArchaeologyFrame);
+					else
+						ShowUIPanel(ArchaeologyFrame);
+					end
 				else
 					local loaded, _ = LoadAddOn("Blizzard_ArchaeologyUI")
 					if loaded then
@@ -194,7 +198,7 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-			    MinArch:ShowHistory();
+			    MinArch:ToggleHistory();
 			</OnClick>
 			<OnEnter>
 				MinArch:ShowWindowButtonTooltip(self, "Open History");
@@ -221,7 +225,7 @@
 				MinArch:CreateDigSitesList(0);
 				MinArch:CreateDigSitesList(0);
 				
-				MinArch:ShowDigsites();
+				MinArch:ToggleDigsites();
 			</OnClick>
 			<OnEnter>
 				MinArch:ShowWindowButtonTooltip(self, "Open Digsites");
