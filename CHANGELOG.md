@@ -1,18 +1,24 @@
 # Minimal Archaeology
 ## Latest Version
 
-### 8.0.12
+### 8.2.0
 
-- Replaced relevancy toggle button with a collapse/expand button
-- Added a **Crate button** that glows when you have an artifact in your inventory that you can crate
-- Windows now automatically hide in combat, and auto-show after combat if they were visible
-- **8.0.12.1**: Fixed a lua error thrown when opening certain UI panels
+- Window buttons in the main window are now toggles
+- Hiding MinArch windows in combat is now optional
+- *Alt + click*ing on the minimap icon now hides all MinArch windows
 
 ## Known issues
 
 - Main window auto-hides after solving an artifact, even if there's another solve available
 
 ## Recent updates
+
+### 8.0.12
+
+- Replaced relevancy toggle button with a collapse/expand button
+- Added a **Crate button** that glows when you have an artifact in your inventory that you can crate
+- Windows now automatically hide in combat, and auto-show after combat if they were visible
+- **8.0.12.1**: Fixed a lua error thrown when opening certain UI panels
 
 ### 8.0.11
 

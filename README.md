@@ -2,13 +2,12 @@
 
 View all your artifacts progress, and solve them in one compact frame. Also you can view all your artifact history neatly sorted by race, and a list of dig sites. You can left-click the keystone button to attach keystones (or right-click to remove), or if you prefer there are options to automatically use keystones! You can monitor the artifacts progress, or how close you are to the fragment cap.
 
-## Latest Version: v8.0.12.1
+## Latest Version: v8.2.0
 **Make sure to exit the game before/after updating addons.**
 
-- Replaced relevancy toggle box with a collapse/expand button
-- Added a **Crate button** that glows when you have an artifact in your inventory that you can crate
-- MinArch windows now automatically hide in combat, and auto-show after combat if they were visible, or if you've tried to open them in combat
-- **8.0.12.1**: Fixed a lua error thrown when opening certain UI panels
+- Window buttons in the main window are now toggles
+- Hiding MinArch windows in combat is now optional
+- *Alt + click*ing on the minimap icon now hides all MinArch windows
 
 For past changes, visit the [Changelog page](https://wow.curseforge.com/projects/minimal-archaeology/pages/minimal-archaeology/changelog).
 
