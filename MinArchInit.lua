@@ -349,6 +349,14 @@ function MinArch:UpgradeSettings()
 
 		MinArch.db.profile.settingsVersion = 2;
 	end
+
+	if (MinArch.db.profile.settingsVersion == 2) then
+		if (MinArch.db.profile.startHidden == true) then
+			MinArch.db.profile.rememberState = false;
+		end
+
+		MinArch.db.profile.settingsVersion = 3;
+	end
 end
 
 function MinArch:InitHist(self)

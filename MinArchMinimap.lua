@@ -53,9 +53,9 @@ function dataobj:OnClick(button)
 		local altKeyDown = IsAltKeyDown();
 
 		if shiftKeyIsDown then
-			MinArch:ToggleHistory();
+			MinArchHist:Toggle();
 		elseif ctrlKeyIsDown then
-			MinArch:ToggleDigsites();
+			MinArchDigsites:Toggle();
 		else
 			if (MinArchMain:IsVisible()) then
 				MinArch:HideMain();

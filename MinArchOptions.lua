@@ -86,6 +86,17 @@ local general = {
 					end,
 					order = 3,
 				},
+				rememberState = {
+					type = "toggle",
+					name = "Remember window states",
+					desc = "Rembember which MinArch windows were open when logging out (or reloading UI).",
+					get = function () return MinArch.db.profile.rememberState end,
+					disabled = function () return MinArch.db.profile.startHidden end,
+					set = function (_, newValue)
+						MinArch.db.profile.rememberState = newValue;
+					end,
+					order = 4,
+				},
 				showWorldMapOverlay = {
 					type = "toggle",
 					name = "Show world map overlay icons",
@@ -96,7 +107,7 @@ local general = {
 						MinArch:ShowRaceIconsOnMap();
 					end,
 					width = "double",
-					order = 4,
+					order = 5,
 				},
 				scale = {
 					type = "range",

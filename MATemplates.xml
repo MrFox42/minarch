@@ -148,7 +148,7 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				self:GetParent():Hide();
+				self:GetParent():Toggle();
 			</OnClick>
 		</Scripts>
 		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\CloseButtonUp.tga"/>
@@ -198,7 +198,7 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-			    MinArch:ToggleHistory();
+			    MinArchHist:Toggle();
 			</OnClick>
 			<OnEnter>
 				MinArch:ShowWindowButtonTooltip(self, "Open History");
@@ -225,7 +225,7 @@
 				MinArch:CreateDigSitesList(0);
 				MinArch:CreateDigSitesList(0);
 				
-				MinArch:ToggleDigsites();
+				MinArchDigsites:Toggle();
 			</OnClick>
 			<OnEnter>
 				MinArch:ShowWindowButtonTooltip(self, "Open Digsites");

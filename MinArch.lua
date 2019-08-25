@@ -48,6 +48,12 @@ MinArch.ResearchBranchMap = {
 -- MinArch.db.profile.
 MinArch.defaults = {
 	char = {
+		WindowStates = {
+			main = false,
+			history = false,
+			digsites = false,
+			companion = false
+		},
 		TomTom = {
 			waypoints = {}
 		}
@@ -68,6 +74,7 @@ MinArch.defaults = {
 		autoShowOnSolve = false,
 		autoShowInDigsites = false,
 		autoShowOnCap = true,
+		rememberState = true,
 		relevancy = {
 			relevantOnly = false,
 			nearby = true,
@@ -191,7 +198,7 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 	elseif (msg == "show") then
 		MinArch:ShowMain();
 	elseif (msg == "toggle") then
-		MinArch:ToggleMain();
+		MinArchMain:Toggle();
 	elseif (msg == "version") then
 		ChatFrame1:AddMessage("Minimal Archaeology "..tostring(GetAddOnMetadata("MinimalArchaeology", "Version")));
 	else
