@@ -2,7 +2,7 @@
 ## Title: Minimal Archaeology
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Email: gyussz@live.com
-## Version: 8.2.0
+## Version: 8.2.x-alpha
 ## Notes: Archaeology UI replacement, Archaeology History and more... 
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
@@ -22,4 +22,6 @@ MinArchMinimap.lua
 MinArchHistory.xml
 MinArchDigsites.xml
 MinArchNavigation.lua
+MinArchCompanion.lua
+
 MinArchOptions.lua

@@ -239,6 +239,8 @@ function MinArch:OnInitialize ()
 	MinArch:InitDigsites(MinArchDigsites);
 	MinArch:InitHelperFrame(MinArchHelper);
 
+	MinArch.Companion:Init();
+
 	MinArch:InitLDB();
 	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
 	--[[C_Timer.After(0.5, function()
