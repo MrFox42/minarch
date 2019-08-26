@@ -1,17 +1,21 @@
 # Minimal Archaeology
 ## Latest Version
 
-### 8.2.0
+### 8.2.1
 
-- Window buttons in the main window are now toggles
-- Hiding MinArch windows in combat is now optional
-- *Alt + click*ing on the minimap icon now hides all MinArch windows
+- All Window states are now remembered upon relog/reload, unless the "Always start hidden" option is enabled
 
 ## Known issues
 
 - Main window auto-hides after solving an artifact, even if there's another solve available
 
 ## Recent updates
+
+### 8.2.0
+
+- Window buttons in the main window are now toggles
+- Hiding MinArch windows in combat is now optional
+- *Alt + click*ing on the minimap icon now hides all MinArch windows
 
 ### 8.0.12
 
@@ -46,7 +50,7 @@
 - History window race buttons code completely rewritten, normally you should not notice any difference
 - Optimized CPU usage
 - **8.0.9.1** DataBroker button now properly shows amounts when a keystone is applied
-- **8.0.9.2** Minimap button should no longer behave oddly with minimap button addons 
+- **8.0.9.2** Minimap button should no longer behave oddly with minimap button addons
 - **8.0.9.3** DataBroker button should now update properly when settings changed or keystones  clicked
 - **8.0.9.4** History window updates should now be more reliable
 

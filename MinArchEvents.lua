@@ -242,8 +242,16 @@ function MinArch:MainEventAddonLoaded()
 		MinArch:HideMain();
 	end
 	
-	if (MinArch.db.profile.hideMain == true) then
+	if (MinArch.db.char.WindowStates.main == false) then
 		MinArch:HideMain();
+	end
+
+	if (MinArch.db.char.WindowStates.history == false or MinArch.db.profile.startHidden) then
+		MinArch:HideHistory();
+	end
+
+	if (MinArch.db.char.WindowStates.digsites == false or MinArch.db.profile.startHidden) then
+		MinArch:HideDigsites();
 	end
 
 	-- discard old unknown digsites

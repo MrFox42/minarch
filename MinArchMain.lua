@@ -295,7 +295,8 @@ end
 
 function MinArch:HideMain()
 	MinArchMain:Hide();
-	MinArch.db.profile.hideMain = true;
+	-- MinArch.db.profile.hideMain = true;
+	MinArch.db.char.WindowStates.main = false;
 end
 
 function MinArch:ShowMain()
@@ -303,11 +304,12 @@ function MinArch:ShowMain()
 	--	MinArchMain.showAfterCombat = true;
 	--else
 		MinArchMain:Show();
-		MinArch.db.profile.hideMain = false;
+		-- MinArch.db.profile.hideMain = false;
+		MinArch.db.char.WindowStates.main = true;
 	--end
 end
 
-function MinArch:ToggleMain()
+function MinArchMain:Toggle()
 	if (MinArchMain:IsVisible()) then
 		MinArch:HideMain()
 	else

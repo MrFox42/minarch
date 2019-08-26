@@ -544,6 +544,7 @@ end
 
 function MinArch:HideHistory()
 	MinArchHist:Hide();
+	MinArch.db.char.WindowStates.history = false;
 end
 
 function MinArch:ShowHistory()
@@ -551,10 +552,11 @@ function MinArch:ShowHistory()
 	--	MinArchHist.showAfterCombat = true;
 	--else
 		MinArchHist:Show();
+		MinArch.db.char.WindowStates.history = true;
 	--end
 end
 
-function MinArch:ToggleHistory()
+function MinArchHist:Toggle()
 	if (MinArchHist:IsVisible()) then
 		MinArch:HideHistory();
 	else

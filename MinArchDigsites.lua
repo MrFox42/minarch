@@ -676,6 +676,7 @@ end
 
 function MinArch:HideDigsites()
 	MinArchDigsites:Hide();
+	MinArch.db.char.WindowStates.digsites = false;
 end
 
 function MinArch:ShowDigsites()
@@ -683,10 +684,11 @@ function MinArch:ShowDigsites()
 	--	MinArchDigsites.showAfterCombat = true;
 	--else
 		MinArchDigsites:Show();
+		MinArch.db.char.WindowStates.digsites = true;
 	--end
 end
 
-function MinArch:ToggleDigsites()
+function MinArchDigsites:Toggle()
 	if (MinArchDigsites:IsVisible()) then
 		MinArch:HideDigsites();
 	else
