@@ -1,7 +1,7 @@
 -- Minimal Archaeology
 
 local AceAddon = LibStub("AceAddon-3.0");
-MinArch = AceAddon:NewAddon('Minimal Archaeology');
+MinArch = AceAddon:NewAddon("Minimal Archaeology", "AceTimer-3.0");
 MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
 
 MinArchHideNext = false;
@@ -92,7 +92,7 @@ MinArch.defaults = {
 			autoWayOnMove = false,
 			autoWayOnComplete = true
 		},
-		
+
 		-- dynamic options
 		raceOptions = {
 			hide = {},
@@ -103,7 +103,7 @@ MinArch.defaults = {
 		-- deprecated, left for compatibility
 		hideMinimapButton = false, -- moved into minimap (databroker)
 		minimapPos = 45,           -- not needed anymore (databroker)
-	},	
+	},
 }
 
 MinArchRaceConfig = {};

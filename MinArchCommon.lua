@@ -27,7 +27,7 @@ local MinArchContinentRaces = {
 	[10] = {ARCHAEOLOGY_RACE_ZANDALARI, ARCHAEOLOGY_RACE_DRUSTVARI}, -- Zandalar
 };
 
--- Alternate uiMapIDs (flight maps) for continents ([uiMapID] = internalContID) 
+-- Alternate uiMapIDs (flight maps) for continents ([uiMapID] = internalContID)
 local MinArchAlternateContIDMap = {
 	[993] = 8, -- Broken Isles Flight map
 	[1014] = 9, -- Kul Tiras Flight map
@@ -66,7 +66,7 @@ function MinArch:GetInternalContId(uiMapID)
 	end
 	local nearestContinentID = MinArch:GetNearestContinentId(uiMapID);
 	local ContID = MinArchContIDMap[nearestContinentID];
-	
+
 	-- check for alternate IDs
 	if (ContID == nil) then
 		ContID = MinArchAlternateContIDMap[nearestContinentID];
@@ -79,7 +79,7 @@ end
 function MinArch:GetUiMapIdByContId(ContID)
 	for k, v in pairs(MinArchContIDMap) do
 		if (v == ContID) then
-			return k; 
+			return k;
 		end
 	end
 
@@ -145,7 +145,7 @@ function MinArch:GetRaceNameByBranchId(branchID)
 end
 
 function MinArch:IsRaceRelevant(raceID)
-	if (not MinArch.db.profile.relevancy.relevantOnly) then 
+	if (not MinArch.db.profile.relevancy.relevantOnly) then
 		return true;
 	end
 
@@ -175,7 +175,7 @@ function MinArch:GetRaceIdByName(name)
 	if (MinArch.RacesLoaded == false) then
 		MinArch:LoadRaceInfo();
 	end
-	
+
 	return MinArch.ArchaeologyRaces[name];
 end
 
@@ -197,4 +197,11 @@ function MinArch:TestForMissingDigsites()
 			print("Missing translation for: " .. k);
 		end
 	end
+end
+
+function MinArch:CalculateDistance(ax, ay, bx, by)
+    local xd = math.abs(ax - bx);
+    local yd = math.abs(ay - by);
+
+    return round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
 end

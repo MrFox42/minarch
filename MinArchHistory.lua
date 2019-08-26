@@ -16,16 +16,16 @@ function MinArch:LoadItemDetails(RaceID, caller)
 	if MinArch:IsItemDetailsLoaded(RaceID) then
 		return true
 	end
-	
+
 	local newItemCount = 0
-	
+
 	local allGood = true
 	for itemid, details in pairs(MinArchHistDB[RaceID]) do
 		if not details.name then
 			newItemCount = newItemCount + 1
 
 			local name, _, rarity, _, _, _, _, _, _, icon, sellPrice = GetItemInfo(itemid);
-			
+
 			if name ~= nil and icon ~= nil then
 				details.name = name
 				details.rarity = rarity
@@ -67,7 +67,7 @@ function MinArch:GetHistory(RaceID, caller)
 			icon = MinArchIconDB[RaceID][icon]
 		end
 		icon = icon..".blp"
-		
+
 		local foundCount = 0
 		for itemid, details in pairs(MinArchHistDB[RaceID]) do
 			if (details.name == name and details.icon ~= icon) then
@@ -81,7 +81,7 @@ function MinArch:GetHistory(RaceID, caller)
 				icon = details.icon
 			end
 		end
-		
+
 		-- pass 1: match both name and icon (because "Insect in Amber" and "Ancient Amber" have the same icon)
 		-- pass 2: match only the icon if no matches in pass 1 were found (because some artifact names are different than the items they give)
 		for pass = 1,2,1 do
@@ -97,7 +97,7 @@ function MinArch:GetHistory(RaceID, caller)
 						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
 						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
 					end
-					
+
 					--TODO: In the tooltip, display icon/name/info for artifact and all associated item icons
 					-- Change MinArchHistDB to include the alternate item IDs (for example, Orb of Sciallax can give 6 different relics items)
 					-- Gather the name and icon info here.
@@ -109,12 +109,12 @@ function MinArch:GetHistory(RaceID, caller)
 						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
 						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
 					end]]--
-					
+
 					details.firstcomplete = firstcomplete
 					details.totalcomplete = totalcomplete
 					details.description = desc
 					details.spelldescription = spelldesc
-					
+
 					if (MinArch.artifacts[RaceID].project == name) then
 						MinArch.artifacts[RaceID].firstcomplete = firstcomplete
 						MinArch.artifacts[RaceID].totalcomplete = totalcomplete
@@ -126,7 +126,7 @@ function MinArch:GetHistory(RaceID, caller)
 				break
 			end
 		end
-		
+
 		if foundCount == 0 and MinArch:IsItemDetailsLoaded(RaceID) then
 			MinArch:DisplayStatusMessage("Minimal Archaeology - found unknown artifact", MINARCH_MSG_DEBUG)
 			MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
@@ -154,7 +154,7 @@ function MinArch:GetCurrentQuestArtifact()
 
 				return;
 			end
-		end		
+		end
 	end
 
 	currentQuestArtifact = nil;
@@ -177,14 +177,14 @@ function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 			return true, true;
 		end
 
-		
+
 		for k, quest in pairs(availableQuestLines) do
 			if (quest.questID == qLineQuests[qLineId][i]) then
 				return true
 			end
 		end
 	end
-	
+
 	return false
 end
 
@@ -194,7 +194,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		MinArch:DimHistoryButtons();
 		MinArch.raceButtons[RaceID]:SetAlpha(1.0);
 	end
-	
+
 	MinArch:GetCurrentQuestArtifact();
 	MinArchHistQuestIndicator:SetAlpha((RaceID == currentQuestArtifactRace) and 0.9 or 0.6);
 
@@ -218,7 +218,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
 	local PADDING = 5;
 	local width = 260; -- fixme get parent width
-	
+
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		if (MinArchScroll[i]) then
 			MinArchScroll[i]:Hide();
@@ -281,7 +281,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		local height = 0;
 		local count = 0;
 		local currentArtifact, currentFontString, cwidth, cheight, mouseframe, tmpText
-		
+
 		for group, gparams in ipairs(groups) do
 			--print ("Group:", group, "rarity:", gparams.rarity, "min:", gparams.goldmin, "max:", gparams.goldmax)
 			for itemid, details in pairs(MinArchHistDB[RaceID]) do
@@ -302,7 +302,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 						end
 						scrollc.artifacts[count] = currentArtifact
 					end
-				
+
 					-- Description
 					currentFontString = currentArtifact.description
 					currentFontString:SetSize(width, 100)
@@ -316,11 +316,11 @@ function MinArch:CreateHistoryList(RaceID, caller)
 					end
 					currentFontString:SetText(" |T" .. strsub(details.icon, 0, -5) .. ":16:16:0:0|t " .. displayName)
 					currentFontString:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
-				
+
 					cwidth = currentFontString:GetStringWidth()
 					cheight = currentFontString:GetStringHeight()
 					currentFontString:SetSize(cwidth + 18, cheight)
-					
+
 					if count == 1 then
 						currentFontString:SetPoint("TOPLEFT", scrollc, "TOPLEFT", 0, 0)
 					else
@@ -328,7 +328,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 						currentFontString:SetPoint("TOP", scrollc.artifacts[count - 1].description, "TOP", 0, - PADDING - cheight)
 						height = height + PADDING
 					end
-				
+
 					-- Status
 					currentFontString = currentArtifact.status
 					currentFontString:SetSize(width, 100)
@@ -336,7 +336,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 					currentFontString:SetWordWrap(false)
 					currentFontString:SetJustifyH("RIGHT")
 					currentFontString:SetJustifyV("TOP")
-					
+
 					if not details.firstcomplete then
 						currentFontString:SetText("Incomplete")
 						currentFontString:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
@@ -351,7 +351,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 						currentFontString:SetText(details.totalcomplete .. " Completed")
 						currentFontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
 					end
-				
+
 					-- Legion quests
 					if (currentQuestArtifact == itemid) then
 						tmpText = "";
@@ -367,13 +367,13 @@ function MinArch:CreateHistoryList(RaceID, caller)
 							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
 						end
 					end
-					
+
 
 					cwidth = currentFontString:GetStringWidth()
 					currentFontString:SetSize(cwidth + 5, cheight)
-				
+
 					local statusoffset = MinArch.HasPristine[RaceID] == true and -12 or 0
-				
+
 					if count == 1 then
 						currentFontString:SetPoint("TOPRIGHT", scrollc, "TOPRIGHT", statusoffset, 0)
 					else
@@ -400,10 +400,10 @@ function MinArch:CreateHistoryList(RaceID, caller)
 							currentFontString:SetText("x")
 							currentFontString:SetTextColor(1.0, 0.0, 0.0, 1.0)
 						end
-					
+
 						cwidth = currentFontString:GetStringWidth()
 						currentFontString:SetSize(cwidth + 5, cheight)
-					
+
 						if count == 1 then
 							currentFontString:SetPoint("TOPRIGHT", scrollc, "TOPRIGHT", 0, 0)
 						else
@@ -411,16 +411,16 @@ function MinArch:CreateHistoryList(RaceID, caller)
 							currentFontString:SetPoint("TOP", scrollc.artifacts[count - 1].pristine, "TOP", 0, - PADDING - cheight)
 						end
 					end
-					
+
 					-- height calc
 					height = height + cheight
 					--print("height", height, "cheight", cheight)
-					
-					-- Tooltip					
+
+					-- Tooltip
 					mouseframe = currentArtifact.mouseframe
 					mouseframe:SetSize(width, cheight)
 					mouseframe:SetPoint("BOTTOMRIGHT", currentFontString, "BOTTOMRIGHT", 0, 0)
-				
+
 					mouseframe:SetScript("OnEnter", function(self)
 												MinArch:HistoryTooltip(self, RaceID, itemid)
 											end)
@@ -431,27 +431,27 @@ function MinArch:CreateHistoryList(RaceID, caller)
 				end
 			end
 		end
-	
+
 		-- Set the size of the scroll child
 		if height > 2 then
 			scrollc:SetHeight(height-2)
 		end
-	
+
 		-- Set the scrollchild to be the frame of font strings we've created
 		scrollf:SetScrollChild(scrollc)
-	
+
 		-- Set up the scrollbar to work properly
 		local scrollMax = 0
 		if height > 230 then
 			scrollMax = height - 220
 		end
-	
+
 		if (scrollMax == 0) then
 			scrollb.thumb:Hide();
 		else
 			scrollb.thumb:Show();
 		end
-	
+
 		scrollb:SetOrientation("VERTICAL")
 		scrollb:SetSize(16, 230)
 		scrollb:SetPoint("TOPLEFT", scrollf, "TOPRIGHT", 0, 0)
@@ -460,12 +460,12 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		scrollb:SetScript("OnValueChanged", function(self)
 			scrollf:SetVerticalScroll(self:GetValue())
 		end)
-	
+
 		-- Enable mousewheel scrolling
 		scrollf:EnableMouseWheel(true)
 		scrollf:SetScript("OnMouseWheel", function(self, delta)
 			local current = scrollb:GetValue()
-		
+
 			if IsShiftKeyDown() and (delta > 0) then
 				scrollb:SetValue(0)
 			elseif IsShiftKeyDown() and (delta < 0) then
@@ -492,9 +492,9 @@ end
 function MinArch:HistoryTooltip(self, RaceID, ItemID)
 	local artifact = MinArchHistDB[RaceID][ItemID];
 	local discovereddate = {};
-	
+
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-	
+
 	MinArchTooltipIcon.icon:SetTexture(artifact.icon)
 	if (artifact.rarity == 4) then
 		GameTooltip:AddLine(artifact.name, 0.65, 0.2, 0.93, 1.0)
@@ -503,10 +503,10 @@ function MinArch:HistoryTooltip(self, RaceID, ItemID)
 	else
 		GameTooltip:AddLine(artifact.name, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
 	end
-	
+
 	GameTooltip:AddLine(artifact.description, 1.0, 1.0, 1.0, 1.0)
 	GameTooltip:AddLine(artifact.spelldescription, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1)
-	
+
 	if not artifact["firstcomplete"] then
 		GameTooltip:AddLine("Incomplete", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
 	elseif artifact["firstcomplete"] == 0 then
@@ -529,9 +529,9 @@ function MinArch:HistoryTooltip(self, RaceID, ItemID)
 			GameTooltip:AddDoubleLine("Discovered On: |cffffffff"..discovereddate["month"].."/"..discovereddate["day"].."/"..discovereddate["year"], "x"..artifact["totalcomplete"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 		end
 	end
-	
-	
-	
+
+
+
 	MinArchTooltipIcon:Show();
 	GameTooltip:Show();
 end
