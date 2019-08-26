@@ -76,27 +76,6 @@ local general = {
 					end,
 					order = 2,
 				},
-				startHidden = {
-					type = "toggle",
-					name = "Start Hidden",
-					desc = "Always start Minimal Archaeology hidden.",
-					get = function () return MinArch.db.profile.startHidden end,
-					set = function (_, newValue)
-						MinArch.db.profile.startHidden = newValue;
-					end,
-					order = 3,
-				},
-				rememberState = {
-					type = "toggle",
-					name = "Remember window states",
-					desc = "Rembember which MinArch windows were open when logging out (or reloading UI).",
-					get = function () return MinArch.db.profile.rememberState end,
-					disabled = function () return MinArch.db.profile.startHidden end,
-					set = function (_, newValue)
-						MinArch.db.profile.rememberState = newValue;
-					end,
-					order = 4,
-				},
 				showWorldMapOverlay = {
 					type = "toggle",
 					name = "Show world map overlay icons",
@@ -125,11 +104,40 @@ local general = {
 				}
 			}
 		},
+		startup = {
+            type = "group",
+            name = "Startup settings",
+            inline = true,
+            order = 3,
+            args = {
+                startHidden = {
+					type = "toggle",
+					name = "Start Hidden",
+					desc = "Always start Minimal Archaeology hidden.",
+					get = function () return MinArch.db.profile.startHidden end,
+					set = function (_, newValue)
+						MinArch.db.profile.startHidden = newValue;
+					end,
+					order = 3,
+				},
+				rememberState = {
+					type = "toggle",
+					name = "Remember window states",
+					desc = "Rembember which MinArch windows were open when logging out (or reloading UI).",
+					get = function () return MinArch.db.profile.rememberState end,
+					disabled = function () return MinArch.db.profile.startHidden end,
+					set = function (_, newValue)
+						MinArch.db.profile.rememberState = newValue;
+					end,
+					order = 4,
+				},
+            }
+		},
 		autoHide = {
-			type = 'group',
-			name = 'Auto-hide main window',
+			type = "group",
+			name = "Auto-hide main window",
 			inline = true,
-			order = 3,
+			order = 4,
 			args = {
 				hideAfterDigsite = {
 					type = "toggle",
@@ -168,7 +176,7 @@ local general = {
 			type = 'group',
 			name = 'Auto-show main window',
 			inline = true,
-			order = 4,
+			order = 5,
 			args = {
 				autoShowInDigsites = {
 					type = "toggle",
@@ -505,7 +513,7 @@ function Options:OnInitialize()
 			raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
 				type = "toggle",
 				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function () 
+				desc = function ()
 					return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
 				end,
 				order = i,
@@ -518,10 +526,10 @@ function Options:OnInitialize()
 			raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
 				type = "toggle",
 				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function () 
+				desc = function ()
 					local RuneName, _, _, _, _, _, _, _, _, _ = GetItemInfo(MinArch['artifacts'][i]['raceitemid']);
 					local RaceName = MinArch['artifacts'][i]['race'];
-					
+
 					if (RuneName ~= nil and RaceName ~= nil) then
 						return "Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.";
 					end
@@ -545,13 +553,13 @@ end
 function Options:RegisterMenus()
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", general);
 	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", "Minimal Archaeology");
-	
+
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
 	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");
-	
+
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch TomTom Settings", TomTomSettings);
 	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch TomTom Settings", "TomTom Settings", "Minimal Archaeology");
-	
+
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Developer Settings", devSettings);
     self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Developer Settings", "Developer Settings", "Minimal Archaeology");
 
