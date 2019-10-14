@@ -2,7 +2,19 @@
 
 View all your artifacts progress, and solve them in one compact frame. Also you can view all your artifact history neatly sorted by race, and a list of dig sites. You can left-click the keystone button to attach keystones (or right-click to remove), or if you prefer there are options to automatically use keystones! You can monitor the artifacts progress, or how close you are to the fragment cap.
 
-## Latest Version: v8.2.1
+## Beta version available
+
+### MinArch Companion
+
+The new companion frame includes a **distance tracker**, and a clickable **survey button**. Set *Release type* to *Beta* in your Twitch client, or download manually and give it a try.
+
+### Known issues in the beta version
+
+- It's ugly, most things are placeholders for testing purposes.
+- You can't disable the companion frame in the beta version.
+- There are no customization options yet
+
+## Latest Stable Version: v8.2.1
 **Make sure to exit the game before/after updating addons.**
 
 - All Window states are now remembered upon relog/reload, unless the "Always start hidden" option is enabled
