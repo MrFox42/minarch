@@ -2,7 +2,7 @@ local function CreateAutoWaypointButton(parent, x, y)
 	local button = CreateFrame("Button", "$parentAutoWayButton", parent);
 	button:SetSize(21, 21);
 	button:SetPoint("TOPLEFT", x, y);
-	
+
 	button:SetNormalTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]]);
 	button:GetNormalTexture():SetRotation(1.570796);
 	button:SetPushedTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Down]]);
@@ -10,21 +10,21 @@ local function CreateAutoWaypointButton(parent, x, y)
 	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
 	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
 
-	button:SetScript("OnClick", function() 
+	button:SetScript("OnClick", function()
 		MinArch:SetWayToNearestDigsite()
 	end)
 
 	button:SetScript("OnEnter", function()
 		MinArch:ShowWindowButtonTooltip(button, "Create waypoint to the closest available digsite");
 	end)
-	button:SetScript("OnLeave", function() 
+	button:SetScript("OnLeave", function()
 		GameTooltip:Hide();
 	end)
 end
 
 function MinArch:SetRelevancyToggleButtonTexture()
 	local button = MinArchMainRelevancyButton;
-	if (MinArch.db.profile.relevancy.relevantOnly) then		
+	if (MinArch.db.profile.relevancy.relevantOnly) then
 		button:SetNormalTexture([[Interface\Buttons\UI-Panel-ExpandButton-Up]]);
 		button:SetPushedTexture([[Interface\Buttons\UI-Panel-ExpandButton-Down]]);
 	else
@@ -32,9 +32,9 @@ function MinArch:SetRelevancyToggleButtonTexture()
 		button:SetPushedTexture([[Interface\Buttons\UI-Panel-CollapseButton-Down]]);
 	end
 
-	button:SetBackdrop( { 
-		bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]], 
-		edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0, 
+	button:SetBackdrop( {
+		bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]],
+		edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0,
 		insets = { left = 0.5, right = 1, top = 2.4, bottom = 1.4 }
 	});
 	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
@@ -43,7 +43,7 @@ end
 
 local function ShowRelevancyButtonTooltip()
 	local button = MinArchMainRelevancyButton;
-	if (MinArch.db.profile.relevancy.relevantOnly) then	
+	if (MinArch.db.profile.relevancy.relevantOnly) then
 		MinArch:ShowWindowButtonTooltip(button, "Show all races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
 	else
 		MinArch:ShowWindowButtonTooltip(button, "Only show relevant races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
@@ -71,7 +71,7 @@ local function CreateRelevancyToggleButton(parent, x, y)
 		end
 	end);
 	button:SetScript("OnEnter", ShowRelevancyButtonTooltip)
-	button:SetScript("OnLeave", function() 
+	button:SetScript("OnLeave", function()
 		GameTooltip:Hide();
 	end)
 end
@@ -85,7 +85,7 @@ local function CreateCrateButton(parent, x, y)
 	button:SetNormalTexture([[Interface\AddOns\MinimalArchaeology\Textures\CrateButtonUp]]);
 	button:SetPushedTexture([[Interface\AddOns\MinimalArchaeology\Textures\CrateButtonDown]]);
 	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
-	
+
 	local overlay = CreateFrame("Frame", "$parentGlow", button);
 	overlay:SetSize(28, 28);
 	overlay:SetPoint("TOPLEFT", button, "TOPLEFT", -5, 5);
@@ -103,10 +103,10 @@ local function CreateCrateButton(parent, x, y)
 		else
 			GameTooltip:AddLine("You don't have anything to crate.");
 		end
-		
+
 		GameTooltip:Show();
 	end)
-	button:SetScript("OnLeave", function() 
+	button:SetScript("OnLeave", function()
 		GameTooltip:Hide();
 	end)
 end
@@ -127,7 +127,7 @@ function MinArch:RefreshCrateButtonGlow()
 								bagID = bagID,
 								slot = slot
 							}
-							
+
 							MinArchMainCrateButton:SetAttribute("item", "item:" .. itemID);
 							MinArchMainCrateButtonGlow:Show();
 							return;
@@ -146,7 +146,7 @@ function MinArch:InitMain(self)
 	-- Init frame scripts
 	self:SetScript('OnShow', function ()
 		MinArch:UpdateMain();
-		if (MinArch:IsNavigationEnabled()) then 
+		if (MinArch:IsNavigationEnabled()) then
 			MinArchMainAutoWayButton:Show();
 		else
 			MinArchMainAutoWayButton:Hide();
@@ -159,14 +159,14 @@ function MinArch:InitMain(self)
 		artifactBar.parentKey = "artifactBar" .. i;
 		if (i == 1) then
 			artifactBar:SetPoint("TOP", self, "TOP", -25, -50);
-		else 
+		else
 			artifactBar:SetPoint("TOP", MinArch['artifactbars'][i-1], "TOP", 0, -25);
 		end
 
 		local barTexture = [[Interface\Archeology\Arch-Progress-Fill]];
 		artifactBar:SetStatusBarTexture(barTexture);
 
-		MinArch['artifacts'][i] = {}; 
+		MinArch['artifacts'][i] = {};
 		MinArch['artifacts'][i]['appliedKeystones'] = 0;
 		MinArch['artifactbars'][i] = artifactBar;
 	end
@@ -191,7 +191,7 @@ function MinArch:InitMain(self)
 	-- self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("ARCHAEOLOGY_FIND_COMPLETE");
 	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
-	self:RegisterEvent("ARCHAEOLOGY_CLOSED"); 
+	self:RegisterEvent("ARCHAEOLOGY_CLOSED");
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("QUEST_LOG_UPDATE");
@@ -221,7 +221,7 @@ function MinArch:InitHelperFrame(self)
 
 	self:SetScript("OnEvent", function(self, event, ...)
 		MinArch:EventHelper(event, ...);
-	end)	
+	end)
 end
 
 function MinArch:OnInitialize ()
@@ -266,12 +266,13 @@ end
 
 function MinArch:RefreshConfig()
 	MinArch:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
-	
+
 	MinArch:RefreshMinimapButton();
 	MinArch:ShowRaceIconsOnMap();
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
 	MinArchShowOnSurvey = true;
-	MinArchShowInDigsite = true;
+    MinArchShowInDigsite = true;
+    MinArchCompanionShowInDigsite = true;
 	MinArch:UpdateMain();
 end
 
@@ -285,7 +286,7 @@ function MinArch:InitDatabase()
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig");
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig");
 	self.db.RegisterCallback(self, "OnDatabaseShutdown", "Shutdown");
-	
+
 	MinArch:UpgradeSettings()
 end
 
@@ -366,7 +367,7 @@ function MinArch:InitHist(self)
 	MinArch:InitRaceButtons(self);
 
 	self:SetScript("OnShow", function ()
-		
+
 		local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 		if (digSite and distance <= 2) then
 			MinArchOptions['CurrentHistPage'] = MinArch:GetRaceIdByName(digSiteData.race)
@@ -381,7 +382,7 @@ function MinArch:InitHist(self)
 	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
 	self:RegisterEvent("QUEST_ACCEPTED");
 	self:RegisterEvent("QUEST_TURNED_IN");
-	self:RegisterEvent("QUEST_REMOVED");	
+	self:RegisterEvent("QUEST_REMOVED");
 	self:RegisterEvent("QUESTLINE_UPDATE");
 	-- RequestArtifactCompletionHistory();
 
@@ -391,7 +392,7 @@ end
 function MinArch:InitQuestIndicator(self)
 	local qi = CreateFrame("Button", "MinArchHistQuestIndicator", self);
 	qi:SetSize(16,16);
-	
+
 	qi.texture = qi:CreateTexture(nil, "OVERLAY");
 	qi.texture:SetAllPoints(qi);
 	--qi.texture:SetSize(20,20);
@@ -416,7 +417,7 @@ function MinArch:InitRaceButtons(self)
 			local raceButton = CreateFrame("Button", "MinArchRaceButton" .. i, self);
 			raceButton:SetPoint("TOPLEFT", self, "TOPLEFT", currX, currY);
 			currX = currX + sizeX;
-			
+
 			if (i == 10) then
 				currX = baseX;
 				currY = currY - sizeY;
@@ -425,28 +426,28 @@ function MinArch:InitRaceButtons(self)
 			raceButton:SetNormalTexture(MinArchRaceConfig[i].texture);
 			raceButton:GetNormalTexture():SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
 			raceButton:GetNormalTexture():SetSize(sizeX, sizeY);
-			
+
 			raceButton:SetPushedTexture(MinArchRaceConfig[i].texture);
 			raceButton:GetPushedTexture():SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
 			raceButton:GetPushedTexture():SetSize(sizeX, sizeY);
-			
+
 			raceButton:SetHighlightTexture(MinArchRaceConfig[i].texture);
 			raceButton:GetHighlightTexture():SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
 			raceButton:GetHighlightTexture():SetSize(sizeX, sizeY);
 			raceButton:GetHighlightTexture().alphaMode = "ADD";
 
-			raceButton:SetScript("OnClick", function (self) 
+			raceButton:SetScript("OnClick", function (self)
 				MinArchOptions['CurrentHistPage'] = i;
 				MinArch:DimHistoryButtons();
 				self:SetAlpha(1.0);
 				MinArch:CreateHistoryList(i);
 			end)
 
-			raceButton:SetScript("OnEnter", function () 
+			raceButton:SetScript("OnEnter", function ()
 				MinArch:HistoryButtonTooltip(i)
 			end)
 
-			raceButton:SetScript("OnLeave", function () 
+			raceButton:SetScript("OnLeave", function ()
 				GameTooltip:Hide();
 			end)
 
@@ -469,8 +470,8 @@ function MinArch:InitDigsites(self)
 		MinArch.MapContinents[v.mapID] = v.name;
 	end
 
-	self:SetScript("OnShow", function() 
-		if (MinArch:IsNavigationEnabled()) then 
+	self:SetScript("OnShow", function()
+		if (MinArch:IsNavigationEnabled()) then
 			MinArchDigsitesAutoWayButton:Show();
 		else
 			MinArchDigsitesAutoWayButton:Hide();
@@ -509,7 +510,7 @@ end
 
 function MinArch_TrackingChanged(self)
 	MinArch:TrackingChanged(self);
-end 
+end
 
 
 function MinArch_MapLayerChanged(self)

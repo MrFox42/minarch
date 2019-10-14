@@ -39,6 +39,20 @@ local function InitDistanceTracker()
 
     Companion.trackerFrame.fontString = fontString;
 
+    -- Survey button
+    local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion, "SecureActionButtonTemplate");
+    surveyButton:SetAttribute("type", "spell");
+    surveyButton:SetAttribute("spell", 80451);
+    surveyButton:SetPoint("LEFT", 40, 0);
+    surveyButton:SetWidth(32);
+    surveyButton:SetHeight(32);
+
+    surveyButton:SetNormalTexture("Interface/Icons/inv_misc_shovel_01")
+    surveyButton:SetHighlightTexture("Interface/Icons/inv_misc_shovel_01")
+    surveyButton:SetPushedTexture("Interface/Icons/inv_misc_shovel_01")
+
+    Companion.surveyButton = surveyButton;
+
     -- Register events
     Companion:RegisterEvent("PLAYER_STARTED_MOVING")
     Companion:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST")
@@ -100,12 +114,24 @@ function Companion:EventHandler(event, ...)
     Companion.events[event](self, ...)
 end
 
+function Companion:AutoToggle()
+    if (MinArch:IsNearDigSite(5) and MinArchCompanionShowInDigsite == true) then
+        MinArch.Companion:Show();
+        MinArchCompanionShowInDigsite = false;
+    end
+
+    if not MinArch:IsNearDigSite(5) then
+        MinArch.Companion:Hide();
+        MinArchCompanionShowInDigsite = true;
+    end
+end
+
 function Companion:Init()
     MinArch:DisplayStatusMessage("Initializing Companion", MINARCH_MSG_DEBUG)
 
     Companion:SetFrameStrata("BACKGROUND")
     Companion:SetWidth(108)
-    Companion:SetHeight(24)
+    Companion:SetHeight(36)
 
     local tex = Companion:CreateTexture(nil, "BACKGROUND")
     tex:SetAllPoints()

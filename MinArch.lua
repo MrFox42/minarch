@@ -8,6 +8,7 @@ MinArchHideNext = false;
 MinArchIsReady = false;
 MinArchShowOnSurvey = true;
 MinArchShowInDigsite = true;
+MinArchCompanionShowInDigsite = true;
 
 MinArch.firstRun = true;
 MinArch.artifacts = {};

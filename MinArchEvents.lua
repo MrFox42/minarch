@@ -42,7 +42,7 @@ function MinArch:EventMain(event, ...)
 	elseif (event == "RESEARCH_ARTIFACT_COMPLETE" and MinArchHideNext == true and MinArch.db.profile.waitForSolve == true) then
 		MinArch:HideMain();
 		MinArchHideNext = false;
-		
+
 		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		--RequestArtifactCompletionHistory();
 	elseif (event == "PLAYER_ALIVE" or event == "RESEARCH_ARTIFACT_COMPLETE") then
@@ -52,7 +52,7 @@ function MinArch:EventMain(event, ...)
 		-- MinArch:MainEventAddonLoaded(); -- TODO remove this if everything checks out
 	elseif (event == "ADDON_LOADED") then
 		local addonname = ...;
-		
+
 		if (addonname == "Blizzard_ArchaeologyUI") then
 			MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
@@ -65,7 +65,8 @@ function MinArch:EventMain(event, ...)
 		if (MinArch.RacesLoaded == false) then
 			MinArch:LoadRaceInfo();
 		end
-		MinArch:RefreshLDBButton(event);
+        MinArch:RefreshLDBButton(event);
+        MinArch.Companion:AutoToggle()
 	end
 
 	if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
@@ -78,13 +79,18 @@ function MinArch:EventMain(event, ...)
 		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite(5) and MinArchShowInDigsite == true) then
 			MinArch:ShowMain();
 			MinArchShowInDigsite = false;
-		end
+        end
+
+        MinArch.Companion.AutoToggle();
+
 		return
 	end
 
 	if (event == "ARTIFACT_DIGSITE_COMPLETE") then
 		MinArchShowOnSurvey = true;
-		MinArchShowInDigsite = true;
+        MinArchShowInDigsite = true;
+        MinArchCompanionShowInDigsite = true;
+        MinArch.Companion:Hide();
 	end
 
 	if (event == "QUEST_LOG_UPDATE") then
@@ -99,7 +105,8 @@ function MinArch:EventMain(event, ...)
 		end
 	end
 
-	if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
+    if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
+        MinArch.Companion:AutoToggle()
 		MinArch:RefreshLDBButton(event);
 		return
 	end
@@ -233,7 +240,7 @@ end
 
 function MinArch:MainEventAddonLoaded()
 	-- Apply Settins/SavedVariables
-	
+
 	if (MinArchOptions['CurrentHistPage'] == nil) then
 		MinArchOptions['CurrentHistPage'] = 1;
 	end
@@ -241,7 +248,7 @@ function MinArch:MainEventAddonLoaded()
 	if (MinArch.db.profile.startHidden == true and not MinArch.overrideStartHidden) then
 		MinArch:HideMain();
 	end
-	
+
 	if (MinArch.db.char.WindowStates.main == false) then
 		MinArch:HideMain();
 	end
@@ -284,7 +291,7 @@ function MinArch:MapLayerChanged(self)
 	-- update the map when map layer has changed
 	if (self.mapID ~= nil) then
 		if (WorldMapFrame.isMaximized) then
-			C_Timer.After(0.11, function () 
+			C_Timer.After(0.11, function ()
 				MinArch:ShowRaceIconsOnMap();
 			end)
 		else
