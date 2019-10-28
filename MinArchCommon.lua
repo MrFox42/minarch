@@ -199,6 +199,10 @@ function MinArch:TestForMissingDigsites()
 	end
 end
 
+local function round(x)
+    return math.floor(x + 0.5);
+end
+
 function MinArch:CalculateDistance(ax, ay, bx, by)
     local xd = math.abs(ax - bx);
     local yd = math.abs(ay - by);
