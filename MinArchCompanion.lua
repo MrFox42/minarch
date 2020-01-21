@@ -40,7 +40,7 @@ local function InitDistanceTracker()
     Companion.trackerFrame.fontString = fontString;
 
     -- Survey button
-    local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion, "SecureActionButtonTemplate");
+    local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion, "InSecureActionButtonTemplate");
     surveyButton:SetAttribute("type", "spell");
     surveyButton:SetAttribute("spell", 80451);
     surveyButton:SetPoint("LEFT", 40, 0);
