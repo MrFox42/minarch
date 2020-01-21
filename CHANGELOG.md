@@ -1,6 +1,10 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 8.3.0
+
+- Bump TOC
+
 ### 8.2.1
 
 - All Window states are now remembered upon relog/reload, unless the "Always start hidden" option is enabled
