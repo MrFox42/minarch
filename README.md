@@ -2,9 +2,9 @@
 
 View all your artifacts progress, and solve them in one compact frame. Also you can view all your artifact history neatly sorted by race, and a list of dig sites. You can left-click the keystone button to attach keystones (or right-click to remove), or if you prefer there are options to automatically use keystones! You can monitor the artifacts progress, or how close you are to the fragment cap.
 
-## Latest Version: v8.3.0
+## Latest Version: v8.3.0.1
 
-- No changes
+- Fix typo in name of Digsite: The Ruined Sanctum
 
 For past changes, visit the [Changelog page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/changelog).
 

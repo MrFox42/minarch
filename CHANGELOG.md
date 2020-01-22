@@ -4,6 +4,7 @@
 ### 8.3.0
 
 - Bump TOC
+- **8.3.0.1**: Fix typo in name of Digsite: The Ruined Sanctum
 
 ### 8.2.1
 

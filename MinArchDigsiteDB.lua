@@ -356,7 +356,7 @@ MinArchDigsiteList = {
 	[DS("Digsite: Southern Watcher Isle")] = ARCHAEOLOGY_RACE_DEMONIC,
 	[DS("Digsite: Makrana")] = ARCHAEOLOGY_RACE_DEMONIC,
 	[DS("Digsite: Garden of Elune")] = ARCHAEOLOGY_RACE_HIGHBORNE,
-	[DS("Digsite: The Ruined Sancum")] = ARCHAEOLOGY_RACE_HIGHBORNE,
+	[DS("Digsite: The Ruined Sanctum")] = ARCHAEOLOGY_RACE_HIGHBORNE,
 	[DS("Digsite: Old Coast Path")] = ARCHAEOLOGY_RACE_HIGHBORNE,
 	[DS("Digsite: Nor'Danil Wellspring")] = ARCHAEOLOGY_RACE_HIGHBORNE,
 
@@ -390,7 +390,7 @@ MinArchDigsiteList = {
 	[DS("Digsite: The Haglands")] = ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN,
 	[DS("Digsite: The Witchwood")] = ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN,
 	[DS("Digsite: Whitewater Wash")] = ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN,
-	
+
 	-- Broken Isles - Suramar
 	[DS("Digsite: Anora Hollow")] = ARCHAEOLOGY_RACE_DEMONIC,
 	[DS("Digsite: Crimson Thicket")] = ARCHAEOLOGY_RACE_HIGHBORNE, -- TODO: HIGHBORNE/DEMONIC
@@ -406,7 +406,7 @@ MinArchDigsiteList = {
 	[DS("Digsite: Southern Suramar")] = ARCHAEOLOGY_RACE_DEMONIC,
 	[DS("Digsite: Sundered Shoals")] = ARCHAEOLOGY_RACE_DEMONIC,
 	[DS("Digsite: Upper Felsoul Hold")] = ARCHAEOLOGY_RACE_HIGHBORNE,
-	
+
 	-- Broken Isles - Val'sharah
 	[DS("Digsite: Andu'talah")] = ARCHAEOLOGY_RACE_HIGHBORNE,
 	[DS("Digsite: Ashmane's Fall")] = ARCHAEOLOGY_RACE_HIGHBORNE,
@@ -450,7 +450,7 @@ MinArchDigsiteList = {
 	[DS("Digsite: Drowned Lands")] = ARCHAEOLOGY_RACE_DRUSTVARI,
 	[DS("Digsite: Briny Flats")] = ARCHAEOLOGY_RACE_DRUSTVARI,
 	[DS("Digsite: Windwhisper Summit")] = ARCHAEOLOGY_RACE_DRUSTVARI,
-	
+
 	-- Zandalar
 	[DS("Digsite: Xibala")] = ARCHAEOLOGY_RACE_ZANDALARI,
 	[DS("Digsite: Tusk Isle")] = ARCHAEOLOGY_RACE_ZANDALARI,
@@ -476,5 +476,5 @@ MinArchDigsiteList = {
 	[DS("Digsite: Court of Zak'rajan")] = ARCHAEOLOGY_RACE_ZANDALARI,
 	[DS("Digsite: Terrace of the Fang")] = ARCHAEOLOGY_RACE_ZANDALARI,
 
-	
+
 }
