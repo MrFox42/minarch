@@ -29,11 +29,19 @@ local general = {
 					func = function ()
 						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
 					end,
+                },
+                companionButton = {
+					type = "execute",
+					name = "Companion Settings",
+					order = 3,
+					func = function ()
+						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.companionSettings);
+					end,
 				},
 				TomTomButton = {
 					type = "execute",
 					name = "TomTom Settings",
-					order = 3,
+					order = 4,
 					func = function ()
 						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
 					end,
@@ -41,7 +49,7 @@ local general = {
 				deBbutton = {
 					type = "execute",
 					name = "Dev Settings",
-					order = 4,
+					order = 5,
 					func = function ()
 						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.devSettings);
 					end,
@@ -321,6 +329,47 @@ local raceSettings = {
 	}
 }
 
+local companionSettings = {
+    name = "Companion Settings",
+	handler = MinArch,
+	type = "group",
+	args = {
+        general = {
+			type = "group",
+			name = "General settings!",
+			order = 1,
+			inline = true,
+			args = {
+				hideAfterDigsite = {
+					type = "toggle",
+					name = "Always show",
+					desc = "Enable to always show regardless of other options (except in instances and in combat).",
+					get = function () return MinArch.db.profile.companion.alwaysShow end,
+					set = function (_, newValue)
+                        MinArch.db.profile.companion.alwaysShow = newValue;
+                        MinArch.Companion:AutoToggle()
+					end,
+					order = 1,
+                },
+                scale = {
+                    type = "range",
+                    name = "Scale",
+                    desc = "Set the size of the companion. Default: 100.",
+                    min = 30,
+                    max = 300,
+                    step = 5,
+                    get = function () return MinArch.db.profile.companion.frameScale end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.frameScale = newValue;
+                        MinArch.Companion:SetFrameScale(newValue);
+                    end,
+                    order = 99,
+                }
+            },
+		},
+    }
+}
+
 local ArchRaceGroupText = {
 	"Kul Tiras, Zuldazar",
 	"Broken Isles",
@@ -556,6 +605,9 @@ function Options:RegisterMenus()
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
 	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");
+
+    LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Companion Settings", companionSettings);
+	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Companion Settings", "Companion Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch TomTom Settings", TomTomSettings);
 	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch TomTom Settings", "TomTom Settings", "Minimal Archaeology");

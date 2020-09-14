@@ -14,6 +14,10 @@ function MinArch:EventHelper(event, ...)
 		if (MinArchDigsites:IsVisible()) then
 			MinArch:HideDigsites();
 			MinArchDigsites.showAfterCombat = true;
+        end
+        if (MinArch.Companion:IsVisible()) then
+            MinArch.Companion:HideFrame();
+            MinArch.Companion.showAfterCombat = true;
 		end
 	elseif (event == "PLAYER_REGEN_ENABLED") then
 		if (MinArchMain.showAfterCombat) then
@@ -27,6 +31,10 @@ function MinArch:EventHelper(event, ...)
 		if (MinArchDigsites.showAfterCombat) then
 			MinArch:ShowDigsites();
 			MinArchDigsites.showAfterCombat = false;
+        end
+        if (MinArch.Companion.showAfterCombat) then
+			MinArch.Companion:ShowFrame();
+			MinArch.Companion.showAfterCombat = true;
 		end
 	end
 end
@@ -56,9 +64,8 @@ function MinArch:EventMain(event, ...)
 		if (addonname == "Blizzard_ArchaeologyUI") then
 			MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
-		if (addonname == "TomTom") then
-			MinArch.TomTomAvailable = true;
-		end
+
+        MinArch.TomTomAvailable = (_G.TomTom ~= nil);
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
 		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
@@ -69,14 +76,18 @@ function MinArch:EventMain(event, ...)
         MinArch.Companion:AutoToggle()
 	end
 
-	if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
+    if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
+        if (MinArch:IsNavigationEnabled() and MinArch.autoWaypoint) then
+            _G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
+        end
+
 		if (MinArch.db.profile.autoShowOnSurvey) then
 			MinArch:ShowMain();
 			MinArchShowOnSurvey = false;
 		end
 	end
 	if ((event == "PLAYER_STOPPED_MOVING" or event == "PLAYER_ENTERING_WORLD")) then
-		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite(5) and MinArchShowInDigsite == true) then
+		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite() and MinArchShowInDigsite == true) then
 			MinArch:ShowMain();
 			MinArchShowInDigsite = false;
         end

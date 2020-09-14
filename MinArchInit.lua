@@ -1,27 +1,3 @@
-local function CreateAutoWaypointButton(parent, x, y)
-	local button = CreateFrame("Button", "$parentAutoWayButton", parent);
-	button:SetSize(21, 21);
-	button:SetPoint("TOPLEFT", x, y);
-
-	button:SetNormalTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]]);
-	button:GetNormalTexture():SetRotation(1.570796);
-	button:SetPushedTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Down]]);
-	button:GetPushedTexture():SetRotation(1.570796);
-	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
-	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
-
-	button:SetScript("OnClick", function()
-		MinArch:SetWayToNearestDigsite()
-	end)
-
-	button:SetScript("OnEnter", function()
-		MinArch:ShowWindowButtonTooltip(button, "Create waypoint to the closest available digsite");
-	end)
-	button:SetScript("OnLeave", function()
-		GameTooltip:Hide();
-	end)
-end
-
 function MinArch:SetRelevancyToggleButtonTexture()
 	local button = MinArchMainRelevancyButton;
 	if (MinArch.db.profile.relevancy.relevantOnly) then
@@ -51,7 +27,7 @@ local function ShowRelevancyButtonTooltip()
 end
 
 local function CreateRelevancyToggleButton(parent, x, y)
-	local button = CreateFrame("Button", "$parentRelevancyButton", parent);
+	local button = CreateFrame("Button", "$parentRelevancyButton", parent, BackdropTemplateMixin and "BackdropTemplate");
 	button:SetSize(23.5, 23.5);
 	button:SetPoint("TOPLEFT", x, y);
 	MinArch:SetRelevancyToggleButtonTexture();
@@ -94,7 +70,11 @@ local function CreateCrateButton(parent, x, y)
 	overlay.texture:SetTexture([[Interface\Buttons\CheckButtonGlow]]);
 	overlay:Hide();
 
-	button:SetScript("OnEnter", function(self)
+	MinArch:SetCrateButtonTooltip(button);
+end
+
+function MinArch:SetCrateButtonTooltip(button)
+    button:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
 		if (MinArch.nextCratable ~= nil) then
 			GameTooltip:SetItemByID(MinArch.nextCratable.itemID);
@@ -128,8 +108,11 @@ function MinArch:RefreshCrateButtonGlow()
 								slot = slot
 							}
 
-							MinArchMainCrateButton:SetAttribute("item", "item:" .. itemID);
-							MinArchMainCrateButtonGlow:Show();
+                            MinArchMainCrateButton:SetAttribute("item", "item:" .. itemID);
+                            MinArchMainCrateButtonGlow:Show();
+
+                            MinArch.Companion.crateButton:SetAttribute("item", "item:" .. itemID);
+                            MinArch.Companion:showCrateButton();
 							return;
 						end
 					end
@@ -138,7 +121,8 @@ function MinArch:RefreshCrateButtonGlow()
 		end
 	end
 
-	MinArchMainCrateButtonGlow:Hide();
+    MinArchMainCrateButtonGlow:Hide();
+    MinArch.Companion:hideCrateButton()
 	MinArch.nextCratable = nil;
 end
 
@@ -156,7 +140,8 @@ function MinArch:InitMain(self)
 	-- Create the artifact bars for the main window
 	for i=1,ARCHAEOLOGY_NUM_RACES do
 		local artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
-		artifactBar.parentKey = "artifactBar" .. i;
+        artifactBar.parentKey = "artifactBar" .. i;
+        artifactBar.race = i;
 		if (i == 1) then
 			artifactBar:SetPoint("TOP", self, "TOP", -25, -50);
 		else
@@ -175,7 +160,7 @@ function MinArch:InitMain(self)
 	self.skillBar:SetStatusBarTexture(skillBarTexture);
 	self.skillBar:SetStatusBarColor(0.03125, 0.85, 0);
 
-	CreateAutoWaypointButton(self, 53, 3);
+	MinArch:CreateAutoWaypointButton(self, 53, 3);
 	CreateCrateButton(self, 32, 1);
 	CreateRelevancyToggleButton(self, 10, 4);
 
@@ -217,7 +202,8 @@ function MinArch:InitHelperFrame(self)
 
 	MinArchMain.showAfterCombat = false;
 	MinArchHist.showAfterCombat = false;
-	MinArchDigsites.showAfterCombat = false;
+    MinArchDigsites.showAfterCombat = false;
+    MinArch.Companion.showAfterCombat = false;
 
 	self:SetScript("OnEvent", function(self, event, ...)
 		MinArch:EventHelper(event, ...);
@@ -478,7 +464,7 @@ function MinArch:InitDigsites(self)
 		end
 	end)
 
-	CreateAutoWaypointButton(self, 15, 3);
+	MinArch:CreateAutoWaypointButton(self, 15, 3);
 
 	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
 	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");

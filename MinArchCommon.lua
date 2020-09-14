@@ -55,6 +55,32 @@ function MinArch:CommonFrameScale(scale)
 	MinArchDigsites:SetScale(scale);
 end
 
+function MinArch:CreateAutoWaypointButton(parent, x, y)
+	local button = CreateFrame("Button", "$parentAutoWayButton", parent);
+	button:SetSize(21, 21);
+	button:SetPoint("TOPLEFT", x, y);
+
+	button:SetNormalTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]]);
+	button:GetNormalTexture():SetRotation(1.570796);
+	button:SetPushedTexture([[Interface\GLUES\COMMON\Glue-RightArrow-Button-Down]]);
+	button:GetPushedTexture():SetRotation(1.570796);
+	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
+	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
+
+	button:SetScript("OnClick", function()
+		MinArch:SetWayToNearestDigsite()
+	end)
+
+	button:SetScript("OnEnter", function()
+		MinArch:ShowWindowButtonTooltip(button, "Create waypoint to the closest available digsite");
+	end)
+	button:SetScript("OnLeave", function()
+		GameTooltip:Hide();
+    end)
+
+    return button;
+end
+
 function MinArch:GetInternalContId(uiMapID)
 	uiMapID = uiMapID or C_Map.GetBestMapForUnit("player");
 	if not uiMapID then

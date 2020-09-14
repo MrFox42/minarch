@@ -9,13 +9,13 @@ MinArchDigsitesGlobalDB["continent"] = {
 		--	["raceid"] = #,
 		--	["x"] = #,
 		--	["y"] = #
-	},	
+	},
 	[2] = {		--Eastern Kingdoms
 	},
 	[3] = {		--Outlands
-	},	
+	},
 	[4] = {		--Northrend
-	},	
+	},
 	[5] = {		-- The Maelstrom (no dig sites)
 	},
 	[6] = {		-- Pandaria
@@ -34,13 +34,13 @@ MinArchDigsitesDB["continent"] = {
 	[1] = {		--Kalimdor
 		--["name"] = {
 		--	["status"] = true/false;
-	},	
+	},
 	[2] = {		--Eastern Kingdoms
 	},
 	[3] = {		--Outlands
-	},	
+	},
 	[4] = {		--Northrend
-	},	
+	},
 	[5] = {		-- The Maelstrom (no dig sites)
 	},
 	[6] = {		-- Pandaria
@@ -68,7 +68,7 @@ function MinArch:UpdateActiveDigSites()
 	if not MinArchDigsiteList then
 		return
 	end
-	
+
 	local playerContID = MinArch:GetInternalContId();
 
 	for i = 1, ARCHAEOLOGY_NUM_CONTINENTS do
@@ -83,7 +83,7 @@ function MinArch:UpdateActiveDigSites()
 		for name,digsite in pairs(MinArchDigsitesDB["continent"][i]) do
 			digsite["status"] = false;
 		end
-	
+
 		local zoneUiMapID = MinArch:GetUiMapIdByContId(i);
 
 		for mapkey, zone in pairs(C_Map.GetMapChildrenInfo(zoneUiMapID, 3)) do
@@ -99,7 +99,7 @@ function MinArch:UpdateActiveDigSites()
 				-- if we don't have this in the DB yet, try to use the race from the digsite list
 				-- if not MinArchDigsitesGlobalDB["continent"][i][name]["race"] or MinArchDigsitesGlobalDB["continent"][i][name]["race"] == "Unknown" then
 					if MinArchDigsiteList[name] then
-						local race = GetArchaeologyRaceInfo(MinArchDigsiteList[name])
+						local race = GetArchaeologyRaceInfo(MinArchDigsiteList[name].race)
 						MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
 					elseif not SpamBlock[name] then
 						ChatFrame1:AddMessage("Minimal Archaeology: Unknown digsite "..name)
@@ -108,12 +108,12 @@ function MinArch:UpdateActiveDigSites()
 				--end
 
 				-- TODO: remove digsites assigned to the wrong continent in old/buggy releases
-				
+
 				local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
 				local currentZoneUiMapID = MinArch:GetNearestZoneId(digsiteZone.mapID);
 				if (currentZoneUiMapID ~= nil and (currentZoneUiMapID == uiMapID or currentZoneUiMapID == digsiteZone.parentMapID)) then
 					if (playerContID == i and MinArchDigsiteList[name]) then
-						MinArch.RelevantRaces[MinArchDigsiteList[name]] = true;
+						MinArch.RelevantRaces[MinArchDigsiteList[name].race] = true;
 					end
 					MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
 					MinArchDigsitesGlobalDB["continent"][i][name]["uiMapID"] = currentZoneUiMapID;
@@ -137,7 +137,7 @@ function MinArch:CreateDigSitesList(ContID)
 			ContID = 1;
 		end
 	end
-	
+
 	if (ContID == 1) then
 		MinArchDigsites.kalimdorButton:SetAlpha(1.0);
 	elseif (ContID == 2) then
@@ -157,7 +157,7 @@ function MinArch:CreateDigSitesList(ContID)
 	elseif (ContID == 10) then
 		MinArchDigsites.zandalarButton:SetAlpha(1.0);
 	end
-	
+
 	local scrollf = MinArchDSScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", MinArchDigsites);
 	scrollf:SetClipsChildren(true)
 
@@ -166,43 +166,43 @@ function MinArch:CreateDigSitesList(ContID)
 			MinArchScrollDS[i]:Hide();
 		end
 	end
-	
+
 	MinArchScrollDS[ContID] = MinArchScrollDS[ContID] or CreateFrame("Frame", "MinArchScrollDS");
 	local scrollc = MinArchScrollDS[ContID];
-	
+
 	MinArchScrollDS[ContID]:Show();
-	
+
 	local scrollb = MinArchScrollDSBar or CreateFrame("Slider", "MinArchScrollDSBar", MinArchDigsites);
-	
+
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
 		scrollb.bg:SetAllPoints(true);
 		scrollb.bg:SetTexture(0, 0, 0, 0.80);
 	end
-	
+
 	if (not scrollf.bg) then
 		scrollf.bg = scrollf:CreateTexture(nil, "BACKGROUND");
 		scrollf.bg:SetAllPoints(true);
 		scrollf.bg:SetTexture(0, 0, 0, 0.60);
 	end
-	
+
 	if (not scrollb.thumb) then
 		scrollb.thumb = scrollb:CreateTexture(nil, "OVERLAY");
 		scrollb.thumb:SetTexture("Interface\\Buttons\\UI-ScrollBar-Knob");
 		scrollb.thumb:SetSize(25, 25);
 		scrollb:SetThumbTexture(scrollb.thumb);
 	end
-	
+
 	scrollc.digsites = scrollc.digsites or {};
 	scrollc.mouseover = scrollc.mouseover or {};
-	
+
 	local PADDING = 5;
-	
+
 	local height = 0;
 	local width = 301;
-	
+
 	local count = 1;
-	
+
 	for i=0,1 do
 		for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
 			local status=false
@@ -223,11 +223,11 @@ function MinArch:CreateDigSitesList(ContID)
 				else
 					currentDigSite:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
 				end
-				
+
 				local cwidth = currentDigSite:GetStringWidth()
 				local cheight = currentDigSite:GetStringHeight()
 				currentDigSite:SetSize(cwidth+5, cheight)
-				
+
 				if count == 1 then
 					currentDigSite:SetPoint("TOPLEFT",scrollc, "TOPLEFT", 0, 0)
 					height = height + cheight
@@ -235,48 +235,48 @@ function MinArch:CreateDigSitesList(ContID)
 					currentDigSite:SetPoint("TOPLEFT", scrollc.digsites[count - 2], "BOTTOMLEFT", 0, - PADDING)
 					height = height + cheight + PADDING
 				end
-				
+
 				count = count+1;
-				
+
 				-- RACE
-				
+
 				if not scrollc.digsites[count] then
 					scrollc.digsites[count] = scrollc:CreateFontString("Digsite" .. count, "OVERLAY")
 				end
-				
+
 				currentDigSite = scrollc.digsites[count];
 				currentDigSite:SetFontObject("ChatFontSmall");
 				currentDigSite:SetWordWrap(true);
-				
+
 				currentDigSite:SetText(digsite["zone"]);
-				
+
 				if (status == true) then
 					currentDigSite:SetTextColor(1.0, 1.0, 1.0, 1.0);
 				else
 					currentDigSite:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
 				end
-				
+
 				cwidth = currentDigSite:GetStringWidth()
 				cheight = currentDigSite:GetStringHeight()
 				currentDigSite:SetSize(cwidth+5, cheight)
-				
+
 				if count == 2 then
 				  currentDigSite:SetPoint("TOPRIGHT",scrollc, "TOPRIGHT", 0, 0)
 				else
 				  currentDigSite:SetPoint("TOPRIGHT", scrollc.digsites[count - 2], "BOTTOMRIGHT", 0, - PADDING);
 				end
-				
+
 				-- Mouseover Frames Go Here
-				
+
 				if not scrollc.mouseover[count] then
 					scrollc.mouseover[count] = CreateFrame("Frame", "MouseFrame");
 				end
-				
+
 				local currentMO = scrollc.mouseover[count];
 				currentMO:SetSize(width, cheight);
 				currentMO:SetParent(scrollc);
 				currentMO:SetPoint("BOTTOMRIGHT", currentDigSite, "BOTTOMRIGHT", 0, 0);
-				
+
 				currentMO:SetScript("OnMouseUp", function(self, button)
 					if (button == "LeftButton") then
 						MinArch:SetWayToDigsiteOnClick(name, digsite);
@@ -289,36 +289,36 @@ function MinArch:CreateDigSitesList(ContID)
 					MinArchTooltipIcon:Hide();
 					GameTooltip:Hide()
 				end)
-				
+
 				count = count+1
 			end
 		end
 	end
-	
+
 	-- Set the size of the scroll child
 	scrollc:SetSize(width, height-2)
-	 
+
 	-- Size and place the parent frame, and set the scrollchild to be the
 	-- frame of font strings we've created
 	scrollf:SetSize(width, 241)
 	scrollf:SetPoint("BOTTOMLEFT", MinArchDigsites, "BOTTOMLEFT", 12, 10)
 	scrollf:SetScrollChild(scrollc)
 	scrollf:Show()
-	 
+
 	scrollc:SetSize(width, height-2)
-	 
+
 	-- Set up the scrollbar to work properly
 	local scrollMax = 0
 	if height > 241 then
 		scrollMax = height - 241
 	end
-	
+
 	if (scrollMax == 0) then
 		scrollb.thumb:Hide();
 	else
 		scrollb.thumb:Show();
 	end
-	
+
 	scrollb:SetOrientation("VERTICAL");
 	scrollb:SetSize(16, 241)
 	scrollb:SetPoint("TOPLEFT", scrollf, "TOPRIGHT", 0, 0)
@@ -327,12 +327,12 @@ function MinArch:CreateDigSitesList(ContID)
 	scrollb:SetScript("OnValueChanged", function(self)
 		  scrollf:SetVerticalScroll(self:GetValue())
 	end)
-	 
+
 	-- Enable mousewheel scrolling
 	scrollf:EnableMouseWheel(true)
 	scrollf:SetScript("OnMouseWheel", function(self, delta)
 		  local current = scrollb:GetValue()
-		   
+
 		  if IsShiftKeyDown() and (delta > 0) then
 			 scrollb:SetValue(0)
 		  elseif IsShiftKeyDown() and (delta < 0) then
@@ -343,7 +343,7 @@ function MinArch:CreateDigSitesList(ContID)
 			 scrollb:SetValue(current - 20)
 		  end
 	end)
-	
+
 end
 
 function MinArch:DimADIButtons()
@@ -362,7 +362,7 @@ function MinArch:ADIButtonTooltip(ContID)
 	local uiMapID = MinArch:GetUiMapIdByContId(ContID);
 	if (uiMapID ~= nil) then
 		GameTooltip:SetOwner(MinArchDigsites, "ANCHOR_TOPLEFT");
-		
+
 		GameTooltip:AddLine(MinArch.MapContinents[uiMapID], 1.0, 1.0, 1.0, 1.0);
 		GameTooltip:Show();
 	end
@@ -378,7 +378,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	if (ContID == nil or uiMapID == nil) then
 		return false;
 	end
-	
+
 	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player");
 
 	ax = playerPos.x * 100;
@@ -386,7 +386,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 
 	local nearestDistance = nil;
 	local nearestDigSite = nil;
-	
+
 	for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
 		if (ax == nil or digsite["x"] == nil or ay == nil or digsite["y"] == nil) then
 			MinArch:DisplayStatusMessage('MinArch: location error in ' .. GetZoneText() .. " " .. GetSubZoneText());
@@ -399,11 +399,11 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 				if (nearestDigSite == nil) then
 					nearestDigSite = name;
 					nearestDistance = d;
-					
+
 				elseif (d < nearestDistance) then
 					nearestDigSite = name;
 					nearestDistance = d;
-					
+
 				end
 			end
 		end
@@ -440,7 +440,7 @@ function MinArch:GetNearestDigsite()
 	if (ContID == nil or uiMapID == nil) then
 		return false;
 	end
-	
+
 	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player");
 	if (playerPos == nil) then
 		return false;
@@ -473,13 +473,9 @@ function MinArch:GetNearestDigsite()
 	return nearestDigSite, nearestDistance, nearestDigSiteDetails;
 end
 
-function MinArch:IsNearDigSite(distance)
+function MinArch:IsNearDigSite()
 	if (IsInInstance()) then
 		return false;
-	end
-
-	if (distance == nil) then
-		distance = 4
 	end
 
 	local nearestDistance = nil;
@@ -492,7 +488,7 @@ function MinArch:IsNearDigSite(distance)
 	if (ContID == nil or uiMapID == nil) then
 		return false;
 	end
-	
+
 	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player");
 	if (playerPos == nil) then
 		return false;
@@ -500,13 +496,14 @@ function MinArch:IsNearDigSite(distance)
 
 	local contId, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, playerPos);
 
-	ax = playerPos.x * 100;
-	ay = playerPos.y * 100;
-	
+	ax = worldPos.x;
+    ay = worldPos.y;
+
 	for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
-		local name = tostring(digsite.name)
-		local digsitex = digsite.position.x * 100;
-		local digsitey = digsite.position.y * 100;
+        local name = tostring(digsite.name)
+        local _, digsiteWorldPos = C_Map.GetWorldPosFromMapPos(uiMapID, digsite.position)
+		local digsitex = digsiteWorldPos.x;
+		local digsitey = digsiteWorldPos.y;
 
 		local xd = math.abs(ax - tonumber(digsitex));
 		local yd = math.abs(ay - tonumber(digsitey));
@@ -520,8 +517,13 @@ function MinArch:IsNearDigSite(distance)
 		end
 	end
 
-	-- print("IsNearDigSite", nearestDigSite, nearestDistance);
-	return nearestDistance ~= nil and nearestDistance < distance;
+    if nearestDigSite == nil then
+        return false;
+    end
+
+    local digsiteRadius = MinArchDigsiteList[nearestDigSite].r * 1.1; -- 10 percent tolerance
+    -- print("IsNearDigSite", nearestDigSite, nearestDistance, digsiteRadius);
+	return nearestDistance ~= nil and nearestDistance < digsiteRadius;
 end
 
 function MinArch:GetOrCreateMinArchMapFrame(i)
@@ -541,7 +543,7 @@ function MinArch:ShowRaceIconsOnMap()
 	local uiMapID = WorldMapFrame.mapID;
 	if (WorldMapFrame:IsVisible() and uiMapID and GetCVarBool('digsites') and MinArch.db.profile.showWorldMapOverlay == true) then
 		local count = 0;
-		
+
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
 			local pin = WorldMapFrame:AcquirePin("DigSitePinTemplate", digsite);
 			local continentUiMapID = MinArch:GetNearestContinentId(uiMapID);
@@ -551,7 +553,7 @@ function MinArch:ShowRaceIconsOnMap()
 			local y = digsite.position.y;
 
 			count = count + 1;
-			
+
 			if not contID then
 				if not SpamBlock[name] then
 					MinArch:DisplayStatusMessage("Minimal Archaeology: Could not find continent for digsite "..name .. " " .. uiMapID)
@@ -576,12 +578,12 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame)
 		end);
 	FRAME:SetScript("OnLeave", function()
 			MinArchTooltipIcon:Hide();
-			MinArchTooltipIcon:SetParent(GameTooltip);								
+			MinArchTooltipIcon:SetParent(GameTooltip);
 			MinArchTooltipIcon:SetPoint("TOPRIGHT", GameTooltip, "TOPLEFT");
 			WorldMapTooltip:Hide();
 			GameTooltip:Hide();
 		end);
-	
+
 	local RACE = tostring(DETAILS["race"]);
 
 	local raceID = MinArch:GetRaceIdByName(RACE);
@@ -597,12 +599,12 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame)
 	FRAME:SetPoint("BOTTOMLEFT", offsetX, offsetY);
 	FRAME.icon:SetTexture("Interface/Icons/INV_MISC_QUESTIONMARK");
 	FRAME.icon:SetTexCoord(0, 1, 0, 1);
-	
+
 	if (MinArch['artifacts'][raceID] and RACE == MinArch['artifacts'][raceID]['race']) then
 		FRAME.icon:SetTexture(MinArch['artifacts'][raceID]['raceicon']);
 		FRAME.icon:SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
 	end
-	
+
 	FRAME:Show();
 end
 
@@ -617,8 +619,8 @@ function MinArch:DigsiteMapTooltip(self, name, digsite)
 	local tooltip = WorldQuestTrackerAddon and GameTooltip or WorldMapTooltip;
 	MinArchTooltipIcon:SetParent(tooltip);
 	MinArchTooltipIcon:SetPoint("TOPRIGHT", tooltip, "TOPLEFT");
-	tooltip:SetOwner(self, "ANCHOR_BOTTOM");	
-	
+	tooltip:SetOwner(self, "ANCHOR_BOTTOM");
+
 	MinArch:DigsiteTooltip(self, name, digsite, tooltip);
 end
 
@@ -628,9 +630,9 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	local project_color = "ffffffff";
 	local first_solve = "";
 	local plural = "";
-	
+
 	local RACE = tostring(digsite["race"]);
-	
+
 	for i=1,ARCHAEOLOGY_NUM_RACES do
 		if (RACE == MinArch['artifacts'][i]['race']) then
 			MinArchTooltipIcon.icon:SetTexture(MinArch['artifacts'][i]['icon']);
@@ -644,9 +646,9 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 			end
 		end
 	end
-	
+
 	tooltip:AddLine(name, 1.0, 1.0, 1.0, 1.0);
-	
+
 	if (digsite['subzone'] == "") then
 		digsite['subzone'] = " ";
 	end
@@ -655,10 +657,10 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 	if (digsite.x and digsite.y) then
 		coords = " (" .. string.format("%.2f", digsite.x) .. ", " .. string.format("%.2f", digsite.y) .. ")";
 	end
-	
+
 	tooltip:AddDoubleLine(digsite.subzone, digsite.zone, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	tooltip:AddDoubleLine(" ", coords, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
-	
+
 	if (digsite['race'] ~= "Unknown" and digsite['race'] ~= nil) then
 		if (project ~= nil) then
 			tooltip:AddDoubleLine("Project: |c"..project_color..project, first_solve, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
@@ -666,11 +668,11 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip)
 		tooltip:AddDoubleLine("Race: |cffffffff"..digsite['race'], "|cffffffff"..progress.." fragments", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 		MinArchTooltipIcon:Show();
 	end
-	
+
 	if (MinArch:IsNavigationEnabled()) then
 		tooltip:AddLine("Hint: Left-Click to create waypoint here.", 0, 1, 0)
 	end
-	
+
 	tooltip:Show();
 end
 

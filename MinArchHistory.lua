@@ -169,7 +169,7 @@ function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 		return false;
 	end
 
-	local availableQuestLines = C_QuestLine.GetAvailableQuestLines(619);
+    local availableQuestLines = C_QuestLine.GetAvailableQuestLines(627); -- 619 ? TODO
 
 	qLineQuests[qLineId] = qLineQuests[qLineId] or C_QuestLine.GetQuestLineQuests(qLineId);
 	for i=1, #qLineQuests[qLineId] do
@@ -393,7 +393,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 						if not details.pqid then
 							currentFontString:SetText("-")
 							currentFontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
-						elseif IsQuestFlaggedCompleted(details.pqid) == true then
+						elseif C_QuestLog.IsQuestFlaggedCompleted(details.pqid) == true then
 							currentFontString:SetText("+")
 							currentFontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
 						else

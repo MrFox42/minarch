@@ -91,7 +91,8 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 	end
 
 	ArtifactBar:SetMinMaxValues(0, total);
-	ArtifactBar:SetValue(min(artifact['progress']+artifact['modifier'], total));
+    ArtifactBar:SetValue(min(artifact['progress']+artifact['modifier'], total));
+    ArtifactBar.race = RaceIndex;
 
 	ArtifactBar.keystone.icon:SetTexture(runeStoneIconPath);
 	if (artifact['appliedKeystones'] == 0) then
@@ -145,16 +146,16 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 	end
 end
 
-function MinArch:SolveArtifact(BarIndex)
-	SetSelectedArtifact(MinArch['barlinks'][BarIndex]);
+function MinArch:SolveArtifact(RaceIndex)
+	SetSelectedArtifact(RaceIndex);
 
-	for i=1, MinArch['artifacts'][MinArch['barlinks'][BarIndex]]['appliedKeystones'] do
+	for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
 		SocketItemToArtifact();
 	end
-	MinArch['artifacts'][MinArch['barlinks'][BarIndex]]['appliedKeystones'] = 0;
+	MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 0;
 
 	SolveArtifact();
-	MinArch:CreateHistoryList(MinArch['barlinks'][BarIndex], "SolveArtifact");
+	MinArch:CreateHistoryList(RaceIndex, "SolveArtifact");
 end
 
 function MinArch:UpdateMain()
@@ -213,12 +214,13 @@ function MinArch:UpdateMain()
 	MinArch:RefreshCrateButtonGlow();
     MinArch:DimHistoryButtons();
     MinArch.Companion:AutoToggle();
+    MinArch.Companion:Update();
 end
 
-function MinArch:ShowArtifactTooltip(BarIndex)
-	local artifact = MinArch['artifacts'][MinArch['barlinks'][BarIndex]];
+function MinArch:ShowArtifactTooltip(self, RaceIndex)
+	local artifact = MinArch['artifacts'][RaceIndex];
 
-	GameTooltip:SetOwner(MinArch['artifactbars'][BarIndex], "ANCHOR_BOTTOMRIGHT");
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
 
 	MinArchTooltipIcon.icon:SetTexture(artifact['icon']);
 	if (artifact['rarity'] == 1) then

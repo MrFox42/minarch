@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	
+
 	<Script file="Bindings.lua"/>
 	<Script file="MinArchCommon.lua"/>
 
@@ -47,7 +47,7 @@
 			</Layer>
 		</Layers>
 	</Frame>
-	
+
 	<!-- Archaeology Skill Bar -->
 	<StatusBar name="MATSkillBar" drawLayer="BACKGROUND" enableMouse="false"  virtual="true">
 		<Layers>
@@ -124,22 +124,22 @@
 				<Size x="50" y="18"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent" x="5" y="3"/>
-				</Anchors>	
+				</Anchors>
 			</Button>
 		</Frames>
 		<Scripts>
 			<OnEnter>
-				MinArch:ShowArtifactTooltip(self:GetID());
+				MinArch:ShowArtifactTooltip(self, self.race);
 			</OnEnter>
 			<OnLeave>
 				MinArch:HideArtifactTooltip();
 			<!--
-				
+
 			-->
 			</OnLeave>
 		</Scripts>
 	</StatusBar>
-	
+
 	<!-- Close Button -->
 	<Button name="MATBClose" virtual="true" >
 		<Size x="24" y="24"/>
@@ -155,8 +155,8 @@
 		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\CloseButtonDown.tga"/>
 		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
 	</Button>
-	
-	
+
+
 	<!-- Open Archaeology Button -->
 	<Button name="MATBOpenArch" virtual="true" >
 		<Size x="24" y="24"/>
@@ -189,7 +189,7 @@
 		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\ArchButtonDown.tga"/>
 		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
 	</Button>
-	
+
 	<!-- Open History Button -->
 	<Button name="MATBOpenHist" virtual="true" >
 		<Size x="24" y="24"/>
@@ -211,7 +211,7 @@
 		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\HistButtonDown.tga"/>
 		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
 	</Button>
-	
+
 	<!-- Open Active DigSite Indicator Button -->
 	<Button name="MATBOpenADI" virtual="true" >
 		<Size x="24" y="24"/>
@@ -221,10 +221,10 @@
 		<Scripts>
 			<OnClick>
 				MinArch:DimADIButtons();
-				
+
 				MinArch:CreateDigSitesList(0);
 				MinArch:CreateDigSitesList(0);
-				
+
 				MinArchDigsites:Toggle();
 			</OnClick>
 			<OnEnter>
@@ -238,17 +238,17 @@
 		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\DigSiteButtonDown.tga"/>
 		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
 	</Button>
-	
+
 	<!-- Solve Button -->
 	<Button name="MATBSolve" inherits="UIPanelButtonTemplate" text="SOLVE" virtual="true">
 		<Scripts>
 			<OnClick>
-				MinArch:SolveArtifact(self:GetParent():GetID());
+				MinArch:SolveArtifact(self:GetParent().race);
 			</OnClick>
 		</Scripts>
 	</Button>
-	
-	
+
+
 	<!-- Keystone Button -->
 	<Button name="MATKeystone" virtual="true">
 		<Size x="25" y="28"/>
@@ -275,11 +275,11 @@
 			</Layer>
 		</Layers>
 		<NormalTexture file="Interface\Archeology\ArchaeologyParts">
-			<Size x="25" y="28"/>	
+			<Size x="25" y="28"/>
 			<TexCoords left="0.11132813" right="0.21093750" top="0.56250000" bottom="0.78125000"/>
 		</NormalTexture>
 		<HighlightTexture file="Interface\Archeology\ArchaeologyParts" alphaMode="ADD">
-			<Size x="25" y="28"/>	
+			<Size x="25" y="28"/>
 			<TexCoords left="0.11132813" right="0.21093750" top="0.56250000" bottom="0.78125000"/>
 			<Color r="0.8" g="0.8" b="0.8" a="0.4"/>
 		</HighlightTexture>
@@ -305,5 +305,5 @@
 			</OnLeave>
 		</Scripts>
 	</Button>
-	
+
 </Ui>

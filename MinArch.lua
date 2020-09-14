@@ -99,7 +99,13 @@ MinArch.defaults = {
 			hide = {},
 			cap = {},
 			keystone = {}
-		},
+        },
+
+        -- Companion (added in 9.0)
+        companion = {
+            alwaysShow = false,
+            frameScale = 100
+        },
 
 		-- deprecated, left for compatibility
 		hideMinimapButton = false, -- moved into minimap (databroker)
