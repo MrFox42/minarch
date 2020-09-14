@@ -110,9 +110,8 @@ function MinArch:RefreshCrateButtonGlow()
 
                             MinArchMainCrateButton:SetAttribute("item", "item:" .. itemID);
                             MinArchMainCrateButtonGlow:Show();
+                            MinArch.Companion:showCrateButton(itemID);
 
-                            MinArch.Companion.crateButton:SetAttribute("item", "item:" .. itemID);
-                            MinArch.Companion:showCrateButton();
 							return;
 						end
 					end

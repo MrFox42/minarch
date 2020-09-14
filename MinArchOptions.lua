@@ -340,7 +340,24 @@ local companionSettings = {
 			order = 1,
 			inline = true,
 			args = {
-				hideAfterDigsite = {
+                enable = {
+					type = "toggle",
+					name = "Enable the Companion frame",
+					desc = "Toggles the Companion frame plugin of MinArch. The companion is a tiny frame with a distance tracker and waypoint/survey/solve/crate buttons.",
+					width = "full",
+					get = function () return MinArch.db.profile.companion.enable end,
+					set = function (_, newValue)
+						MinArch.db.profile.companion.enable = newValue;
+
+						if (newValue) then
+							MinArch.Companion:Enable();
+						else
+							MinArch.Companion:Disable();
+						end
+					end,
+					order = 1,
+				},
+				alwaysShow = {
 					type = "toggle",
 					name = "Always show",
 					desc = "Enable to always show regardless of other options (except in instances and in combat).",
@@ -348,8 +365,9 @@ local companionSettings = {
 					set = function (_, newValue)
                         MinArch.db.profile.companion.alwaysShow = newValue;
                         MinArch.Companion:AutoToggle()
-					end,
-					order = 1,
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+					order = 2,
                 },
                 scale = {
                     type = "range",
@@ -363,6 +381,7 @@ local companionSettings = {
                         MinArch.db.profile.companion.frameScale = newValue;
                         MinArch.Companion:SetFrameScale(newValue);
                     end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 99,
                 }
             },

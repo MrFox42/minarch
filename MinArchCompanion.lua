@@ -4,6 +4,7 @@ MinArch.Companion = CreateFrame("Frame", "MinArchCompanion", UIParent)
 
 local Companion = MinArch.Companion
 Companion.events = {}
+Companion.initialized = false;
 
 local cx, cy, cInstance;
 local timer;
@@ -42,13 +43,22 @@ local function InitDistanceTracker()
     Companion:SetScript("OnEvent", Companion.EventHandler)
 
     Companion.trackerFrame.fontString = fontString;
+end
 
-    -- Register events
+function Companion:RegisterEvents()
     Companion:RegisterEvent("PLAYER_STARTED_MOVING")
     Companion:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST")
     Companion:RegisterEvent("PLAYER_STOPPED_MOVING")
     Companion:RegisterEvent("PLAYER_ENTERING_WORLD")
     Companion:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE")
+end
+
+function Companion:UnregisterEvents()
+    Companion:UnregisterEvent("PLAYER_STARTED_MOVING")
+    Companion:UnregisterEvent("ARCHAEOLOGY_SURVEY_CAST")
+    Companion:UnregisterEvent("PLAYER_STOPPED_MOVING")
+    Companion:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    Companion:UnregisterEvent("ARTIFACT_DIGSITE_COMPLETE")
 end
 
 local function InitSurveyButton()
@@ -105,14 +115,21 @@ local function InitCrateButton()
     Companion.crateButton = crateButton;
 end
 
-function Companion:showCrateButton()
-    Companion.crateButton:Show();
-    Companion:Resize()
+function Companion:showCrateButton(itemID)
+    if MinArch.db.profile.companion.enable and MinArch.Companion.initialized then
+        if itemID then
+            MinArch.Companion.crateButton:SetAttribute("item", "item:" .. itemID);
+        end
+        Companion.crateButton:Show();
+        Companion:Resize()
+    end
 end
 
 function Companion:hideCrateButton()
-    MinArch.Companion.crateButton:Hide();
-    Companion:Resize()
+    if MinArch.db.profile.companion.enable and MinArch.Companion.initialized then
+        MinArch.Companion.crateButton:Hide();
+        Companion:Resize()
+    end
 end
 
 function Companion.events:PLAYER_ENTERING_WORLD(...)
@@ -128,6 +145,7 @@ function Companion.events:ARCHAEOLOGY_SURVEY_CAST(...)
 end
 
 function Companion.events:PLAYER_STOPPED_MOVING(...)
+    MinArch.Companion:AutoToggle();
     MinArch:CancelTimer(timer)
 end
 
@@ -173,18 +191,28 @@ function Companion:EventHandler(event, ...)
 end
 
 function Companion:HideFrame()
-    MinArch.Companion:Hide();
-    MinArchCompanionShowInDigsite = true;
+    Companion:Hide();
+    if MinArch.db.profile.companion.enable then
+        MinArchCompanionShowInDigsite = true;
+    end
 end
 
 function Companion:ShowFrame()
-    MinArch.Companion:Show();
-    MinArchCompanionShowInDigsite = false;
+    if MinArch.db.profile.companion.enable then
+        Companion:Show();
+        MinArchCompanionShowInDigsite = false;
+
+        Companion:Resize()
+    end
 end
 
 function Companion:AutoToggle()
+    if not Companion.initialized or not MinArch.db.profile.companion.enable then
+        return;
+    end
+
     if IsInInstance() or (MinArch.db.profile.hideInCombat and UnitAffectingCombat("player")) then
-        MinArch.Companion:Hide();
+        Companion:HideFrame();
         return;
     end
 
@@ -197,39 +225,57 @@ function Companion:AutoToggle()
     end
 end
 
+function Companion:Enable()
+    Companion:Init();
+end
+
+function Companion:Disable()
+    Companion:Hide();
+    Companion:UnregisterEvents();
+end
+
 function Companion:Init()
-    MinArch:DisplayStatusMessage("Initializing Companion", MINARCH_MSG_DEBUG)
+    if not MinArch.db.profile.companion.enable then
+        return
+    end
 
-    Companion:SetFrameStrata("BACKGROUND")
-    Companion:SetWidth(142)
-    Companion:SetHeight(38)
+    if not Companion.initialized then
+        MinArch:DisplayStatusMessage("Initializing Companion", MINARCH_MSG_DEBUG)
 
-    local tex = Companion:CreateTexture(nil, "BACKGROUND")
-    tex:SetAllPoints()
-    tex:SetColorTexture(0, 0, 0, 0.5)
-    Companion.texture = tex
+        Companion:SetFrameStrata("BACKGROUND")
+        Companion:SetWidth(142)
+        Companion:SetHeight(38)
 
-    Companion.waypointButton = MinArch:CreateAutoWaypointButton(Companion, 12, 0)
-    Companion.waypointButton:ClearAllPoints();
-    Companion.waypointButton:SetPoint("LEFT", 22, 0);
+        local tex = Companion:CreateTexture(nil, "BACKGROUND")
+        tex:SetAllPoints()
+        tex:SetColorTexture(0, 0, 0, 0.5)
+        Companion.texture = tex
 
-    Companion:SetMovable(true)
-    Companion:EnableMouse(true)
-    Companion:RegisterForDrag("LeftButton")
-    Companion:SetScript("OnDragStart", Companion.StartMoving)
-    Companion:SetScript("OnDragStop", Companion.StopMovingOrSizing)
+        Companion.waypointButton = MinArch:CreateAutoWaypointButton(Companion, 12, 0)
+        Companion.waypointButton:ClearAllPoints();
+        Companion.waypointButton:SetPoint("LEFT", 22, 0);
 
-    Companion:SetPoint("CENTER", 0, 0)
-    Companion:Show()
+        Companion:SetMovable(true)
+        Companion:EnableMouse(true)
+        Companion:RegisterForDrag("LeftButton")
+        Companion:SetScript("OnDragStart", Companion.StartMoving)
+        Companion:SetScript("OnDragStop", Companion.StopMovingOrSizing)
 
-    InitDistanceTracker()
-    InitSurveyButton()
-    InitProjectFrame()
-    InitCrateButton()
+        Companion:SetPoint("CENTER", 0, 0)
+        Companion:Show()
 
+        InitDistanceTracker()
+        InitSurveyButton()
+        InitProjectFrame()
+        InitCrateButton()
+
+        Companion.initialized = true;
+    end
+
+    Companion:RegisterEvents();
     Companion:SetFrameScale(MinArch.db.profile.companion.frameScale);
-
-    Companion:Resize()
+    Companion:AutoToggle();
+    Companion:Update();
 end
 
 function Companion:SetFrameScale(scale)
@@ -244,6 +290,10 @@ function Companion:SetFrameScale(scale)
 end
 
 function Companion:Resize()
+    if not MinArch.db.profile.companion.enable then
+        return false;
+    end
+
     -- Get visible child frames, resize accordingly
     local width = 44;
 
@@ -259,6 +309,10 @@ function Companion:Resize()
 end
 
 function Companion:Update()
+    if not MinArch.db.profile.companion.enable then
+        return false;
+    end
+
     for i = 1, ARCHAEOLOGY_NUM_RACES do
         -- if relevant
             local artifact = MinArch['artifacts'][i]

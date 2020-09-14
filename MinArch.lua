@@ -103,6 +103,7 @@ MinArch.defaults = {
 
         -- Companion (added in 9.0)
         companion = {
+            enable = true,
             alwaysShow = false,
             frameScale = 100
         },

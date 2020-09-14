@@ -92,8 +92,6 @@ function MinArch:EventMain(event, ...)
 			MinArchShowInDigsite = false;
         end
 
-        MinArch.Companion.AutoToggle();
-
 		return
 	end
 
