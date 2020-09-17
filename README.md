@@ -2,11 +2,32 @@
 
 View all your artifacts progress, and solve them in one compact frame. Also you can view all your artifact history neatly sorted by race, and a list of dig sites. You can left-click the keystone button to attach keystones (or right-click to remove), or if you prefer there are options to automatically use keystones! You can monitor the artifacts progress, or how close you are to the fragment cap.
 
-## Latest Version: v8.3.0.1
+## Latest Version: v9.0.0
 
-- Fix typo in name of Digsite: The Ruined Sanctum
+- New feataure: **Companion** (**distance tracker** and more, details down below)
+- Fixed issues caused by Shadowlands LUA changes
+- MinArch is now compatible with addons that emulate TomTom (like Carbonite Maps)
 
 For past changes, visit the [Changelog page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/changelog).
+
+## Companion
+
+The **Companion** is a tiny little frame that currently includes the following features:
+
+- **Distance tracker** when surveying
+- Auto-waypoint button
+- Survey spell button
+- Solve button for solvable artifacts
+- Crate button
+
+Customization features:
+
+- Scale to make it smaller or larger
+- Always show/only show in digsites
+- Many more coming soon, **feel free to make any requests so I can prioritize**
+
+The companion can be disabled.
+
 
 ## Upcoming features
 
@@ -15,9 +36,9 @@ The following features are planned for Minimal Archaeology in no particular orde
 - Detailed, customizable DataBroker tooltip
 - Dig site icons on flight maps
 - Option to the auto-resize history window
-- Distance tracking after survey
 - Achievement progress
 - Prioritize dig sites for auto-waypoints
+- Option to ignore dig sites you hate
 
 If you're curious about all planned features, visit the [Upcoming features page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/upcoming-features).
 
@@ -38,6 +59,6 @@ For feedback, please use the project's issue tracker on CurseForge.
 
 Please open a new issue if you are experiencing bugs, and include as much detail as possible. Make sure you didn't miss the known issues section, and check open issues before you create a new one.
 
- 
+
 ## Known Issues
 - Main window auto-hides after solving an artifact, even if there's another solve available

@@ -245,7 +245,7 @@ function MinArch:ShowArtifactTooltip(self, RaceIndex)
 			if (artifact["sellprice"] == nil or artifact["sellprice"] == 0) then
 				GameTooltip:AddLine(" ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 			end
-			discovereddate = date("*t", artifact["firstcomplete"]);
+			local discovereddate = date("*t", artifact["firstcomplete"]);
 			GameTooltip:AddDoubleLine("Discovered On: |cffffffff"..discovereddate["month"].."/"..discovereddate["day"].."/"..discovereddate["year"], "x"..artifact["totalcomplete"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 		end
 	end

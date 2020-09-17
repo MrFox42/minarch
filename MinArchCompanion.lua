@@ -154,9 +154,12 @@ function Companion.events:ARTIFACT_DIGSITE_COMPLETE(...)
 end
 
 function Companion:UpdateDistance()
-    nx, ny, _, nInstance = UnitPosition("player")
+    local nx, ny, _, nInstance = UnitPosition("player")
 
-    if (cx == nil or cInstance ~= nInstance) then return end
+    if (cx == nil or cInstance ~= nInstance) then
+        Companion:HideDistance()
+        return
+    end
 
     local distance = MinArch:CalculateDistance(cx, cy, nx, ny)
     Companion.trackerFrame.fontString:SetText(distance)
@@ -314,7 +317,7 @@ function Companion:Update()
     end
 
     for i = 1, ARCHAEOLOGY_NUM_RACES do
-        -- if relevant
+        -- if relevant?
             local artifact = MinArch['artifacts'][i]
 
             if (artifact.canSolve) then

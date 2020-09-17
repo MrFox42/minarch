@@ -15,7 +15,7 @@ local function SetWayToDigsite(title, digsite, isAuto)
 	end
 
 	-- print(digsite.uiMapID, digsite.x/100, digsite.y/100)
-	newWaypoint = _G.TomTom:AddWaypoint(digsite.uiMapID, digsite.x/100, digsite.y/100, {
+	local newWaypoint = _G.TomTom:AddWaypoint(digsite.uiMapID, digsite.x/100, digsite.y/100, {
 		title = title,
 		crazy = MinArch.db.profile.TomTom.arrow,
 		persistent = persistent,

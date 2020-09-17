@@ -161,7 +161,7 @@ function MinArch:InitMain(self)
 
 	MinArch:CreateAutoWaypointButton(self, 53, 3);
 	CreateCrateButton(self, 32, 1);
-	CreateRelevancyToggleButton(self, 10, 4);
+    CreateRelevancyToggleButton(self, 10, 4);
 
 	-- Update Artifacts
 	self:RegisterEvent("RESEARCH_ARTIFACT_COMPLETE");

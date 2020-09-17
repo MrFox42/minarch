@@ -1,6 +1,12 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 9.0.0
+
+- New feataure: **Companion** (**distance tracker** and more, details down below)
+- Fixed issues caused by Shadowlands LUA changes
+- MinArch is now compatible with addons that emulate TomTom (like Carbonite Maps)
+
 ### 8.3.0
 
 - Bump TOC
