@@ -67,12 +67,21 @@ function MinArch:CreateAutoWaypointButton(parent, x, y)
 	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
 	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
 
-	button:SetScript("OnClick", function()
-		MinArch:SetWayToNearestDigsite()
+    button:SetScript("OnMouseUp", function(self, button)
+        if (button == "LeftButton") then
+            MinArch:SetWayToNearestDigsite()
+        elseif (button == "RightButton") then
+            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
+		    InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
+        end
 	end)
 
-	button:SetScript("OnEnter", function()
-		MinArch:ShowWindowButtonTooltip(button, "Create waypoint to the closest available digsite");
+	button:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+        GameTooltip:AddLine("Left click to create waypoint to the closest available digsite", 1.0, 1.0, 1.0, 1.0)
+        GameTooltip:AddLine(" ");
+        GameTooltip:AddLine("Right Click to open waypoint settings");
+        GameTooltip:Show();
 	end)
 	button:SetScript("OnLeave", function()
 		GameTooltip:Hide();
