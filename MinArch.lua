@@ -91,7 +91,8 @@ MinArch.defaults = {
 			arrow = true,
 			persistent = false,
 			autoWayOnMove = false,
-			autoWayOnComplete = true
+            autoWayOnComplete = true,
+            prioRace = -1,
 		},
 
 		-- dynamic options

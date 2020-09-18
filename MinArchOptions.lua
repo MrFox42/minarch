@@ -524,11 +524,31 @@ local TomTomSettings = {
 					desc = "Automatically create a waypoint to the closest digsite after completing one.",
 					get = function () return MinArch.db.profile.TomTom.autoWayOnComplete end,
 					set = function (_, newValue)
-						MinArch.db.profile.TomTom.autoWayOnComplete = newValue;
+						MinArch.db.profile.TomTom.prio = newValue;
 					end,
 					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
-					order = 1,
-				},
+					order = 2,
+                },
+                prioRace = {
+                    type = "select",
+                    values = function ()
+                        local raceSelectTable = {}
+                        raceSelectTable[-1] = 'Do not Prioritize';
+                        for i=1,ARCHAEOLOGY_NUM_RACES do
+                            raceSelectTable[i] = GetArchaeologyRaceInfo(i);
+                        end
+
+                        return raceSelectTable
+                    end,
+					name = "Prioritize a Race",
+                    desc = "Select a race to prioritize, even if there are closer digsites with different races.",
+                    get = function () return MinArch.db.profile.TomTom.prioRace end,
+                    set = function (_, newValue)
+						MinArch.db.profile.TomTom.prioRace = newValue;
+					end,
+                    disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
+                    order = 3,
+                },
 			},
 		},
 	}

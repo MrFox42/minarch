@@ -7,6 +7,9 @@ View all your artifacts progress, and solve them in one compact frame. Also you 
 - New feataure: **Companion** (**distance tracker** and more, details down below)
 - Fixed issues caused by Shadowlands LUA changes
 - MinArch is now compatible with addons that emulate TomTom (like Carbonite Maps)
+- Added an option to prioritize a selected race when creating automatic waypoints (Selectable in the TomTom section of MinArch settings)
+- Right clicking on the auto-waypoint button now opens the waypoint settings page
+- Fixed an issue with the automatic waypoints sometimes not selecting the closest digsite
 
 For past changes, visit the [Changelog page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/changelog).
 

@@ -33,8 +33,12 @@ function MinArch:SetWayToNearestDigsite()
 			_G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
 		end
 
-		previousDigsite = digsiteName;
-		local newWayPoint = SetWayToDigsite(digsiteName .. " (closest)", digsite, true);
+        previousDigsite = digsiteName;
+        local suffix = 'closest';
+        if (MinArch.db.profile.TomTom.prioRace > 0 and digsite.raceId == MinArch.db.profile.TomTom.prioRace) then
+            suffix = '*' .. digsite.race;
+        end
+		local newWayPoint = SetWayToDigsite(digsiteName .. ' (' .. suffix .. ')', digsite, true);
 		MinArch.autoWaypoint = newWayPoint;
 	end
 end
