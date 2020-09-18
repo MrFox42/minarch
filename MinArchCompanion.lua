@@ -50,7 +50,7 @@ function Companion:RegisterEvents()
     Companion:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST")
     Companion:RegisterEvent("PLAYER_STOPPED_MOVING")
     Companion:RegisterEvent("PLAYER_ENTERING_WORLD")
-    Companion:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE")
+    Companion:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
 end
 
 function Companion:UnregisterEvents()
@@ -58,7 +58,7 @@ function Companion:UnregisterEvents()
     Companion:UnregisterEvent("ARCHAEOLOGY_SURVEY_CAST")
     Companion:UnregisterEvent("PLAYER_STOPPED_MOVING")
     Companion:UnregisterEvent("PLAYER_ENTERING_WORLD")
-    Companion:UnregisterEvent("ARTIFACT_DIGSITE_COMPLETE")
+    Companion:UnregisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
 end
 
 local function InitSurveyButton()
@@ -149,7 +149,7 @@ function Companion.events:PLAYER_STOPPED_MOVING(...)
     MinArch:CancelTimer(timer)
 end
 
-function Companion.events:ARTIFACT_DIGSITE_COMPLETE(...)
+function Companion.events:RESEARCH_ARTIFACT_DIG_SITE_UPDATED(...)
     Companion:HideDistance()
 end
 
@@ -183,6 +183,7 @@ function Companion:UpdateDistance()
 end
 
 function Companion:HideDistance()
+    cx = nil;
     Companion.trackerFrame.indicator.texture:SetTexCoord(0.5, 1, 0.5, 1)
     Companion.trackerFrame.fontString:SetText("")
     MinArch:CancelTimer(timer)
@@ -330,6 +331,9 @@ function Companion:Update()
                 end);
                 Companion.solveButton:SetScript("OnEnter", function(self)
                     MinArch:ShowArtifactTooltip(self, i)
+                    GameTooltip:AddLine(" ");
+                    GameTooltip:AddLine("Left click to solve this artifact");
+                    GameTooltip:Show();
                 end)
                 Companion.solveButton:SetScript("OnLeave", function()
                     MinArch:HideArtifactTooltip();
