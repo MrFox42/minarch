@@ -5,18 +5,7 @@
 	<Script file="MinArchCommon.lua"/>
 
 	<!-- Basic MinArch Frame -->
-	<Frame name="MATBasic" clampedToScreen="true" movable="true" virtual="true">
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-			<BackgroundInsets>
-				<AbsInset left="11" right="11" top="11" bottom="11" />
-			</BackgroundInsets>
-			<TileSize>
-				<AbsValue val="32" />
-			</TileSize>
-			<EdgeSize>
-				<AbsValue val="32" />
-			</EdgeSize>
-		</Backdrop>
+	<Frame name="MATBasic" clampedToScreen="true" movable="true" virtual="true" inherits="BackdropTemplate">
 		<Frames>
 			<Button name="$parentButtonClose" inherits="MATBClose" parentKey="buttonClose" />
 		</Frames>

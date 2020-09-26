@@ -588,7 +588,7 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame)
 			MinArchTooltipIcon:Hide();
 			MinArchTooltipIcon:SetParent(GameTooltip);
 			MinArchTooltipIcon:SetPoint("TOPRIGHT", GameTooltip, "TOPLEFT");
-			WorldMapTooltip:Hide();
+			GameTooltip:Hide();
 			GameTooltip:Hide();
 		end);
 
@@ -624,7 +624,7 @@ end
 
 function MinArch:DigsiteMapTooltip(self, name, digsite)
 	-- Use gametooltip if World Quest Tracker is installed to bypass the "slot machine"
-	local tooltip = WorldQuestTrackerAddon and GameTooltip or WorldMapTooltip;
+	local tooltip = WorldQuestTrackerAddon and GameTooltip or GameTooltip;
 	MinArchTooltipIcon:SetParent(tooltip);
 	MinArchTooltipIcon:SetPoint("TOPRIGHT", tooltip, "TOPLEFT");
 	tooltip:SetOwner(self, "ANCHOR_BOTTOM");
