@@ -383,9 +383,16 @@ local companionSettings = {
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 99,
-                }
+                },
             },
-		},
+        },
+        message = {
+            type = "description",
+            name = "More features and customizations coming soon! Please feel free to provide feedback so I can prioritize features based on interest.",
+            fontSize = "medium",
+            width = "full",
+            order = 100,
+        },
     }
 }
 

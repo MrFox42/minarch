@@ -10,7 +10,7 @@ local cx, cy, cInstance;
 local timer;
 
 local function InitDistanceTracker()
-    Companion.trackerFrame = CreateFrame("Frame", "MinArchCompanion", Companion)
+    Companion.trackerFrame = CreateFrame("Frame", "$parentTracker", Companion)
 
     Companion.trackerFrame:SetPoint("LEFT", 0, 0)
     Companion.trackerFrame:SetWidth(36)
@@ -21,6 +21,35 @@ local function InitDistanceTracker()
     Companion.trackerFrame.indicator:SetPoint("LEFT", 5, 0)
     Companion.trackerFrame.indicator:SetWidth(16)
     Companion.trackerFrame.indicator:SetHeight(16)
+
+    Companion.trackerFrame:SetScript("OnMouseUp", function(self, button)
+        if (button == "RightButton") then
+            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.companionSettings);
+            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.companionSettings);
+
+            MinArch.db.profile.companion.showHelpTip = false;
+            HelpPlate_TooltipHide();
+        end
+    end)
+
+    Companion.trackerFrame:SetScript("OnEnter", function(self)
+        if (MinArch.db.profile.companion.showHelpTip) then
+            HelpPlate_TooltipHide();
+            HelpPlateTooltip.ArrowUP:Show();
+            HelpPlateTooltip.ArrowGlowUP:Show();
+            HelpPlateTooltip:SetPoint("BOTTOM", MinArchCompanion, "TOP", 0, 20);
+            HelpPlateTooltip.Text:SetText("This is the Mininimal Archaeology Companion frame with distance tracker and more."
+                                            .. "|n|n"
+                                            .. "|cFFFFD100[Right-Click]|r to disable this tutorial tooltip and to show customization settings.");
+            HelpPlateTooltip:Show();
+        end
+    end)
+
+    Companion.trackerFrame:SetScript("OnLeave", function()
+        if (MinArch.db.profile.companion.showHelpTip) then
+            HelpPlate_TooltipHide();
+        end
+	end)
 
     local tex = Companion.trackerFrame.indicator:CreateTexture("IndicatorTexture", "BACKGROUND")
     tex:SetAllPoints(true)
