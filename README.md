@@ -10,6 +10,7 @@ View all your artifacts progress, and solve them in one compact frame. Also you 
 - Added an option to prioritize a selected race when creating automatic waypoints (Selectable in the TomTom section of MinArch settings)
 - Right clicking on the auto-waypoint button now opens the waypoint settings page
 - Fixed an issue with the automatic waypoints sometimes not selecting the closest digsite
+- Show confirmation dialog before solving artifacts of fragment-capped races
 
 For past changes, visit the [Changelog page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/changelog).
 
@@ -40,8 +41,10 @@ The following features are planned for Minimal Archaeology in no particular orde
 - Dig site icons on flight maps
 - Option to the auto-resize history window
 - Achievement progress
+- Better indication of pristine artifacts
 - Prioritize dig sites for auto-waypoints
 - Option to ignore dig sites you hate
+- Option to protect races: don't show solves for certain races in the companion and show confirmation dialog when solving from the main window
 
 If you're curious about all planned features, visit the [Upcoming features page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/upcoming-features).
 

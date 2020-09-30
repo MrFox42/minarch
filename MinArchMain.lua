@@ -146,7 +146,26 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 	end
 end
 
-function MinArch:SolveArtifact(RaceIndex)
+function MinArch:SolveArtifact(RaceIndex, confirmed)
+    if MinArchRaceConfig[RaceIndex].fragmentCap == MinArch['artifacts'][RaceIndex].progress and confirmed ~= true then
+        StaticPopupDialogs["MINARCH_SOLVE_CONFIRMATION"] = {
+            text = "Are you sure you want to solve this artifact?",
+            button1 = "Yes",
+            button2 = "No",
+            OnAccept = function()
+                MinArch:SolveArtifact(RaceIndex, true)
+            end,
+            timeout = 0,
+            whileDead = true,
+            hideOnEscape = true,
+            preferredIndex = 3,
+        }
+
+        StaticPopup_Show ("MINARCH_SOLVE_CONFIRMATION")
+
+        return
+    end
+
 	SetSelectedArtifact(RaceIndex);
 
 	for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do

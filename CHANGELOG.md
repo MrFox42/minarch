@@ -9,6 +9,7 @@
 - Added an option to prioritize a selected race when creating automatic waypoints (Selectable in the TomTom section of MinArch settings)
 - Right clicking on the auto-waypoint button now opens the waypoint settings page
 - Fixed an issue with the automatic waypoints sometimes not selecting the closest digsite
+- Show confirmation dialog before solving artifacts of fragment-capped races
 
 ### 8.3.0
 

@@ -347,7 +347,7 @@ function Companion:Update()
     end
 
     for i = 1, ARCHAEOLOGY_NUM_RACES do
-        -- if relevant?
+        -- if MinArch:IsRaceRelevant(i) then
             local artifact = MinArch['artifacts'][i]
 
             if (artifact.canSolve) then
