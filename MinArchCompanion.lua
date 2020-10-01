@@ -347,7 +347,7 @@ function Companion:Update()
     end
 
     for i = 1, ARCHAEOLOGY_NUM_RACES do
-        -- if MinArch:IsRaceRelevant(i) then
+        if MinArch.db.profile.raceOptions.hide[i] == false then
             local artifact = MinArch['artifacts'][i]
 
             if (artifact.canSolve) then
@@ -372,7 +372,7 @@ function Companion:Update()
                 Companion:Resize()
                 return;
             end
-        -- end
+        end
     end
 
     Companion.solveButton:Hide();
