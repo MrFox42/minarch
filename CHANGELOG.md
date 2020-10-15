@@ -10,6 +10,7 @@
 - Right clicking on the auto-waypoint button now opens the waypoint settings page
 - Fixed an issue with the automatic waypoints sometimes not selecting the closest digsite
 - Show confirmation dialog before solving artifacts of fragment-capped races
+- **9.0.0.1** Companion frame: Improved dragging
 
 ### 8.3.0
 

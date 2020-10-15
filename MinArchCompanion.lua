@@ -9,6 +9,14 @@ Companion.initialized = false;
 local cx, cy, cInstance;
 local timer;
 
+local function RegisterForDrag(frame)
+    local function OnDragStart(self) self:GetParent():StartMoving(); end
+    local function OnDragStop(self) self:GetParent():StopMovingOrSizing(); end
+    frame:RegisterForDrag("LeftButton");--    Register for left drag
+    frame:SetScript("OnDragStart", OnDragStart);
+    frame:SetScript("OnDragStop", OnDragStop);
+end
+
 local function InitDistanceTracker()
     Companion.trackerFrame = CreateFrame("Frame", "$parentTracker", Companion)
 
@@ -49,7 +57,9 @@ local function InitDistanceTracker()
         if (MinArch.db.profile.companion.showHelpTip) then
             HelpPlate_TooltipHide();
         end
-	end)
+    end)
+
+    RegisterForDrag(Companion.trackerFrame);
 
     local tex = Companion.trackerFrame.indicator:CreateTexture("IndicatorTexture", "BACKGROUND")
     tex:SetAllPoints(true)
@@ -112,7 +122,9 @@ local function InitSurveyButton()
 
 	surveyButton:SetScript("OnLeave", function()
 		GameTooltip:Hide();
-	end)
+    end)
+
+    RegisterForDrag(surveyButton);
 
     Companion.surveyButton = surveyButton;
 end
@@ -123,6 +135,8 @@ local function InitProjectFrame()
     solveButton:SetPoint("LEFT", 74, 2);
     solveButton:SetWidth(28);
     solveButton:SetHeight(28);
+
+    RegisterForDrag(solveButton);
 
     Companion.solveButton = solveButton;
 end
@@ -140,6 +154,7 @@ local function InitCrateButton()
     crateButton:SetPushedTexture("Interface/Icons/inv_crate_04")
 
     MinArch:SetCrateButtonTooltip(crateButton);
+    RegisterForDrag(crateButton);
 
     Companion.crateButton = crateButton;
 end
@@ -287,6 +302,7 @@ function Companion:Init()
         Companion.waypointButton = MinArch:CreateAutoWaypointButton(Companion, 12, 0)
         Companion.waypointButton:ClearAllPoints();
         Companion.waypointButton:SetPoint("LEFT", 22, 0);
+        RegisterForDrag(Companion.waypointButton);
 
         Companion:SetMovable(true)
         Companion:EnableMouse(true)
