@@ -11,6 +11,7 @@
 - Fixed an issue with the automatic waypoints sometimes not selecting the closest digsite
 - Show confirmation dialog before solving artifacts of fragment-capped races
 - **9.0.0.1** Companion frame: Improved dragging
+- **9.0.0.2** Fragment-capped solve confirmation: add third option to disable confirmation dialogs
 
 ### 8.3.0
 

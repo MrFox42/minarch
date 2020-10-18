@@ -316,6 +316,17 @@ local raceSettings = {
 			order = 3,
 			inline = false,
 			args = {
+                solveConfirmation = {
+                    width = "full",
+					type = "toggle",
+					name = "Show confirmation for fragment-capped solves",
+					desc = "Show confirmation before solving artifacts for fragment-capped races",
+					get = function () return MinArch.db.profile.showSolvePopup end,
+					set = function (_, newValue)
+						MinArch.db.profile.showSolvePopup = newValue;
+					end,
+					order = 1,
+				},
 			}
 		},
 		keystone = {
@@ -569,7 +580,7 @@ function Options:OnInitialize()
 		raceSettings.args.hide.args[groupkey] = {
 			type = 'group',
 			name = ArchRaceGroupText[group],
-			order = count+1,
+			order = count + 1,
 			inline = true,
 			args = {
 			}
@@ -577,7 +588,7 @@ function Options:OnInitialize()
 		raceSettings.args.cap.args[groupkey] = {
 			type = 'group',
 			name = ArchRaceGroupText[group],
-			order = count,
+			order = count + 1,
 			inline = true,
 			args = {
 			}
