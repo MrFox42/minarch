@@ -397,9 +397,84 @@ local companionSettings = {
                 },
             },
         },
+        positioning = {
+            type = "group",
+            name = "Positioning",
+            order = 2,
+            inline = true,
+            args = {
+                lock = {
+					type = "toggle",
+					name = "Lock in place",
+					desc = "Disables dragging on the companion frame, but you can still move it by modifying the offset manually on this options page.",
+					get = function () return MinArch.db.profile.companion.lock end,
+					set = function (_, newValue)
+                        MinArch.db.profile.companion.lock = newValue;
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+					order = 1,
+                },
+                hr = {
+                    type = "description",
+                    name = "",
+                    width = "full",
+                    order = 2,
+                },
+                savePos = {
+					type = "toggle",
+					name = "Save position in profile",
+					desc = "Enable to save position in settings profile so the companion will be in the same spot on all your characters using the same settings profile.",
+					get = function () return MinArch.db.profile.companion.savePos end,
+					set = function (_, newValue)
+                        MinArch.db.profile.companion.savePos = newValue;
+                        if newValue then
+                            MinArch.Companion:SavePosition()
+                        end
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+					order = 3,
+                },
+                x = {
+					type = "input",
+					name = "Horizontal offset",
+					desc = "Horizontal position on the screen",
+					get = function () return tostring(MinArch.db.profile.companion.posX) end,
+                    set = function (_, newValue)
+                        if (MinArch.db.profile.companion.enable and MinArch.db.profile.companion.savePos) then
+                            MinArch.db.profile.companion.posX = tonumber(newValue);
+                            local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
+                            MinArch.Companion:ClearAllPoints();
+                            MinArch.Companion:SetPoint(point, UIParent, relativePoint, tonumber(newValue), yOfs);
+                            MinArch.Companion:SavePosition()
+                        end
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
+                    dialogControl = "NumberEditBox",
+					order = 4,
+                },
+                y = {
+					type = "input",
+					name = "Vertical offset",
+					desc = "Vertical position on the screen",
+					get = function () return tostring(MinArch.db.profile.companion.posY) end,
+                    set = function (_, newValue)
+                        if (MinArch.db.profile.companion.enable and MinArch.db.profile.companion.savePos) then
+                            MinArch.db.profile.companion.posY = tonumber(newValue);
+                            local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
+                            MinArch.Companion:ClearAllPoints();
+                            MinArch.Companion:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
+                            Companion:SavePosition()
+                        end
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
+					dialogControl = "NumberEditBox",
+					order = 5,
+				},
+            }
+        },
         message = {
             type = "description",
-            name = "More features and customizations coming soon! Please feel free to provide feedback so I can prioritize features based on interest.",
+            name = "|nMore features and customizations coming soon! Please feel free to provide feedback so I can prioritize features based on interest.",
             fontSize = "medium",
             width = "full",
             order = 100,

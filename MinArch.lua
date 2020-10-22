@@ -108,7 +108,13 @@ MinArch.defaults = {
             showHelpTip = true,
             enable = true,
             alwaysShow = true,
-            frameScale = 100
+            frameScale = 100,
+            savePos = true,
+            point = "CENTER",
+            relativePoint = "CENTER",
+            posX = 1,
+            posY = 1,
+            lock = false
         },
 
 		-- deprecated, left for compatibility

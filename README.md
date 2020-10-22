@@ -2,7 +2,12 @@
 
 View all your artifacts progress, and solve them in one compact frame. Also you can view all your artifact history neatly sorted by race, and a list of dig sites. You can left-click the keystone button to attach keystones (or right-click to remove), or if you prefer there are options to automatically use keystones! You can monitor the artifacts progress, or how close you are to the fragment cap.
 
-## Latest Version: v9.0.0
+## Latest Minor Version 9.0.1
+
+- Added the option to lock the Companion in place, disabling dragging
+- Added the option to persist Companion position on all characters using the same settings profile
+
+## Latest Major Version: v9.0.0
 
 - New feataure: **Companion** (**distance tracker** and more, details down below)
 - Fixed issues caused by Shadowlands LUA changes

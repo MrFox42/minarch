@@ -10,8 +10,17 @@ local cx, cy, cInstance;
 local timer;
 
 local function RegisterForDrag(frame)
-    local function OnDragStart(self) self:GetParent():StartMoving(); end
-    local function OnDragStop(self) self:GetParent():StopMovingOrSizing(); end
+    local function OnDragStart(self)
+        if not MinArch.db.profile.companion.lock then
+            self:GetParent():StartMoving();
+        end
+    end
+    local function OnDragStop(self)
+        self:GetParent():StopMovingOrSizing();
+        if MinArch.db.profile.companion.savePos then
+            Companion:SavePosition();
+        end
+    end
     frame:RegisterForDrag("LeftButton");--    Register for left drag
     frame:SetScript("OnDragStart", OnDragStart);
     frame:SetScript("OnDragStop", OnDragStop);
@@ -82,6 +91,14 @@ local function InitDistanceTracker()
     Companion:SetScript("OnEvent", Companion.EventHandler)
 
     Companion.trackerFrame.fontString = fontString;
+end
+
+function Companion:SavePosition()
+    local point, _, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
+    MinArch.db.profile.companion.point = point;
+    MinArch.db.profile.companion.relativePoint = relativePoint;
+    MinArch.db.profile.companion.posX = xOfs;
+    MinArch.db.profile.companion.posY = yOfs;
 end
 
 function Companion:RegisterEvents()
@@ -177,7 +194,11 @@ function Companion:hideCrateButton()
 end
 
 function Companion.events:PLAYER_ENTERING_WORLD(...)
-  --
+    if MinArch.db.profile.companion.savePos then
+        Companion:ClearAllPoints();
+        Companion:SetPoint(MinArch.db.profile.companion.point, UIParent, MinArch.db.profile.companion.relativePoint, MinArch.db.profile.companion.posX, MinArch.db.profile.companion.posY)
+    end
+    Companion:SetFrameScale(MinArch.db.profile.companion.frameScale);
 end
 
 function Companion.events:PLAYER_STARTED_MOVING(...)
@@ -322,14 +343,13 @@ function Companion:Init()
     end
 
     Companion:RegisterEvents();
-    Companion:SetFrameScale(MinArch.db.profile.companion.frameScale);
     Companion:AutoToggle();
     Companion:Update();
 end
 
 function Companion:SetFrameScale(scale)
     local previousScale = Companion:GetScale();
-    local point, relativeTo, relativePoint, xOfs, yOfs = MinArch.Companion:GetPoint()
+    local point, _, relativePoint, xOfs, yOfs = MinArch.Companion:GetPoint()
 
     scale = tonumber(scale)/100;
     Companion:SetScale(scale);
