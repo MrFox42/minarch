@@ -49,7 +49,6 @@ The following features are planned for Minimal Archaeology in no particular orde
 - Option to the auto-resize history window
 - Achievement progress
 - Better indication of pristine artifacts
-- Prioritize dig sites for auto-waypoints
 - Option to ignore dig sites you hate
 - Option to protect races: don't show solves for certain races in the companion and show confirmation dialog when solving from the main window
 
