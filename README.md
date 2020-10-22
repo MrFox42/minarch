@@ -6,7 +6,7 @@ View all your artifacts progress, and solve them in one compact frame. Also you 
 
 - Added the option to lock the Companion in place, disabling dragging
 - Added the option to persist Companion position on all characters using the same settings profile
-- **9.0.1** Fix saving Companion position after dragging the frame
+- **9.0.1.1** Fix saving Companion position after dragging the frame
 
 ## Latest Major Version: v9.0.0
 
