@@ -11,17 +11,27 @@ local timer;
 
 local function RegisterForDrag(frame)
     local function OnDragStart(self)
+        local f = self:GetParent();
+        if f:GetName() == "UIParent" then
+            f = self
+        end
+
         if not MinArch.db.profile.companion.lock then
-            Companion:StartMoving();
+            f:StartMoving();
         end
     end
     local function OnDragStop(self)
-        Companion:StopMovingOrSizing();
+        local f = self:GetParent();
+        if f:GetName() == "UIParent" then
+            f = self
+        end
+
+        f:StopMovingOrSizing();
         if MinArch.db.profile.companion.savePos then
             Companion:SavePosition();
         end
     end
-    frame:RegisterForDrag("LeftButton");--    Register for left drag
+    frame:RegisterForDrag("LeftButton"); -- Register for left drag
     frame:SetScript("OnDragStart", OnDragStart);
     frame:SetScript("OnDragStop", OnDragStop);
 end
