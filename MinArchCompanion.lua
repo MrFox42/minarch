@@ -12,11 +12,11 @@ local timer;
 local function RegisterForDrag(frame)
     local function OnDragStart(self)
         if not MinArch.db.profile.companion.lock then
-            self:GetParent():StartMoving();
+            Companion:StartMoving();
         end
     end
     local function OnDragStop(self)
-        self:GetParent():StopMovingOrSizing();
+        Companion:StopMovingOrSizing();
         if MinArch.db.profile.companion.savePos then
             Companion:SavePosition();
         end
@@ -327,9 +327,7 @@ function Companion:Init()
 
         Companion:SetMovable(true)
         Companion:EnableMouse(true)
-        Companion:RegisterForDrag("LeftButton")
-        Companion:SetScript("OnDragStart", Companion.StartMoving)
-        Companion:SetScript("OnDragStop", Companion.StopMovingOrSizing)
+        RegisterForDrag(Companion);
 
         Companion:SetPoint("CENTER", 0, 0)
         Companion:Show()
