@@ -22,19 +22,19 @@ local general = {
 	handler = MinArch,
 	type = "group",
 	args = {
+        message = {
+            type = "description",
+            name = "Thanks for using Minimal Archaeology",
+            fontSize = "small",
+            width = "full",
+            order = 1,
+        },
 		welcome = {
 			type = "group",
-			name = "Welcome!",
-			order = 1,
+			name = "Settings",
+			order = 2,
 			inline = true,
 			args = {
-				message = {
-					type = "description",
-					name = "Thanks for using Minimal Archaeology",
-					fontSize = "small",
-					width = "full",
-					order = 1,
-				},
 				raceButton = {
 					type = "execute",
 					name = "Race Settings",
@@ -73,7 +73,7 @@ local general = {
 			type = 'group',
 			name = 'Miscellaneous options',
 			inline = true,
-			order = 2,
+			order = 3,
 			args = {
 				hideMinimapButton = {
 					type = "toggle",
@@ -129,7 +129,7 @@ local general = {
             type = "group",
             name = "Startup settings",
             inline = true,
-            order = 3,
+            order = 4,
             args = {
                 startHidden = {
 					type = "toggle",
@@ -149,7 +149,8 @@ local general = {
 					disabled = function () return MinArch.db.profile.startHidden end,
 					set = function (_, newValue)
 						MinArch.db.profile.rememberState = newValue;
-					end,
+                    end,
+                    width = 1.5,
 					order = 4,
 				},
             }
@@ -158,7 +159,7 @@ local general = {
 			type = "group",
 			name = "Auto-hide main window",
 			inline = true,
-			order = 4,
+			order = 5,
 			args = {
 				hideAfterDigsite = {
 					type = "toggle",
@@ -197,7 +198,7 @@ local general = {
 			type = 'group',
 			name = 'Auto-show main window',
 			inline = true,
-			order = 5,
+			order = 6,
 			args = {
 				autoShowInDigsites = {
 					type = "toggle",
@@ -284,7 +285,7 @@ local raceSettings = {
 						},
 						continentSpecific = {
 							type = "toggle",
-							name = "Continent-specific",
+							name = "Expansion-specific",
 							desc = "Show races which could be available on your current continent (or expansion), even if they don't have an active digsite at the moment.",
 							get = function () return MinArch.db.profile.relevancy.continentSpecific end,
 							set = function (_, newValue)
@@ -303,8 +304,25 @@ local raceSettings = {
 								MinArch:UpdateMain();
 							end,
 							order = 3,
-						},
-					},
+                        },
+                        hr = {
+                            type = "description",
+                            name = "Overrides",
+                            width = "full",
+                            order = 4,
+                        },
+                        hideCapped = {
+                            type = "toggle",
+							name = "Hide fragment-capped",
+							desc = "Enable to treat fragment-capped races as irrelevant, hiding them even if they would normally be relevant.",
+							get = function () return MinArch.db.profile.relevancy.hideCapped end,
+							set = function (_, newValue)
+								MinArch.db.profile.relevancy.hideCapped = newValue;
+                                MinArch:UpdateMain();
+							end,
+							order = 5,
+                        }
+                    },
 				},
 			}
 		},

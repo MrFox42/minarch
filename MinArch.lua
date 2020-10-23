@@ -81,7 +81,8 @@ MinArch.defaults = {
 			relevantOnly = false,
 			nearby = true,
 			continentSpecific = false,
-			solvable = true
+            solvable = true,
+            hideCapped = false
 		},
 		minimap = {
 			minimapPos = 45,
