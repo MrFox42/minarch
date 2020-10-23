@@ -77,6 +77,7 @@ MinArch.defaults = {
 		autoShowOnCap = true,
         rememberState = true,
         showSolvePopup = true,
+        surveyOnDoubleClick = false,
 		relevancy = {
 			relevantOnly = false,
 			nearby = true,

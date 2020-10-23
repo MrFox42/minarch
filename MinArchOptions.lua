@@ -68,12 +68,31 @@ local general = {
 					end,
 				},
 			}
-		},
+        },
+        surveying = {
+            type = "group",
+            name = "Surveying",
+            inline = true,
+            order = 3,
+            args = {
+                dblClick = {
+					type = "toggle",
+					name = "Survey on Double Right Click",
+					desc = "Enable to cast survey when you double-click with your right mouse button.",
+					get = function () return MinArch.db.profile.surveyOnDoubleClick end,
+					set = function (_, newValue)
+						MinArch.db.profile.surveyOnDoubleClick = newValue;
+                    end,
+                    width = 1.5,
+					order = 3,
+				},
+            }
+        },
 		misc = {
 			type = 'group',
 			name = 'Miscellaneous options',
 			inline = true,
-			order = 3,
+			order = 4,
 			args = {
 				hideMinimapButton = {
 					type = "toggle",
@@ -124,12 +143,12 @@ local general = {
 					order = 99,
 				}
 			}
-		},
-		startup = {
+        },
+        startup = {
             type = "group",
             name = "Startup settings",
             inline = true,
-            order = 4,
+            order = 5,
             args = {
                 startHidden = {
 					type = "toggle",
@@ -159,7 +178,7 @@ local general = {
 			type = "group",
 			name = "Auto-hide main window",
 			inline = true,
-			order = 5,
+			order = 6,
 			args = {
 				hideAfterDigsite = {
 					type = "toggle",
@@ -198,7 +217,7 @@ local general = {
 			type = 'group',
 			name = 'Auto-show main window',
 			inline = true,
-			order = 6,
+			order = 7,
 			args = {
 				autoShowInDigsites = {
 					type = "toggle",

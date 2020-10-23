@@ -1,3 +1,37 @@
+local clearBinding = false;
+
+local function HookDoubleClick()
+    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArch.HelperFrame, "InSecureActionButtonTemplate");
+    button:SetAttribute("type", "spell");
+    button:SetAttribute("spell", 80451);
+    button:Hide();
+
+    local threshold = 0.5;
+    local prevTime;
+
+    button:SetScript("PostClick", function(self)
+        if clearBinding then
+            ClearOverrideBindings(self)
+        end
+    end)
+
+    WorldFrame:HookScript("OnMouseDown", function(_, button)
+        if MinArch.db.profile.surveyOnDoubleClick and button == "RightButton" and CanScanResearchSite() and GetSpellCooldown(80451) == 0 then
+            if prevTime then
+                local diff = GetTime() - prevTime;
+
+                if diff < threshold then
+                    prevTime = nil;
+                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                    clearBinding = true;
+                end
+            end
+
+            prevTime = GetTime();
+        end
+    end)
+end
+
 function MinArch:SetRelevancyToggleButtonTexture()
 	local button = MinArchMainRelevancyButton;
 	if (MinArch.db.profile.relevancy.relevantOnly) then
@@ -204,6 +238,8 @@ function MinArch:InitHelperFrame(self)
     MinArchDigsites.showAfterCombat = false;
     MinArch.Companion.showAfterCombat = false;
 
+    MinArch.HelperFrame:Hide();
+
 	self:SetScript("OnEvent", function(self, event, ...)
 		MinArch:EventHelper(event, ...);
 	end)
@@ -236,8 +272,9 @@ function MinArch:OnInitialize ()
 	end)]]--
 
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
+    MinArch:ShowRaceIconsOnMap();
+    HookDoubleClick();
 	MinArchIsReady = true;
-	MinArch:ShowRaceIconsOnMap();
 	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
