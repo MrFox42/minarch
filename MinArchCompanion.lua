@@ -189,7 +189,7 @@ local function InitCrateButton()
 end
 
 function Companion:showCrateButton(itemID)
-    if MinArch.db.profile.companion.enable and MinArch.Companion.initialized then
+    if MinArch.db.profile.companion.enable and MinArch.db.profile.companion.features.crateButton.enabled and MinArch.Companion.initialized then
         if itemID then
             MinArch.Companion.crateButton:SetAttribute("item", "item:" .. itemID);
         end
@@ -392,9 +392,7 @@ local function toggleChildFrames()
         Companion.solveButton:Hide();
     end
 
-    if MinArch.db.profile.companion.features.crateButton.enabled then
-        Companion.crateButton:Show();
-    else
+    if not MinArch.db.profile.companion.features.crateButton.enabled then
         Companion.crateButton:Hide();
     end
 end
