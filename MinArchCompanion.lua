@@ -8,6 +8,7 @@ Companion.initialized = false;
 
 local cx, cy, cInstance;
 local timer;
+local baseHeight = 31;
 
 local function RegisterForDrag(frame)
     local function OnDragStart(self)
@@ -40,12 +41,13 @@ local function InitDistanceTracker()
     Companion.trackerFrame = CreateFrame("Frame", "$parentTracker", Companion)
 
     Companion.trackerFrame:SetPoint("LEFT", 0, 0)
-    Companion.trackerFrame:SetWidth(36)
+    Companion.trackerFrame:SetWidth(40)
     Companion.trackerFrame:SetHeight(24)
+    Companion.trackerFrame:SetFrameStrata("LOW")
     Companion.trackerFrame:Show()
 
     Companion.trackerFrame.indicator = CreateFrame("Frame", "$parentIndicator", Companion.trackerFrame)
-    Companion.trackerFrame.indicator:SetPoint("LEFT", 5, 0)
+    Companion.trackerFrame.indicator:SetPoint("LEFT", 2, 0)
     Companion.trackerFrame.indicator:SetWidth(16)
     Companion.trackerFrame.indicator:SetHeight(16)
 
@@ -92,10 +94,10 @@ local function InitDistanceTracker()
     Companion.trackerFrame.indicator:Show()
 
     local fontString = Companion.trackerFrame.indicator:CreateFontString("$parentDistanceText", "OVERLAY")
-    fontString:SetFontObject("ChatFontSmall")
+    fontString:SetFont("Fonts\\ARIALN.TTF", 12, "OUTLINE, MONOCHROME")
     fontString:SetText("")
     fontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
-    fontString:SetPoint("LEFT", Companion.trackerFrame.indicator, "LEFT", 20, 0)
+    fontString:SetPoint("LEFT", Companion.trackerFrame.indicator, "LEFT", 19, -1)
     fontString:Show()
 
     Companion:SetScript("OnEvent", Companion.EventHandler)
@@ -262,7 +264,7 @@ function Companion:HideDistance()
     Companion.trackerFrame.indicator.texture:SetTexCoord(0.5, 1, 0.5, 1)
     Companion.trackerFrame.fontString:SetText("")
     MinArch:CancelTimer(timer)
-    Companion.waypointButton:Show();
+    Companion:Update();
 end
 
 function Companion:EventHandler(event, ...)
@@ -323,16 +325,17 @@ function Companion:Init()
 
         Companion:SetFrameStrata("BACKGROUND")
         Companion:SetWidth(142)
-        Companion:SetHeight(38)
+        Companion:SetHeight(baseHeight + MinArch.db.profile.companion.padding * 2)
 
         local tex = Companion:CreateTexture(nil, "BACKGROUND")
         tex:SetAllPoints()
-        tex:SetColorTexture(0, 0, 0, 0.5)
+        tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
         Companion.texture = tex
 
         Companion.waypointButton = MinArch:CreateAutoWaypointButton(Companion, 12, 0)
         Companion.waypointButton:ClearAllPoints();
-        Companion.waypointButton:SetPoint("LEFT", 22, 0);
+        Companion.waypointButton:SetPoint("LEFT", 26, 0);
+        Companion.waypointButton:SetFrameStrata("MEDIUM");
         RegisterForDrag(Companion.waypointButton);
 
         Companion:SetMovable(true)
@@ -366,23 +369,99 @@ function Companion:SetFrameScale(scale)
     Companion:SetPoint(point, UIParent, relativePoint, xOfs * (previousScale/scale), yOfs * (previousScale/scale));
 end
 
+local function toggleChildFrames()
+    if MinArch.db.profile.companion.features.distanceTracker.enabled then
+        Companion.trackerFrame:Show();
+    else
+        Companion.trackerFrame:Hide();
+    end
+
+    if MinArch.db.profile.companion.features.waypointButton.enabled and cx == nil then
+        Companion.waypointButton:Show();
+    else
+        Companion.waypointButton:Hide();
+    end
+
+    if MinArch.db.profile.companion.features.surveyButton.enabled then
+        Companion.surveyButton:Show();
+    else
+        Companion.surveyButton:Hide();
+    end
+
+    if not MinArch.db.profile.companion.features.solveButton.enabled then
+        Companion.solveButton:Hide();
+    end
+
+    if MinArch.db.profile.companion.features.crateButton.enabled then
+        Companion.crateButton:Show();
+    else
+        Companion.crateButton:Hide();
+    end
+end
+
 function Companion:Resize()
+    local buttons = {};
+    local baseOffset =  MinArch.db.profile.companion.padding;
+    local width = baseOffset;
+    local buttonSpacing = MinArch.db.profile.companion.buttonSpacing;
+    local waypointException = false;
+
     if not MinArch.db.profile.companion.enable then
         return false;
     end
 
+    toggleChildFrames();
+
     -- Get visible child frames, resize accordingly
-    local width = 44;
+    buttons[MinArch.db.profile.companion.features.distanceTracker.order] = Companion.trackerFrame;
+    buttons[MinArch.db.profile.companion.features.waypointButton.order] = Companion.waypointButton;
+    buttons[MinArch.db.profile.companion.features.surveyButton.order] = Companion.surveyButton;
+    buttons[MinArch.db.profile.companion.features.solveButton.order] = Companion.solveButton;
+    buttons[MinArch.db.profile.companion.features.crateButton.order] = Companion.crateButton;
 
-    local surveyBtnVisible = Companion.surveyButton:IsVisible() and 1 or 0;
-    local solveBtnVisible = Companion.solveButton:IsVisible() and 1 or 0;
-    local crateBtnVisible = Companion.crateButton:IsVisible() and 1 or 0;
+    if (Companion.waypointButton:IsVisible() and Companion.trackerFrame:IsVisible() and MinArch.db.profile.companion.features.waypointButton.order == MinArch.db.profile.companion.features.distanceTracker.order + 1) then
+        waypointException = true;
+        width = width - Companion.waypointButton:GetWidth();
+    end
 
-    width = width + (surveyBtnVisible + solveBtnVisible + crateBtnVisible) * 34;
-    Companion.solveButton:SetPoint("LEFT", 44 + surveyBtnVisible * 34, 0);
-    Companion.crateButton:SetPoint("LEFT", 44 + (surveyBtnVisible + solveBtnVisible) * 34, 0);
+    for order, button in pairs(buttons) do
+        local btnOffset = 0;
 
-    Companion:SetWidth(width);
+        if (button:IsVisible()) then
+            if (order > 1) then
+                if (waypointException and order > MinArch.db.profile.companion.features.distanceTracker.order) then
+                    btnOffset = btnOffset - Companion.waypointButton:GetWidth() + buttonSpacing;
+                end
+
+                for i = 1, order - 1 do
+                    if (buttons[i]:IsVisible()) then
+                        btnOffset = btnOffset + buttons[i]:GetWidth() + buttonSpacing;
+                    end
+                end
+            end
+
+            width = width + button:GetWidth() + buttonSpacing;
+            button:ClearAllPoints();
+            button:SetPoint("LEFT", baseOffset + btnOffset, 0);
+        end
+    end
+
+    Companion:SetWidth(width + baseOffset);
+    Companion:SetHeight(baseHeight + MinArch.db.profile.companion.padding * 2)
+end
+
+local function shouldShowRace(raceID)
+    -- Don't show hidden races
+    if (MinArch.db.profile.raceOptions.hide[raceID]) then
+        return false;
+    end
+
+    -- Don't show irrelevant races
+    if (MinArch.db.profile.companion.relevantOnly and not MinArch:IsRaceRelevant(raceID)) then
+        return false;
+    end
+
+    return true;
 end
 
 function Companion:Update()
@@ -390,8 +469,10 @@ function Companion:Update()
         return false;
     end
 
+    Companion.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
+
     for i = 1, ARCHAEOLOGY_NUM_RACES do
-        if MinArch.db.profile.raceOptions.hide[i] == false then
+        if shouldShowRace(i) then
             local artifact = MinArch['artifacts'][i]
 
             if (artifact.canSolve) then
@@ -412,7 +493,9 @@ function Companion:Update()
                     MinArch:HideArtifactTooltip();
                 end)
 
-                Companion.solveButton:Show();
+                if MinArch.db.profile.companion.features.solveButton.enabled then
+                    Companion.solveButton:Show();
+                end
                 Companion:Resize()
                 return;
             end

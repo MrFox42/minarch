@@ -114,7 +114,23 @@ MinArch.defaults = {
             relativePoint = "CENTER",
             posX = 1,
             posY = 1,
-            lock = false
+            buttonSpacing = 2,
+            padding = 3,
+            lock = false,
+            relevantOnly = true,
+            bg = {
+                r = 0,
+                g = 0,
+                b = 0,
+                a = 0.5
+            },
+            features = {
+                distanceTracker = {enabled = true, order = 1},
+                waypointButton  = {enabled = true, order = 2},
+                surveyButton    = {enabled = true, order = 3},
+                solveButton     = {enabled = true, order = 4},
+                crateButton     = {enabled = true, order = 5},
+            }
         },
 
 		-- deprecated, left for compatibility
