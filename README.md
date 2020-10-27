@@ -2,8 +2,21 @@
 
 View all your artifacts progress, and solve them in one compact frame. Also you can view all your artifact history neatly sorted by race, and a list of dig sites. You can left-click the keystone button to attach keystones (or right-click to remove), or if you prefer there are options to automatically use keystones! You can monitor the artifacts progress, or how close you are to the fragment cap.
 
-## Latest Minor Version 9.0.1
+## Latest Minor Versions
 
+### 9.0.2
+
+- **New feature**: Double right click to Survey (enabled by default)
+- Added the option to treat fragment-capped races as irrelevant
+
+#### Companion Improvements:
+- Each button can be disabled separately
+- Added the option to only show the solve button for relevant races
+- Added the option to change background color and background color opacity
+- Button spacing and frame padding is now customizable
+- Button order is fully customizable
+
+### 9.0.1
 - Added the option to lock the Companion in place, disabling dragging
 - Added the option to persist Companion position on all characters using the same settings profile
 - **9.0.1.1** Fix saving Companion position after dragging the frame
@@ -24,7 +37,7 @@ For past changes, visit the [Changelog page](https://www.curseforge.com/wow/addo
 
 ## Companion
 
-The **Companion** is a tiny little frame that currently includes the following features:
+The **Companion** is a tiny little customizable frame that currently includes the following features:
 
 - **Distance tracker** when surveying
 - Auto-waypoint button
@@ -32,14 +45,7 @@ The **Companion** is a tiny little frame that currently includes the following f
 - Solve button for solvable artifacts
 - Crate button
 
-Customization features:
-
-- Scale to make it smaller or larger
-- Always show/only show in digsites
-- Many more coming soon, **feel free to make any requests so I can prioritize**
-
 The companion can be disabled.
-
 
 ## Upcoming features
 
