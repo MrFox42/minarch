@@ -1,6 +1,18 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 9.0.2
+
+- **New feature**: Double right click to Survey (enabled by default)
+- Added the option to treat fragment-capped races as irrelevant
+
+#### Companion Improvements:
+- Each button can be disabled separately
+- Added the option to only show the solve button for relevant races
+- Added the option to change background color and background color opacity
+- Button spacing and frame padding is now customizable
+- Button order is fully customizable
+
 ### 9.0.1
 
 - Added the option to lock the Companion in place, disabling dragging

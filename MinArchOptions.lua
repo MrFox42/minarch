@@ -4,24 +4,37 @@ MinArch.Options = MinArch:NewModule("Options");
 local Options = MinArch.Options;
 local parent = MinArch;
 
+local function updateOrdering(frame, newValue)
+    local oldValue = MinArch.db.profile.companion.features[frame].order;
+
+    for feature, options in pairs(MinArch.db.profile.companion.features) do
+        if options.order == newValue then
+            MinArch.db.profile.companion.features[feature].order = oldValue;
+        end
+    end
+
+    MinArch.db.profile.companion.features[frame].order = newValue;
+    MinArch.Companion:Update();
+end
+
 local general = {
 	name = "Minimal Archaeology v" .. GetAddOnMetadata("MinimalArchaeology", "Version"),
 	handler = MinArch,
 	type = "group",
 	args = {
+        message = {
+            type = "description",
+            name = "Thanks for using Minimal Archaeology",
+            fontSize = "small",
+            width = "full",
+            order = 1,
+        },
 		welcome = {
 			type = "group",
-			name = "Welcome!",
-			order = 1,
+			name = "Settings",
+			order = 2,
 			inline = true,
 			args = {
-				message = {
-					type = "description",
-					name = "Thanks for using Minimal Archaeology",
-					fontSize = "small",
-					width = "full",
-					order = 1,
-				},
 				raceButton = {
 					type = "execute",
 					name = "Race Settings",
@@ -55,12 +68,31 @@ local general = {
 					end,
 				},
 			}
-		},
+        },
+        surveying = {
+            type = "group",
+            name = "Surveying",
+            inline = true,
+            order = 3,
+            args = {
+                dblClick = {
+					type = "toggle",
+					name = "Survey on Double Right Click",
+					desc = "Enable to cast survey when you double-click with your right mouse button.",
+					get = function () return MinArch.db.profile.surveyOnDoubleClick end,
+					set = function (_, newValue)
+						MinArch.db.profile.surveyOnDoubleClick = newValue;
+                    end,
+                    width = 1.5,
+					order = 3,
+				},
+            }
+        },
 		misc = {
 			type = 'group',
 			name = 'Miscellaneous options',
 			inline = true,
-			order = 2,
+			order = 4,
 			args = {
 				hideMinimapButton = {
 					type = "toggle",
@@ -111,12 +143,12 @@ local general = {
 					order = 99,
 				}
 			}
-		},
-		startup = {
+        },
+        startup = {
             type = "group",
             name = "Startup settings",
             inline = true,
-            order = 3,
+            order = 5,
             args = {
                 startHidden = {
 					type = "toggle",
@@ -136,7 +168,8 @@ local general = {
 					disabled = function () return MinArch.db.profile.startHidden end,
 					set = function (_, newValue)
 						MinArch.db.profile.rememberState = newValue;
-					end,
+                    end,
+                    width = 1.5,
 					order = 4,
 				},
             }
@@ -145,7 +178,7 @@ local general = {
 			type = "group",
 			name = "Auto-hide main window",
 			inline = true,
-			order = 4,
+			order = 6,
 			args = {
 				hideAfterDigsite = {
 					type = "toggle",
@@ -184,7 +217,7 @@ local general = {
 			type = 'group',
 			name = 'Auto-show main window',
 			inline = true,
-			order = 5,
+			order = 7,
 			args = {
 				autoShowInDigsites = {
 					type = "toggle",
@@ -271,7 +304,7 @@ local raceSettings = {
 						},
 						continentSpecific = {
 							type = "toggle",
-							name = "Continent-specific",
+							name = "Expansion-specific",
 							desc = "Show races which could be available on your current continent (or expansion), even if they don't have an active digsite at the moment.",
 							get = function () return MinArch.db.profile.relevancy.continentSpecific end,
 							set = function (_, newValue)
@@ -290,8 +323,25 @@ local raceSettings = {
 								MinArch:UpdateMain();
 							end,
 							order = 3,
-						},
-					},
+                        },
+                        hr = {
+                            type = "description",
+                            name = "Overrides",
+                            width = "full",
+                            order = 4,
+                        },
+                        hideCapped = {
+                            type = "toggle",
+							name = "Hide fragment-capped",
+							desc = "Enable to treat fragment-capped races as irrelevant, hiding them even if they would normally be relevant.",
+							get = function () return MinArch.db.profile.relevancy.hideCapped end,
+							set = function (_, newValue)
+								MinArch.db.profile.relevancy.hideCapped = newValue;
+                                MinArch:UpdateMain();
+							end,
+							order = 5,
+                        }
+                    },
 				},
 			}
 		},
@@ -354,8 +404,8 @@ local companionSettings = {
                 enable = {
 					type = "toggle",
 					name = "Enable the Companion frame",
-					desc = "Toggles the Companion frame plugin of MinArch. The companion is a tiny frame with a distance tracker and waypoint/survey/solve/crate buttons.",
-					width = "full",
+                    desc = "Toggles the Companion frame plugin of MinArch. The companion is a tiny frame with a distance tracker and waypoint/survey/solve/crate buttons.",
+                    width = 1.5,
 					get = function () return MinArch.db.profile.companion.enable end,
 					set = function (_, newValue)
 						MinArch.db.profile.companion.enable = newValue;
@@ -379,6 +429,76 @@ local companionSettings = {
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 					order = 2,
+                },
+                hrC = {
+                    type = "description",
+                    name = "|nColoring",
+                    width = "full",
+                    order = 3,
+                },
+                background = {
+                    type = "color",
+                    name = "Background color",
+                    get = function () return MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b end,
+                    set = function (_, r, g, b, a)
+                        MinArch.db.profile.companion.bg.r = r;
+                        MinArch.db.profile.companion.bg.g = g;
+                        MinArch.db.profile.companion.bg.b = b;
+                        MinArchCompanion:Update();
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                    order = 4,
+                },
+                bgOpacity = {
+                    type = "range",
+                    name = "Background opacity",
+                    desc = "Set the size of the companion. Default: 50%.",
+                    min = 0,
+                    max = 100,
+                    step = 1,
+                    get = function () return MinArch.db.profile.companion.bg.a * 100 end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.bg.a = newValue / 100;
+                        MinArch.Companion:Update();
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                    order = 5,
+                },
+                hr = {
+                    type = "description",
+                    name = "Sizing",
+                    width = "full",
+                    order = 97,
+                },
+                buttonSpacing = {
+                    type = "range",
+                    name = "Button spacing",
+                    desc = "Set the size of the spacing between buttons. Default: 2.",
+                    min = 0,
+                    max = 20,
+                    step = 1,
+                    get = function () return MinArch.db.profile.companion.buttonSpacing end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.buttonSpacing = newValue;
+                        MinArch.Companion:Update();
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                    order = 98,
+                },
+                padding = {
+                    type = "range",
+                    name = "Padding size",
+                    desc = "Set the size of the padding of the Companion frame. Default: 3.",
+                    min = 0,
+                    max = 20,
+                    step = 1,
+                    get = function () return MinArch.db.profile.companion.padding end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.padding = newValue;
+                        MinArch.Companion:Update();
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                    order = 98,
                 },
                 scale = {
                     type = "range",
@@ -472,13 +592,189 @@ local companionSettings = {
 				},
             }
         },
-        message = {
-            type = "description",
-            name = "|nMore features and customizations coming soon! Please feel free to provide feedback so I can prioritize features based on interest.",
-            fontSize = "medium",
-            width = "full",
-            order = 100,
-        },
+        featureOpts = {
+            type = "group",
+            name = "Customize Companion features",
+            order = 3,
+            inline = true,
+            args = {
+                distanceTracker = {
+                    type = "group",
+                    name = "Distance Tracker settings",
+                    order = 1,
+                    inline = true,
+                    args = {
+                        toggleDistanceTracker = {
+                            type = "toggle",
+                            name = "Show distance tracker",
+                            desc = "Toggles the distance tracker on the companion frame",
+                            get = function () return MinArch.db.profile.companion.features.distanceTracker.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.distanceTracker.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 1,
+                        },
+                        distanceTrackerOrder = {
+                            type = "select",
+                            name = "Order",
+                            values = {1, 2, 3, 4, 5},
+                            get = function () return MinArch.db.profile.companion.features.distanceTracker.order end,
+                            set = function (info, newValue)
+                                updateOrdering("distanceTracker", newValue)
+                            end,
+                            width = 0.5,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 2,
+                        },
+                    }
+                },
+                waypointButton = {
+                    type = "group",
+                    name = "Waypoint button settings",
+                    order = 2,
+                    inline = true,
+                    args = {
+                        toggleWaypointButton = {
+                            type = "toggle",
+                            name = "Show waypoint button",
+                            desc = "Show the auto-waypoint button on the companion frame",
+                            get = function () return MinArch.db.profile.companion.features.waypointButton.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.waypointButton.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 6,
+                        },
+                        waypointButtonOrder = {
+                            type = "select",
+                            name = "Order",
+                            values = {1, 2, 3, 4, 5},
+                            get = function () return MinArch.db.profile.companion.features.waypointButton.order end,
+                            set = function (info, newValue)
+                                updateOrdering("waypointButton", newValue)
+                            end,
+                            width = 0.5,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 7,
+                        },
+                    }
+                },
+                surveyButton = {
+                    type = "group",
+                    name = "Survey button settings",
+                    order = 3,
+                    inline = true,
+                    args = {
+                        toggleSurveyButton = {
+                            type = "toggle",
+                            name = "Show Survey button",
+                            desc = "Show the survey button on the companion frame",
+                            get = function () return MinArch.db.profile.companion.features.surveyButton.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.surveyButton.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 3,
+                        },
+                        solveButtonOrder = {
+                            type = "select",
+                            name = "Order",
+                            values = {1, 2, 3, 4, 5},
+                            get = function () return MinArch.db.profile.companion.features.surveyButton.order end,
+                            set = function (info, newValue)
+                                updateOrdering("surveyButton", newValue)
+                            end,
+                            width = 0.5,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 7,
+                        },
+                    }
+                },
+                solveButton = {
+                    type = "group",
+                    name = "Solve button settings",
+                    order = 4,
+                    inline = true,
+                    args = {
+                        toggleSolveButton = {
+                            type = "toggle",
+                            name = "Show Solve button",
+                            desc = "Show the solve button on the companion frame",
+                            get = function () return MinArch.db.profile.companion.features.solveButton.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.solveButton.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 20,
+                        },
+                        solveButtonOrder = {
+                            type = "select",
+                            name = "Order",
+                            values = {1, 2, 3, 4, 5},
+                            get = function () return MinArch.db.profile.companion.features.solveButton.order end,
+                            set = function (info, newValue)
+                                updateOrdering("solveButton", newValue)
+                            end,
+                            width = 0.5,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 52,
+                        },
+                        relevantOnly = {
+                            type = "toggle",
+                            name = "For relevant only",
+                            desc = "Enable to only show solves for relevant races",
+                            width = "full",
+                            get = function () return MinArch.db.profile.companion.relevantOnly end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.relevantOnly = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 53,
+                        },
+                    }
+                },
+                crateButton = {
+                    type = "group",
+                    name = "Distance Tracker settings",
+                    order = 5,
+                    inline = true,
+                    args = {
+                        toggleCrateButton = {
+                            type = "toggle",
+                            name = "Show Crate button",
+                            desc = "Show the crate button on the companion frame",
+                            get = function () return MinArch.db.profile.companion.features.crateButton.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.crateButton.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 51,
+                        },
+                        crateButtonOrder = {
+                            type = "select",
+                            name = "Order",
+                            values = {1, 2, 3, 4, 5},
+                            get = function () return MinArch.db.profile.companion.features.crateButton.order end,
+                            set = function (info, newValue)
+                                updateOrdering("crateButton", newValue)
+                            end,
+                            width = 0.5,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 52,
+                        },
+                    }
+                },
+
+
+            }
+        }
     }
 }
 

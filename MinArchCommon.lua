@@ -192,7 +192,11 @@ end
 function MinArch:IsRaceRelevant(raceID)
 	if (not MinArch.db.profile.relevancy.relevantOnly) then
 		return true;
-	end
+    end
+
+    if (MinArch.db.profile.relevancy.hideCapped and MinArchRaceConfig[raceID].fragmentCap == MinArch['artifacts'][raceID].progress) then
+        return false;
+    end
 
 	if (MinArch.RelevantRaces[raceID] and MinArch.db.profile.relevancy.nearby) then
 		return true;
@@ -211,7 +215,7 @@ function MinArch:IsRaceRelevant(raceID)
 				end
 			end
 		end
-	end
+    end
 
 	return false;
 end

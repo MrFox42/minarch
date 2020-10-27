@@ -147,7 +147,7 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 end
 
 function MinArch:SolveArtifact(RaceIndex, confirmed)
-    if confirmed ~= true and MinArch.db.profile.showSolvePopup and MinArchRaceConfig[RaceIndex].fragmentCap == MinArch['artifacts'][RaceIndex].progress  then
+    if confirmed ~= true and MinArch.db.profile.showSolvePopup and MinArchRaceConfig[RaceIndex].fragmentCap == MinArch['artifacts'][RaceIndex].progress then
         StaticPopupDialogs["MINARCH_SOLVE_CONFIRMATION"] = {
             text = "Are you sure you want to solve this artifact for this fragment-capped race?",
             button1 = "Yes",

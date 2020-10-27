@@ -27,15 +27,17 @@ function MinArch:RefreshLDBButton()
 			local progress = MinArch['artifacts'][raceID]['progress'] or 0;
 			if (MinArch.db.profile.raceOptions.cap[raceID] == true) then
 				text = text .. " " .. progress .. "/" .. MinArchRaceConfig[raceID].fragmentCap;
-			else
-				if (MinArch['artifacts'][raceID]['canSolve']) then
+            else
+                if (MinArch['artifacts'][raceID]['canSolve']) then
 					text = text .. " (Solvable)";
-				elseif (MinArch['artifacts'][raceID]['progress'] ~= nil and MinArch['artifacts'][raceID]['total'] ~= nil) then
+                end
+
+                if (MinArch['artifacts'][raceID]['progress'] ~= nil and MinArch['artifacts'][raceID]['total'] ~= nil) then
 					if (MinArch['artifacts'][raceID]['appliedKeystones'] > 0) then
 						progress = progress + (MinArch['artifacts'][raceID]['modifier'])
 					end
 					text = text .. " " .. progress .. "/" .. MinArch['artifacts'][raceID]['total'];
-				end
+                end
 			end
 		end
 
@@ -84,9 +86,9 @@ function dataobj:OnEnter()
 	GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
 	GameTooltip:ClearLines();
 	GameTooltip:AddLine("Minimal Arcaeology", 1, 0.819, 0.003);
-	
-	
-	
+
+
+
 	GameTooltip:AddLine(" ");
 	GameTooltip:AddLine("Hint: Left-Click to toggle MinArch main window.", 0, 1, 0)
 	GameTooltip:AddLine("Shift + Left-Click to toggle MinArch history window.", 0, 1, 0)
