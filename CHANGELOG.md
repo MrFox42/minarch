@@ -5,6 +5,7 @@
 
 - **New feature**: Double right click to Survey (enabled by default)
 - Added the option to treat fragment-capped races as irrelevant
+- **9.0.2.1** Changed fragment-cap related conditions
 
 #### Companion Improvements:
 - Each button can be disabled separately

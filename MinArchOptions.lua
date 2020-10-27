@@ -326,7 +326,7 @@ local raceSettings = {
                         },
                         hr = {
                             type = "description",
-                            name = "Overrides",
+                            name = "Relevancy Overrides",
                             width = "full",
                             order = 4,
                         },
@@ -362,7 +362,7 @@ local raceSettings = {
 		},
 		cap = {
 			type = "group",
-			name = "Cap",
+			name = "Fragment-Cap",
 			order = 3,
 			inline = false,
 			args = {

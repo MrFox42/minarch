@@ -8,6 +8,7 @@ View all your artifacts progress, and solve them in one compact frame. Also you 
 
 - **New feature**: Double right click to Survey (enabled by default)
 - Added the option to treat fragment-capped races as irrelevant
+- **9.0.2.1** Changed fragment-cap related conditions
 
 #### Companion Improvements:
 - Each button can be disabled separately
@@ -57,7 +58,6 @@ The following features are planned for Minimal Archaeology in no particular orde
 - Achievement progress
 - Better indication of pristine artifacts
 - Option to ignore dig sites you hate
-- Option to protect races: don't show solves for certain races in the companion and show confirmation dialog when solving from the main window
 
 If you're curious about all planned features, visit the [Upcoming features page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/upcoming-features).
 
