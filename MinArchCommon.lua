@@ -194,17 +194,9 @@ function MinArch:IsRaceRelevant(raceID)
 		return true;
     end
 
-    if (MinArch.db.profile.relevancy.hideCapped and MinArch.db.profile.raceOptions.cap[raceID]) then
-        return false;
-    end
-
 	if (MinArch.RelevantRaces[raceID] and MinArch.db.profile.relevancy.nearby) then
 		return true;
-	end
-
-	if (MinArch['artifacts'][raceID]['canSolve'] and MinArch.db.profile.relevancy.solvable) then
-		return true;
-	end
+    end
 
 	if (MinArch.db.profile.relevancy.continentSpecific) then
 		local contID = MinArch:GetInternalContId();
@@ -216,6 +208,12 @@ function MinArch:IsRaceRelevant(raceID)
 			end
 		end
     end
+
+    if (MinArch['artifacts'][raceID]['canSolve'] and MinArch.db.profile.relevancy.solvable) then
+        if not (MinArch.db.profile.relevancy.hideCapped and MinArch.db.profile.raceOptions.cap[raceID]) then
+            return true;
+        end
+	end
 
 	return false;
 end

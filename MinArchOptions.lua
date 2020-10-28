@@ -324,25 +324,28 @@ local raceSettings = {
 							end,
 							order = 3,
                         },
-                        hr = {
-                            type = "description",
-                            name = "Relevancy Overrides",
-                            width = "full",
-                            order = 4,
-                        },
+                    },
+                },
+                relevancyOverrides = {
+					type = 'group',
+					name = 'Relevancy overrides',
+					order = 2,
+					inline = true,
+					args = {
                         hideCapped = {
                             type = "toggle",
-							name = "Hide fragment-capped",
-							desc = "Enable to treat fragment-capped races as irrelevant, hiding them even if they would normally be relevant.",
+							name = "Hide irrelevant solves for fragment-capped races",
+							desc = "Enable to treat fragment-capped races as irrelevant when they have a solve available, but they would be irrelevant based on other relevancy settings.",
 							get = function () return MinArch.db.profile.relevancy.hideCapped end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.hideCapped = newValue;
                                 MinArch:UpdateMain();
-							end,
+                            end,
+                            width = 2,
 							order = 5,
-                        }
+                        },
                     },
-				},
+                },
 			}
 		},
 		hide = {
