@@ -61,7 +61,7 @@ local SpamBlock = {}
 function MinArch:UpdateActiveDigSites()
 	MinArch.RelevantRaces = {};
 	-- can't do anything until all races are known
-	if GetNumArchaeologyRaces()<ARCHAEOLOGY_NUM_RACES then
+	if GetNumArchaeologyRaces() < ARCHAEOLOGY_NUM_RACES then
 		return
 	end
 	-- also digsite list must be initialized
@@ -410,8 +410,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 		end
 	end
 
-	-- print("UpdateActiveDigSitesRace", nearestDigSite, nearestDistance);
-	if (nearestDistance ~= nil and nearestDistance <= MinArchDigsiteList[nearestDigSite].r * 1.1) then
+	if (nearestDistance ~= nil and CanScanResearchSite()) then
 		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["race"] = Race;
 		MinArchDigsitesGlobalDB["continent"][tonumber(ContID)][nearestDigSite]["zone"] = GetZoneText();
 		local subZone = GetSubZoneText();
@@ -422,8 +421,6 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 
 	MinArch:ShowRaceIconsOnMap();
 end
-
--- 4.999981 = 1.2480282
 
 function MinArch:GetNearestDigsite()
 	if (IsInInstance()) then
@@ -482,56 +479,7 @@ function MinArch:GetNearestDigsite()
 end
 
 function MinArch:IsNearDigSite()
-	if (IsInInstance()) then
-		return false;
-	end
-
-	local nearestDistance = nil;
-	local nearestDigSite = nil;
-	local ax = 0;
-	local ay = 0;
-	local ContID = MinArch:GetInternalContId();
-
-	local uiMapID = C_Map.GetBestMapForUnit("player");
-	if (ContID == nil or uiMapID == nil) then
-		return false;
-	end
-
-	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player");
-	if (playerPos == nil) then
-		return false;
-	end
-
-	local contId, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, playerPos);
-
-	ax = worldPos.x;
-    ay = worldPos.y;
-
-	for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
-        local name = tostring(digsite.name)
-        local _, digsiteWorldPos = C_Map.GetWorldPosFromMapPos(uiMapID, digsite.position)
-		local digsitex = digsiteWorldPos.x;
-		local digsitey = digsiteWorldPos.y;
-
-		local xd = math.abs(ax - tonumber(digsitex));
-		local yd = math.abs(ay - tonumber(digsitey));
-		local d = math.sqrt((xd*xd)+(yd*yd));
-
-		if (MinArchDigsitesDB["continent"][ContID][name] and MinArchDigsitesDB["continent"][ContID][name]["status"] == true) then
-			if (nearestDigSite == nil or d < nearestDistance) then
-				nearestDigSite = name;
-				nearestDistance = d;
-			end
-		end
-	end
-
-    if nearestDigSite == nil then
-        return false;
-    end
-
-    local digsiteRadius = MinArchDigsiteList[nearestDigSite].r * 1.1; -- 10 percent tolerance
-    -- print("IsNearDigSite", nearestDigSite, nearestDistance, digsiteRadius);
-	return nearestDistance ~= nil and nearestDistance < digsiteRadius;
+	return CanScanResearchSite(); -- Note to self: spend more time on WoWPedia
 end
 
 function MinArch:GetOrCreateMinArchMapFrame(i)
