@@ -57,6 +57,94 @@ MinArchDigsitesDB["continent"] = {
 	},
 }
 
+function MinArch:InitDigsites(self)
+	local continents = C_Map.GetMapChildrenInfo(947, 2);
+	for k, v in pairs(continents) do
+		MinArch.MapContinents[v.mapID] = v.name;
+	end
+	local continents = C_Map.GetMapChildrenInfo(946, 2);
+	for k, v in pairs(continents) do
+		MinArch.MapContinents[v.mapID] = v.name;
+    end
+
+    local continentButtons = {"Kalimdor", "Eastern", "Outland", "Northrend", "Maelstrom", "Pandaria", "Draenor", "BrokenIsles", "Kultiras", "Zaandalar"}
+    local continentTextures = {
+        [[Interface\Icons\Achievement_Zone_Kalimdor_01.blp]],
+        [[Interface\Icons\Achievement_Zone_EasternKingdoms_01.blp]],
+        [[Interface\Icons\Achievement_Zone_Outland_01.blp]],
+        [[Interface\Icons\Achievement_Zone_Northrend_01.blp]],
+        nil,
+        [[Interface\Icons\expansionicon_mistsofpandaria.blp]],
+        [[Interface\Icons\Achievement_Zone_Draenor_01.blp]],
+        [[Interface\Icons\achievements_zone_brokenshore.blp]],
+        [[Interface\Icons\inv_tiragardesound.blp]],
+        [[Interface\Icons\inv_zuldazar.blp]],
+    }
+
+    local counter = 1;
+    for i=1,ARCHAEOLOGY_NUM_CONTINENTS do
+        local button = CreateFrame("Button", "$parent" .. continentButtons[i] .. "Button", self, nil, i)
+        button.parentKey = continentButtons[i] .. "Button";
+
+        button:SetPoint("TOPLEFT", self, "TOPLEFT", 15 + (counter - 1) * 35, -20);
+        button:SetWidth(32)
+        button:SetHeight(32);
+
+        button:SetNormalTexture(continentTextures[i]);
+        button:SetPushedTexture(continentTextures[i]);
+        button:SetHighlightTexture(continentTextures[i], "ADD");
+
+        button:SetScript("OnClick", function ()
+            MinArch:CreateDigSitesList(i);
+            MinArch:CreateDigSitesList(i);
+        end);
+        button:SetScript("OnEnter", function ()
+            MinArch:ADIButtonTooltip(i);
+        end);
+        button:SetScript("OnLeave", function ()
+            GameTooltip:Hide();
+        end);
+
+        MinArch.DigsiteButtons[i] = button;
+        if i ~= 5 then
+            counter = counter + 1;
+        else
+            button:Hide()
+        end
+	end
+
+	self:SetScript("OnEvent", function(_, event, ...)
+		MinArch:EventDigsites(event, ...);
+    end)
+
+	self:SetScript("OnShow", function()
+		if (MinArch:IsNavigationEnabled()) then
+			MinArchDigsitesAutoWayButton:Show();
+		else
+			MinArchDigsitesAutoWayButton:Hide();
+		end
+    end)
+
+	MinArch:CreateAutoWaypointButton(self, 15, 3);
+
+	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
+	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");
+	-- self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
+	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
+	self:RegisterEvent("PLAYER_ALIVE");
+	self:RegisterEvent("ZONE_CHANGED");
+	self:RegisterEvent("ZONE_CHANGED_INDOORS");
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
+	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
+    hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);
+
+    MinArch:CommonFrameLoad(self);
+
+	MinArch:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
+end
+
 -- don't spam about unknown digsites, only once each
 local SpamBlock = {}
 

@@ -248,6 +248,17 @@ function MinArch:IsRaceRelevant(raceID)
 	return false;
 end
 
+function MinArch:LoadRaceInfo()
+	for i = 1, ARCHAEOLOGY_NUM_RACES do
+		local name, t = GetArchaeologyRaceInfo(i);
+		if (t == nil) then
+			return;
+		end
+		MinArch.ArchaeologyRaces[name] = i;
+	end
+	MinArch.RacesLoaded = true;
+end
+
 function MinArch:GetRaceIdByName(name)
 	if (MinArch.RacesLoaded == false) then
 		MinArch:LoadRaceInfo();
@@ -278,4 +289,26 @@ end
 
 function MinArch:Round(x)
     return math.floor(x + 0.5);
+end
+
+function MinArch_TrackingChanged(self)
+	MinArch:TrackingChanged(self);
+end
+
+
+function MinArch_MapLayerChanged(self)
+	MinArch:MapLayerChanged(self);
+end
+
+function MinArch_WorldMapToggled()
+	if (WorldMapFrame.mapID ~= nil and WorldMapFrame:IsVisible()) then
+		MinArch:ShowRaceIconsOnMap();
+	end
+end
+
+function MinArch_ShowUIPanel(...)
+	local panel = ...;
+	if (panel and panel:GetName() == "ArchaeologyFrame") then
+		MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+	end
 end

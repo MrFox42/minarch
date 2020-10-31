@@ -1,4 +1,6 @@
-local ADDON, MinArch
+local ADDON, MinArch = ...
+
+local clearBinding = false;
 
 BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
 BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
@@ -23,4 +25,36 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 		ChatFrame1:AddMessage("  toggle - Toggle the main Minimal Archaeology Frame");
 		ChatFrame1:AddMessage("  version - Display the running version of Minimal Archaeology");
 	end
+end
+
+function MinArch:HookDoubleClick()
+    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArch.HelperFrame, "InSecureActionButtonTemplate");
+    button:SetAttribute("type", "spell");
+    button:SetAttribute("spell", SURVEY_SPELL_ID);
+    button:Hide();
+
+    local threshold = 0.5;
+    local prevTime;
+
+    button:SetScript("PostClick", function(self)
+        if clearBinding then
+            ClearOverrideBindings(self)
+        end
+    end)
+
+    WorldFrame:HookScript("OnMouseDown", function(_, button)
+        if MinArch.db.profile.surveyOnDoubleClick and button == "RightButton" and not InCombatLockdown() and CanScanResearchSite() and GetSpellCooldown(SURVEY_SPELL_ID) == 0 then
+            if prevTime then
+                local diff = GetTime() - prevTime;
+
+                if diff < threshold then
+                    prevTime = nil;
+                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                    clearBinding = true;
+                end
+            end
+
+            prevTime = GetTime();
+        end
+    end)
 end
