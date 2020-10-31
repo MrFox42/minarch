@@ -1,9 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-	<Script file="MinArchInit.lua"/>
-	<Script file="MinArchEvents.lua"/>
-
 	<Frame name="MinArchMain" inherits="MATBasic" frameStrata="LOW" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
 		<size x="300" y="560" />
 		<Anchors>

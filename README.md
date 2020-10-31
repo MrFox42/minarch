@@ -1,8 +1,18 @@
 # Description
 
-View all your artifacts progress, and solve them in one compact frame. Also you can view all your artifact history neatly sorted by race, and a list of dig sites. You can left-click the keystone button to attach keystones (or right-click to remove), or if you prefer there are options to automatically use keystones! You can monitor the artifacts progress, or how close you are to the fragment cap.
+View all your artifacts progress, and solve them in one compact frame.
+Also you can view all your artifact history neatly sorted by race, and a list of dig sites.
+You can left-click the keystone button to attach keystones (or right-click to remove),
+or if you prefer there are options to automatically use keystones!
+You can monitor the artifacts progress, or how close you are to the fragment cap.
 
 ## Latest Minor Versions
+
+### 9.0.3 - Maintenance release
+
+- Fixed auto-waypoint settings not persisting
+- Slight performance improvement
+- Behind the scenes changes: the addon is getting refactored to speed up development
 
 ### 9.0.2
 

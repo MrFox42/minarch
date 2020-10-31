@@ -1,4 +1,4 @@
--- Minimal Archaeology
+-- TODO: move everything to its rightful place
 local ADDON, MinArch = ...
 
 MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");

@@ -1,8 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-	<Script file="MinArchHistoryDB.lua"/>
-
 	<Frame name="MinArchHist"  inherits="MATBasic" frameStrata="LOW" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
 		<size x="300" y="310" />
 		<Anchors>

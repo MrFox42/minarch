@@ -12,18 +12,3 @@
 
 embeds.xml
 addon\addon.xml
-
-MinArch.lua
-
-MATemplates.xml
-MATemplatesDigsites.xml
-MinArch.xml
-MinArchMain.lua
-MinArchMinimap.lua
-MinArchHistory.xml
-MinArchHistory.lua
-MinArchDigsites.xml
-MinArchDigsites.lua
-MinArchNavigation.lua
-MinArchCompanion.lua
-MinArchOptions.lua
