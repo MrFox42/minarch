@@ -1,12 +1,7 @@
 <Bindings>
 	<Binding name="MINARCH_SHOWHIDE" runOnUp="true" header="MINARCH_HEADER">
 		if (keystate == "down") then
-			if (MinArchMain:IsVisible()) then
-				MinArchGlobal:HideMain();
-			else
-                MinArchGlobal:ShowMain();
-                MinArchGlobal.HideNext = false;
-			end
+			MinArchMain:Toggle(true);
 		end
 	</Binding>
 	<Binding name="SPELL Survey" runOnUp="true">

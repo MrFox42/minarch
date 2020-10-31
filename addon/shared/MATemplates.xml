@@ -6,17 +6,6 @@
 		<Frames>
 			<Button name="$parentButtonClose" inherits="MATBClose" parentKey="buttonClose" />
 		</Frames>
-		<Scripts>
-			<OnLoad>
-				MinArchGlobal:CommonFrameLoad(self);
-			</OnLoad>
-			<OnDragStart>
-				MinArchGlobal:CommonFrameDragStart(self, button);
-			</OnDragStart>
-			<OnDragStop>
-				MinArchGlobal:CommonFrameDragStop(self);
-			</OnDragStop>
-		</Scripts>
 	</Frame>
 
 	<!-- Map Frame with race icons -->
@@ -113,17 +102,6 @@
 				</Anchors>
 			</Button>
 		</Frames>
-		<Scripts>
-			<OnEnter>
-				MinArchGlobal:ShowArtifactTooltip(self, self.race);
-			</OnEnter>
-			<OnLeave>
-				MinArchGlobal:HideArtifactTooltip();
-			<!--
-
-			-->
-			</OnLeave>
-		</Scripts>
 	</StatusBar>
 
 	<!-- Close Button -->
@@ -164,9 +142,6 @@
 					end
 				end
 			</OnClick>
-			<OnEnter>
-				MinArchGlobal:ShowWindowButtonTooltip(self, "Open Profession Window");
-			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
@@ -186,9 +161,6 @@
 			<OnClick>
 			    MinArchHist:Toggle();
 			</OnClick>
-			<OnEnter>
-				MinArchGlobal:ShowWindowButtonTooltip(self, "Open History");
-			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
@@ -206,16 +178,8 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArchGlobal:DimADIButtons();
-
-				MinArchGlobal:CreateDigSitesList(0);
-				MinArchGlobal:CreateDigSitesList(0);
-
 				MinArchDigsites:Toggle();
 			</OnClick>
-			<OnEnter>
-				MinArchGlobal:ShowWindowButtonTooltip(self, "Open Digsites");
-			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
@@ -226,14 +190,7 @@
 	</Button>
 
 	<!-- Solve Button -->
-	<Button name="MATBSolve" inherits="UIPanelButtonTemplate" text="SOLVE" virtual="true">
-		<Scripts>
-			<OnClick>
-				MinArchGlobal:SolveArtifact(self:GetParent().race);
-			</OnClick>
-		</Scripts>
-	</Button>
-
+	<Button name="MATBSolve" inherits="UIPanelButtonTemplate" text="SOLVE" virtual="true"></Button>
 
 	<!-- Keystone Button -->
 	<Button name="MATKeystone" virtual="true">
@@ -274,18 +231,12 @@
 				self:SetID(self:GetParent():GetID());
 				self:RegisterForClicks("LeftButtonUp","RightButtonUp");
 			</OnLoad>
-			<OnClick>
-				MinArchGlobal:KeystoneClick(self, button, down);
-			</OnClick>
 			<OnEnable>
 				self:SetAlpha(0.5);
 			</OnEnable>
 			<OnDisable>
 				self:SetAlpha(0.3);
 			</OnDisable>
-			<OnEnter>
-				MinArchGlobal:KeystoneTooltip(self);
-			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>

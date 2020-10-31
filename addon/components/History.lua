@@ -4,6 +4,7 @@ MinArchScroll = {}
 
 MinArch.HistoryListLoaded = {}
 MinArch.HasPristine = {}
+MinArch.DigsiteButtons = {}
 
 local qLineQuests = {};
 local currentQuestArtifact = nil;

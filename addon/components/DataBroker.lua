@@ -88,9 +88,6 @@ function dataobj:OnEnter()
 	GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
 	GameTooltip:ClearLines();
 	GameTooltip:AddLine("Minimal Arcaeology", 1, 0.819, 0.003);
-
-
-
 	GameTooltip:AddLine(" ");
 	GameTooltip:AddLine("Hint: Left-Click to toggle MinArch main window.", 0, 1, 0)
 	GameTooltip:AddLine("Shift + Left-Click to toggle MinArch history window.", 0, 1, 0)

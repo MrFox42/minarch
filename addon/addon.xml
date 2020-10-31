@@ -30,7 +30,6 @@
 
     <!-- Shared templates, common functions  -->
     <Include file="shared\MATemplates.xml" />
-    <Include file="shared\MATemplatesDigsites.xml" />
     <Script  file="shared\Common.lua" />
 
     <!-- Plugins, components -->

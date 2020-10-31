@@ -24,7 +24,3 @@ MinArch.RelevantRaces = {};
 -- Legacy compatibility
 MinArchOptions = {};
 MinArchOptions.ABOptions = {};
-
--- TODO: remove when done with XML refactoring
-MinArchGlobal = MinArch;
-

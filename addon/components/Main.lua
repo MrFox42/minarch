@@ -338,10 +338,14 @@ function MinArch:ShowMain()
 	--end
 end
 
-function MinArchMain:Toggle()
+function MinArchMain:Toggle(overrideHideNext)
 	if (MinArchMain:IsVisible()) then
 		MinArch:HideMain()
 	else
-		MinArch:ShowMain()
+        MinArch:ShowMain()
+        if (overrideHideNext) then
+            MinArch.HideNext = false;
+        end
 	end
 end
+

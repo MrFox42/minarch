@@ -34,21 +34,8 @@
 				</Layers>
 			</StatusBar>
 
-			<!-- Artifact Bars created in MinArchGlobal:InitMain -->
+			<!-- Artifact Bars created in MinArch:InitMain -->
 		</Frames>
-		<Scripts>
-			<OnLoad>
-				MinArchGlobal:CommonFrameLoad(self);
-			</OnLoad>
-
-			<OnShow>
-
-			</OnShow>
-
-			<OnEvent>
-				MinArchGlobal:EventMain(event, ...);
-			</OnEvent>
-		</Scripts>
 	</Frame>
 
 	<!-- Left Floating Tooltip Icon -->

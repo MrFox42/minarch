@@ -59,8 +59,6 @@ local MinArchAlternateContIDMap = {
 }
 
 function MinArch:CommonFrameLoad(self)
-    self:RegisterForDrag("LeftButton");
-
     self:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
@@ -70,6 +68,14 @@ function MinArch:CommonFrameLoad(self)
         edgeSize = 32,
         insets = { left = 11, right = 11, top = 11, bottom = 11 },
     });
+
+    self:RegisterForDrag("LeftButton");
+    self:SetScript("OnDragStart", function(self, button)
+		MinArch:CommonFrameDragStart(self, button);
+    end)
+    self:SetScript("OnDragStop", function(self)
+		MinArch:CommonFrameDragStop(self);
+    end)
 end
 
 function MinArch:CommonFrameDragStart(self, button)

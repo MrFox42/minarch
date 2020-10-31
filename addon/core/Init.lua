@@ -162,7 +162,12 @@ function MinArch:RefreshCrateButtonGlow()
 end
 
 function MinArch:InitMain(self)
-	-- Init frame scripts
+    -- Init frame scripts
+
+    self:SetScript("OnEvent", function(_, event, ...)
+		MinArch:EventMain(event, ...);
+    end)
+
 	self:SetScript('OnShow', function ()
 		MinArch:UpdateMain();
 		if (MinArch:IsNavigationEnabled()) then
@@ -188,8 +193,36 @@ function MinArch:InitMain(self)
 
 		MinArch['artifacts'][i] = {};
 		MinArch['artifacts'][i]['appliedKeystones'] = 0;
-		MinArch['artifactbars'][i] = artifactBar;
-	end
+        MinArch['artifactbars'][i] = artifactBar;
+
+        artifactBar:SetScript("OnEnter", function (self)
+            MinArch:ShowArtifactTooltip(self, self.race);
+        end)
+        artifactBar:SetScript("OnLeave", function (self)
+            MinArch:HideArtifactTooltip();
+        end)
+
+        artifactBar.keystone:SetScript("OnClick", function(self, button, down)
+            MinArch:KeystoneClick(self, button, down);
+        end)
+        artifactBar.keystone:SetScript("OnEnter", function(self)
+            MinArch:KeystoneTooltip(self);
+        end)
+
+        artifactBar.buttonSolve:SetScript("OnClick", function(self)
+            MinArch:SolveArtifact(self:GetParent().race);
+        end)
+    end
+
+    self.openADIButton:SetScript("OnEnter", function(self)
+        MinArch:ShowWindowButtonTooltip(self, "Open Digsites");
+    end)
+    self.buttonOpenHist:SetScript("OnEnter", function(self)
+        MinArch:ShowWindowButtonTooltip(self, "Open History");
+    end)
+    self.buttonOpenArch:SetScript("OnEnter", function(self)
+        MinArch:ShowWindowButtonTooltip(self, "Open Profession Window");
+    end)
 
 	local skillBarTexture = [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]];
 	self.skillBar:SetStatusBarTexture(skillBarTexture);
@@ -226,7 +259,9 @@ function MinArch:InitMain(self)
 
 	-- Values that don't need to be saved
 	MinArch['frame']['defaultHeight'] = MinArchMain:GetHeight();
-	MinArch['frame']['height'] = MinArchMain:GetHeight();
+    MinArch['frame']['height'] = MinArchMain:GetHeight();
+
+    MinArch:CommonFrameLoad(self);
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology Initialized!");
 end
@@ -244,7 +279,7 @@ function MinArch:InitHelperFrame()
 
     MinArch.HelperFrame:Hide();
 
-	MinArch.HelperFrame:SetScript("OnEvent", function(self, event, ...)
+	MinArch.HelperFrame:SetScript("OnEvent", function(_, event, ...)
 		MinArch:EventHelper(event, ...);
 	end)
 end
@@ -390,10 +425,13 @@ end
 
 function MinArch:InitHist(self)
 	MinArch:InitQuestIndicator(self);
-	MinArch:InitRaceButtons(self);
+    MinArch:InitRaceButtons(self);
+
+    self:SetScript("OnEvent", function(_, event, ...)
+		MinArch:EventHist(event, ...);
+    end)
 
 	self:SetScript("OnShow", function ()
-
 		local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 		if (digSite and distance <= 2) then
 			MinArchOptions['CurrentHistPage'] = MinArch:GetRaceIdByName(digSiteData.race)
@@ -402,7 +440,7 @@ function MinArch:InitHist(self)
 
 		MinArch.raceButtons[MinArchOptions['CurrentHistPage']]:SetAlpha(1.0);
 		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
-	end)
+    end)
 
 	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
@@ -410,7 +448,8 @@ function MinArch:InitHist(self)
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("QUEST_REMOVED");
 	self:RegisterEvent("QUESTLINE_UPDATE");
-	-- RequestArtifactCompletionHistory();
+
+    MinArch:CommonFrameLoad(self);
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology History Initialized!");
 end
@@ -494,7 +533,57 @@ function MinArch:InitDigsites(self)
 	local continents = C_Map.GetMapChildrenInfo(946, 2);
 	for k, v in pairs(continents) do
 		MinArch.MapContinents[v.mapID] = v.name;
+    end
+
+    local continentButtons = {"Kalimdor", "Eastern", "Outland", "Northrend", "Maelstrom", "Pandaria", "Draenor", "BrokenIsles", "Kultiras", "Zaandalar"}
+    local continentTextures = {
+        [[Interface\Icons\Achievement_Zone_Kalimdor_01.blp]],
+        [[Interface\Icons\Achievement_Zone_EasternKingdoms_01.blp]],
+        [[Interface\Icons\Achievement_Zone_Outland_01.blp]],
+        [[Interface\Icons\Achievement_Zone_Northrend_01.blp]],
+        nil,
+        [[Interface\Icons\expansionicon_mistsofpandaria.blp]],
+        [[Interface\Icons\Achievement_Zone_Draenor_01.blp]],
+        [[Interface\Icons\achievements_zone_brokenshore.blp]],
+        [[Interface\Icons\inv_tiragardesound.blp]],
+        [[Interface\Icons\inv_zuldazar.blp]],
+    }
+
+    local counter = 1;
+    for i=1,ARCHAEOLOGY_NUM_CONTINENTS do
+        local button = CreateFrame("Button", "$parent" .. continentButtons[i] .. "Button", self, nil, i)
+        button.parentKey = continentButtons[i] .. "Button";
+
+        button:SetPoint("TOPLEFT", self, "TOPLEFT", 15 + (counter - 1) * 35, -20);
+        button:SetWidth(32)
+        button:SetHeight(32);
+
+        button:SetNormalTexture(continentTextures[i]);
+        button:SetPushedTexture(continentTextures[i]);
+        button:SetHighlightTexture(continentTextures[i], "ADD");
+
+        button:SetScript("OnClick", function ()
+            MinArch:CreateDigSitesList(i);
+            MinArch:CreateDigSitesList(i);
+        end);
+        button:SetScript("OnEnter", function ()
+            MinArch:ADIButtonTooltip(i);
+        end);
+        button:SetScript("OnLeave", function ()
+            GameTooltip:Hide();
+        end);
+
+        MinArch.DigsiteButtons[i] = button;
+        if i ~= 5 then
+            counter = counter + 1;
+        else
+            button:Hide()
+        end
 	end
+
+	self:SetScript("OnEvent", function(_, event, ...)
+		MinArch:EventDigsites(event, ...);
+    end)
 
 	self:SetScript("OnShow", function()
 		if (MinArch:IsNavigationEnabled()) then
@@ -502,7 +591,7 @@ function MinArch:InitDigsites(self)
 		else
 			MinArchDigsitesAutoWayButton:Hide();
 		end
-	end)
+    end)
 
 	MinArch:CreateAutoWaypointButton(self, 15, 3);
 
@@ -517,7 +606,9 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
 	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
-	hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);
+    hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);
+
+    MinArch:CommonFrameLoad(self);
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
 end

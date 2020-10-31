@@ -22,13 +22,5 @@
 				</Scripts>
 			</Frame>
 		</Frames>
-		<Scripts>
-			<OnLoad>
-				MinArchGlobal:CommonFrameLoad(self);
-			</OnLoad>
-			<OnEvent>
-				MinArchGlobal:EventHist(event, ...);
-			</OnEvent>
-		</Scripts>
 	</Frame>
 </Ui>

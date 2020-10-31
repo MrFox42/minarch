@@ -141,25 +141,8 @@ function MinArch:CreateDigSitesList(ContID)
 		end
 	end
 
-	if (ContID == 1) then
-		MinArchDigsites.kalimdorButton:SetAlpha(1.0);
-	elseif (ContID == 2) then
-		MinArchDigsites.easternButton:SetAlpha(1.0);
-	elseif (ContID == 3) then
-		MinArchDigsites.outlandsButton:SetAlpha(1.0);
-	elseif (ContID == 4) then
-		MinArchDigsites.northrendButton:SetAlpha(1.0);
-	elseif (ContID == 6) then
-		MinArchDigsites.pandariaButton:SetAlpha(1.0);
-	elseif (ContID == 7) then
-		MinArchDigsites.draenorButton:SetAlpha(1.0);
-	elseif (ContID == 8) then
-		MinArchDigsites.brokenIslesButton:SetAlpha(1.0);
-	elseif (ContID == 9) then
-		MinArchDigsites.kulTirasButton:SetAlpha(1.0);
-	elseif (ContID == 10) then
-		MinArchDigsites.zandalarButton:SetAlpha(1.0);
-	end
+    MinArch:DimADIButtons();
+    MinArch.DigsiteButtons[ContID]:SetAlpha(1.0);
 
 	local scrollf = MinArchDSScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", MinArchDigsites);
 	scrollf:SetClipsChildren(true)
@@ -350,15 +333,9 @@ function MinArch:CreateDigSitesList(ContID)
 end
 
 function MinArch:DimADIButtons()
-	MinArchDigsites.kalimdorButton:SetAlpha(0.5);
-	MinArchDigsites.easternButton:SetAlpha(0.5);
-	MinArchDigsites.outlandsButton:SetAlpha(0.5);
-	MinArchDigsites.northrendButton:SetAlpha(0.5);
-	MinArchDigsites.pandariaButton:SetAlpha(0.5);
-	MinArchDigsites.draenorButton:SetAlpha(0.5);
-	MinArchDigsites.brokenIslesButton:SetAlpha(0.5);
-	MinArchDigsites.kulTirasButton:SetAlpha(0.5);
-	MinArchDigsites.zandalarButton:SetAlpha(0.5);
+    for i=1,ARCHAEOLOGY_NUM_CONTINENTS do
+        MinArch.DigsiteButtons[i]:SetAlpha(0.5)
+    end
 end
 
 function MinArch:ADIButtonTooltip(ContID)

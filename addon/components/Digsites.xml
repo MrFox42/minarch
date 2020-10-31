@@ -21,28 +21,6 @@
 					</OnLoad>
 				</Scripts>
 			</Frame>
-
-			<Button name="$parentKalimdorButton" inherits="MinArchKalimdorButtonTemplate" parentKey="kalimdorButton" />
-			<Button name="$parentEasternButton" inherits="MinArchEasterButtonTemplate" parentKey="easternButton" />
-			<Button name="$parentOutlandsButton" inherits="MinArchOutlandsButtonTemplate" parentKey="outlandsButton" />
-			<Button name="$parentNorthrendButton" inherits="MinArchNorthrendButtonTemplate" parentKey="northrendButton" />
-			<Button name="$parentPandariaButton" inherits="MinArchPandariaButtonTemplate" parentKey="pandariaButton" />
-			<Button name="$parentDraenorButton" inherits="MinArchDraenorButtonTemplate" parentKey="draenorButton" />
-			<Button name="$parentBrokenIslesButton" inherits="MinArchBrokenIslesButtonTemplate" parentKey="brokenIslesButton" />
-			<Button name="$parentKulTirasButton" inherits="MinArchKulTirasButtonTemplate" parentKey="kulTirasButton" />
-			<Button name="$parentZandalarButton" inherits="MinArchZandalarButtonTemplate" parentKey="zandalarButton" />
-
 		</Frames>
-		<Scripts>
-			<OnLoad>
-				MinArchGlobal:CommonFrameLoad(self);
-			</OnLoad>
-			<OnEvent>
-				MinArchGlobal:EventDigsites(event, ...);
-			</OnEvent>
-		</Scripts>
 	</Frame>
-
-
-
 </Ui>
