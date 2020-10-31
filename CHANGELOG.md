@@ -1,6 +1,13 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 9.0.3 - Maintenance release
+
+- TomTom: Fixed auto-waypoint settings
+- Companion: Tooltips for solves/crates are now automatically refreshed
+- Slight performance improvement
+- Behind the scenes changes: the addon is getting refactored to speed up development
+
 ### 9.0.2
 
 - **New feature**: Double right click to Survey (enabled by default)

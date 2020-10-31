@@ -477,6 +477,9 @@ function Companion:Update()
 
     Companion.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
 
+    Companion.solveButton:Hide();
+    Companion:Resize();
+
     for i = 1, ARCHAEOLOGY_NUM_RACES do
         if shouldShowRace(i) then
             local artifact = MinArch['artifacts'][i]
@@ -508,7 +511,5 @@ function Companion:Update()
         end
     end
 
-    Companion.solveButton:Hide();
-    Companion:Resize()
 end
 

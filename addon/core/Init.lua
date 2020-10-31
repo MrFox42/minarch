@@ -129,6 +129,10 @@ end
 
 MinArch.nextCratable = nil;
 function MinArch:RefreshCrateButtonGlow()
+    MinArchMainCrateButtonGlow:Hide();
+    MinArch.Companion:hideCrateButton()
+    MinArch.nextCratable = nil;
+
 	for i = 1, ARCHAEOLOGY_RACE_MANTID do
 		for artifactID, data in pairs(MinArchHistDB[i]) do
 			if (data.pqid) then
@@ -155,10 +159,6 @@ function MinArch:RefreshCrateButtonGlow()
 			end
 		end
 	end
-
-    MinArchMainCrateButtonGlow:Hide();
-    MinArch.Companion:hideCrateButton()
-	MinArch.nextCratable = nil;
 end
 
 function MinArch:InitMain(self)

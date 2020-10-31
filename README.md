@@ -10,7 +10,8 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ### 9.0.3 - Maintenance release
 
-- Fixed auto-waypoint settings not persisting
+- TomTom: Fixed auto-waypoint settings
+- Companion: Tooltips for solves/crates are now automatically refreshed
 - Slight performance improvement
 - Behind the scenes changes: the addon is getting refactored to speed up development
 
