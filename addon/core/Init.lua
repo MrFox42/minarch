@@ -18,7 +18,7 @@ local function HookDoubleClick()
     end)
 
     WorldFrame:HookScript("OnMouseDown", function(_, button)
-        if MinArch.db.profile.surveyOnDoubleClick and button == "RightButton" and CanScanResearchSite() and GetSpellCooldown(SURVEY_SPELL_ID) == 0 then
+        if MinArch.db.profile.surveyOnDoubleClick and button == "RightButton" and not InCombatLockdown() and CanScanResearchSite() and GetSpellCooldown(SURVEY_SPELL_ID) == 0 then
             if prevTime then
                 local diff = GetTime() - prevTime;
 

@@ -12,6 +12,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 - TomTom: Fixed auto-waypoint settings
 - Companion: Tooltips for solves/crates are now automatically refreshed
+- Fixed a lua error caused by double right click surveying in combat
 - Slight performance improvement
 - Behind the scenes changes: the addon is getting refactored to speed up development
 
