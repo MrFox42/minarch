@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 local clearBinding = false;
 
 local function HookDoubleClick()
@@ -42,7 +44,7 @@ function MinArch:SetRelevancyToggleButtonTexture()
 		button:SetPushedTexture([[Interface\Buttons\UI-Panel-CollapseButton-Down]]);
 	end
 
-	button:SetBackdrop( {
+	button:SetBackdrop({
 		bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]],
 		edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0,
 		insets = { left = 0.5, right = 1, top = 2.4, bottom = 1.4 }
@@ -245,7 +247,7 @@ function MinArch:InitHelperFrame(self)
 	end)
 end
 
-function MinArch:OnInitialize ()
+function MinArch.Ace:OnInitialize ()
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		MinArch.barlinks[i] = {};
 	end
@@ -303,11 +305,11 @@ function MinArch:Shutdown()
 end
 
 function MinArch:InitDatabase()
-	self.db = LibStub("AceDB-3.0"):New("MinArchDB", self.defaults, true);
-	self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig");
-    self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig");
-    self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig");
-	self.db.RegisterCallback(self, "OnDatabaseShutdown", "Shutdown");
+	MinArch.db = LibStub("AceDB-3.0"):New("MinArchDB", MinArch.defaults, true);
+	MinArch.db.RegisterCallback(MinArch, "OnProfileChanged", "RefreshConfig");
+    MinArch.db.RegisterCallback(MinArch, "OnProfileCopied", "RefreshConfig");
+    MinArch.db.RegisterCallback(MinArch, "OnProfileReset", "RefreshConfig");
+	MinArch.db.RegisterCallback(MinArch, "OnDatabaseShutdown", "Shutdown");
 
 	MinArch:UpgradeSettings()
 end

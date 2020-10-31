@@ -11,8 +11,8 @@
 # Special thanks to joevt for the contribution
 
 embeds.xml
+addon\addon.xml
 
-MinArchDefines.lua
 MinArch.lua
 
 MATemplates.xml
@@ -26,5 +26,4 @@ MinArchDigsites.xml
 MinArchDigsites.lua
 MinArchNavigation.lua
 MinArchCompanion.lua
-
 MinArchOptions.lua

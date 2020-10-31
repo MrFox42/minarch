@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 MinArch.DigsiteLocales = {};
 local GAME_LOCALE = GetLocale();
 

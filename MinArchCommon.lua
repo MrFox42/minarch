@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 -- Local variables
 
 -- uiMapIDs for continents [uiMapID] = internalContID

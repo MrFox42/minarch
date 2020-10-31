@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 MinArch.DigsiteLocales.ptPT = {
     ["Ironband's Excavation Site"] = "Sítio de Escavação de Bandaferro",
     ["Ironbeard's Tomb"] = "Tumba dos Barbaférreos",

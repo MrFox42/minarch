@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 MinArch.DigsiteLocales.ruRU = {
     ["Ironband's Excavation Site"] = "Раскопки Сталекрута",
     ["Ironbeard's Tomb"] = "Гробница Железноборода",

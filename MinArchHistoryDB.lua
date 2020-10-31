@@ -1,15 +1,17 @@
+local ADDON, MinArch = ...
+
 MinArchHistDB = {}
 MinArchIconDB = {}
 
 -- Drustvari Artifacts
 MinArchIconDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
-	
+
 }
 MinArchHistDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
 	[160751] = {}, -- Dance of the Dead
 	[161089] = {}, -- Restored Revenant
 	[160833] = {}, -- Fetish of the Tormented Mind
-	
+
 	[154921] = {pqid = 51950}, -- Ceremonial Bonesaw
 	[154922] = {pqid = 51951}, -- Ancient Runebound Tome
 	[154923] = {pqid = 51952}, -- Disembowling Sickle
@@ -19,7 +21,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
 }
 -- Zandalari Artifacts
 MinArchIconDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
-	
+
 }
 MinArchHistDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
 	[160740] = {}, -- Croak Crock
@@ -44,12 +46,12 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DEMONIC] = {
 		[131735] = {qline = 325}, -- Imp Generator
 		[131732] = {qline = 332}, -- Purple Hills of Mac'Aree
 		[136922] = {qline = 327}, -- Wyrmy Tunkins // Infernal Device
-		
+
 		[130920] = {pqid = 40363}, -- Houndstooth Hauberk
 		[130919] = {pqid = 40362}, -- Orb of Inner Chaos
 		[130918] = {pqid = 40361}, -- Malformed Abyssal
-		[130917] = {pqid = 40360}, -- Flayed-Skin Chronicle 
-		[130916] = {pqid = 40359}, -- Imp's Cup 
+		[130917] = {pqid = 40360}, -- Flayed-Skin Chronicle
+		[130916] = {pqid = 40359}, -- Imp's Cup
 }
 
 -- Highmountain Tauren Artifacts
@@ -57,7 +59,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN] = {
 		[131733] = {qline = 323}, -- Spear of Rethu
 		[131734] = {qline = 333}, -- Spirit of Eche'ro
 		[131736] = {qline = 329}, -- Prizerock Neckband
-		
+
 		[130915] = {pqid = 40358}, -- Stonewood Bow
 		[130914] = {pqid = 40357}, -- Drogbar Gem-Roller
 		[130913] = {pqid = 40356}, -- Hand-Smoothed Pyrestone
@@ -76,7 +78,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
 		[131745] = {qline = 326}, -- Key of Kalyndras
 		[131744] = {qline = 331}, -- Key to Nar'thalas Academy
 		[134078] = {qline = 328}, -- Dark Shard of Sciallax // Orb of Sciallax gives one of 6 relics
-		
+
 		[130910] = {pqid = 40353}, -- Nobleman's Letter Opener
 		[130909] = {pqid = 40352}, -- Pre-War Highborne Tapestry
 		[130908] = {pqid = 40351}, -- Quietwine Vial
@@ -90,7 +92,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DWARF] = {
 		[64488] = {}, -- The Innkeeper's Daughter
 		[64373] = {}, -- Chalice of the Mountain King
 		[64372] = {}, -- Clockwork Gnome
-		
+
 		[63113] = {}, -- Belt Buckle with Anvilmar Crest
 		[64339] = {}, -- Bodacious Door Knocker
 		[63112] = {}, -- Bone Gaming Dice
@@ -119,12 +121,12 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DWARF] = {
 		[64486] = {}, -- Word of Empress Zoe
 		[63110] = {}, -- Worn Hunting Knife
 	}
-	
+
 -- Draenei Artifacts
 MinArchHistDB[ARCHAEOLOGY_RACE_DRAENEI] = {
 		[64456] = {}, -- Arrival of the Naaru
 		[64457] = {}, -- The Last Relic of Argus
-		
+
 		[64440] = {}, -- Anklet with Golden Bells
 		[64453] = {}, -- Baroque Sword Scabbard
 		[64442] = {}, -- Carved Harp of Exotic Wood
@@ -134,7 +136,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DRAENEI] = {
 		[64444] = {}, -- Scepter of the Nathrezim
 		[64443] = {}, -- Strange Silver Paperweight
 	}
-	
+
 -- Fossil Artifacts
 MinArchHistDB[ARCHAEOLOGY_RACE_FOSSIL] = {
 		[69764] = {}, -- Extinct Turtle Shell
@@ -142,7 +144,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_FOSSIL] = {
 		[60955] = {}, -- Fossilized Hatchling
 		[69821] = {}, -- Pterrordax Hatchling
 		[69776] = {}, -- Ancient Amber
-		
+
 		[64355] = {}, -- Ancient Shark Jaws
 		[63121] = {}, -- Beautiful Preserved Fern
 		[63109] = {}, -- Black Trilobite
@@ -156,7 +158,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_FOSSIL] = {
 		[63527] = {}, -- Twisted Ammonite
 		[64387] = {}, -- Vicious Ancient Fish
 	}
-	
+
 -- Night Elf Artifacts
 MinArchHistDB[ARCHAEOLOGY_RACE_NIGHTELF] = {
 		[64646] = {}, -- Bones of Transformation
@@ -166,7 +168,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_NIGHTELF] = {
 		[64361] = {}, -- Druid and Priest Statue Set
 		[64358] = {}, -- Highborne Soul Mirror
 		[64383] = {}, -- Kaldorei Wind Chimes
-		
+
 		[64647] = {}, -- Carcanet of the Hundred Magi
 		[64379] = {}, -- Chest of Tiny Glass Animals
 		[63407] = {}, -- Cloak Clasp with Antlers
@@ -186,7 +188,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_NIGHTELF] = {
 		[64378] = {}, -- String of Small Pink Pearls
 		[64650] = {}, -- Umbra Crescent
 	}
-	
+
 -- Nerubian Artifacts
 MinArchIconDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
 		-- Six-Clawed Cornice has different icon for artifact and item
@@ -195,7 +197,7 @@ MinArchIconDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
 MinArchHistDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
 		[64481] = {}, -- Blessing of the Old God
 		[64482] = {}, -- Puzzle Box of Yogg-Saron
-		
+
 		[64474] = {}, -- Spidery Sundial
 		[64479] = {}, -- Ewer of Jormungar Blood
 		[64477] = {}, -- Gruesome Heart Box
@@ -204,11 +206,11 @@ MinArchHistDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
 		[64478] = {}, -- Six-Clawed Cornice
 		[64480] = {}, -- Vizier's Scrawled Streamer
 	}
-	
+
 -- Orc Artifacts
 MinArchHistDB[ARCHAEOLOGY_RACE_ORC] = {
 		[64644] = {}, -- Headdress of the First Shaman
-		
+
 		[64421] = {}, -- Fierce Wolf Figurine
 		[64436] = {}, -- Fiendish Whip
 		[64418] = {}, -- Gray Candle Stub
@@ -219,7 +221,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_ORC] = {
 		[64437] = {}, -- Tile of Glazed Clay
 		[64389] = {}, -- Tiny Bronze Scorpion
 	}
-	
+
 -- Tol'vir Artifacts
 MinArchIconDB[ARCHAEOLOGY_RACE_TOLVIR] = {
 		-- Crawling Claw has different icon for artifact and item
@@ -232,7 +234,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_TOLVIR] = {
 		[64883] = {}, -- Scepter of Azj'Aqir
 		[64885] = {}, -- Scimitar of the Sirocco
 		[64880] = {}, -- Staff of Ammunae
-		
+
 		[64657] = {}, -- Canopic Jar
 		[64652] = {}, -- Castle of Sand
 		[64653] = {}, -- Cat Statue with Emerald Eyes
@@ -247,7 +249,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_TROLL] = {
 		[64377] = {}, -- Zin'rokh, Destroyer of Worlds
 		[69824] = {}, -- Voodoo Figurine
 		[69777] = {}, -- Haunted War Drum
-		
+
 		[64348] = {}, -- Atal'ai Scepter
 		[64346] = {}, -- Bracelet of Jade and Coins
 		[63524] = {}, -- Cinnabar Bijou
@@ -268,7 +270,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_TROLL] = {
 MinArchHistDB[ARCHAEOLOGY_RACE_VRYKUL] = {
 		[64460] = {}, -- Nifflevar Bearded Axe
 		[69775] = {}, -- Vrykul Drinking Horn
-		
+
 		[64464] = {}, -- Fanged Cloak Pin
 		[64462] = {}, -- Flint Striker
 		[64459] = {}, -- Intricate Treasure Chest Key
@@ -370,7 +372,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DRAENOR] = {
 		[114159] = {pqid = 36751}, -- Weighted Chopping Axe
 		[114145] = {pqid = 36744}, -- Wolfskin Snowshoes
 	}
- 
+
 -- Ogre Artifacts
 MinArchIconDB[ARCHAEOLOGY_RACE_OGRE] = {
 		["interface\\icons\\inv_archaeology_ogres_sorcerer_king_toe_ring"] = "interface\\icons\\inv_60dungeon_neck4b",

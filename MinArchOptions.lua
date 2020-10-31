@@ -1,5 +1,6 @@
-assert(MinArch);
-MinArch.Options = MinArch:NewModule("Options");
+local ADDON, MinArch = ...
+
+MinArch.Options = MinArch.Ace:NewModule("Options");
 
 local Options = MinArch.Options;
 local parent = MinArch;

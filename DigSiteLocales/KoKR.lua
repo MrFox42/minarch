@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 MinArch.DigsiteLocales.koKR = {
     ["Ironband's Excavation Site"] = "아이언밴드의 발굴현장",
     ["Ironbeard's Tomb"] = "아이언비어드의 고분",

@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 MinArch.DigsiteLocales.zhCN = {
     ["Ironband's Excavation Site"] = "铁环挖掘场",
     ["Ironbeard's Tomb"] = "铁须之墓",

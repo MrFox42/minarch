@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 -- TODO: documentation
 
 MinArch.Companion = CreateFrame("Frame", "MinArchCompanion", UIParent)
@@ -214,7 +216,7 @@ function Companion.events:PLAYER_ENTERING_WORLD(...)
 end
 
 function Companion.events:PLAYER_STARTED_MOVING(...)
-    timer = MinArch:ScheduleRepeatingTimer(Companion.UpdateDistance, 0.1)
+    timer = MinArch.Ace:ScheduleRepeatingTimer(Companion.UpdateDistance, 0.1)
 end
 
 function Companion.events:ARCHAEOLOGY_SURVEY_CAST(...)
@@ -223,7 +225,7 @@ end
 
 function Companion.events:PLAYER_STOPPED_MOVING(...)
     MinArch.Companion:AutoToggle();
-    MinArch:CancelTimer(timer)
+    MinArch.Ace:CancelTimer(timer)
 end
 
 function Companion.events:RESEARCH_ARTIFACT_DIG_SITE_UPDATED(...)
@@ -263,7 +265,7 @@ function Companion:HideDistance()
     cx = nil;
     Companion.trackerFrame.indicator.texture:SetTexCoord(0.5, 1, 0.5, 1)
     Companion.trackerFrame.fontString:SetText("")
-    MinArch:CancelTimer(timer)
+    MinArch.Ace:CancelTimer(timer)
     Companion:Update();
 end
 

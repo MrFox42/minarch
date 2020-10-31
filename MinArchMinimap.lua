@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1");
 local dataobj = ldb:NewDataObject("MinArch", {label = "MinArch", type = "data source", icon = "Interface\\Icons\\Trade_Archaeology_Dinosaurskeleton", text = ""});
 local icon = LibStub("LibDBIcon-1.0", true);

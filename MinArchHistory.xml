@@ -26,10 +26,10 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				MinArch:CommonFrameLoad(self);
+				MinArchGlobal:CommonFrameLoad(self);
 			</OnLoad>
 			<OnEvent>
-				MinArch:EventHist(event, ...);
+				MinArchGlobal:EventHist(event, ...);
 			</OnEvent>
 		</Scripts>
 	</Frame>

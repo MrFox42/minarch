@@ -14,7 +14,7 @@
 	<Script file="DigSiteLocales/RuRU.lua" />
 	<Script file="DigSiteLocales/ZhCN.lua" />
 	<Script file="DigSiteLocales/ZhTW.lua" />
-	
+
 	<Script file="MinArchDigsiteDB.lua"/>
 
 	<Frame name="MinArchDigsites"  inherits="MATBasic" frameStrata="LOW" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
@@ -37,7 +37,7 @@
 					</OnLoad>
 				</Scripts>
 			</Frame>
-		
+
 			<Button name="$parentKalimdorButton" inherits="MinArchKalimdorButtonTemplate" parentKey="kalimdorButton" />
 			<Button name="$parentEasternButton" inherits="MinArchEasterButtonTemplate" parentKey="easternButton" />
 			<Button name="$parentOutlandsButton" inherits="MinArchOutlandsButtonTemplate" parentKey="outlandsButton" />
@@ -47,18 +47,18 @@
 			<Button name="$parentBrokenIslesButton" inherits="MinArchBrokenIslesButtonTemplate" parentKey="brokenIslesButton" />
 			<Button name="$parentKulTirasButton" inherits="MinArchKulTirasButtonTemplate" parentKey="kulTirasButton" />
 			<Button name="$parentZandalarButton" inherits="MinArchZandalarButtonTemplate" parentKey="zandalarButton" />
-			
+
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				MinArch:CommonFrameLoad(self);
+				MinArchGlobal:CommonFrameLoad(self);
 			</OnLoad>
 			<OnEvent>
-				MinArch:EventDigsites(event, ...);
+				MinArchGlobal:EventDigsites(event, ...);
 			</OnEvent>
 		</Scripts>
 	</Frame>
-	
-	
+
+
 
 </Ui>

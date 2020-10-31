@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 MinArchScroll = {}
 
 MinArch.HistoryListLoaded = {}

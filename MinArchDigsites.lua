@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 MinArchScrollDS = {}
 MinArchDigsitesDB = {} -- old dig site info per character
 MinArchDigsitesGlobalDB = {} -- global dig site information

@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 function MinArch:UpdateArchaeologySkillBar()
 	local _, _, arch = GetProfessions();
 	if (arch) then

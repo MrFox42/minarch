@@ -1,7 +1,7 @@
+local ADDON, MinArch = ...
+
 -- Generated list of all digsites with type and radius
-
 MinArchDigsiteList = {
-
     [DS("Biel'aran Ridge Digsite")] = {race = ARCHAEOLOGY_RACE_NIGHTELF, r = 368.72245659846},
     [DS("Nar'shola (Middle Tier) Digsite")] = {race = ARCHAEOLOGY_RACE_NIGHTELF, r = 600.64200964322},
     [DS("Quel'Dormir Gardens Digsite")] = {race = ARCHAEOLOGY_RACE_NIGHTELF, r = 378.56959998165},
@@ -445,5 +445,4 @@ MinArchDigsiteList = {
     [DS("Digsite: The Cracked Coast")] = {race = ARCHAEOLOGY_RACE_ZANDALARI, r = 114.09282010714},
     [DS("Digsite: Court of Zak'rajan")] = {race = ARCHAEOLOGY_RACE_ZANDALARI, r = 106.65537669984},
     [DS("Digsite: Terrace of the Fang")] = {race = ARCHAEOLOGY_RACE_ZANDALARI, r = 104.63069736412},
-
 }

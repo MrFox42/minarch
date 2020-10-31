@@ -9,32 +9,32 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(1);
-				MinArch:CreateDigSitesList(1);
+				MinArchGlobal:CreateDigSitesList(1);
+				MinArchGlobal:CreateDigSitesList(1);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(1);
+				MinArchGlobal:ADIButtonTooltip(1);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\Achievement_Zone_Kalimdor_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\Achievement_Zone_Kalimdor_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\Achievement_Zone_Kalimdor_01.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
-	
+
 	<!-- Eastern Kingdoms Button -->
 	<Button name="MinArchEasterButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
@@ -43,32 +43,32 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(2);
-				MinArch:CreateDigSitesList(2);
+				MinArchGlobal:CreateDigSitesList(2);
+				MinArchGlobal:CreateDigSitesList(2);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(2);
+				MinArchGlobal:ADIButtonTooltip(2);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\Achievement_Zone_EasternKingdoms_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\Achievement_Zone_EasternKingdoms_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\Achievement_Zone_EasternKingdoms_01.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
-	
+
 	<!-- Outlands Button -->
 	<Button name="MinArchOutlandsButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
@@ -77,32 +77,32 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(3);
-				MinArch:CreateDigSitesList(3);
+				MinArchGlobal:CreateDigSitesList(3);
+				MinArchGlobal:CreateDigSitesList(3);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(3);
+				MinArchGlobal:ADIButtonTooltip(3);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\Achievement_Zone_Outland_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\Achievement_Zone_Outland_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\Achievement_Zone_Outland_01.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
-	
+
 	<!-- Northrend Button -->
 	<Button name="MinArchNorthrendButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
@@ -111,34 +111,34 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(4);
-				MinArch:CreateDigSitesList(4);
+				MinArchGlobal:CreateDigSitesList(4);
+				MinArchGlobal:CreateDigSitesList(4);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(4);
+				MinArchGlobal:ADIButtonTooltip(4);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\Achievement_Zone_Northrend_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\Achievement_Zone_Northrend_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\Achievement_Zone_Northrend_01.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
 
 	<!-- No digsites for Continent 5 (The Maelstrom), so no button -->
-	
+
 	<!-- Pandaria Button -->
 	<Button name="MinArchPandariaButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
@@ -147,32 +147,32 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(6);
-				MinArch:CreateDigSitesList(6);
+				MinArchGlobal:CreateDigSitesList(6);
+				MinArchGlobal:CreateDigSitesList(6);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(6);
+				MinArchGlobal:ADIButtonTooltip(6);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\expansionicon_mistsofpandaria.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\expansionicon_mistsofpandaria.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\expansionicon_mistsofpandaria.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
-	
+
 	<!-- Draenor Button -->
 	<Button name="MinArchDraenorButtonTemplate" virtual="true" >
 		<Size x="32" y="32"/>
@@ -181,29 +181,29 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(7);
-				MinArch:CreateDigSitesList(7);
+				MinArchGlobal:CreateDigSitesList(7);
+				MinArchGlobal:CreateDigSitesList(7);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(7);
+				MinArchGlobal:ADIButtonTooltip(7);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\Achievement_Zone_Draenor_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\Achievement_Zone_Draenor_01.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\Achievement_Zone_Draenor_01.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
 
@@ -215,29 +215,29 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(8);
-				MinArch:CreateDigSitesList(8);
+				MinArchGlobal:CreateDigSitesList(8);
+				MinArchGlobal:CreateDigSitesList(8);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(8);
+				MinArchGlobal:ADIButtonTooltip(8);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\achievements_zone_brokenshore.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\achievements_zone_brokenshore.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\achievements_zone_brokenshore.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
 
@@ -249,29 +249,29 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(9);
-				MinArch:CreateDigSitesList(9);
+				MinArchGlobal:CreateDigSitesList(9);
+				MinArchGlobal:CreateDigSitesList(9);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(9);
+				MinArchGlobal:ADIButtonTooltip(9);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\inv_tiragardesound.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\inv_tiragardesound.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\inv_tiragardesound.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
 
@@ -283,29 +283,29 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 				self:SetAlpha(1.0);
-				MinArch:CreateDigSitesList(10);
-				MinArch:CreateDigSitesList(10);
+				MinArchGlobal:CreateDigSitesList(10);
+				MinArchGlobal:CreateDigSitesList(10);
 			</OnClick>
 			<OnEnter>
-				MinArch:ADIButtonTooltip(10);
+				MinArchGlobal:ADIButtonTooltip(10);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Icons\inv_zuldazar.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</NormalTexture>
 		<PushedTexture file="Interface\Icons\inv_zuldazar.blp">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</PushedTexture>
 		<HighlightTexture file="Interface\Icons\inv_zuldazar.blp" alphaMode="ADD">
-			<Size x="32" y="32"/>	
-			
+			<Size x="32" y="32"/>
+
 		</HighlightTexture>
 	</Button>
 

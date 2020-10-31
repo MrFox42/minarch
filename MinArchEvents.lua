@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 local eventTimer = nil;
 local histEventTimer = nil;
 

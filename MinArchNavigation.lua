@@ -1,3 +1,5 @@
+local ADDON, MinArch = ...
+
 MinArch.autoWaypoint = nil;
 MinArch.TomTomAvailable = (_G.TomTom ~= nil);
 local previousDigsite = nil;

@@ -3,7 +3,7 @@
 
 	<Script file="MinArchInit.lua"/>
 	<Script file="MinArchEvents.lua"/>
-	
+
 	<Frame name="MinArchMain" inherits="MATBasic" frameStrata="LOW" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
 		<size x="300" y="560" />
 		<Anchors>
@@ -14,8 +14,8 @@
 			<Button name="$parentButtonOpenArch" inherits="MATBOpenArch" parentKey="buttonOpenArch" />
 			<Button name="$parentButtonOpenHist" inherits="MATBOpenHist" parentKey="buttonOpenHist" />
 			<Button name="$parentButtonOpenADI" inherits="MATBOpenADI" parentKey="openADIButton" />
-		
-			<!-- Archaeology Skill Bar -->		
+
+			<!-- Archaeology Skill Bar -->
 			<StatusBar name="$parentSkillBar" inherits="MATSkillBar" parentKey="skillBar">
 				<Size>
 					<AbsDimension x="246" y="13"/>
@@ -36,24 +36,24 @@
 					</Layer>
 				</Layers>
 			</StatusBar>
-			
-			<!-- Artifact Bars created in MinArch:InitMain -->
+
+			<!-- Artifact Bars created in MinArchGlobal:InitMain -->
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				MinArch:CommonFrameLoad(self);
+				MinArchGlobal:CommonFrameLoad(self);
 			</OnLoad>
-			
+
 			<OnShow>
-				
+
 			</OnShow>
-			
+
 			<OnEvent>
-				MinArch:EventMain(event, ...);
+				MinArchGlobal:EventMain(event, ...);
 			</OnEvent>
 		</Scripts>
 	</Frame>
-	
+
 	<!-- Left Floating Tooltip Icon -->
 	<Frame name="MinArchTooltipIcon" frameStrata="TOOLTIP" visible="false" clampedToScreen="true" parent="GameTooltip">
 		<size x="64" y="64" />

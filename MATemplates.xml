@@ -1,7 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-	<Script file="Bindings.lua"/>
 	<Script file="MinArchCommon.lua"/>
 
 	<!-- Basic MinArch Frame -->
@@ -11,13 +10,13 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				MinArch:CommonFrameLoad(self);
+				MinArchGlobal:CommonFrameLoad(self);
 			</OnLoad>
 			<OnDragStart>
-				MinArch:CommonFrameDragStart(self, button);
+				MinArchGlobal:CommonFrameDragStart(self, button);
 			</OnDragStart>
 			<OnDragStop>
-				MinArch:CommonFrameDragStop(self);
+				MinArchGlobal:CommonFrameDragStop(self);
 			</OnDragStop>
 		</Scripts>
 	</Frame>
@@ -118,10 +117,10 @@
 		</Frames>
 		<Scripts>
 			<OnEnter>
-				MinArch:ShowArtifactTooltip(self, self.race);
+				MinArchGlobal:ShowArtifactTooltip(self, self.race);
 			</OnEnter>
 			<OnLeave>
-				MinArch:HideArtifactTooltip();
+				MinArchGlobal:HideArtifactTooltip();
 			<!--
 
 			-->
@@ -168,7 +167,7 @@
 				end
 			</OnClick>
 			<OnEnter>
-				MinArch:ShowWindowButtonTooltip(self, "Open Profession Window");
+				MinArchGlobal:ShowWindowButtonTooltip(self, "Open Profession Window");
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -190,7 +189,7 @@
 			    MinArchHist:Toggle();
 			</OnClick>
 			<OnEnter>
-				MinArch:ShowWindowButtonTooltip(self, "Open History");
+				MinArchGlobal:ShowWindowButtonTooltip(self, "Open History");
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -209,15 +208,15 @@
 		</Anchors>
 		<Scripts>
 			<OnClick>
-				MinArch:DimADIButtons();
+				MinArchGlobal:DimADIButtons();
 
-				MinArch:CreateDigSitesList(0);
-				MinArch:CreateDigSitesList(0);
+				MinArchGlobal:CreateDigSitesList(0);
+				MinArchGlobal:CreateDigSitesList(0);
 
 				MinArchDigsites:Toggle();
 			</OnClick>
 			<OnEnter>
-				MinArch:ShowWindowButtonTooltip(self, "Open Digsites");
+				MinArchGlobal:ShowWindowButtonTooltip(self, "Open Digsites");
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
@@ -232,7 +231,7 @@
 	<Button name="MATBSolve" inherits="UIPanelButtonTemplate" text="SOLVE" virtual="true">
 		<Scripts>
 			<OnClick>
-				MinArch:SolveArtifact(self:GetParent().race);
+				MinArchGlobal:SolveArtifact(self:GetParent().race);
 			</OnClick>
 		</Scripts>
 	</Button>
@@ -278,7 +277,7 @@
 				self:RegisterForClicks("LeftButtonUp","RightButtonUp");
 			</OnLoad>
 			<OnClick>
-				MinArch:KeystoneClick(self, button, down);
+				MinArchGlobal:KeystoneClick(self, button, down);
 			</OnClick>
 			<OnEnable>
 				self:SetAlpha(0.5);
@@ -287,7 +286,7 @@
 				self:SetAlpha(0.3);
 			</OnDisable>
 			<OnEnter>
-				MinArch:KeystoneTooltip(self);
+				MinArchGlobal:KeystoneTooltip(self);
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide();
