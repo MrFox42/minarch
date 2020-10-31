@@ -42,7 +42,7 @@ local function CalculateDistance(ax, ay, bx, by)
     local xd = math.abs(ax - bx);
     local yd = math.abs(ay - by);
 
-    return round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
+    return MinArch:Round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
 end
 
 local function InitDistanceTracker()

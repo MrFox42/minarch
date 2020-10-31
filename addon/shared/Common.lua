@@ -270,6 +270,6 @@ function MinArch:TestForMissingDigsites()
 	end
 end
 
-local function round(x)
+function MinArch:Round(x)
     return math.floor(x + 0.5);
 end
