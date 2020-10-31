@@ -227,7 +227,7 @@ local general = {
 					get = function () return MinArch.db.profile.autoShowInDigsites end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowInDigsites = newValue;
-						MinArchShowInDigsite = true;
+						MinArch.ShowInDigsite = true;
 					end,
 					order = 1,
 				},
@@ -238,7 +238,7 @@ local general = {
 					get = function () return MinArch.db.profile.autoShowOnSurvey end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnSurvey = newValue;
-						MinArchShowOnSurvey = true;
+						MinArch.ShowOnSurvey = true;
 					end,
 					order = 2,
 				},

@@ -69,7 +69,7 @@ function dataobj:OnClick(button)
 				end
 			else
 				MinArch:ShowMain();
-				MinArchHideNext = false;
+				MinArch.HideNext = false;
 			end
 		end
 

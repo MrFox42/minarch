@@ -1,7 +1,5 @@
 local ADDON, MinArch = ...
 
--- TODO: documentation
-
 MinArch.Companion = CreateFrame("Frame", "MinArchCompanion", UIParent)
 
 local Companion = MinArch.Companion
@@ -37,6 +35,14 @@ local function RegisterForDrag(frame)
     frame:RegisterForDrag("LeftButton"); -- Register for left drag
     frame:SetScript("OnDragStart", OnDragStart);
     frame:SetScript("OnDragStop", OnDragStop);
+end
+
+
+local function CalculateDistance(ax, ay, bx, by)
+    local xd = math.abs(ax - bx);
+    local yd = math.abs(ay - by);
+
+    return round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
 end
 
 local function InitDistanceTracker()
@@ -135,7 +141,7 @@ local function InitSurveyButton()
     -- Survey button
     local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion, "InSecureActionButtonTemplate");
     surveyButton:SetAttribute("type", "spell");
-    surveyButton:SetAttribute("spell", 80451);
+    surveyButton:SetAttribute("spell", SURVEY_SPELL_ID);
     surveyButton:SetPoint("LEFT", 44, 0);
     surveyButton:SetWidth(28);
     surveyButton:SetHeight(28);
@@ -146,7 +152,7 @@ local function InitSurveyButton()
 
     surveyButton:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-        GameTooltip:SetSpellByID(80451);
+        GameTooltip:SetSpellByID(SURVEY_SPELL_ID);
 
 		GameTooltip:Show();
     end)
@@ -240,7 +246,7 @@ function Companion:UpdateDistance()
         return
     end
 
-    local distance = MinArch:CalculateDistance(cx, cy, nx, ny)
+    local distance = CalculateDistance(cx, cy, nx, ny)
     Companion.trackerFrame.fontString:SetText(distance)
 
     if (distance >= 0 and distance <= 40) then
@@ -276,14 +282,14 @@ end
 function Companion:HideFrame()
     Companion:Hide();
     if MinArch.db.profile.companion.enable then
-        MinArchCompanionShowInDigsite = true;
+        MinArch.CompanionShowInDigsite = true;
     end
 end
 
 function Companion:ShowFrame()
     if MinArch.db.profile.companion.enable then
         Companion:Show();
-        MinArchCompanionShowInDigsite = false;
+        MinArch.CompanionShowInDigsite = false;
 
         Companion:Resize()
     end
@@ -299,7 +305,7 @@ function Companion:AutoToggle()
         return;
     end
 
-    if MinArch.db.profile.companion.alwaysShow or (MinArchCompanionShowInDigsite == true and MinArch:IsNearDigSite()) then
+    if MinArch.db.profile.companion.alwaysShow or (MinArch.CompanionShowInDigsite == true and MinArch:IsNearDigSite()) then
         Companion:ShowFrame()
     end
 

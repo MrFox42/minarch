@@ -9,6 +9,7 @@ local qLineQuests = {};
 local currentQuestArtifact = nil;
 local currentQuestArtifactRace = nil;
 local isOnArtifactQuestLine = false;
+local qLineRaces = {ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE};
 
 function MinArch:IsItemDetailsLoaded(RaceID)
 	return MinArch.HistoryListLoaded[RaceID] or false
@@ -141,8 +142,8 @@ function MinArch:GetHistory(RaceID, caller)
 end
 
 function MinArch:GetCurrentQuestArtifact()
-	for i=1, #MinArch.qLineRaces do
-		local RaceID = MinArch.qLineRaces[i];
+	for i=1, #qLineRaces do
+		local RaceID = qLineRaces[i];
 
 		for itemid, details in pairs(MinArchHistDB[RaceID]) do
 			local isQuestAvailable, isOnQuest = MinArch:IsQuestAvailableForArtifact(RaceID, itemid);

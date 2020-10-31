@@ -24,9 +24,9 @@
     <Script file="locales\DigSiteLocales\ZhTW.lua" />
 
     <!-- Data -->
-    <Script file="data\data.lua" />
     <Script file="data\ArtifactDB.lua"/>
     <Script file="data\DigsiteDB.lua"/>
+    <Script file="data\Races.lua"/>
 
     <!-- Shared templates, common functions  -->
     <Include file="shared\MATemplates.xml" />
@@ -45,6 +45,7 @@
     <Script  file="components\Navigation.lua" />
 
     <!-- Configuration -->
+    <Script file="config\Defaults.lua" />
     <Script file="config\Options.lua" />
 
 </Ui>

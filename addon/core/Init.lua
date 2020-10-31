@@ -5,7 +5,7 @@ local clearBinding = false;
 local function HookDoubleClick()
     local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArch.HelperFrame, "InSecureActionButtonTemplate");
     button:SetAttribute("type", "spell");
-    button:SetAttribute("spell", 80451);
+    button:SetAttribute("spell", SURVEY_SPELL_ID);
     button:Hide();
 
     local threshold = 0.5;
@@ -18,7 +18,7 @@ local function HookDoubleClick()
     end)
 
     WorldFrame:HookScript("OnMouseDown", function(_, button)
-        if MinArch.db.profile.surveyOnDoubleClick and button == "RightButton" and CanScanResearchSite() and GetSpellCooldown(80451) == 0 then
+        if MinArch.db.profile.surveyOnDoubleClick and button == "RightButton" and CanScanResearchSite() and GetSpellCooldown(SURVEY_SPELL_ID) == 0 then
             if prevTime then
                 local diff = GetTime() - prevTime;
 
@@ -231,9 +231,11 @@ function MinArch:InitMain(self)
 	MinArch:DisplayStatusMessage("Minimal Archaeology Initialized!");
 end
 
-function MinArch:InitHelperFrame(self)
-	self:RegisterEvent("PLAYER_REGEN_DISABLED");
-	self:RegisterEvent("PLAYER_REGEN_ENABLED");
+function MinArch:InitHelperFrame()
+    MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
+
+	MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
+	MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
 
 	MinArchMain.showAfterCombat = false;
 	MinArchHist.showAfterCombat = false;
@@ -242,7 +244,7 @@ function MinArch:InitHelperFrame(self)
 
     MinArch.HelperFrame:Hide();
 
-	self:SetScript("OnEvent", function(self, event, ...)
+	MinArch.HelperFrame:SetScript("OnEvent", function(self, event, ...)
 		MinArch:EventHelper(event, ...);
 	end)
 end
@@ -260,7 +262,7 @@ function MinArch.Ace:OnInitialize ()
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
-	MinArch:InitHelperFrame(MinArchHelper);
+	MinArch:InitHelperFrame();
 
 	MinArch.Companion:Init();
 
@@ -276,7 +278,7 @@ function MinArch.Ace:OnInitialize ()
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
     MinArch:ShowRaceIconsOnMap();
     HookDoubleClick();
-	MinArchIsReady = true;
+	MinArch.IsReady = true;
 	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
@@ -294,9 +296,9 @@ function MinArch:RefreshConfig()
 	MinArch:RefreshMinimapButton();
 	MinArch:ShowRaceIconsOnMap();
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
-	MinArchShowOnSurvey = true;
-    MinArchShowInDigsite = true;
-    MinArchCompanionShowInDigsite = true;
+	MinArch.ShowOnSurvey = true;
+    MinArch.ShowInDigsite = true;
+    MinArch.CompanionShowInDigsite = true;
 	MinArch:UpdateMain();
 end
 

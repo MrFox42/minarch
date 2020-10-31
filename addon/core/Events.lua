@@ -42,23 +42,23 @@ function MinArch:EventHelper(event, ...)
 end
 
 function MinArch:EventMain(event, ...)
-	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArchHideNext == true) then
+	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArch.HideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();
 		return;
 	elseif (event == "SKILL_LINES_CHANGED") then
 		MinArch:UpdateArchaeologySkillBar();
 	elseif ((event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArch.db.profile.hideAfterDigsite == true) then
-		MinArchHideNext = true;
-	elseif (event == "RESEARCH_ARTIFACT_COMPLETE" and MinArchHideNext == true and MinArch.db.profile.waitForSolve == true) then
+		MinArch.HideNext = true;
+	elseif (event == "RESEARCH_ARTIFACT_COMPLETE" and MinArch.HideNext == true and MinArch.db.profile.waitForSolve == true) then
 		MinArch:HideMain();
-		MinArchHideNext = false;
+		MinArch.HideNext = false;
 
 		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		--RequestArtifactCompletionHistory();
 	elseif (event == "PLAYER_ALIVE" or event == "RESEARCH_ARTIFACT_COMPLETE") then
 		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		--RequestArtifactCompletionHistory();
-	elseif (event == "ADDON_LOADED" and MinArch ~= nil and MinArchIsReady ~= true) then
+	elseif (event == "ADDON_LOADED" and MinArch ~= nil and MinArch.IsReady ~= true) then
 		-- MinArch:MainEventAddonLoaded(); -- TODO remove this if everything checks out
 	elseif (event == "ADDON_LOADED") then
 		local addonname = ...;
@@ -78,29 +78,29 @@ function MinArch:EventMain(event, ...)
         MinArch.Companion:AutoToggle()
 	end
 
-    if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArchShowOnSurvey == true) then
+    if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArch.ShowOnSurvey == true) then
         if (MinArch:IsNavigationEnabled() and MinArch.autoWaypoint) then
             _G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
         end
 
 		if (MinArch.db.profile.autoShowOnSurvey) then
 			MinArch:ShowMain();
-			MinArchShowOnSurvey = false;
+			MinArch.ShowOnSurvey = false;
 		end
 	end
 	if ((event == "PLAYER_STOPPED_MOVING" or event == "PLAYER_ENTERING_WORLD")) then
-		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite() and MinArchShowInDigsite == true) then
+		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite() and MinArch.ShowInDigsite == true) then
 			MinArch:ShowMain();
-			MinArchShowInDigsite = false;
+			MinArch.ShowInDigsite = false;
         end
 
 		return
 	end
 
 	if (event == "ARTIFACT_DIGSITE_COMPLETE") then
-		MinArchShowOnSurvey = true;
-        MinArchShowInDigsite = true;
-        MinArchCompanionShowInDigsite = true;
+		MinArch.ShowOnSurvey = true;
+        MinArch.ShowInDigsite = true;
+        MinArch.CompanionShowInDigsite = true;
         MinArch.Companion:Hide();
 	end
 
@@ -127,7 +127,7 @@ function MinArch:EventMain(event, ...)
 		MinArch:DisplayStatusMessage("Main update after combat", MINARCH_MSG_DEBUG);
 	end
 
-	if (MinArchIsReady == true) then
+	if (MinArch.IsReady == true) then
 		if (eventTimer ~= nil) then
 			eventTimer:Cancel();
 		end
@@ -197,7 +197,7 @@ function MinArch:EventDigsites(event, ...)
 			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
 		end
 		return;
-	elseif (event == "WORLD_MAP_UPDATE" and MinArchIsReady == true) then
+	elseif (event == "WORLD_MAP_UPDATE" and MinArch.IsReady == true) then
 		MinArch:ShowRaceIconsOnMap();
 		return;
 	end
@@ -241,11 +241,11 @@ function MinArch:MaineEventHideAfterDigsite()
 
 		if (wait == false) then
 			MinArch:HideMain();
-			MinArchHideNext = false;
+			MinArch.HideNext = false;
 		end
 	else
 		MinArch:HideMain();
-		MinArchHideNext = false;
+		MinArch.HideNext = false;
 	end
 end
 

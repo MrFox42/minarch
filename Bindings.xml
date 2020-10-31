@@ -5,7 +5,7 @@
 				MinArchGlobal:HideMain();
 			else
                 MinArchGlobal:ShowMain();
-				MinArchHideNext = false;
+                MinArchGlobal.HideNext = false;
 			end
 		end
 	</Binding>

@@ -1,6 +1,28 @@
 local ADDON, MinArch = ...
 
 -- Local variables
+local ResearchBranchMap = {
+	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
+	[2] = ARCHAEOLOGY_RACE_DRAENEI, -- Draenei
+	[3] = ARCHAEOLOGY_RACE_FOSSIL, -- Fossil
+	[4] = ARCHAEOLOGY_RACE_NIGHTELF, -- Night Elf
+	[5] = ARCHAEOLOGY_RACE_NERUBIAN, -- Nerubian
+	[6] = ARCHAEOLOGY_RACE_ORC, -- Orc
+	[7] = ARCHAEOLOGY_RACE_TOLVIR, -- Tol\'vir
+	[8] = ARCHAEOLOGY_RACE_TROLL, -- Troll
+	[27] = ARCHAEOLOGY_RACE_VRYKUL, -- Vrykul
+	[29] = ARCHAEOLOGY_RACE_MANTID, -- Mantid
+	[229] = ARCHAEOLOGY_RACE_PANDAREN, -- Pandaren
+	[231] = ARCHAEOLOGY_RACE_MOGU, -- Mogu
+	[315] = ARCHAEOLOGY_RACE_ARAKKOA, -- Arakkoa
+	[350] = ARCHAEOLOGY_RACE_DRAENOR, -- Draenor Clans
+	[382] = ARCHAEOLOGY_RACE_OGRE, -- Ogre
+	[404] = ARCHAEOLOGY_RACE_HIGHBORNE, -- Highborne
+	[406] = ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, -- Highmountain Tauren
+	[408] = ARCHAEOLOGY_RACE_DEMONIC, -- Demonic
+	[423] = ARCHAEOLOGY_RACE_ZANDALARI, -- Zandalari
+	[424] = ARCHAEOLOGY_RACE_DRUSTVARI, -- Drust
+};
 
 -- uiMapIDs for continents [uiMapID] = internalContID
 local MinArchContIDMap = {
@@ -179,8 +201,8 @@ function MinArch:DisplayStatusMessage(message, msgtype)
 end
 
 function MinArch:GetRaceNameByBranchId(branchID)
-	if (MinArch.ResearchBranchMap[branchID] ~= nil) then
-		local raceId = MinArch.ResearchBranchMap[branchID];
+	if (ResearchBranchMap[branchID] ~= nil) then
+		local raceId = ResearchBranchMap[branchID];
 		for name,id in pairs(MinArch.ArchaeologyRaces) do
 			if (id == raceId) then
 				return name;
@@ -250,11 +272,4 @@ end
 
 local function round(x)
     return math.floor(x + 0.5);
-end
-
-function MinArch:CalculateDistance(ax, ay, bx, by)
-    local xd = math.abs(ax - bx);
-    local yd = math.abs(ay - by);
-
-    return round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
 end

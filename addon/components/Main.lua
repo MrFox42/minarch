@@ -80,7 +80,7 @@ function MinArch:UpdateArtifact(RaceIndex)
 end
 
 function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
-	if (MinArchIsReady == false) then
+	if (MinArch.IsReady == false) then
 		return false;
 	end
 
