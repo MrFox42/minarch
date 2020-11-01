@@ -75,10 +75,10 @@ local function CreateCrateButton(parent, x, y)
 	MinArch:SetCrateButtonTooltip(button);
 end
 
-local function InitArtifactBars()
+local function InitArtifactBars(self)
     -- Create the artifact bars for the main window
     for i=1,ARCHAEOLOGY_NUM_RACES do
-        local artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, MinArchMain, "MATArtifactBar", i);
+        local artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, self, "MATArtifactBar", i);
         artifactBar.parentKey = "artifactBar" .. i;
         artifactBar.race = i;
         if (i == 1) then
@@ -157,7 +157,7 @@ function MinArch:InitMain(self)
 		end
 	end)
 
-    InitArtifactBars();
+    InitArtifactBars(self);
 
     self.openADIButton:SetScript("OnEnter", function(self)
         MinArch:ShowWindowButtonTooltip(self, "Open Digsites");
@@ -384,11 +384,9 @@ function MinArch:UpdateMain()
 	local x1, size1 = MinArchMain:GetSize();
 
 	for i=1,ARCHAEOLOGY_NUM_RACES do
-		if not MinArch:UpdateArtifact(i) then return end
+        MinArch:UpdateArtifact(i);
 
-		local artifact = MinArch['artifacts'][i];
-
-		if (artifact['total'] > 0 and MinArch.db.profile.raceOptions.hide[i] == false and MinArch:IsRaceRelevant(i)) then
+		if (MinArch.db.profile.raceOptions.hide[i] == false and MinArch:IsRaceRelevant(i)) then
 			activeBarIndex = activeBarIndex + 1;
 			MinArch:UpdateArtifactBar(i, MinArch['artifactbars'][activeBarIndex]);
 			MinArch['artifactbars'][activeBarIndex]:Show();
@@ -432,7 +430,14 @@ function MinArch:UpdateMain()
 end
 
 function MinArch:ShowArtifactTooltip(self, RaceIndex)
-	local artifact = MinArch['artifacts'][RaceIndex];
+    local artifact = MinArch['artifacts'][RaceIndex];
+
+    if artifact.total == 0 then
+        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+        GameTooltip:AddLine("You haven't discovered this race yet.")
+        GameTooltip:Show();
+        return
+    end
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
 
