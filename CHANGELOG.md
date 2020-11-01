@@ -11,6 +11,7 @@
 - **9.0.3.1** Fix version in toc
 - **9.0.3.1** Fix artifact bars positioned outside of the main window
 - **9.0.3.1** Show races in the main window even if they are not discovered by the player yet
+- **9.0.3.2** Fixed main window auto-opening all the time
 
 ### 9.0.2
 

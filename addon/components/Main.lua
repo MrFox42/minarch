@@ -331,7 +331,7 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 		ArtifactBar.buttonSolve:Disable();
 	end
 
-	if (MinArch.db.profile.autoShowOnCap and artifact['progress'] == total) then
+	if (MinArch.db.profile.autoShowOnCap and artifact['progress'] ~= 0 and artifact['progress'] == total) then
 		MinArch:ShowMain();
 	end
 end
