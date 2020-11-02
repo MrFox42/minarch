@@ -6,6 +6,13 @@ You can left-click the keystone button to attach keystones (or right-click to re
 or if you prefer there are options to automatically use keystones!
 You can monitor the artifacts progress, or how close you are to the fragment cap.
 
+## Recent new features:
+- Companion frame (more details below)
+- Double Right Click surveying
+
+## What's next:
+- History window improvements such as achievement progress, better indicator for pristine artifacts
+
 ## Latest Minor Versions
 
 ### 9.0.3 - Maintenance release
@@ -19,36 +26,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **9.0.3.1** Fix artifact bars positioned outside of the main window
 - **9.0.3.1** Show races in the main window even if they are not discovered by the player yet
 - **9.0.3.2** Fixed main window auto-opening all the time
-
-### 9.0.2
-
-- **New feature**: Double right click to Survey (enabled by default)
-- Added the option to treat fragment-capped races as irrelevant
-- **9.0.2.2** Changed fragment-cap related conditions
-
-#### Companion Improvements:
-- Each button can be disabled separately
-- Added the option to only show the solve button for relevant races
-- Added the option to change background color and background color opacity
-- Button spacing and frame padding is now customizable
-- Button order is fully customizable
-
-### 9.0.1
-- Added the option to lock the Companion in place, disabling dragging
-- Added the option to persist Companion position on all characters using the same settings profile
-- **9.0.1.1** Fix saving Companion position after dragging the frame
-
-## Latest Major Version: v9.0.0
-
-- New feataure: **Companion** (**distance tracker** and more, details down below)
-- Fixed issues caused by Shadowlands LUA changes
-- MinArch is now compatible with addons that emulate TomTom (like Carbonite Maps)
-- Added an option to prioritize a selected race when creating automatic waypoints (Selectable in the TomTom section of MinArch settings)
-- Right clicking on the auto-waypoint button now opens the waypoint settings page
-- Fixed an issue with the automatic waypoints sometimes not selecting the closest digsite
-- Show confirmation dialog before solving artifacts of fragment-capped races
-- **9.0.0.1** Companion frame: Improved dragging
-- **9.0.0.2** Fragment-capped solve confirmation: add third option to disable confirmation dialogs
+- **9.0.3.3** Fixed a lua error when opening Companion settings
 
 For past changes, visit the [Changelog page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/changelog).
 
@@ -61,8 +39,9 @@ The **Companion** is a tiny little customizable frame that currently includes th
 - Survey spell button
 - Solve button for solvable artifacts
 - Crate button
+- Each button can be disabled manually and their order is fully customizable
 
-The companion can be disabled.
+The companion itself can also be fully disabled.
 
 ## Upcoming features
 

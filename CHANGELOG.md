@@ -12,6 +12,7 @@
 - **9.0.3.1** Fix artifact bars positioned outside of the main window
 - **9.0.3.1** Show races in the main window even if they are not discovered by the player yet
 - **9.0.3.2** Fixed main window auto-opening all the time
+- **9.0.3.3** Fixed a lua error when opening Companion settings
 
 ### 9.0.2
 

@@ -573,7 +573,6 @@ local companionSettings = {
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
-                    dialogControl = "NumberEditBox",
 					order = 4,
                 },
                 y = {
@@ -591,7 +590,6 @@ local companionSettings = {
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
-					dialogControl = "NumberEditBox",
 					order = 5,
 				},
             }
