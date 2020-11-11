@@ -56,12 +56,9 @@ The following features are planned for Minimal Archaeology in no particular orde
 
 - Detailed, customizable DataBroker tooltip
 - Dig site icons on flight maps
-- Option to the auto-resize history window
 - Achievement progress
 - Better indication of pristine artifacts
 - Option to ignore dig sites you hate
-
-If you're curious about all planned features, visit the [Upcoming features page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/upcoming-features).
 
 ## Commands
 **/minarch**
