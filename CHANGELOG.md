@@ -13,6 +13,8 @@
 - **9.0.3.1** Show races in the main window even if they are not discovered by the player yet
 - **9.0.3.2** Fixed main window auto-opening all the time
 - **9.0.3.3** Fixed a lua error when opening Companion settings
+- **9.0.3.4** Fixed french locale for Site de fouilles : Les confins Lointains
+- **9.0.3.4** Added workaround for detecting digsites in the old version of Vale of Eternal Blossoms
 
 ### 9.0.2
 

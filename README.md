@@ -13,7 +13,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ## What's next:
 - History window improvements such as achievement progress, better indicator for pristine artifacts
 
-## Latest Minor Versions
+## Latest Changes
 
 ### 9.0.3 - Maintenance release
 
@@ -27,6 +27,8 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **9.0.3.1** Show races in the main window even if they are not discovered by the player yet
 - **9.0.3.2** Fixed main window auto-opening all the time
 - **9.0.3.3** Fixed a lua error when opening Companion settings
+- **9.0.3.4** Fixed french locale for Site de fouilles : Les confins Lointains
+- **9.0.3.4** Added workaround for detecting digsites in the old version of Vale of Eternal Blossoms
 
 For past changes, visit the [Changelog page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/changelog).
 
