@@ -38,7 +38,7 @@ function MinArch:EventHelper(event, ...)
 			MinArch.Companion:ShowFrame();
 			MinArch.Companion.showAfterCombat = true;
 		end
-	end
+    end
 end
 
 function MinArch:EventMain(event, ...)

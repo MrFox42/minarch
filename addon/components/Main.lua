@@ -404,7 +404,6 @@ function MinArch:UpdateMain()
 	end
 
 	MinArchMain:ClearAllPoints();
-
 	if (MinArch.firstRun == false and relativeTo == nil) then
 		MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
 	end

@@ -89,6 +89,10 @@ MinArch.defaults = {
             }
         },
 
+        history = {
+            autoResize = true,
+        },
+
 		-- deprecated, left for compatibility
 		hideMinimapButton = false, -- moved into minimap (databroker)
 		minimapPos = 45,           -- not needed anymore (databroker)

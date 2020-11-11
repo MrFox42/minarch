@@ -48,7 +48,6 @@ function MinArch:HookDoubleClick()
                 local diff = GetTime() - prevTime;
 
                 if diff < threshold then
-                    prevTime = nil;
                     SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
                     clearBinding = true;
                 end

@@ -4,7 +4,7 @@ function MinArch:InitHelperFrame()
     MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
 
 	MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
-	MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
+    MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
 
 	MinArchMain.showAfterCombat = false;
 	MinArchHist.showAfterCombat = false;

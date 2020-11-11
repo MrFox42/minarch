@@ -5,6 +5,7 @@ MinArchScroll = {}
 MinArch.HistoryListLoaded = {}
 MinArch.HasPristine = {}
 MinArch.DigsiteButtons = {}
+MinArchHist.firstRun = true;
 
 local qLineQuests = {};
 local currentQuestArtifact = nil;
@@ -79,9 +80,54 @@ local function InitRaceButtons(self)
 	end
 end
 
+function SetToggleButtonTexture()
+	local button = MinArchHistToggleButton;
+	if (MinArch.db.profile.history.autoResize) then
+        button:SetNormalTexture([[Interface\Buttons\UI-Panel-CollapseButton-Up]]);
+		button:SetPushedTexture([[Interface\Buttons\UI-Panel-CollapseButton-Down]]);
+	else
+        button:SetNormalTexture([[Interface\Buttons\UI-Panel-ExpandButton-Up]]);
+		button:SetPushedTexture([[Interface\Buttons\UI-Panel-ExpandButton-Down]]);
+	end
+
+	button:SetBackdrop({
+		bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]],
+		edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0,
+		insets = { left = 0.5, right = 1, top = 2.4, bottom = 1.4 }
+	});
+	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
+	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
+end
+
+local function CreateHeightToggle(parent, x, y)
+	local button = CreateFrame("Button", "$parentToggleButton", parent, BackdropTemplateMixin and "BackdropTemplate");
+	button:SetSize(23.5, 23.5);
+	button:SetPoint("TOPLEFT", x, y);
+	SetToggleButtonTexture();
+
+	button:SetScript("OnClick", function(self, button)
+		if (button == "LeftButton") then
+			MinArch.db.profile.history.autoResize = (not MinArch.db.profile.history.autoResize);
+			SetToggleButtonTexture();
+			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
+		end
+	end);
+    button:SetScript("OnEnter", function()
+        if MinArch.db.profile.history.autoResize then
+            MinArch:ShowWindowButtonTooltip(button, "Click to set the height of the History window to a fixed size|r");
+        else
+            MinArch:ShowWindowButtonTooltip(button, "Click to enable automatic resizing for the History window");
+        end
+    end)
+	button:SetScript("OnLeave", function()
+		GameTooltip:Hide();
+	end)
+end
+
 function MinArch:InitHist(self)
 	InitQuestIndicator(self);
     InitRaceButtons(self);
+    CreateHeightToggle(self, 10, 4);
 
     self:SetScript("OnEvent", function(_, event, ...)
 		MinArch:EventHist(event, ...);
@@ -314,7 +360,10 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		else
 			return
 		end
-	end
+    end
+
+    local point, relativeTo, relativePoint, xOfs, yOfs = MinArchHist:GetPoint()
+	local x1, size1 = MinArchHist:GetSize();
 
 	MinArch:GetHistory(RaceID, nextcaller)
 
@@ -331,7 +380,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 	if not scrollf then
 		scrollf = CreateFrame("ScrollFrame", "MinArchScrollFrame", MinArchHist)
 		scrollf:SetClipsChildren(true)
-		scrollf:SetPoint("BOTTOMLEFT", MinArchHist, "BOTTOMLEFT", 12, 10)
+		scrollf:SetPoint("BOTTOMLEFT", MinArchHist, "BOTTOMLEFT", 12, 15)
 	end
 	scrollf:SetSize(width, 230)
 
@@ -516,7 +565,6 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
 					-- height calc
 					height = height + cheight
-					--print("height", height, "cheight", cheight)
 
 					-- Tooltip
 					mouseframe = currentArtifact.mouseframe
@@ -544,7 +592,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
 		-- Set up the scrollbar to work properly
 		local scrollMax = 0
-		if height > 230 then
+		if not MinArch.db.profile.history.autoResize and height > 230 then
 			scrollMax = height - 220
 		end
 
@@ -577,10 +625,36 @@ function MinArch:CreateHistoryList(RaceID, caller)
 			elseif (delta > 0) and (current > 1) then
 				scrollb:SetValue(current - 20)
 			end
-		end)
+        end)
+
+        if (MinArch.db.profile.history.autoResize) then
+            MinArchHistHeight = height + 85;
+            scrollc:SetHeight(height)
+            scrollf:SetHeight(height)
+        else
+            MinArchHistHeight = 310;
+        end
+
+        MinArchHist:ClearAllPoints();
+        if (MinArchHist.firstRun == false and relativeTo == nil) then
+            MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+        end
+
+        if (MinArch.firstRun == false) then
+            MinArchHist:ClearAllPoints();
+            if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
+                MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchHistHeight) / 2 )));
+            else
+                MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+            end
+        else
+            MinArchHist:SetPoint(point, "UIParent", relativePoint, xOfs, yOfs);
+            MinArchHist.firstRun = false;
+        end
+        MinArchHist:SetHeight(MinArchHistHeight);
 	end
 
-	scrollc:Show()
+    scrollc:Show()
 end
 
 function MinArch:DimHistoryButtons()

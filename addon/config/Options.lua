@@ -263,7 +263,26 @@ local general = {
 					order = 3,
 				},
 			}
-		}
+        },
+        history = {
+			type = 'group',
+			name = 'History Window settings',
+			inline = true,
+			order = 8,
+			args = {
+                autoResize = {
+					type = "toggle",
+					name = "Auto-resize",
+					desc = "Enable to automatically resize the history window to fit all items",
+					get = function () return MinArch.db.profile.history.autoResize end,
+					set = function (_, newValue)
+                        MinArch.db.profile.history.autoResize = newValue;
+                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+					end,
+					order = 1,
+				},
+            }
+        },
 	}
 }
 
