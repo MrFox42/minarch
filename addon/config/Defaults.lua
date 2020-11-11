@@ -32,6 +32,10 @@ MinArch.defaults = {
         rememberState = true,
         showSolvePopup = true,
         surveyOnDoubleClick = true,
+        dblClick = {
+            disableMounted = false,
+            disableInFlight = false,
+        },
 		relevancy = {
 			relevantOnly = false,
 			nearby = true,

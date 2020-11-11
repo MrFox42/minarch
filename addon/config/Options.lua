@@ -84,9 +84,31 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.surveyOnDoubleClick = newValue;
                     end,
+                    width = "full",
+					order = 1,
+                },
+                disableMounted = {
+                    type = "toggle",
+					name = "Don't cast while mounted",
+					desc = "Check this option to prevent casting survey while you're mounted.",
+					get = function () return MinArch.db.profile.dblClick.disableMounted end,
+					set = function (_, newValue)
+						MinArch.db.profile.dblClick.disableMounted = newValue;
+                    end,
+                    width = 1.5,
+					order = 2,
+                },
+                disableInFlight = {
+                    type = "toggle",
+					name = "Don't cast while flying",
+					desc = "Check this option to prevent casting survey while you're flying.",
+					get = function () return MinArch.db.profile.dblClick.disableInFlight end,
+					set = function (_, newValue)
+						MinArch.db.profile.dblClick.disableInFlight = newValue;
+                    end,
                     width = 1.5,
 					order = 3,
-				},
+                },
             }
         },
 		misc = {

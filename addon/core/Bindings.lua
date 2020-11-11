@@ -27,6 +27,28 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 	end
 end
 
+local function CanCast()
+    -- Check if casting is enabled at all
+    if not MinArch.db.profile.surveyOnDoubleClick then
+        return false;
+    end
+
+    -- Check general conditions
+    if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
+        return false;
+    end
+
+    -- Check custom conditions (mounted, flying)
+    if IsMounted() and MinArch.db.profile.dblClick.disableMounted then
+        return false;
+    end
+    if IsFlying() and MinArch.db.profile.dblClick.disableInFlight then
+        return false;
+    end
+
+    return true;
+end
+
 function MinArch:HookDoubleClick()
     local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArch.HelperFrame, "InSecureActionButtonTemplate");
     button:SetAttribute("type", "spell");
@@ -43,7 +65,7 @@ function MinArch:HookDoubleClick()
     end)
 
     WorldFrame:HookScript("OnMouseDown", function(_, button)
-        if MinArch.db.profile.surveyOnDoubleClick and button == "RightButton" and not InCombatLockdown() and CanScanResearchSite() and GetSpellCooldown(SURVEY_SPELL_ID) == 0 then
+        if button == "RightButton" and CanCast() then
             if prevTime then
                 local diff = GetTime() - prevTime;
 
