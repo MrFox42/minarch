@@ -174,10 +174,16 @@ function MinArch:UpdateActiveDigSites()
 			digsite["status"] = false;
 		end
 
-		local zoneUiMapID = MinArch:GetUiMapIdByContId(i);
+        local zoneUiMapID = MinArch:GetUiMapIdByContId(i);
 
-		for mapkey, zone in pairs(C_Map.GetMapChildrenInfo(zoneUiMapID, 3)) do
-			local uiMapID = zone.mapID;
+        local zones = C_Map.GetMapChildrenInfo(zoneUiMapID, 3);
+        -- Workaround for the phased version of Vale of Eternal Blossoms
+        if (i == 6) then
+            table.insert(zones, {mapID = 390});
+        end
+
+		for mapkey, zone in pairs(zones) do
+            local uiMapID = zone.mapID;
 			for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
 				local name = tostring(digsite.name)
 				local x = digsite.position.x;
@@ -200,8 +206,12 @@ function MinArch:UpdateActiveDigSites()
 
 				-- TODO: remove digsites assigned to the wrong continent in old/buggy releases
 
-				local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
-				local currentZoneUiMapID = MinArch:GetNearestZoneId(digsiteZone.mapID);
+                local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
+                -- Workaround for the phased version of Vale of Eternal Blossoms
+                if uiMapID == 390 then
+                    digsiteZone = C_Map.GetMapInfo(uiMapID);
+                end
+                local currentZoneUiMapID = MinArch:GetNearestZoneId(digsiteZone.mapID);
 				if (currentZoneUiMapID ~= nil and (currentZoneUiMapID == uiMapID or currentZoneUiMapID == digsiteZone.parentMapID)) then
 					if (playerContID == i and MinArchDigsiteList[name]) then
 						MinArch.RelevantRaces[MinArchDigsiteList[name].race] = true;
@@ -522,9 +532,9 @@ function MinArch:GetNearestDigsite()
         local name = tostring(digsite.name)
         local _, digsiteWorldPos = C_Map.GetWorldPosFromMapPos(uiMapID, digsite.position)
 		local digsitex = digsiteWorldPos.x;
-		local digsitey = digsiteWorldPos.y;
+        local digsitey = digsiteWorldPos.y;
 
-		local xd = math.abs(ax - tonumber(digsitex));
+        local xd = math.abs(ax - tonumber(digsitex));
 		local yd = math.abs(ay - tonumber(digsitey));
 		local d = math.sqrt((xd*xd)+(yd*yd));
 
@@ -575,7 +585,7 @@ function MinArch:ShowRaceIconsOnMap()
 			local x = digsite.position.x;
 			local y = digsite.position.y;
 
-			count = count + 1;
+            count = count + 1;
 
 			if not contID then
 				if not SpamBlock[name] then
