@@ -15,6 +15,11 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Latest Changes
 
+### 9.0.4
+
+- Added the options to prevent casting Survey on dobule right click while mounted and/or flying
+- Added the option and toggle to auto-resize the history window
+
 ### 9.0.3 - Maintenance release
 
 - TomTom: Fixed auto-waypoint settings
