@@ -134,10 +134,6 @@ function MinArch:InitHist(self)
 		MinArch:EventHist(event, ...);
     end)
 
-    for i=1,ARCHAEOLOGY_NUM_RACES do
-        ArtifactIndexMap[i] = {}
-    end
-
 	self:SetScript("OnShow", function ()
 		local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 		if (digSite and distance <= 2) then
