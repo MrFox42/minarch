@@ -29,23 +29,24 @@ local function InitQuestIndicator(self)
 end
 
 local function InitRaceButtons(self)
-	local baseX = 15;
-	local baseY = -15;
+	local baseX = 17;
+	local baseY = -19;
 	local currX = baseX;
 	local currY = baseY;
 	local sizeX = 25;
 	local sizeY = 25;
-	local lineBreak = 10;
+    local lineBreak = 10;
+    local padding = 2;
 
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		if (MinArchRaceConfig[i] ~= nil) then
 			local raceButton = CreateFrame("Button", "MinArchRaceButton" .. i, self);
 			raceButton:SetPoint("TOPLEFT", self, "TOPLEFT", currX, currY);
-			currX = currX + sizeX;
+			currX = currX + sizeX + padding;
 
 			if (i == 10) then
 				currX = baseX;
-				currY = currY - sizeY;
+				currY = currY - sizeY - padding;
 			end
 			raceButton:SetSize(sizeX, sizeY);
 			raceButton:SetNormalTexture(MinArchRaceConfig[i].texture);
@@ -377,8 +378,8 @@ local function ResizeHistoryWindow(scrollc, scrollf, height)
 
     if (MinArch.db.profile.history.autoResize) then
         MinArchHistHeight = height + 85;
-        scrollc:SetHeight(height)
-        scrollf:SetHeight(height)
+        scrollc:SetSize(275, height)
+        scrollf:SetSize(275, height)
     else
         MinArchHistHeight = 310;
     end
@@ -400,6 +401,10 @@ local function ResizeHistoryWindow(scrollc, scrollf, height)
         MinArchHist.firstRun = false;
     end
     MinArchHist:SetHeight(MinArchHistHeight);
+
+    for i,frame in pairs(scrollc.ArtifactFrames) do
+        frame:SetWidth(frame:GetParent():GetWidth() - 15);
+    end
 end
 
 local function GetArtifactFrame(scrollc, index)
@@ -538,9 +543,9 @@ function MinArch:CreateHistoryList(RaceID, caller)
 	if not scrollf then
 		scrollf = CreateFrame("ScrollFrame", "MinArchScrollFrame", MinArchHist)
 		scrollf:SetClipsChildren(true)
-		scrollf:SetPoint("BOTTOMLEFT", MinArchHist, "BOTTOMLEFT", 12, 15)
+		scrollf:SetPoint("BOTTOMLEFT", MinArchHist, "BOTTOMLEFT", 12, 10)
 	end
-	scrollf:SetSize(width, 230)
+	scrollf:SetSize(width, 225)
 
 	local scrollc = MinArchScroll[RaceID]
 	if not scrollc then
@@ -548,10 +553,10 @@ function MinArch:CreateHistoryList(RaceID, caller)
         scrollc.ArtifactFrames = {};
 		MinArchScroll[RaceID] = scrollc
 	end
-	scrollc:SetSize(width, 230)
+	scrollc:SetSize(width, 225)
 
 	local scrollb = MinArchScrollBar or CreateFrame("Slider", "MinArchScrollBar", MinArchHist)
-	local scrollPos = scrollb:GetValue() or 0;
+    local scrollPos = scrollb:GetValue() or 0;
 
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
@@ -706,7 +711,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
 		-- Set up the scrollbar to work properly
 		local scrollMax = 0
-		if not MinArch.db.profile.history.autoResize and height > 230 then
+		if not MinArch.db.profile.history.autoResize and height > 225 then
 			scrollMax = height - 220
 		end
 
@@ -717,7 +722,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		end
 
 		scrollb:SetOrientation("VERTICAL")
-		scrollb:SetSize(16, 230)
+		scrollb:SetSize(16, 225)
 		scrollb:SetPoint("TOPLEFT", scrollf, "TOPRIGHT", 0, 0)
 		scrollb:SetMinMaxValues(0, scrollMax)
 		scrollb:SetValue(scrollPos)
