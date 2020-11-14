@@ -135,7 +135,8 @@ local function RegisterEvents(self)
     self:RegisterEvent("ZONE_CHANGED");
     self:RegisterEvent("ZONE_CHANGED_INDOORS");
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-    self:RegisterEvent("CVAR_UPDATE"); -- Tracking
+    -- Tracking
+    self:RegisterEvent("CVAR_UPDATE");
 
     -- Apply SavedVariables
     self:RegisterEvent("ADDON_LOADED");
@@ -363,7 +364,8 @@ function MinArch:SolveArtifact(RaceIndex, confirmed)
 
 	SetSelectedArtifact(RaceIndex);
 
-	for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
+    RemoveItemFromArtifact()
+    for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
 		SocketItemToArtifact();
 	end
 	MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 0;

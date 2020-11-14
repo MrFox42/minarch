@@ -132,16 +132,15 @@ function MinArch:EventMain(event, ...)
 			eventTimer:Cancel();
 		end
 
-		eventTimer = C_Timer.NewTimer(0.5, function()
+        eventTimer = C_Timer.NewTimer(0.3, function()
 			MinArch:UpdateMain();
 			RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
-	end
+    end
 end
 
 function MinArch:EventHist(event, ...)
-	local updateHistory = false;
 	if (event == "RESEARCH_ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
@@ -165,26 +164,20 @@ function MinArch:EventHist(event, ...)
 			for i = 1, ARCHAEOLOGY_NUM_RACES do
 				MinArch:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
-			updateHistory = true;
 		else
-			MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+            MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+            return;
 		end
-	elseif (event == "RESEARCH_ARTIFACT_UPDATE") then
-		updateHistory = true;
-	elseif (event == "QUEST_ACCEPTED" or event == "QUEST_TURNED_IN" or event == "QUEST_REMOVED" or event == "QUESTLINE_UPDATE") then
-		updateHistory = true;
 	end
 
-	if (updateHistory) then
-		if (histEventTimer ~= nil) then
-			histEventTimer:Cancel();
-		end
+    if (histEventTimer ~= nil) then
+        histEventTimer:Cancel();
+    end
 
-		histEventTimer = C_Timer.NewTimer(0.5, function()
-			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
-			histEventTimer = nil;
-		end)
-	end
+    histEventTimer = C_Timer.NewTimer(0.3, function()
+        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
+        histEventTimer = nil;
+    end)
 end
 
 function MinArch:EventDigsites(event, ...)

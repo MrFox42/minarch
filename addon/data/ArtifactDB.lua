@@ -283,14 +283,14 @@ MinArchHistDB[ARCHAEOLOGY_RACE_MANTID] = {
     [95391] = {}, -- Mantid Sky Reaver
     [95392] = {}, -- Sonic Pulse Generator
 
-    [95375] = {pqid = 32686}, -- Banner of the Mantid Empire
-    [95376] = {pqid = 32687}, -- Ancient Sap Feeder
-    [95377] = {pqid = 32688}, -- The Praying Mantid
-    [95378] = {pqid = 32689}, -- Inert Sound Beacon
-    [95379] = {pqid = 32690}, -- Remains of a Paragon
-    [95380] = {pqid = 32691}, -- Mantid Lamp
-    [95381] = {pqid = 32692}, -- Pollen Collector
-    [95382] = {pqid = 32693}, -- Kypari Sap Container
+    [95375] = {pqid = 32686, achievement = 8221}, -- Banner of the Mantid Empire
+    [95376] = {pqid = 32687, achievement = 8223}, -- Ancient Sap Feeder
+    [95377] = {pqid = 32688, achievement = 8225}, -- The Praying Mantid
+    [95378] = {pqid = 32689, achievement = 8227}, -- Inert Sound Beacon
+    [95379] = {pqid = 32690, achievement = 8229}, -- Remains of a Paragon
+    [95380] = {pqid = 32691, achievement = 8231}, -- Mantid Lamp
+    [95381] = {pqid = 32692, achievement = 8233}, -- Pollen Collector
+    [95382] = {pqid = 32693, achievement = 8235}, -- Kypari Sap Container
 }
 
 -- Pandaren Artifacts
@@ -298,16 +298,16 @@ MinArchHistDB[ARCHAEOLOGY_RACE_PANDAREN] = {
     [79907] = {}, -- Spear of Xuen
     [79906] = {}, -- Umbrella of Chi-Ji
 
-    [79903]	= {pqid = 31802}, -- Apothecary Tins
-    [79901] = {pqid = 31800}, -- Carved Bronze Mirror
-    [79900] = {pqid = 31799}, -- Empty Keg // Empty Keg of Brewfather Xin Wo Yin
-    [79902] = {pqid = 31801}, -- Gold-Inlaid Figurine // Gold-Inlaid Porcelain Funerary Figurine
-    [79897] = {pqid = 31796}, -- Pandaren Game Board
-    [79896] = {pqid = 31795}, -- Pandaren Tea Set
-    [79904] = {pqid = 31803}, -- Pearl of Yu'lon
-    [79905] = {pqid = 31804}, -- Standard of Niuzao
-    [79898] = {pqid = 31797}, -- Twin Stein Set // Twin Stein Set of Brewfather Quan Tou Kuo
-    [79899] = {pqid = 31798}, -- Walking Cane // Walking Cane of Brewfather Ren Yun
+    [79903]	= {pqid = 31802, achievement = 7365}, -- Apothecary Tins
+    [79901] = {pqid = 31800, achievement = 7363}, -- Carved Bronze Mirror
+    [79900] = {pqid = 31799, achievement = 7362}, -- Empty Keg // Empty Keg of Brewfather Xin Wo Yin
+    [79902] = {pqid = 31801, achievement = 7364}, -- Gold-Inlaid Figurine // Gold-Inlaid Porcelain Funerary Figurine
+    [79897] = {pqid = 31796, achievement = 7359}, -- Pandaren Game Board
+    [79896] = {pqid = 31795, achievement = 7358}, -- Pandaren Tea Set
+    [79904] = {pqid = 31803, achievement = 7366}, -- Pearl of Yu'lon
+    [79905] = {pqid = 31804, achievement = 7367}, -- Standard of Niuzao
+    [79898] = {pqid = 31797, achievement = 7360}, -- Twin Stein Set // Twin Stein Set of Brewfather Quan Tou Kuo
+    [79899] = {pqid = 31798, achievement = 7361}, -- Walking Cane // Walking Cane of Brewfather Ren Yun
 }
 
 -- Mogu Artifacts
@@ -315,16 +315,16 @@ MinArchHistDB[ARCHAEOLOGY_RACE_MOGU] = {
     [89611] = {}, -- Quilen Statuette
     [89614] = {}, -- Anatomical Dummy
 
-    [79909] = {pqid = 31787}, -- Cracked Mogu Runestone
-    [79913] = {pqid = 31791}, -- Edicts of the Thunder King
-    [79914] = {pqid = 31792}, -- Iron Amulet
-    [79908] = {pqid = 31786}, -- Manacles of Rebellion
-    [79916] = {pqid = 31794}, -- Mogu Coin
-    [79911] = {pqid = 31789}, -- Petrified Bone Whip
-    [79910] = {pqid = 31788}, -- Terracotta Arm
-    [79912] = {pqid = 31790}, -- Thunder King Insignia
-    [79915] = {pqid = 31793}, -- Warlord's Branding Iron
-    [79917] = {pqid = 31805}, -- Worn Monument Ledger
+    [79909] = {pqid = 31787, achievement = 7369}, -- Cracked Mogu Runestone
+    [79913] = {pqid = 31791, achievement = 7373}, -- Edicts of the Thunder King
+    [79914] = {pqid = 31792, achievement = 7374}, -- Iron Amulet
+    [79908] = {pqid = 31786, achievement = 7368}, -- Manacles of Rebellion
+    [79916] = {pqid = 31794, achievement = 7376}, -- Mogu Coin
+    [79911] = {pqid = 31789, achievement = 7371}, -- Petrified Bone Whip
+    [79910] = {pqid = 31788, achievement = 7370}, -- Terracotta Arm
+    [79912] = {pqid = 31790, achievement = 7372}, -- Thunder King Insignia
+    [79915] = {pqid = 31793, achievement = 7375}, -- Warlord's Branding Iron
+    [79917] = {pqid = 31805, achievement = 7377}, -- Worn Monument Ledger
 }
 
 -- Arakkoa Artifacts

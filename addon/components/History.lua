@@ -12,6 +12,7 @@ local currentQuestArtifact = nil;
 local currentQuestArtifactRace = nil;
 local isOnArtifactQuestLine = false;
 local qLineRaces = {ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE};
+local dalaranChecked = false;
 
 local function InitQuestIndicator(self)
 	local qi = CreateFrame("Button", "MinArchHistQuestIndicator", self);
@@ -133,6 +134,10 @@ function MinArch:InitHist(self)
 		MinArch:EventHist(event, ...);
     end)
 
+    for i=1,ARCHAEOLOGY_NUM_RACES do
+        ArtifactIndexMap[i] = {}
+    end
+
 	self:SetScript("OnShow", function ()
 		local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 		if (digSite and distance <= 2) then
@@ -149,7 +154,14 @@ function MinArch:InitHist(self)
 	self:RegisterEvent("QUEST_ACCEPTED");
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("QUEST_REMOVED");
-	self:RegisterEvent("QUESTLINE_UPDATE");
+    self:RegisterEvent("QUESTLINE_UPDATE");
+
+    -- Achievement checks
+    self:RegisterEvent("CRITERIA_COMPLETE");
+    self:RegisterEvent("CRITERIA_EARNED");
+    self:RegisterEvent("CRITERIA_UPDATE");
+
+    self:RegisterEvent("UNIT_INVENTORY_CHANGED");
 
     MinArch:CommonFrameLoad(self);
 
@@ -200,7 +212,7 @@ function MinArch:LoadItemDetails(RaceID, caller)
 	return allGood
 end
 
-function MinArch:GetHistory(RaceID, caller)
+local function BuildHistory(RaceID, caller)
 	local i = 1
 	while true do
 		local name, desc, rarity, icon, spelldesc, itemrare, _, spellId, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, i)
@@ -217,7 +229,7 @@ function MinArch:GetHistory(RaceID, caller)
 		icon = icon..".blp"
 
 		local foundCount = 0
-		for itemid, details in pairs(MinArchHistDB[RaceID]) do
+        for itemid, details in pairs(MinArchHistDB[RaceID]) do
 			if (details.name == name and details.icon ~= icon) then
 				MinArchIconDB[RaceID] = MinArchIconDB[RaceID] or {}
 				MinArchIconDB[RaceID][icon] = details.icon
@@ -230,50 +242,44 @@ function MinArch:GetHistory(RaceID, caller)
 			end
 		end
 
-		-- pass 1: match both name and icon (because "Insect in Amber" and "Ancient Amber" have the same icon)
-		-- pass 2: match only the icon if no matches in pass 1 were found (because some artifact names are different than the items they give)
-		for pass = 1,2,1 do
-			for itemid, details in pairs(MinArchHistDB[RaceID]) do
-				if ((pass == 2 or details.name == name) and details.icon == icon) then
-					details.artifactname = name
-					foundCount = foundCount + 1
-					if foundCount > 1 then
-						MinArch:DisplayStatusMessage("Minimal Archaeology - found duplicate #" .. foundCount, MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
-					end
+        for itemid, details in pairs(MinArchHistDB[RaceID]) do
+            if ((details.name == name and details.icon == icon) or (foundCount == 0 and details.icon == icon)) then
+                foundCount = foundCount + 1
+                if foundCount > 1 then
+                    MinArch:DisplayStatusMessage("Minimal Archaeology - found duplicate #" .. foundCount, MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+                end
 
-					--TODO: In the tooltip, display icon/name/info for artifact and all associated item icons
-					-- Change MinArchHistDB to include the alternate item IDs (for example, Orb of Sciallax can give 6 different relics items)
-					-- Gather the name and icon info here.
-					--[[if (details.name ~= name) then
-						MinArch:DisplayStatusMessage("Minimal Archaeology - item and artifact names differ", MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
-						MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
-					end]]--
+                --TODO: In the tooltip, display icon/name/info for artifact and all associated item icons
+                -- Change MinArchHistDB to include the alternate item IDs (for example, Orb of Sciallax can give 6 different relics items)
+                -- Gather the name and icon info here.
+                --[[if (details.name ~= name) then
+                    MinArch:DisplayStatusMessage("Minimal Archaeology - item and artifact names differ", MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+                    MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+                end]]--
 
-					details.firstcomplete = firstcomplete
-					details.totalcomplete = totalcomplete
-					details.description = desc
-					details.spelldescription = spelldesc
+                details.artifactname = name
+                details.firstcomplete = firstcomplete
+                details.totalcomplete = totalcomplete
+                details.description = desc
+                details.spelldescription = spelldesc
+                details.apiIndex = i;
 
-					if (MinArch.artifacts[RaceID].project == name) then
-						MinArch.artifacts[RaceID].firstcomplete = firstcomplete
-						MinArch.artifacts[RaceID].totalcomplete = totalcomplete
-						MinArch.artifacts[RaceID].sellprice = details.sellprice
-					end
-				end
-			end
-			if foundCount > 0 then
-				break
-			end
-		end
+                if (MinArch.artifacts[RaceID].project == name) then
+                    MinArch.artifacts[RaceID].firstcomplete = firstcomplete
+                    MinArch.artifacts[RaceID].totalcomplete = totalcomplete
+                    MinArch.artifacts[RaceID].sellprice = details.sellprice
+                end
+            end
+        end
 
 		if foundCount == 0 and MinArch:IsItemDetailsLoaded(RaceID) then
 			MinArch:DisplayStatusMessage("Minimal Archaeology - found unknown artifact", MINARCH_MSG_DEBUG)
@@ -283,7 +289,34 @@ function MinArch:GetHistory(RaceID, caller)
 		end
 
 		i=i+1;
-	end
+    end
+end
+
+function MinArch:GetHistory(RaceID, caller)
+    for _, details in pairs(MinArchHistDB[RaceID]) do
+        if not details.apiIndex then
+            BuildHistory(RaceID, 'GetHistory');
+        else
+            local previousCompleted = details.totalcomplete;
+            local name, desc, _, _, spelldesc, _, _, _, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, details.apiIndex)
+            if (previousCompleted and previousCompleted > 0 and previousCompleted > totalcomplete) then
+                -- Don't update stored data if the response is bogus
+                return;
+            end
+
+            details.artifactname = name
+            details.firstcomplete = firstcomplete
+            details.totalcomplete = totalcomplete
+            details.description = desc
+            details.spelldescription = spelldesc
+
+            if (MinArch.artifacts[RaceID].project == name) then
+                MinArch.artifacts[RaceID].firstcomplete = firstcomplete
+                MinArch.artifacts[RaceID].totalcomplete = totalcomplete
+                MinArch.artifacts[RaceID].sellprice = details.sellprice
+            end
+        end
+    end
 end
 
 function MinArch:GetCurrentQuestArtifact()
@@ -317,6 +350,12 @@ function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 		return false;
 	end
 
+    if not dalaranChecked and WorldMapFrame then
+        local currentMapId = WorldMapFrame:GetMapID();
+        WorldMapFrame:SetMapID(627);
+        WorldMapFrame:SetMapID(currentMapId);
+        dalaranChecked = true;
+    end
     local availableQuestLines = C_QuestLine.GetAvailableQuestLines(627); -- 619 ? TODO
 
 	qLineQuests[qLineId] = qLineQuests[qLineId] or C_QuestLine.GetQuestLineQuests(qLineId);
@@ -334,6 +373,131 @@ function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 	end
 
 	return false
+end
+
+local function ResizeHistoryWindow(scrollc, scrollf, height)
+    local point, relativeTo, relativePoint, xOfs, yOfs = MinArchHist:GetPoint()
+	local _, size1 = MinArchHist:GetSize();
+
+    if (MinArch.db.profile.history.autoResize) then
+        MinArchHistHeight = height + 85;
+        scrollc:SetHeight(height)
+        scrollf:SetHeight(height)
+    else
+        MinArchHistHeight = 310;
+    end
+
+    MinArchHist:ClearAllPoints();
+    if (MinArchHist.firstRun == false and relativeTo == nil) then
+        MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+    end
+
+    if (MinArch.firstRun == false) then
+        MinArchHist:ClearAllPoints();
+        if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
+            MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchHistHeight) / 2 )));
+        else
+            MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+        end
+    else
+        MinArchHist:SetPoint(point, "UIParent", relativePoint, xOfs, yOfs);
+        MinArchHist.firstRun = false;
+    end
+    MinArchHist:SetHeight(MinArchHistHeight);
+end
+
+local function GetArtifactFrame(scrollc, index)
+    if (scrollc.ArtifactFrames[index]) then
+        return scrollc.ArtifactFrames[index];
+    end
+
+    local parentWidth = scrollc:GetWidth();
+    local padding = 5;
+
+    local frame = CreateFrame("Frame", "$parentArtifact" .. index, scrollc);
+    frame:SetSize(parentWidth, 20);
+    frame:SetWidth(parentWidth - padding * 2);
+    frame:SetPoint("TOPLEFT", scrollc, "TOPLEFT", padding, -20 * (index - 1) - padding * (index - 1));
+
+    -- Artifact icon, and texture
+    local icon = CreateFrame("Frame", "$parentIcon", frame);
+    icon:SetSize(20, 20);
+    icon:SetPoint("TOPLEFT", 0, 0)
+    local iconTex = icon:CreateTexture("$parentIconTexture", "BACKGROUND")
+    iconTex:SetAllPoints(true)
+    iconTex:SetWidth(20)
+    iconTex:SetHeight(20)
+    iconTex:SetBlendMode("DISABLE")
+    icon.texture = iconTex;
+    frame.icon = icon;
+
+    -- Artifact name
+    local name = CreateFrame("Frame", "$parentName", frame);
+    name:SetPoint("TOPLEFT", frame, "TOPLEFT", 20 + padding, 0)
+    name:SetSize(parentWidth - 100, 20);
+    local text = name:CreateFontString("$parentText", "OVERLAY");
+    text:SetPoint("TOPLEFT", name, "TOPLEFT", 0, 0);
+    text:SetSize(parentWidth, 20)
+    text:SetFontObject("ChatFontSmall")
+    text:SetWordWrap(true)
+    text:SetJustifyH("LEFT")
+    text:SetJustifyV("CENTER")
+    text:SetText("...");
+    name.text = text;
+    frame.name = name;
+
+    -- Quest indicator
+    local quest = CreateFrame("Frame", "$parentQuest", frame);
+    quest:SetSize(16, 16);
+    quest:SetPoint("CENTER", frame, "RIGHT", 0, 0);
+    local qTex2 = quest:CreateTexture("$parentIconTexture", "BACKGROUND");
+    qTex2:SetAllPoints(true)
+    qTex2:SetPoint("CENTER", quest, "RIGHT", 0, 0);
+    qTex2:SetSize(16, 16);
+    qTex2:SetBlendMode("ADD");
+    qTex2:SetTexture([[Interface\MINIMAP\OBJECTICONS]]);
+    qTex2:SetTexCoord(0.125, 0.25, 0.125, 0.25);
+    qTex2:SetAlpha(0.3)
+    qTex2:Hide();
+    local qTex = quest:CreateTexture("$parentIconTexture", "BACKGROUND");
+    qTex:SetAllPoints(true)
+    qTex:SetPoint("CENTER", quest, "RIGHT", 0, 0);
+    qTex:SetSize(16, 16);
+    qTex:SetBlendMode("ADD");
+    quest.texture = qTex;
+    quest.texture2 = qTex2;
+    frame.quest = quest;
+
+    -- Progress
+    local progress = CreateFrame("Frame", "$parentProgress", frame);
+    progress:SetSize(50, 20);
+    progress:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -18, 0)
+    local progressIcon = CreateFrame("Frame", "$parentIcon", progress);
+    progressIcon:SetSize(16, 16);
+    progressIcon:SetPoint("CENTER", progress, "RIGHT", 0, 0);
+    local pTex = progressIcon:CreateTexture("$parentIconTexture", "BACKGROUND");
+    pTex:SetAllPoints(true)
+    pTex:SetPoint("CENTER", progressIcon, "CENTER", 0, 0);
+    pTex:SetSize(16, 16);
+    pTex:SetBlendMode("ADD");
+    pTex:SetTexture([[Interface\ARCHEOLOGY\Arch-Icon-Marker]])
+    local progressText = progress:CreateFontString("$parentText", "OVERLAY");
+    progressText:SetPoint("TOPLEFT", progress, "TOPLEFT", 0, -1);
+    progressText:SetSize(40, 20);
+    progressText:SetFontObject("ChatFontSmall");
+    progressText:SetWordWrap(true);
+    progressText:SetJustifyH("RIGHT");
+    progressText:SetJustifyV("CENTER");
+    progressText:SetText("...");
+    progressIcon.texture = pTex;
+    progress.icon = progressIcon;
+    progress.text = progressText;
+    frame.progress = progress;
+
+
+    scrollc.ArtifactFrames[index] = frame;
+
+    return frame;
 end
 
 function MinArch:CreateHistoryList(RaceID, caller)
@@ -362,13 +526,11 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		end
     end
 
-    local point, relativeTo, relativePoint, xOfs, yOfs = MinArchHist:GetPoint()
-	local x1, size1 = MinArchHist:GetSize();
-
 	MinArch:GetHistory(RaceID, nextcaller)
 
-	local PADDING = 5;
+    local PADDING = 5;
 	local width = 260; -- fixme get parent width
+    local height = 0;
 
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		if (MinArchScroll[i]) then
@@ -386,7 +548,8 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
 	local scrollc = MinArchScroll[RaceID]
 	if not scrollc then
-		scrollc = CreateFrame("Frame", "MinArchScroll" .. RaceID)
+        scrollc = CreateFrame("Frame", "MinArchScroll" .. RaceID)
+        scrollc.ArtifactFrames = {};
 		MinArchScroll[RaceID] = scrollc
 	end
 	scrollc:SetSize(width, 230)
@@ -425,162 +588,117 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		[7]={rarity=0,goldmax=500000},
 	}
 
+    MinArch:UpdateArtifact(RaceID);
+
 	-- Calculate all font strings twice, because measurements are wrong if they are done only once.
 	-- To test this: set scale to 30%. Click a race button. The text should not have ellipse.
 	-- If only one pass is used, click a race button, and see text has ellipse at 30%. click button again and it draws properly.
-	for pass = 1, 2, 1 do
-		local height = 0;
+    -- for pass = 1, 2, 1 do
 		local count = 0;
 		local currentArtifact, currentFontString, cwidth, cheight, mouseframe, tmpText
 
-		for group, gparams in ipairs(groups) do
-			--print ("Group:", group, "rarity:", gparams.rarity, "min:", gparams.goldmin, "max:", gparams.goldmax)
-			for itemid, details in pairs(MinArchHistDB[RaceID]) do
-				if details.rarity == gparams.rarity
-						and ((not gparams.goldmin) or details.sellprice >= gparams.goldmin)
-						and ((not gparams.goldmax) or details.sellprice < gparams.goldmax) then
-					count = count + 1
+        for _, gparams in ipairs(groups) do
+            for itemid, details in pairs(MinArchHistDB[RaceID]) do
+                if details.rarity == gparams.rarity
+                    and ((not gparams.goldmin) or details.sellprice >= gparams.goldmin)
+                    and ((not gparams.goldmax) or details.sellprice < gparams.goldmax)
+                then
+                    count = count + 1;
+                    local frame = GetArtifactFrame(scrollc, count);
 
-					currentArtifact = scrollc.artifacts[count]
-					if not currentArtifact then
-						currentArtifact = {
-							description = scrollc:CreateFontString("Artifact" .. RaceID .. "_" .. count .. "Description", "OVERLAY"),
-							status = scrollc:CreateFontString("Artifact" .. RaceID .. "_" .. count .. "Status", "OVERLAY"),
-							mouseframe = CreateFrame("Frame", "Artifact" .. RaceID .. "_" .. count .. "MouseOver", scrollc)
-						}
-						if MinArch.HasPristine[RaceID] == true then
-							currentArtifact.pristine = scrollc:CreateFontString("Artifact" .. RaceID .. "_" .. count .. "Pristine", "OVERLAY")
+                    -- Set icon
+                    frame.icon.texture:SetTexture(details.icon);
+                    frame.icon:SetScript("OnEnter", function (self)
+                        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+                        GameTooltip:SetItemByID(itemid);
+                        GameTooltip:Show();
+                    end);
+                    frame.icon:SetScript("OnLeave", function()
+                        GameTooltip:Hide()
+                    end)
+
+                    -- Set text
+                    local displayName = details.name;
+					if (strlen(details.name) > 36) then
+						displayName = strsub(details.name, 0, 33) .. '...';
+					end
+					frame.name.text:SetText(displayName)
+                    frame.name.text:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
+
+                    frame.name:SetScript("OnEnter", function (self)
+                        MinArch:HistoryTooltip(self, RaceID, itemid)
+                    end);
+                    frame.name:SetScript("OnLeave", function()
+                        MinArchTooltipIcon:Hide();
+                        GameTooltip:Hide()
+                    end)
+
+                    -- Set pristine indicator
+                    if currentQuestArtifact == itemid then
+						frame.quest.texture:SetTexture([[Interface\QuestTypeIcons]]);
+                        frame.quest.texture:SetTexCoord(0, 0.140625, 0.28125, 0.5625);
+                    elseif MinArch.HasPristine[RaceID] == true then
+                        if not details.pqid then
+							-- hide?
+						elseif C_QuestLog.IsQuestFlaggedCompleted(details.pqid) == true then
+							frame.quest.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Criteria-Check]]);
+                            frame.quest.texture:SetTexCoord(0.125, 0.5625, 0, 0.6875);
+                            frame.quest.texture2:Show();
+                        else
+                            if C_QuestLog.IsOnQuest(details.pqid) then
+                                frame.quest.texture:SetTexture([[Interface\GossipFrame\ActiveQuestIcon]]);
+                                frame.quest.texture:SetTexCoord(0, 1, 0, 1);
+                            else
+                                frame.quest.texture:SetTexture([[Interface\GossipFrame\IncompleteQuestIcon]]);
+                                frame.quest.texture:SetTexCoord(0, 1, 0, 1);
+                            end
+                            frame.quest.texture2:Hide();
 						end
-						scrollc.artifacts[count] = currentArtifact
 					end
 
-					-- Description
-					currentFontString = currentArtifact.description
-					currentFontString:SetSize(width, 100)
-					currentFontString:SetFontObject("ChatFontSmall")
-					currentFontString:SetWordWrap(true)
-					currentFontString:SetJustifyH("LEFT")
-					currentFontString:SetJustifyV("CENTER")
-					local displayName = details.name;
-					if (strlen(details.name) > 31) then
-						displayName = strsub(details.name, 0, 28) .. '...';
-					end
-					currentFontString:SetText(" |T" .. strsub(details.icon, 0, -5) .. ":16:16:0:0|t " .. displayName)
-					currentFontString:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
-
-					cwidth = currentFontString:GetStringWidth()
-					cheight = currentFontString:GetStringHeight()
-					currentFontString:SetSize(cwidth + 18, cheight)
-
-					if count == 1 then
-						currentFontString:SetPoint("TOPLEFT", scrollc, "TOPLEFT", 0, 0)
-					else
-						currentFontString:SetPoint("LEFT", scrollc, "LEFT", 0, 0)
-						currentFontString:SetPoint("TOP", scrollc.artifacts[count - 1].description, "TOP", 0, - PADDING - cheight)
-						height = height + PADDING
-					end
-
-					-- Status
-					currentFontString = currentArtifact.status
-					currentFontString:SetSize(width, 100)
-					currentFontString:SetFontObject("ChatFontSmall")
-					currentFontString:SetWordWrap(false)
-					currentFontString:SetJustifyH("RIGHT")
-					currentFontString:SetJustifyV("TOP")
-
-					if not details.firstcomplete then
-						currentFontString:SetText("Incomplete")
-						currentFontString:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
+                    -- Set Progress
+                    if not details.firstcomplete then
+						frame.progress.text:SetText("0");
+						frame.progress.text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
 					elseif MinArch.artifacts[RaceID].project == details.artifactname then
 						if not details.totalcomplete or details.totalcomplete == 0 then
-							currentFontString:SetText("In Progress")
+							frame.progress.text:SetText("#1")
 						else
-							currentFontString:SetText("#" .. (details.totalcomplete + 1) .. " In Progress")
+							frame.progress.text:SetText("#" .. (details.totalcomplete + 1))
 						end
-						currentFontString:SetTextColor(1.0, 0.8, 0.0, 1.0)
+						frame.progress.text:SetTextColor(1.0, 0.8, 0.0, 1.0)
 					else
-						currentFontString:SetText(details.totalcomplete .. " Completed")
-						currentFontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
-					end
+						frame.progress.text:SetText("x" .. details.totalcomplete)
+						frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
+                    end
 
-					-- Legion quests
-					if (currentQuestArtifact == itemid) then
-						tmpText = "";
-						if (details.totalcomplete and details.totalcomplete > 0) then
-							tmpText = "#" .. (details.totalcomplete + 1) .. " ";
-						end
+                    local achiInProgress = false;
+                    if details.achievement then
+                        local _, _, _, _, _, _, _, _, _, _, _, _, wasEarnedByMe, earnedBy = GetAchievementInfo(details.achievement)
+                        achiInProgress = not wasEarnedByMe;
+                    end
 
-						if (isOnArtifactQuestLine) then
-							currentFontString:SetText(tmpText .. "On quest");
-							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
-						else
-							currentFontString:SetText(tmpText .. "Quest available");
-							currentFontString:SetTextColor(1.0, 0.5, 0.0, 1.0)
-						end
-					end
-
-
-					cwidth = currentFontString:GetStringWidth()
-					currentFontString:SetSize(cwidth + 5, cheight)
-
-					local statusoffset = MinArch.HasPristine[RaceID] == true and -12 or 0
-
-					if count == 1 then
-						currentFontString:SetPoint("TOPRIGHT", scrollc, "TOPRIGHT", statusoffset, 0)
-					else
-						currentFontString:SetPoint("RIGHT", scrollc, "RIGHT", statusoffset, 0)
-						currentFontString:SetPoint("TOP", scrollc.artifacts[count - 1].status, "TOP", 0, - PADDING - cheight)
-					end
-
-					-- Pristine
-					if MinArch.HasPristine[RaceID] == true then
-						currentFontString = currentArtifact.pristine
-						currentFontString:SetSize(width, 100)
-						currentFontString:SetFontObject("ChatFontSmall")
-						currentFontString:SetWordWrap(false)
-						currentFontString:SetJustifyH("RIGHT")
-						currentFontString:SetJustifyV("TOP")
-
-						if not details.pqid then
-							currentFontString:SetText("-")
-							currentFontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
-						elseif C_QuestLog.IsQuestFlaggedCompleted(details.pqid) == true then
-							currentFontString:SetText("+")
-							currentFontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
-						else
-							currentFontString:SetText("x")
-							currentFontString:SetTextColor(1.0, 0.0, 0.0, 1.0)
-						end
-
-						cwidth = currentFontString:GetStringWidth()
-						currentFontString:SetSize(cwidth + 5, cheight)
-
-						if count == 1 then
-							currentFontString:SetPoint("TOPRIGHT", scrollc, "TOPRIGHT", 0, 0)
-						else
-							currentFontString:SetPoint("RIGHT", scrollc, "RIGHT", 0, 0)
-							currentFontString:SetPoint("TOP", scrollc.artifacts[count - 1].pristine, "TOP", 0, - PADDING - cheight)
-						end
-					end
-
-					-- height calc
-					height = height + cheight
-
-					-- Tooltip
-					mouseframe = currentArtifact.mouseframe
-					mouseframe:SetSize(width, cheight)
-					mouseframe:SetPoint("BOTTOMRIGHT", currentFontString, "BOTTOMRIGHT", 0, 0)
-
-					mouseframe:SetScript("OnEnter", function(self)
-												MinArch:HistoryTooltip(self, RaceID, itemid)
-											end)
-					mouseframe:SetScript("OnLeave", function()
-												MinArchTooltipIcon:Hide();
-												GameTooltip:Hide()
-											end)
-				end
-			end
-		end
+                    if achiInProgress then
+                        frame.progress.icon.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Progressive-Shield-NoPoints]])
+                        frame.progress.icon.texture:SetTexCoord(0.125, 0.53125, 0.125, 0.625);
+                        frame.progress.icon:SetSize(14, 18);
+                        frame.progress.icon.texture:SetSize(14, 18);
+                        frame.progress.text:SetText(frame.progress.text:GetText() .. " /" .. 20)
+                    else
+                        frame.progress.icon:SetSize(16, 16);
+                        frame.progress.icon.texture:SetSize(16, 16);
+                        if (MinArch.artifacts[RaceID].project == details.artifactname) then
+                            frame.progress.icon.texture:SetTexture([[Interface\MINIMAP\TRACKING\ArchBlob.PNG]])
+                            frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
+                        else
+                            frame.progress.icon.texture:SetTexture([[Interface\ARCHEOLOGY\Arch-Icon-Marker]])
+                            frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
+                        end
+                    end
+                end
+                height = count * (20 + PADDING);
+            end
+        end
 
 		-- Set the size of the scroll child
 		if height > 2 then
@@ -626,34 +744,9 @@ function MinArch:CreateHistoryList(RaceID, caller)
 				scrollb:SetValue(current - 20)
 			end
         end)
+    --end
 
-        if (MinArch.db.profile.history.autoResize) then
-            MinArchHistHeight = height + 85;
-            scrollc:SetHeight(height)
-            scrollf:SetHeight(height)
-        else
-            MinArchHistHeight = 310;
-        end
-
-        MinArchHist:ClearAllPoints();
-        if (MinArchHist.firstRun == false and relativeTo == nil) then
-            MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
-        end
-
-        if (MinArch.firstRun == false) then
-            MinArchHist:ClearAllPoints();
-            if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
-                MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchHistHeight) / 2 )));
-            else
-                MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
-            end
-        else
-            MinArchHist:SetPoint(point, "UIParent", relativePoint, xOfs, yOfs);
-            MinArchHist.firstRun = false;
-        end
-        MinArchHist:SetHeight(MinArchHistHeight);
-	end
-
+    ResizeHistoryWindow(scrollc, scrollf, height);
     scrollc:Show()
 end
 
@@ -669,7 +762,7 @@ function MinArch:HistoryTooltip(self, RaceID, ItemID)
 	local artifact = MinArchHistDB[RaceID][ItemID];
 	local discovereddate = {};
 
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM");
 
 	MinArchTooltipIcon.icon:SetTexture(artifact.icon)
 	if (artifact.rarity == 4) then
@@ -680,8 +773,10 @@ function MinArch:HistoryTooltip(self, RaceID, ItemID)
 		GameTooltip:AddLine(artifact.name, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
 	end
 
-	GameTooltip:AddLine(artifact.description, 1.0, 1.0, 1.0, 1.0)
-	GameTooltip:AddLine(artifact.spelldescription, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1)
+    GameTooltip:AddLine(artifact.description, 1.0, 1.0, 1.0, 1.0)
+    if (artifact.description ~= artifact.spelldescription) then
+        GameTooltip:AddLine(artifact.spelldescription, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1)
+    end
 
 	if not artifact["firstcomplete"] then
 		GameTooltip:AddLine("Incomplete", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
@@ -705,8 +800,6 @@ function MinArch:HistoryTooltip(self, RaceID, ItemID)
 			GameTooltip:AddDoubleLine("Discovered On: |cffffffff"..discovereddate["month"].."/"..discovereddate["day"].."/"..discovereddate["year"], "x"..artifact["totalcomplete"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 		end
 	end
-
-
 
 	MinArchTooltipIcon:Show();
 	GameTooltip:Show();
