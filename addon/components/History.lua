@@ -372,6 +372,67 @@ function MinArch:IsQuestAvailableForArtifact(RaceID, artifactID)
 	return false
 end
 
+local function SetProgressTooltip(frame, progressState, achievementState, totalComplete)
+    local stateStrings = {
+        [MINARCH_PROGRESS_UNKNOWN]        = "You haven't found this artifact yet",
+        [MINARCH_PROGRESS_KNOWN]          = "Completed |cFFDDDDDD",
+        [MINARCH_PROGRESS_CURRENT]        = "Currently available for this race",
+        [MINARCH_ACHIPROGRESS_INCOMPLETE] = "Collector achievement in progress: ";
+        [MINARCH_ACHIPROGRESS_COMPLETE]   = "Collector achievement completed";
+    }
+
+    if totalComplete == 1 then
+        stateStrings[MINARCH_PROGRESS_KNOWN] = stateStrings[MINARCH_PROGRESS_KNOWN] .. totalComplete .. "|r time"
+    elseif totalComplete and totalComplete > 1 then
+        stateStrings[MINARCH_PROGRESS_KNOWN] = stateStrings[MINARCH_PROGRESS_KNOWN] .. totalComplete .. "|r times";
+    end
+    if totalComplete and totalComplete > 0 and achievementState == MINARCH_ACHIPROGRESS_INCOMPLETE then
+        stateStrings[MINARCH_ACHIPROGRESS_INCOMPLETE] = stateStrings[MINARCH_ACHIPROGRESS_INCOMPLETE]
+            .. "|cFFDDDDDD" .. totalComplete .. '/20|r';
+    end
+
+    frame:SetScript("OnEnter", function (self)
+        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+        GameTooltip:AddLine("Artifact Progress Information");
+        GameTooltip:AddLine(" ");
+        if progressState == MINARCH_PROGRESS_CURRENT then
+            GameTooltip:AddLine(stateStrings[MINARCH_PROGRESS_KNOWN]);
+        end
+        if achievementState ~= MINARCH_ACHIPROGRESS_NONE then
+            GameTooltip:AddLine(stateStrings[achievementState])
+        end
+        GameTooltip:AddLine(stateStrings[progressState]);
+        GameTooltip:Show();
+    end);
+
+    frame:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+end
+
+local function SetQuestTooltip(frame, questState)
+    local stateStrings = {
+        [MINARCH_QSTATE_LEGION_AVAILABLE]    = "Currently available from the bi-weekly Legion quest",
+        [MINARCH_QSTATE_PRISTINE_INCOMPLETE] = "Pristine version not found yet",
+        [MINARCH_QSTATE_PRISTINE_ONQUEST]    = "Pristine version found, but not yet handed in",
+        [MINARCH_QSTATE_PRISTINE_COMPLETE]   = "Pristine version already found"
+    }
+
+    frame:SetScript("OnEnter", function (self)
+        if questState == MINARCH_QSTATE_NIL then
+            return;
+        end
+
+        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+        GameTooltip:AddLine(stateStrings[questState])
+        GameTooltip:Show();
+    end);
+
+    frame:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+end
+
 local function ResizeHistoryWindow(scrollc, scrollf, height)
     local point, relativeTo, relativePoint, xOfs, yOfs = MinArchHist:GetPoint()
 	local _, size1 = MinArchHist:GetSize();
@@ -494,7 +555,6 @@ local function GetArtifactFrame(scrollc, index)
     progress.icon = progressIcon;
     progress.text = progressText;
     frame.progress = progress;
-
 
     scrollc.ArtifactFrames[index] = frame;
 
@@ -631,9 +691,11 @@ function MinArch:CreateHistoryList(RaceID, caller)
                 end)
 
                 -- Set pristine indicator
+                local questState = MINARCH_QSTATE_NIL;
                 if currentQuestArtifact == itemid then
                     frame.quest.texture:SetTexture([[Interface\QuestTypeIcons]]);
                     frame.quest.texture:SetTexCoord(0, 0.140625, 0.28125, 0.5625);
+                    questState = MINARCH_QSTATE_LEGION_AVAILABLE;
                 elseif MinArch.HasPristine[RaceID] == true then
                     if not details.pqid then
                         -- hide?
@@ -641,19 +703,25 @@ function MinArch:CreateHistoryList(RaceID, caller)
                         frame.quest.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Criteria-Check]]);
                         frame.quest.texture:SetTexCoord(0.125, 0.5625, 0, 0.6875);
                         frame.quest.texture2:Show();
+                        questState = MINARCH_QSTATE_PRISTINE_COMPLETE
                     else
                         if C_QuestLog.IsOnQuest(details.pqid) then
                             frame.quest.texture:SetTexture([[Interface\GossipFrame\ActiveQuestIcon]]);
                             frame.quest.texture:SetTexCoord(0, 1, 0, 1);
+                            questState = MINARCH_QSTATE_PRISTINE_ONQUEST
                         else
                             frame.quest.texture:SetTexture([[Interface\GossipFrame\IncompleteQuestIcon]]);
                             frame.quest.texture:SetTexCoord(0, 1, 0, 1);
+                            questState = MINARCH_QSTATE_PRISTINE_INCOMPLETE
                         end
                         frame.quest.texture2:Hide();
                     end
                 end
+                SetQuestTooltip(frame.quest, questState);
 
                 -- Set Progress
+                local progressState = MINARCH_PROGRESS_UNKNOWN;
+                local achievementState = MINARCH_ACHIPROGRESS_NONE;
                 if not details.firstcomplete then
                     frame.progress.text:SetText("0");
                     frame.progress.text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
@@ -664,15 +732,20 @@ function MinArch:CreateHistoryList(RaceID, caller)
                         frame.progress.text:SetText("#" .. (details.totalcomplete + 1))
                     end
                     frame.progress.text:SetTextColor(1.0, 0.8, 0.0, 1.0)
+                    progressState = MINARCH_PROGRESS_CURRENT;
                 else
                     frame.progress.text:SetText("x" .. details.totalcomplete)
                     frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
+                    progressState = MINARCH_PROGRESS_KNOWN;
                 end
 
                 local achiInProgress = false;
                 if details.achievement then
                     local _, _, _, _, _, _, _, _, _, _, _, _, wasEarnedByMe, earnedBy = GetAchievementInfo(details.achievement)
                     achiInProgress = not wasEarnedByMe;
+                    if wasEarnedByMe then
+                        achievementState = MINARCH_ACHIPROGRESS_COMPLETE;
+                    end
                 end
 
                 if achiInProgress then
@@ -681,6 +754,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
                     frame.progress.icon:SetSize(14, 18);
                     frame.progress.icon.texture:SetSize(14, 18);
                     frame.progress.text:SetText(frame.progress.text:GetText() .. " /" .. 20)
+                    achievementState = MINARCH_ACHIPROGRESS_INCOMPLETE;
                 else
                     frame.progress.icon:SetSize(16, 16);
                     frame.progress.icon.texture:SetSize(16, 16);
@@ -692,6 +766,8 @@ function MinArch:CreateHistoryList(RaceID, caller)
                         frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
                     end
                 end
+
+                SetProgressTooltip(frame.progress, progressState, achievementState, details.totalcomplete)
             end
             height = count * (20 + PADDING);
         end
