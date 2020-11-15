@@ -591,161 +591,156 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
     MinArch:UpdateArtifact(RaceID);
 
-	-- Calculate all font strings twice, because measurements are wrong if they are done only once.
-	-- To test this: set scale to 30%. Click a race button. The text should not have ellipse.
-	-- If only one pass is used, click a race button, and see text has ellipse at 30%. click button again and it draws properly.
-    -- for pass = 1, 2, 1 do
-		local count = 0;
-		local currentArtifact, currentFontString, cwidth, cheight, mouseframe, tmpText
+    local count = 0;
+    local currentArtifact, currentFontString, cwidth, cheight, mouseframe, tmpText
 
-        for _, gparams in ipairs(groups) do
-            for itemid, details in pairs(MinArchHistDB[RaceID]) do
-                if details.rarity == gparams.rarity
-                    and ((not gparams.goldmin) or details.sellprice >= gparams.goldmin)
-                    and ((not gparams.goldmax) or details.sellprice < gparams.goldmax)
-                then
-                    count = count + 1;
-                    local frame = GetArtifactFrame(scrollc, count);
+    for _, gparams in ipairs(groups) do
+        for itemid, details in pairs(MinArchHistDB[RaceID]) do
+            if details.rarity == gparams.rarity
+                and ((not gparams.goldmin) or details.sellprice >= gparams.goldmin)
+                and ((not gparams.goldmax) or details.sellprice < gparams.goldmax)
+            then
+                count = count + 1;
+                local frame = GetArtifactFrame(scrollc, count);
 
-                    -- Set icon
-                    frame.icon.texture:SetTexture(details.icon);
-                    frame.icon:SetScript("OnEnter", function (self)
-                        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-                        GameTooltip:SetItemByID(itemid);
-                        GameTooltip:Show();
-                    end);
-                    frame.icon:SetScript("OnLeave", function()
-                        GameTooltip:Hide()
-                    end)
+                -- Set icon
+                frame.icon.texture:SetTexture(details.icon);
+                frame.icon:SetScript("OnEnter", function (self)
+                    GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+                    GameTooltip:SetItemByID(itemid);
+                    GameTooltip:Show();
+                end);
+                frame.icon:SetScript("OnLeave", function()
+                    GameTooltip:Hide()
+                end)
 
-                    -- Set text
-                    local displayName = details.name;
-					if (strlen(details.name) > 36) then
-						displayName = strsub(details.name, 0, 33) .. '...';
-					end
-					frame.name.text:SetText(displayName)
-                    frame.name.text:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
+                -- Set text
+                local displayName = details.name;
+                if (strlen(details.name) > 36) then
+                    displayName = strsub(details.name, 0, 33) .. '...';
+                end
+                frame.name.text:SetText(displayName)
+                frame.name.text:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
 
-                    frame.name:SetScript("OnEnter", function (self)
-                        MinArch:HistoryTooltip(self, RaceID, itemid)
-                    end);
-                    frame.name:SetScript("OnLeave", function()
-                        MinArchTooltipIcon:Hide();
-                        GameTooltip:Hide()
-                    end)
+                frame.name:SetScript("OnEnter", function (self)
+                    MinArch:HistoryTooltip(self, RaceID, itemid)
+                end);
+                frame.name:SetScript("OnLeave", function()
+                    MinArchTooltipIcon:Hide();
+                    GameTooltip:Hide()
+                end)
 
-                    -- Set pristine indicator
-                    if currentQuestArtifact == itemid then
-						frame.quest.texture:SetTexture([[Interface\QuestTypeIcons]]);
-                        frame.quest.texture:SetTexCoord(0, 0.140625, 0.28125, 0.5625);
-                    elseif MinArch.HasPristine[RaceID] == true then
-                        if not details.pqid then
-							-- hide?
-						elseif C_QuestLog.IsQuestFlaggedCompleted(details.pqid) == true then
-							frame.quest.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Criteria-Check]]);
-                            frame.quest.texture:SetTexCoord(0.125, 0.5625, 0, 0.6875);
-                            frame.quest.texture2:Show();
-                        else
-                            if C_QuestLog.IsOnQuest(details.pqid) then
-                                frame.quest.texture:SetTexture([[Interface\GossipFrame\ActiveQuestIcon]]);
-                                frame.quest.texture:SetTexCoord(0, 1, 0, 1);
-                            else
-                                frame.quest.texture:SetTexture([[Interface\GossipFrame\IncompleteQuestIcon]]);
-                                frame.quest.texture:SetTexCoord(0, 1, 0, 1);
-                            end
-                            frame.quest.texture2:Hide();
-						end
-					end
-
-                    -- Set Progress
-                    if not details.firstcomplete then
-						frame.progress.text:SetText("0");
-						frame.progress.text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
-					elseif MinArch.artifacts[RaceID].project == details.artifactname then
-						if not details.totalcomplete or details.totalcomplete == 0 then
-							frame.progress.text:SetText("#1")
-						else
-							frame.progress.text:SetText("#" .. (details.totalcomplete + 1))
-						end
-						frame.progress.text:SetTextColor(1.0, 0.8, 0.0, 1.0)
-					else
-						frame.progress.text:SetText("x" .. details.totalcomplete)
-						frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
-                    end
-
-                    local achiInProgress = false;
-                    if details.achievement then
-                        local _, _, _, _, _, _, _, _, _, _, _, _, wasEarnedByMe, earnedBy = GetAchievementInfo(details.achievement)
-                        achiInProgress = not wasEarnedByMe;
-                    end
-
-                    if achiInProgress then
-                        frame.progress.icon.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Progressive-Shield-NoPoints]])
-                        frame.progress.icon.texture:SetTexCoord(0.125, 0.53125, 0.125, 0.625);
-                        frame.progress.icon:SetSize(14, 18);
-                        frame.progress.icon.texture:SetSize(14, 18);
-                        frame.progress.text:SetText(frame.progress.text:GetText() .. " /" .. 20)
+                -- Set pristine indicator
+                if currentQuestArtifact == itemid then
+                    frame.quest.texture:SetTexture([[Interface\QuestTypeIcons]]);
+                    frame.quest.texture:SetTexCoord(0, 0.140625, 0.28125, 0.5625);
+                elseif MinArch.HasPristine[RaceID] == true then
+                    if not details.pqid then
+                        -- hide?
+                    elseif C_QuestLog.IsQuestFlaggedCompleted(details.pqid) == true then
+                        frame.quest.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Criteria-Check]]);
+                        frame.quest.texture:SetTexCoord(0.125, 0.5625, 0, 0.6875);
+                        frame.quest.texture2:Show();
                     else
-                        frame.progress.icon:SetSize(16, 16);
-                        frame.progress.icon.texture:SetSize(16, 16);
-                        if (MinArch.artifacts[RaceID].project == details.artifactname) then
-                            frame.progress.icon.texture:SetTexture([[Interface\MINIMAP\TRACKING\ArchBlob.PNG]])
-                            frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
+                        if C_QuestLog.IsOnQuest(details.pqid) then
+                            frame.quest.texture:SetTexture([[Interface\GossipFrame\ActiveQuestIcon]]);
+                            frame.quest.texture:SetTexCoord(0, 1, 0, 1);
                         else
-                            frame.progress.icon.texture:SetTexture([[Interface\ARCHEOLOGY\Arch-Icon-Marker]])
-                            frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
+                            frame.quest.texture:SetTexture([[Interface\GossipFrame\IncompleteQuestIcon]]);
+                            frame.quest.texture:SetTexCoord(0, 1, 0, 1);
                         end
+                        frame.quest.texture2:Hide();
                     end
                 end
-                height = count * (20 + PADDING);
+
+                -- Set Progress
+                if not details.firstcomplete then
+                    frame.progress.text:SetText("0");
+                    frame.progress.text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
+                elseif MinArch.artifacts[RaceID].project == details.artifactname then
+                    if not details.totalcomplete or details.totalcomplete == 0 then
+                        frame.progress.text:SetText("#1")
+                    else
+                        frame.progress.text:SetText("#" .. (details.totalcomplete + 1))
+                    end
+                    frame.progress.text:SetTextColor(1.0, 0.8, 0.0, 1.0)
+                else
+                    frame.progress.text:SetText("x" .. details.totalcomplete)
+                    frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
+                end
+
+                local achiInProgress = false;
+                if details.achievement then
+                    local _, _, _, _, _, _, _, _, _, _, _, _, wasEarnedByMe, earnedBy = GetAchievementInfo(details.achievement)
+                    achiInProgress = not wasEarnedByMe;
+                end
+
+                if achiInProgress then
+                    frame.progress.icon.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Progressive-Shield-NoPoints]])
+                    frame.progress.icon.texture:SetTexCoord(0.125, 0.53125, 0.125, 0.625);
+                    frame.progress.icon:SetSize(14, 18);
+                    frame.progress.icon.texture:SetSize(14, 18);
+                    frame.progress.text:SetText(frame.progress.text:GetText() .. " /" .. 20)
+                else
+                    frame.progress.icon:SetSize(16, 16);
+                    frame.progress.icon.texture:SetSize(16, 16);
+                    if (MinArch.artifacts[RaceID].project and MinArch.artifacts[RaceID].project == details.artifactname) then
+                        frame.progress.icon.texture:SetTexture([[Interface\MINIMAP\TRACKING\ArchBlob.PNG]])
+                        frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
+                    else
+                        frame.progress.icon.texture:SetTexture([[Interface\ARCHEOLOGY\Arch-Icon-Marker]])
+                        frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
+                    end
+                end
             end
+            height = count * (20 + PADDING);
         end
+    end
 
-		-- Set the size of the scroll child
-		if height > 2 then
-			scrollc:SetHeight(height-2)
-		end
+    -- Set the size of the scroll child
+    if height > 2 then
+        scrollc:SetHeight(height-2)
+    end
 
-		-- Set the scrollchild to be the frame of font strings we've created
-		scrollf:SetScrollChild(scrollc)
+    -- Set the scrollchild to be the frame of font strings we've created
+    scrollf:SetScrollChild(scrollc)
 
-		-- Set up the scrollbar to work properly
-		local scrollMax = 0
-		if not MinArch.db.profile.history.autoResize and height > 225 then
-			scrollMax = height - 220
-		end
+    -- Set up the scrollbar to work properly
+    local scrollMax = 0
+    if not MinArch.db.profile.history.autoResize and height > 225 then
+        scrollMax = height - 220
+    end
 
-		if (scrollMax == 0) then
-			scrollb.thumb:Hide();
-		else
-			scrollb.thumb:Show();
-		end
+    if (scrollMax == 0) then
+        scrollb.thumb:Hide();
+    else
+        scrollb.thumb:Show();
+    end
 
-		scrollb:SetOrientation("VERTICAL")
-		scrollb:SetSize(16, 225)
-		scrollb:SetPoint("TOPLEFT", scrollf, "TOPRIGHT", 0, 0)
-		scrollb:SetMinMaxValues(0, scrollMax)
-		scrollb:SetValue(scrollPos)
-		scrollb:SetScript("OnValueChanged", function(self)
-			scrollf:SetVerticalScroll(self:GetValue())
-		end)
+    scrollb:SetOrientation("VERTICAL")
+    scrollb:SetSize(16, 225)
+    scrollb:SetPoint("TOPLEFT", scrollf, "TOPRIGHT", 0, 0)
+    scrollb:SetMinMaxValues(0, scrollMax)
+    scrollb:SetValue(scrollPos)
+    scrollb:SetScript("OnValueChanged", function(self)
+        scrollf:SetVerticalScroll(self:GetValue())
+    end)
 
-		-- Enable mousewheel scrolling
-		scrollf:EnableMouseWheel(true)
-		scrollf:SetScript("OnMouseWheel", function(self, delta)
-			local current = scrollb:GetValue()
+    -- Enable mousewheel scrolling
+    scrollf:EnableMouseWheel(true)
+    scrollf:SetScript("OnMouseWheel", function(self, delta)
+        local current = scrollb:GetValue()
 
-			if IsShiftKeyDown() and (delta > 0) then
-				scrollb:SetValue(0)
-			elseif IsShiftKeyDown() and (delta < 0) then
-				scrollb:SetValue(scrollMax)
-			elseif (delta < 0) and (current < scrollMax) then
-				scrollb:SetValue(current + 20)
-			elseif (delta > 0) and (current > 1) then
-				scrollb:SetValue(current - 20)
-			end
-        end)
-    --end
+        if IsShiftKeyDown() and (delta > 0) then
+            scrollb:SetValue(0)
+        elseif IsShiftKeyDown() and (delta < 0) then
+            scrollb:SetValue(scrollMax)
+        elseif (delta < 0) and (current < scrollMax) then
+            scrollb:SetValue(current + 20)
+        elseif (delta > 0) and (current > 1) then
+            scrollb:SetValue(current - 20)
+        end
+    end)
 
     ResizeHistoryWindow(scrollc, scrollf, height);
     scrollc:Show()
