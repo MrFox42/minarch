@@ -66,8 +66,6 @@ function MinArch:EventMain(event, ...)
 		if (addonname == "Blizzard_ArchaeologyUI") then
 			MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
-
-        MinArch.TomTomAvailable = (_G.TomTom ~= nil);
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
 		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
@@ -79,9 +77,10 @@ function MinArch:EventMain(event, ...)
 	end
 
     if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArch.ShowOnSurvey == true) then
-        if (MinArch:IsNavigationEnabled() and MinArch.autoWaypoint) then
+        if (_G.TomTom and MinArch.autoWaypoint) then
             _G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
         end
+        MinArch:ClearUiWaypoint();
 
 		if (MinArch.db.profile.autoShowOnSurvey) then
 			MinArch:ShowMain();

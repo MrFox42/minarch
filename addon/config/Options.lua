@@ -882,21 +882,56 @@ local TomTomSettings = {
 	handler = MinArch,
 	type = "group",
 	args = {
+        blizzway = {
+			type = 'group',
+			name = 'Blizzard Waypoints',
+			inline = true,
+			order = 1,
+			args = {
+                uiMapPoint = {
+					type = "toggle",
+					name = "Map pin",
+					desc = "Enable to create a map pin over digsites.",
+					get = function () return MinArch.db.profile.TomTom.enableBlizzWaypoint end,
+					set = function (_, newValue)
+                        MinArch.db.profile.TomTom.enableBlizzWaypoint = newValue;
+                        if MinArch.db.char.TomTom.uiMapPoint and not newValue then
+                            MinArch:ClearUiWaypoint()
+                        end
+					end,
+					order = 2,
+                },
+                superTrack = {
+					type = "toggle",
+					name = "Show floating pin",
+					desc = "Enable to show the floating pin over the destination.",
+					get = function () return MinArch.db.profile.TomTom.superTrack end,
+					set = function (_, newValue)
+                        MinArch.db.profile.TomTom.superTrack = newValue;
+                        if MinArch.db.char.TomTom.uiMapPoint then
+                            C_SuperTrack.SetSuperTrackedUserWaypoint(newValue);
+                        end
+					end,
+					disabled = function () return (MinArch.db.profile.TomTom.enableBlizzWaypoint == false) end,
+					order = 2,
+				},
+            }
+        },
 		tomtom = {
 			type = 'group',
 			name = 'TomTom Options',
 			inline = true,
-			order = 1,
-			disabled = function () return (MinArch.TomTomAvailable == false) end,
+			order = 2,
+			disabled = function () return (_G.TomTom == nil) end,
 			args = {
 				enable = {
 					type = "toggle",
 					name = "Enable TomTom integration in MinArch",
 					desc = "Toggles TomTom integration in MinArch. Disabling TomTom integration will remove all waypoints created by MinArch",
 					width = "full",
-					get = function () return MinArch.db.profile.TomTom.enable end,
+					get = function () return MinArch.db.profile.TomTom.enableTomTom end,
 					set = function (_, newValue)
-						MinArch.db.profile.TomTom.enable = newValue;
+						MinArch.db.profile.TomTom.enableTomTom = newValue;
 
 						if (newValue) then
 							MinArchMainAutoWayButton:Show();
@@ -917,7 +952,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.arrow = newValue;
 					end,
-					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
+					disabled = function () return (MinArch:IsTomTomAvailable() == false) end,
 					order = 2,
 				},
 				persistent = {
@@ -928,7 +963,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.persistent = newValue;
 					end,
-					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
+					disabled = function () return (MinArch:IsTomTomAvailable() == false) end,
 					order = 3,
 				},
 			},
@@ -937,7 +972,7 @@ local TomTomSettings = {
 			type = 'group',
 			name = 'Automatically create waypoints for the closest digsite.',
 			inline = true,
-			order = 2,
+			order = 3,
 			args = {
 				autoWayOnMove = {
 					type = "toggle",
@@ -947,7 +982,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.autoWayOnMove = newValue;
 					end,
-					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
+					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
 					order = 1,
 				},
 				autoWayOnComplete = {
@@ -958,7 +993,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.autoWayOnComplete = newValue;
 					end,
-					disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
+					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
 					order = 2,
                 },
                 prioRace = {
@@ -978,7 +1013,7 @@ local TomTomSettings = {
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.prioRace = newValue;
 					end,
-                    disabled = function () return (MinArch.db.profile.TomTom.enable == false) end,
+                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
                     order = 3,
                 },
 			},

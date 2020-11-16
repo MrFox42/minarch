@@ -10,7 +10,8 @@ MinArch.defaults = {
 			companion = false
 		},
 		TomTom = {
-			waypoints = {}
+            waypoints = {},
+            uiMapPoint = false
 		}
 	},
 	profile = {
@@ -48,7 +49,10 @@ MinArch.defaults = {
 			hide = false
 		},
 		TomTom = {
-			enable = true,
+            enable = true,
+            enableTomTom = true,
+            enableBlizzWaypoint = true,
+            superTrack = true,
 			arrow = true,
 			persistent = false,
 			autoWayOnMove = false,
