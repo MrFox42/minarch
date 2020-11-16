@@ -13,6 +13,7 @@ local currentQuestArtifactRace = nil;
 local isOnArtifactQuestLine = false;
 local qLineRaces = {ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE};
 local dalaranChecked = false;
+local unknownArtifactInfoIndex = {}
 
 local function InitQuestIndicator(self)
 	local qi = CreateFrame("Button", "MinArchHistQuestIndicator", self);
@@ -131,6 +132,10 @@ function MinArch:InitHist(self)
     InitRaceButtons(self);
     CreateHeightToggle(self, 10, 4);
 
+    for i=1, ARCHAEOLOGY_NUM_RACES do
+        unknownArtifactInfoIndex[i] = 1;
+    end
+
     self:SetScript("OnEvent", function(_, event, ...)
 		MinArch:EventHist(event, ...);
     end)
@@ -210,7 +215,10 @@ function MinArch:LoadItemDetails(RaceID, caller)
 end
 
 local function BuildHistory(RaceID, caller)
-	local i = 1
+    MinArch:DisplayStatusMessage("BuildHistory " .. caller, MINARCH_MSG_DEBUG)
+
+    local i = unknownArtifactInfoIndex[RaceID];
+    MinArch:DisplayStatusMessage("Bulding history for race " .. RaceID .. " from index: " .. i, MINARCH_MSG_DEBUG)
 	while true do
 		local name, desc, rarity, icon, spelldesc, itemrare, _, spellId, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, i)
 
@@ -269,6 +277,7 @@ local function BuildHistory(RaceID, caller)
                 details.description = desc
                 details.spelldescription = spelldesc
                 details.apiIndex = i;
+                unknownArtifactInfoIndex[RaceID] = i + 1;
 
                 if (MinArch.artifacts[RaceID].project == name) then
                     MinArch.artifacts[RaceID].firstcomplete = firstcomplete
@@ -562,6 +571,12 @@ local function GetArtifactFrame(scrollc, index)
 end
 
 function MinArch:CreateHistoryList(RaceID, caller)
+    if not MinArchHist:IsVisible() then
+        return
+    end
+
+    MinArch:DisplayStatusMessage("createhistorylist", MINARCH_MSG_DEBUG)
+
 	if (RaceID ~= MinArchOptions.CurrentHistPage) then
 		MinArchOptions.CurrentHistPage = RaceID;
 		MinArch:DimHistoryButtons();
@@ -652,7 +667,6 @@ function MinArch:CreateHistoryList(RaceID, caller)
     MinArch:UpdateArtifact(RaceID);
 
     local count = 0;
-    local currentArtifact, currentFontString, cwidth, cheight, mouseframe, tmpText
 
     for _, gparams in ipairs(groups) do
         for itemid, details in pairs(MinArchHistDB[RaceID]) do
