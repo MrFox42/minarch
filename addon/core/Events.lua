@@ -42,6 +42,8 @@ function MinArch:EventHelper(event, ...)
 end
 
 function MinArch:EventMain(event, ...)
+    MinArch:DisplayStatusMessage("EventMain: " .. event, MINARCH_MSG_DEBUG)
+
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArch.HideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();
 		return;
@@ -131,7 +133,7 @@ function MinArch:EventMain(event, ...)
 			eventTimer:Cancel();
 		end
 
-        eventTimer = C_Timer.NewTimer(0.3, function()
+        eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
 			RequestArtifactCompletionHistory();
 			eventTimer = nil;
@@ -140,6 +142,8 @@ function MinArch:EventMain(event, ...)
 end
 
 function MinArch:EventHist(event, ...)
+    MinArch:DisplayStatusMessage("EventHist: " .. event, MINARCH_MSG_DEBUG)
+
 	if (event == "RESEARCH_ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
@@ -173,7 +177,7 @@ function MinArch:EventHist(event, ...)
         histEventTimer:Cancel();
     end
 
-    histEventTimer = C_Timer.NewTimer(0.3, function()
+    histEventTimer = C_Timer.NewTimer(0.5, function()
         MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
         histEventTimer = nil;
     end)

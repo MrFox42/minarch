@@ -54,7 +54,7 @@ local general = {
 				},
 				TomTomButton = {
 					type = "execute",
-					name = "TomTom Settings",
+					name = "Navigation Settings",
 					order = 4,
 					func = function ()
 						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
@@ -1115,8 +1115,8 @@ function Options:RegisterMenus()
     LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Companion Settings", companionSettings);
 	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Companion Settings", "Companion Settings", "Minimal Archaeology");
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch TomTom Settings", TomTomSettings);
-	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch TomTom Settings", "TomTom Settings", "Minimal Archaeology");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Navigation Settings", TomTomSettings);
+	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Navigation Settings", "Navigation Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Developer Settings", devSettings);
     self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Developer Settings", "Developer Settings", "Minimal Archaeology");
