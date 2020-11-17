@@ -67,6 +67,10 @@ MinArch.defaults = {
 			keystone = {}
         },
 
+        ProgressBar = {
+            attachToCompanion = false
+        },
+
         -- Companion (added in 9.0)
         companion = {
             showHelpTip = true,

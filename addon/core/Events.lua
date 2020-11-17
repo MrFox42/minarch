@@ -41,8 +41,17 @@ function MinArch:EventHelper(event, ...)
     end
 end
 
+local function RepositionDigsiteProgressBar()
+    if ArcheologyDigsiteProgressBar and MinArch.db.profile.ProgressBar.attachToCompanion then
+        UIPARENT_MANAGED_FRAME_POSITIONS["ArcheologyDigsiteProgressBar"] = nil;
+        ArcheologyDigsiteProgressBar:ClearAllPoints();
+        ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", MinArchCompanion, "BOTTOM", 0, -35)
+    end
+end
+
 function MinArch:EventMain(event, ...)
     MinArch:DisplayStatusMessage("EventMain: " .. event, MINARCH_MSG_DEBUG)
+    RepositionDigsiteProgressBar()
 
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArch.HideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();
@@ -135,7 +144,7 @@ function MinArch:EventMain(event, ...)
 
         eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
-			RequestArtifactCompletionHistory();
+            RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
     end
@@ -171,7 +180,7 @@ function MinArch:EventHist(event, ...)
             MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
             return;
 		end
-	end
+    end
 
     MinArch:DelayedHistoryUpdate()
 end
