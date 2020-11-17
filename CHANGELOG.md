@@ -1,6 +1,14 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 9.0.5
+
+- Show collector achievement progress for Pandaria artifacts
+- Pristine progress is now indicated with user-friendly icons and tooltips
+- Fixed the auto-detection of Legion Archaeology bi-weekly quests
+- Added support for using Blizzard Map Pins for Digsite navigation (enabled by default, can be disabled)
+- Improved performance
+
 ### 9.0.4
 
 - Added the options to prevent casting Survey on dobule right click while mounted and/or flying

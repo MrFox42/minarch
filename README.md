@@ -9,11 +9,20 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ## Recent new features:
 - Companion frame (more details below)
 - Double Right Click surveying
+- Collector achievement progress indicators in the History window
 
 ## What's next:
 - History window improvements such as achievement progress, better indicator for pristine artifacts
 
 ## Latest Changes
+
+### 9.0.5
+
+- Show collector achievement progress for Pandaria artifacts
+- Pristine progress is now indicated with user-friendly icons and tooltips
+- Fixed the auto-detection of Legion Archaeology bi-weekly quests
+- Added support for using Blizzard Map Pins for Digsite navigation (enabled by default, can be disabled)
+- Improved performance
 
 ### 9.0.4
 
