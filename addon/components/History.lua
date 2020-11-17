@@ -14,6 +14,8 @@ local isOnArtifactQuestLine = false;
 local qLineRaces = {ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE};
 local dalaranChecked = false;
 local unknownArtifactInfoIndex = {}
+local histEventTimer = nil;
+local historyUpdateTimout = 0.3;
 
 local function InitQuestIndicator(self)
 	local qi = CreateFrame("Button", "MinArchHistQuestIndicator", self);
@@ -307,6 +309,8 @@ function MinArch:GetHistory(RaceID, caller)
             local name, desc, _, _, spelldesc, _, _, _, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, details.apiIndex)
             if (previousCompleted and previousCompleted > 0 and previousCompleted > totalcomplete) then
                 -- Don't update stored data if the response is bogus
+                MinArch:DisplayStatusMessage("Bogus data from API, refreshing ...", MINARCH_MSG_DEBUG)
+                MinArch:DelayedHistoryUpdate();
                 return;
             end
 
@@ -889,6 +893,17 @@ function MinArch:HistoryTooltip(self, RaceID, ItemID)
 
 	MinArchTooltipIcon:Show();
 	GameTooltip:Show();
+end
+
+function MinArch:DelayedHistoryUpdate()
+    if (histEventTimer ~= nil) then
+        MinArch:DisplayStatusMessage("CreateHistory called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
+        histEventTimer:Cancel();
+    end
+    histEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()
+        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
+        histEventTimer = nil;
+    end)
 end
 
 function MinArch:HistoryButtonTooltip(RaceID)

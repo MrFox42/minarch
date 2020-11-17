@@ -173,14 +173,7 @@ function MinArch:EventHist(event, ...)
 		end
 	end
 
-    if (histEventTimer ~= nil) then
-        histEventTimer:Cancel();
-    end
-
-    histEventTimer = C_Timer.NewTimer(0.5, function()
-        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
-        histEventTimer = nil;
-    end)
+    MinArch:DelayedHistoryUpdate()
 end
 
 function MinArch:EventDigsites(event, ...)
