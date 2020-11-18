@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Title: Minimal Archaeology
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Email: gyussz@live.com
