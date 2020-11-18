@@ -41,7 +41,18 @@ function MinArch:EventHelper(event, ...)
     end
 end
 
+local function RepositionDigsiteProgressBar()
+    if ArcheologyDigsiteProgressBar and MinArch.db.profile.ProgressBar.attachToCompanion then
+        UIPARENT_MANAGED_FRAME_POSITIONS["ArcheologyDigsiteProgressBar"] = nil;
+        ArcheologyDigsiteProgressBar:ClearAllPoints();
+        ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", MinArchCompanion, "BOTTOM", 0, -35)
+    end
+end
+
 function MinArch:EventMain(event, ...)
+    MinArch:DisplayStatusMessage("EventMain: " .. event, MINARCH_MSG_DEBUG)
+    RepositionDigsiteProgressBar()
+
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArch.HideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();
 		return;
@@ -66,8 +77,6 @@ function MinArch:EventMain(event, ...)
 		if (addonname == "Blizzard_ArchaeologyUI") then
 			MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
-
-        MinArch.TomTomAvailable = (_G.TomTom ~= nil);
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
 		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
@@ -79,9 +88,10 @@ function MinArch:EventMain(event, ...)
 	end
 
     if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArch.ShowOnSurvey == true) then
-        if (MinArch:IsNavigationEnabled() and MinArch.autoWaypoint) then
+        if (_G.TomTom and MinArch.autoWaypoint) then
             _G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
         end
+        MinArch:ClearUiWaypoint();
 
 		if (MinArch.db.profile.autoShowOnSurvey) then
 			MinArch:ShowMain();
@@ -132,16 +142,17 @@ function MinArch:EventMain(event, ...)
 			eventTimer:Cancel();
 		end
 
-		eventTimer = C_Timer.NewTimer(0.5, function()
+        eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
-			RequestArtifactCompletionHistory();
+            RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
-	end
+    end
 end
 
 function MinArch:EventHist(event, ...)
-	local updateHistory = false;
+    MinArch:DisplayStatusMessage("EventHist: " .. event, MINARCH_MSG_DEBUG)
+
 	if (event == "RESEARCH_ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
@@ -165,26 +176,13 @@ function MinArch:EventHist(event, ...)
 			for i = 1, ARCHAEOLOGY_NUM_RACES do
 				MinArch:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
-			updateHistory = true;
 		else
-			MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+            MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+            return;
 		end
-	elseif (event == "RESEARCH_ARTIFACT_UPDATE") then
-		updateHistory = true;
-	elseif (event == "QUEST_ACCEPTED" or event == "QUEST_TURNED_IN" or event == "QUEST_REMOVED" or event == "QUESTLINE_UPDATE") then
-		updateHistory = true;
-	end
+    end
 
-	if (updateHistory) then
-		if (histEventTimer ~= nil) then
-			histEventTimer:Cancel();
-		end
-
-		histEventTimer = C_Timer.NewTimer(0.5, function()
-			MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
-			histEventTimer = nil;
-		end)
-	end
+    MinArch:DelayedHistoryUpdate()
 end
 
 function MinArch:EventDigsites(event, ...)

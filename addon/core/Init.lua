@@ -154,5 +154,11 @@ function MinArch:UpgradeSettings()
 		end
 
 		MinArch.db.profile.settingsVersion = 3;
-	end
+    end
+
+    if (MinArch.db.profile.settingsVersion == 3) then
+        MinArch.db.profile.TomTom.enableTomTom = MinArch.db.profile.TomTom.enable;
+
+        MinArch.db.profile.settingsVersion = 4;
+    end
 end

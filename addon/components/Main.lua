@@ -135,7 +135,8 @@ local function RegisterEvents(self)
     self:RegisterEvent("ZONE_CHANGED");
     self:RegisterEvent("ZONE_CHANGED_INDOORS");
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-    self:RegisterEvent("CVAR_UPDATE"); -- Tracking
+    -- Tracking
+    self:RegisterEvent("CVAR_UPDATE");
 
     -- Apply SavedVariables
     self:RegisterEvent("ADDON_LOADED");
@@ -197,7 +198,9 @@ function MinArch:UpdateArchaeologySkillBar()
 			MinArchMain.skillBar:Show();
 			MinArchMain.skillBar:SetMinMaxValues(0, maxRank);
 			MinArchMain.skillBar:SetValue(rank);
-			MinArchMain.skillBar.text:SetText(name.." "..rank.."/"..maxRank);
+            MinArchMain.skillBar.text:SetText(name.." "..rank.."/"..maxRank);
+            MinArch['frame']['height'] = MinArch['frame']['defaultHeight'];
+            MinArch.artifactbars[1]:SetPoint("TOP", -25, -50);
 		else
 			MinArchMain.skillBar:Hide();
 			MinArch['frame']['height'] = MinArch['frame']['defaultHeight'] - 25;
@@ -214,7 +217,7 @@ function MinArch:UpdateArtifact(RaceIndex)
 	local numArtifacts = GetNumArtifactsByRace(RaceIndex);
 	local rName, rTexture, rItemID, numFragmentsCollected, projectAmount = GetArchaeologyRaceInfo(RaceIndex);
 
-	-- no data available yet?
+    -- no data available yet?
 	if numArtifacts == nil or not rName then return nil end
 
 	MinArch['artifacts'][RaceIndex]['race'] = rName;
@@ -237,11 +240,13 @@ function MinArch:UpdateArtifact(RaceIndex)
 		if (MinArch.db.profile.raceOptions.keystone[RaceIndex]) then
 			MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 4;
 		end
-		for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
-			SocketItemToArtifact();
+        for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
+            MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_UPDATE");
+            SocketItemToArtifact();
 			if (ItemAddedToArtifact(i)) then
 				availablekeystones = availablekeystones + 1;
-			end
+            end
+            MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
 		end
 
 		MinArch['artifacts'][RaceIndex]['appliedKeystones'] = availablekeystones;
@@ -363,7 +368,8 @@ function MinArch:SolveArtifact(RaceIndex, confirmed)
 
 	SetSelectedArtifact(RaceIndex);
 
-	for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
+    RemoveItemFromArtifact()
+    for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
 		SocketItemToArtifact();
 	end
 	MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 0;
