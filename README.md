@@ -23,6 +23,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - Fixed the auto-detection of Legion Archaeology bi-weekly quests
 - Added support for using Blizzard Map Pins for Digsite navigation (enabled by default, can be disabled)
 - Improved performance
+- **9.0.5.1** Compatibility changes for skinning addons
 
 ### 9.0.4
 

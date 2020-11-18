@@ -1,5 +1,7 @@
 local ADDON, MinArch = ...
 
+MinArchArtifactBars = {};
+
 function MinArch:SetRelevancyToggleButtonTexture()
 	local button = MinArchMainRelevancyButton;
 	if (MinArch.db.profile.relevancy.relevantOnly) then
@@ -93,6 +95,7 @@ local function InitArtifactBars(self)
         MinArch['artifacts'][i] = {};
         MinArch['artifacts'][i]['appliedKeystones'] = 0;
         MinArch['artifactbars'][i] = artifactBar;
+        MinArchArtifactBars[i] = MinArch['artifactbars'][i]; -- AddonSkins compatibility
 
         artifactBar:SetScript("OnEnter", function (self)
             MinArch:ShowArtifactTooltip(self, self.race);
