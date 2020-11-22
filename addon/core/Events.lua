@@ -36,7 +36,7 @@ function MinArch:EventHelper(event, ...)
         end
         if (MinArch.Companion.showAfterCombat) then
 			MinArch.Companion:ShowFrame();
-			MinArch.Companion.showAfterCombat = true;
+			MinArch.Companion.showAfterCombat = false;
 		end
     end
 end
