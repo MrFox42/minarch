@@ -1,8 +1,8 @@
-## Interface: 90002
+## Interface: 90005
 ## Title: Minimal Archaeology
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Email: gyussz@live.com
-## Version: 9.0.5.2
+## Version: 9.0.5.3
 ## Notes: Archaeology UI replacement, Archaeology History and more...
 ## DefaultState: Enabled
 ## LoadOnDemand: 0

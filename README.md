@@ -25,6 +25,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - Improved performance
 - **9.0.5.1** Compatibility changes for skinning addons
 - **9.0.5.2** Fix issue with the Companion showing after combat when it shouldn't
+- **9.0.5.3** TOC Bump
 
 ### 9.0.4
 
