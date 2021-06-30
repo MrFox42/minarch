@@ -1,6 +1,10 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 9.1.0
+
+- Bump toc version
+
 ### 9.0.5
 
 - Show collector achievement progress for Pandaria artifacts
