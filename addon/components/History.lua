@@ -901,7 +901,7 @@ function MinArch:DelayedHistoryUpdate()
         histEventTimer:Cancel();
     end
     histEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()
-        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], event)
+        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "GetHistory")
         histEventTimer = nil;
     end)
 end
