@@ -1,6 +1,11 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 9.2.0
+
+- Fixed a lua error
+- Bump toc version
+
 ### 9.1.0
 
 - Bump toc version

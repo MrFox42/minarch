@@ -16,6 +16,11 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Latest Changes
 
+### 9.2.0
+
+- Fixed a lua error
+- TOC Bump
+
 ### 9.0.5
 
 - Show collector achievement progress for Pandaria artifacts
