@@ -5,6 +5,7 @@
 
 - Fixed a lua error
 - Bump toc version
+- **9.2.0.1** bump toc
 
 ### 9.1.0
 

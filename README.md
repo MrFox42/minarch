@@ -20,6 +20,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 - Fixed a lua error
 - TOC Bump
+- **9.2.0.1** bump toc
 
 ### 9.0.5
 
