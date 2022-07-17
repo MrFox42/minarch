@@ -16,6 +16,13 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 		MinArchMain:Toggle();
 	elseif (msg == "version") then
 		ChatFrame1:AddMessage("Minimal Archaeology " .. tostring(GetAddOnMetadata("MinimalArchaeology", "Version")));
+    elseif (msg == "comp") then
+        ChatFrame1:AddMessage("Minimal Archaeology Companion related Commands");
+        ChatFrame1:AddMessage(" Usage: /minarch [cmd]");
+		ChatFrame1:AddMessage(" Commands:");
+        ChatFrame1:AddMessage("  comp resetpos - Resets the position of the Companion box");
+    elseif (msg == "comp resetpos") then
+        MinArch.Companion:ResetPosition();
 	else
 		ChatFrame1:AddMessage("Minimal Archaeology Commands");
 		ChatFrame1:AddMessage(" Usage: /minarch [cmd]");
@@ -23,6 +30,7 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 		ChatFrame1:AddMessage("  hide - Hide the main Minimal Archaeology Frame");
 		ChatFrame1:AddMessage("  show - Show the main Minimal Archaeology Frame");
 		ChatFrame1:AddMessage("  toggle - Toggle the main Minimal Archaeology Frame");
+        ChatFrame1:AddMessage("  comp - Companion related commands, for more information type: /minarch comp");
 		ChatFrame1:AddMessage("  version - Display the running version of Minimal Archaeology");
 	end
 end

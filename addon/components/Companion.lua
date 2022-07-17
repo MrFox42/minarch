@@ -121,6 +121,15 @@ function Companion:SavePosition()
     MinArch.db.profile.companion.posY = yOfs;
 end
 
+function Companion:ResetPosition()
+    local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
+    MinArch.Companion:ClearAllPoints();
+    MinArch.Companion:SetPoint("CENTER", UIParent, "CENTER", 0, 0);
+    if (MinArch.db.profile.companion.savePos) then
+        MinArch.Companion:SavePosition()
+    end
+end
+
 function Companion:RegisterEvents()
     Companion:RegisterEvent("PLAYER_STARTED_MOVING")
     Companion:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST")

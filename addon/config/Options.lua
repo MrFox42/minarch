@@ -627,12 +627,20 @@ local companionSettings = {
                             local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
                             MinArch.Companion:ClearAllPoints();
                             MinArch.Companion:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
-                            Companion:SavePosition()
+                            MinArch.Companion:SavePosition();
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
 					order = 5,
 				},
+                resetButton = {
+					type = "execute",
+					name = "Reset position",
+					order = 6,
+					func = function ()
+                        MinArch.Companion:ResetPosition();
+					end,
+                },
             }
         },
         featureOpts = {
