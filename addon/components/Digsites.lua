@@ -539,15 +539,19 @@ function MinArch:GetNearestDigsite()
 		local d = math.sqrt((xd*xd)+(yd*yd));
 
         if (MinArchDigsitesDB["continent"][ContID][name] and MinArchDigsitesDB["continent"][ContID][name]["status"] == true) then
-            local currentRace = MinArchDigsiteList[name].race;
-            if ( (prioRace == currentRace and (nearestDistance == nil or nearestDigSiteDetails.raceId ~= prioRace or (nearestDigSiteDetails.raceId == prioRace and d < nearestDistance) ) )
-                or nearestDigSite == nil
-                or (nearestDigSiteDetails.raceId ~= prioRace and d < nearestDistance))
-            then
-                nearestDigSite = name;
-                nearestDistance = d;
-                nearestDigSiteDetails = MinArchDigsitesGlobalDB["continent"][ContID][nearestDigSite];
-			end
+			if (MinArchDigsiteList[name]) then
+                local currentRace = MinArchDigsiteList[name].race;
+                if ( (prioRace == currentRace and (nearestDistance == nil or nearestDigSiteDetails.raceId ~= prioRace or (nearestDigSiteDetails.raceId == prioRace and d < nearestDistance) ) )
+                    or nearestDigSite == nil
+                    or (nearestDigSiteDetails.raceId ~= prioRace and d < nearestDistance))
+                then
+                    nearestDigSite = name;
+                    nearestDistance = d;
+                    nearestDigSiteDetails = MinArchDigsitesGlobalDB["continent"][ContID][nearestDigSite];
+                end
+            else
+                MinArch.DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
+            end
 		end
 	end
 
