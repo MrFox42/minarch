@@ -22,7 +22,7 @@
 				</Anchors>
 				<Layers>
 					<Layer level="ARTWORK">
-						<Texture name="$parentBorder" urgency="5" file="Interface\PaperDollInfoFrame\UI-Character-Skills-BarBorder">
+						<Texture name="$parentBorder" file="Interface\PaperDollInfoFrame\UI-Character-Skills-BarBorder">
 							<Size>
 								<AbsDimension x="255" y="29"/>
 							</Size>
@@ -37,7 +37,7 @@
 	</Frame>
 
 	<!-- Left Floating Tooltip Icon -->
-	<Frame name="MinArchTooltipIcon" frameStrata="TOOLTIP" visible="false" clampedToScreen="true" parent="GameTooltip">
+	<Frame name="MinArchTooltipIcon" frameStrata="TOOLTIP" clampedToScreen="true" parent="GameTooltip">
 		<size x="64" y="64" />
 		<Anchors>
 			<Anchor point="TOPRIGHT" relativePoint="TOPLEFT" relativeTo="$parent" />

@@ -67,7 +67,7 @@ function MinArch:InitDigsites(self)
 		MinArch.MapContinents[v.mapID] = v.name;
     end
 
-    local continentButtons = {"Kalimdor", "Eastern", "Outland", "Northrend", "Maelstrom", "Pandaria", "Draenor", "BrokenIsles", "Kultiras", "Zaandalar"}
+    local continentButtons = {"Kalimdor", "Eastern", "Outland", "Northrend", "Maelstrom", "Pandaria", "Draenor", "BrokenIsles", "Kultiras", "Zandalar"}
     local continentTextures = {
         [[Interface\Icons\Achievement_Zone_Kalimdor_01.blp]],
         [[Interface\Icons\Achievement_Zone_EasternKingdoms_01.blp]],
@@ -90,9 +90,11 @@ function MinArch:InitDigsites(self)
         button:SetWidth(32)
         button:SetHeight(32);
 
-        button:SetNormalTexture(continentTextures[i]);
-        button:SetPushedTexture(continentTextures[i]);
-        button:SetHighlightTexture(continentTextures[i], "ADD");
+        if continentTextures[i] then
+            button:SetNormalTexture(continentTextures[i]);
+            button:SetPushedTexture(continentTextures[i]);
+            button:SetHighlightTexture(continentTextures[i], "ADD");
+        end
 
         button:SetScript("OnClick", function ()
             MinArch:CreateDigSitesList(i);

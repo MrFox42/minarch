@@ -1,6 +1,10 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 10.0.0
+
+- Updated for DragonFlight
+
 ### 9.2.0
 
 - Fixed a lua error

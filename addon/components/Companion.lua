@@ -149,6 +149,7 @@ end
 local function InitSurveyButton()
     -- Survey button
     local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion, "InSecureActionButtonTemplate");
+    surveyButton:RegisterForClicks("AnyUp", "AnyDown");
     surveyButton:SetAttribute("type", "spell");
     surveyButton:SetAttribute("spell", SURVEY_SPELL_ID);
     surveyButton:SetPoint("LEFT", 44, 0);
@@ -190,6 +191,7 @@ end
 local function InitCrateButton()
     -- Crate Button
     local crateButton = CreateFrame("Button", "$parentCrateButton", Companion, "InsecureActionButtonTemplate");
+    crateButton:RegisterForClicks("AnyUp", "AnyDown");
     crateButton:SetAttribute("type", "item");
     crateButton:SetPoint("LEFT", 108, 2);
     crateButton:SetWidth(28);

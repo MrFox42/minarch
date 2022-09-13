@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-	<Frame name="MinArchHist"  inherits="MATBasic" frameStrata="LOW" enableMouse="true" clampedToScreen="true" movable="true" visible="true" parent="UIParent">
+	<Frame name="MinArchHist"  inherits="MATBasic" frameStrata="LOW" enableMouse="true" clampedToScreen="true" movable="true" parent="UIParent">
 		<size x="300" y="310" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
@@ -17,7 +17,6 @@
 						self.bg = self:CreateTexture(nil, "BACKGROUND");
 						self.bg:SetAllPoints(true);
 						self.bg:SetTexture(0, 0, 0, 0.70);
-						self.bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 1.0, 0, 0, 0, 0.25)
 					</OnLoad>
 				</Scripts>
 			</Frame>

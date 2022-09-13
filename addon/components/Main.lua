@@ -58,6 +58,7 @@ end
 
 local function CreateCrateButton(parent, x, y)
 	local button = CreateFrame("Button", "$parentCrateButton", parent, "InsecureActionButtonTemplate");
+    button:RegisterForClicks("AnyUp", "AnyDown");
 	button:SetAttribute("type", "item");
 	button:SetSize(25, 25);
 	button:SetPoint("TOPLEFT", x, y);

@@ -59,6 +59,7 @@ end
 
 function MinArch:HookDoubleClick()
     local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArch.HelperFrame, "InSecureActionButtonTemplate");
+    button:RegisterForClicks("AnyUp", "AnyDown");
     button:SetAttribute("type", "spell");
     button:SetAttribute("spell", SURVEY_SPELL_ID);
     button:Hide();
