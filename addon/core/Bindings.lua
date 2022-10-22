@@ -58,33 +58,39 @@ local function CanCast()
 end
 
 function MinArch:HookDoubleClick()
-    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArch.HelperFrame, "InSecureActionButtonTemplate");
-    button:RegisterForClicks("AnyUp", "AnyDown");
-    button:SetAttribute("type", "spell");
-    button:SetAttribute("spell", SURVEY_SPELL_ID);
-    button:Hide();
+    local button = MinArchHiddenSurveyButton;
 
     local threshold = 0.5;
     local prevTime;
+    local clickTime = 0;
 
-    button:SetScript("PostClick", function(self)
-        if clearBinding then
-            ClearOverrideBindings(self)
-        end
-    end)
+    --button:SetScript("PostClick", function(self)
+    --    print('PostClick' .. tostring(clearBinding))
+    --    if clearBinding then
+    --        ClearOverrideBindings(self)
+    --    end
+    --end)
 
-    WorldFrame:HookScript("OnMouseDown", function(_, button)
-        if button == "RightButton" and CanCast() then
+    WorldFrame:HookScript("OnMouseDown", function(_, eButton)
+        if eButton == "RightButton" and CanCast() then
             if prevTime then
                 local diff = GetTime() - prevTime;
+                local diff2 = GetTime() - clickTime;
 
-                if diff < threshold then
+                if diff < threshold and diff2 > threshold then
+                    -- print("shoudcast");
+                    clickTime = GetTime();
                     SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
-                    clearBinding = true;
+
+                    C_Timer.NewTimer(0.2, function()
+                        ClearOverrideBindings(button);
+                    end)
                 end
             end
 
             prevTime = GetTime();
+        else
+            ClearOverrideBindings(button);
         end
     end)
 end
