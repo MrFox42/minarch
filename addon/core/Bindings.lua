@@ -36,6 +36,11 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 end
 
 local function CanCast()
+    -- Prevent casting in combat
+    if (InCombatLockdown()) then
+        return false;
+    end
+
     -- Check if casting is enabled at all
     if not MinArch.db.profile.surveyOnDoubleClick then
         return false;
@@ -89,8 +94,6 @@ function MinArch:HookDoubleClick()
             end
 
             prevTime = GetTime();
-        else
-            ClearOverrideBindings(button);
         end
     end)
 end
