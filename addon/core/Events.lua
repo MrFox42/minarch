@@ -43,7 +43,7 @@ end
 
 local function RepositionDigsiteProgressBar()
     if ArcheologyDigsiteProgressBar and MinArch.db.profile.ProgressBar.attachToCompanion then
-        UIPARENT_MANAGED_FRAME_POSITIONS["ArcheologyDigsiteProgressBar"] = nil;
+        -- UIPARENT_MANAGED_FRAME_POSITIONS["ArcheologyDigsiteProgressBar"] = nil;
         ArcheologyDigsiteProgressBar:ClearAllPoints();
         ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", MinArchCompanion, "BOTTOM", 0, -35)
     end
@@ -51,7 +51,7 @@ end
 
 function MinArch:EventMain(event, ...)
     MinArch:DisplayStatusMessage("EventMain: " .. event, MINARCH_MSG_DEBUG)
-    RepositionDigsiteProgressBar()
+    -- RepositionDigsiteProgressBar()
 
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArch.HideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();
