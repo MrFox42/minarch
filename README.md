@@ -19,6 +19,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ### 10.0.0
 
 - Updated for Dragonflight
+- **10.0.1.1** Fixed some lua errors
 
 **Known issues:**
 - Shortcut buttons on the main options page are not working

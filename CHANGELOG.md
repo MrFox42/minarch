@@ -4,6 +4,7 @@
 ### 10.0.0
 
 - Updated for DragonFlight
+- **10.0.1.1** Fixed some lua errors
 
 ### 9.2.0
 

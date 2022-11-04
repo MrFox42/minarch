@@ -294,7 +294,7 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
     ArtifactBar.race = RaceIndex;
 
 	ArtifactBar.keystone.icon:SetTexture(runeStoneIconPath);
-	if (artifact['appliedKeystones'] == 0) then
+	if (artifact['appliedKeystones'] == 0 or artifact['numKeystones'] == 0) then
 		ArtifactBar.keystone.icon:SetAlpha(0.1);
 	else
 		ArtifactBar.keystone.icon:SetAlpha((artifact['appliedKeystones']/artifact['numKeystones']));
