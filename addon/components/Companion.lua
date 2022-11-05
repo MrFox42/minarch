@@ -238,6 +238,7 @@ end
 
 function Companion.events:ARCHAEOLOGY_SURVEY_CAST(...)
     cx, cy, _, cInstance = UnitPosition("player")
+    Companion:UpdateDistance();
 end
 
 function Companion.events:PLAYER_STOPPED_MOVING(...)
