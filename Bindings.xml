@@ -1,10 +1,10 @@
 <Bindings>
-	<Binding name="MINARCH_SHOWHIDE" runOnUp="true" header="MINARCH_HEADER">
+	<Binding name="MINARCH_SHOWHIDE" runOnUp="true" header="MINARCH_HEADER" category="Minimal Archaeology">
 		if (keystate == "down") then
 			MinArchMain:Toggle(true);
 		end
 	</Binding>
-	<Binding name="SPELL Survey" runOnUp="true">
+	<Binding name="SPELL Survey" runOnUp="true" category="Minimal Archaeology">
 
 	</Binding>
 </Bindings>
