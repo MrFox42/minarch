@@ -1,6 +1,13 @@
 # Minimal Archaeology
 ## Latest Version
 
+
+### 10.0.2
+
+- Bump TOC
+- Companion: customize distance indicator shape
+- Fix GetContainer... lua errors
+
 ### 10.0.0
 
 - Updated for DragonFlight

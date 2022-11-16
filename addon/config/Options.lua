@@ -679,6 +679,16 @@ local companionSettings = {
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 2,
                         },
+                        shape = {
+                            type = "select",
+                            name = "Shape",
+                            values = {"Circle", "Square", "Triangle"},
+                            get = function () return MinArch.db.profile.companion.features.distanceTracker.shape end,
+                            set = function (info, newValue)
+                                MinArch.db.profile.companion.features.distanceTracker.shape = newValue
+                                MinArch.Companion:UpdateIndicatorFrameTexture()
+                            end,
+                        }
                     }
                 },
                 waypointButton = {

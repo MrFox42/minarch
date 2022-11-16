@@ -16,6 +16,12 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Latest Changes
 
+### 10.0.2
+
+- Bump TOC
+- Companion: customize distance indicator shape
+- Fix GetContainer... lua errors
+
 ### 10.0.0
 
 - Updated for Dragonflight

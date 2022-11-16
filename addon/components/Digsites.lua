@@ -201,7 +201,7 @@ function MinArch:UpdateActiveDigSites()
                         MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
                         MinArchDigsitesGlobalDB["continent"][i][name]["raceId"] = MinArchDigsiteList[name].race
 					elseif not SpamBlock[name] then
-						ChatFrame1:AddMessage("Minimal Archaeology: Unknown digsite "..name)
+						MinArch:DisplayStatusMessage("Minimal Archaeology: Unknown digsite " .. name, MINARCH_MSG_STATUS)
 						SpamBlock[name] = 1
 					end
 				--end
@@ -552,7 +552,7 @@ function MinArch:GetNearestDigsite()
                     nearestDigSiteDetails = MinArchDigsitesGlobalDB["continent"][ContID][nearestDigSite];
                 end
             else
-                MinArch.DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
+                MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
             end
 		end
 	end

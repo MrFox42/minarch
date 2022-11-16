@@ -29,9 +29,9 @@ function MinArch:RefreshCrateButtonGlow()
 			if (data.pqid) then
 				-- iterate containers
 				for bagID = 0, 4 do
-					local numSlots = GetContainerNumSlots(bagID);
+					local numSlots = C_Container.GetContainerNumSlots(bagID);
 					for slot = 0, numSlots do
-						local itemID = GetContainerItemID(bagID, slot);
+						local itemID = C_Container.GetContainerItemID(bagID, slot);
 						if (itemID == artifactID) then
 							MinArch.nextCratable = {
 								itemID = itemID,

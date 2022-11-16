@@ -10,6 +10,12 @@ local cx, cy, cInstance;
 local timer;
 local baseHeight = 31;
 
+local MinArchDistanceTrackerShapes = {
+    "Interface\\Addons\\MinimalArchaeology\\Textures\\Indicator.tga",
+    "Interface\\Addons\\MinimalArchaeology\\Textures\\IndicatorSquare.tga",
+    "Interface\\Addons\\MinimalArchaeology\\Textures\\IndicatorTriangle.tga"
+}
+
 local function RegisterForDrag(frame)
     local function OnDragStart(self)
         local f = self:GetParent();
@@ -94,10 +100,10 @@ local function InitDistanceTracker()
     tex:SetAllPoints(true)
     tex:SetWidth(16)
     tex:SetHeight(16)
-    tex:SetTexture("Interface\\Addons\\MinimalArchaeology\\Textures\\Indicator.tga")
     tex:SetBlendMode("ADD")
     tex:SetTexCoord(0.5, 1, 0.5, 1)
     Companion.trackerFrame.indicator.texture = tex
+    Companion:UpdateIndicatorFrameTexture()
 
     Companion.trackerFrame.indicator:Show()
 
@@ -111,6 +117,10 @@ local function InitDistanceTracker()
     Companion:SetScript("OnEvent", Companion.EventHandler)
 
     Companion.trackerFrame.fontString = fontString;
+end
+
+function Companion:UpdateIndicatorFrameTexture()
+    Companion.trackerFrame.indicator.texture:SetTexture(MinArchDistanceTrackerShapes[MinArch.db.profile.companion.features.distanceTracker.shape])
 end
 
 function Companion:SavePosition()
