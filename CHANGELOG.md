@@ -1,6 +1,10 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 10.0.5.1
+
+- Fix databroker error
+
 ### 10.0.3
 
 - Companion: added optional button to summon random favorite mount (disabled by default)
