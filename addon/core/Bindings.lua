@@ -77,7 +77,7 @@ function MinArch:HookDoubleClick()
     --end)
 
     WorldFrame:HookScript("OnMouseDown", function(_, eButton)
-        if eButton == "RightButton" and CanCast() then
+        if eButton == "RightButton" then
             if prevTime then
                 local diff = GetTime() - prevTime;
                 local diff2 = GetTime() - clickTime;
@@ -85,7 +85,9 @@ function MinArch:HookDoubleClick()
                 if diff < threshold and diff2 > threshold then
                     -- print("shoudcast");
                     clickTime = GetTime();
-                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                    if (CanCast()) then
+                        SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                    end
 
                     C_Timer.NewTimer(0.2, function()
                         ClearOverrideBindings(button);
