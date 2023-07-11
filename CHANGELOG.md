@@ -1,9 +1,14 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 10.1.0
+
+-  Updated for 10.1.5
+
 ### 10.0.5.1
 
 - Fix databroker error
+- **10.0.5.2** Fixed an issue caused by right click during combat
 
 ### 10.0.3
 

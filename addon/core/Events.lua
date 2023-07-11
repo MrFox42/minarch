@@ -75,10 +75,10 @@ function MinArch:EventMain(event, ...)
 		local addonname = ...;
 
 		if (addonname == "Blizzard_ArchaeologyUI") then
-			MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+			--MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
-		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		if (MinArch.RacesLoaded == false) then
 			MinArch:LoadRaceInfo();
@@ -144,7 +144,7 @@ function MinArch:EventMain(event, ...)
 
         eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
-            RequestArtifactCompletionHistory();
+            -- RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
     end

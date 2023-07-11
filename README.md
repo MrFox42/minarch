@@ -11,6 +11,15 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - Double Right Click surveying
 - Collector achievement progress indicators in the History window
 
+### 10.1.0
+
+-  Updated for 10.1.5
+
+### 10.0.5.1
+
+- Fix databroker error
+- **10.0.5.2** Fixed an issue caused by right click during combat
+
 ## What's next:
 - History window improvements such as achievement progress, better indicator for pristine artifacts
 

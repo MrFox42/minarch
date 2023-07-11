@@ -153,7 +153,7 @@ function MinArch:InitHist(self)
 		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
     end)
 
-	self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+	-- self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
 	self:RegisterEvent("QUEST_ACCEPTED");
 	self:RegisterEvent("QUEST_TURNED_IN");

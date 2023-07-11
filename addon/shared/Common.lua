@@ -309,6 +309,6 @@ end
 function MinArch_ShowUIPanel(...)
 	local panel = ...;
 	if (panel and panel:GetName() == "ArchaeologyFrame") then
-		MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		-- MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	end
 end
