@@ -89,8 +89,10 @@ function MinArch:HookDoubleClick()
                         SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
                     end
 
-                    C_Timer.NewTimer(0.2, function()
-                        ClearOverrideBindings(button);
+                    C_Timer.NewTimer(0.01, function()
+                        if (not InCombatLockdown()) then
+                            ClearOverrideBindings(button);
+                        end
                     end)
                 end
             end

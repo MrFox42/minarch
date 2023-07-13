@@ -14,6 +14,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ### 10.1.0
 
 -  Updated for 10.1.5
+- **10.1.0.1** Fix ClearOverrideBindings ADDON_ACTION_BLOCKED lua error
 
 ### 10.0.5.1
 
