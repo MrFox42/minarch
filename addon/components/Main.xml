@@ -8,7 +8,6 @@
 		</Anchors>
 		<Frames>
 			<!-- Top Level Buttons (Hist|Arch|X) -->
-			<Button name="$parentButtonOpenArch" inherits="MATBOpenArch" parentKey="buttonOpenArch" />
 			<Button name="$parentButtonOpenHist" inherits="MATBOpenHist" parentKey="buttonOpenHist" />
 			<Button name="$parentButtonOpenADI" inherits="MATBOpenADI" parentKey="openADIButton" />
 

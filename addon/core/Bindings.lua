@@ -86,7 +86,7 @@ function MinArch:HookDoubleClick()
                     -- print("shoudcast");
                     clickTime = GetTime();
                     if (CanCast()) then
-                        SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                        SetOverrideBindingClick(button, true, "BUTTON2", "MinArchHiddenSurveyButton");
                     end
 
                     C_Timer.NewTimer(0.01, function()

@@ -120,42 +120,11 @@
 		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
 	</Button>
 
-
-	<!-- Open Archaeology Button -->
-	<Button name="MATBOpenArch" virtual="true" >
-		<Size x="24" y="24"/>
-		<Anchors>
-			<Anchor point="TOPRIGHT" x="-26" y="1"/>
-		</Anchors>
-		<Scripts>
-			<OnClick>
-				if IsAddOnLoaded("Blizzard_ArchaeologyUI") then
-					if (ArchaeologyFrame:IsVisible()) then
-						HideUIPanel(ArchaeologyFrame);
-					else
-						ShowUIPanel(ArchaeologyFrame);
-					end
-				else
-					local loaded, _ = LoadAddOn("Blizzard_ArchaeologyUI")
-					if loaded then
-						ShowUIPanel(ArchaeologyFrame);
-					end
-				end
-			</OnClick>
-			<OnLeave>
-				GameTooltip:Hide();
-			</OnLeave>
-		</Scripts>
-		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\ArchButtonUp.tga"/>
-		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\ArchButtonDown.tga"/>
-		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
-	</Button>
-
 	<!-- Open History Button -->
 	<Button name="MATBOpenHist" virtual="true" >
 		<Size x="24" y="24"/>
 		<Anchors>
-			<Anchor point="TOPRIGHT" x="-46" y="1"/>
+			<Anchor point="TOPRIGHT" x="-26" y="1"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>
@@ -174,7 +143,7 @@
 	<Button name="MATBOpenADI" virtual="true" >
 		<Size x="24" y="24"/>
 		<Anchors>
-			<Anchor point="TOPRIGHT" x="-66" y="1"/>
+			<Anchor point="TOPRIGHT" x="-46" y="1"/>
 		</Anchors>
 		<Scripts>
 			<OnClick>

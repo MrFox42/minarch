@@ -14,6 +14,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ### 10.2.0
 
 - Updated for 10.2.0
+- **10.2.0.1** Fixed an issue with dbl right click surveying
 
 ### 10.1.0
 

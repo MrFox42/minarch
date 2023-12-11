@@ -87,6 +87,14 @@ function MinArch:EventMain(event, ...)
         MinArch.Companion:AutoToggle()
 	end
 
+	if (event == "PLAYER_LEAVE_COMBAT") then
+		C_Timer.NewTimer(0.01, function()
+			if (not InCombatLockdown()) then
+				ClearOverrideBindings(MinArchHiddenSurveyButton);
+			end
+		end)
+	end
+
     if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArch.ShowOnSurvey == true) then
         if (_G.TomTom and MinArch.autoWaypoint) then
             _G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);

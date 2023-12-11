@@ -134,6 +134,7 @@ local function RegisterEvents(self)
     self:RegisterEvent("ARCHAEOLOGY_CLOSED");
     self:RegisterEvent("QUEST_TURNED_IN");
     self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	self:RegisterEvent("PLAYER_LEAVE_COMBAT");
     self:RegisterEvent("QUEST_LOG_UPDATE");
     self:RegisterEvent("PLAYER_STOPPED_MOVING");
     self:RegisterEvent("ZONE_CHANGED");
@@ -169,9 +170,6 @@ function MinArch:InitMain(self)
     end)
     self.buttonOpenHist:SetScript("OnEnter", function(self)
         MinArch:ShowWindowButtonTooltip(self, "Open History");
-    end)
-    self.buttonOpenArch:SetScript("OnEnter", function(self)
-        MinArch:ShowWindowButtonTooltip(self, "Open Profession Window");
     end)
 
 	local skillBarTexture = [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]];
