@@ -88,7 +88,7 @@ function MinArch:EventMain(event, ...)
 	end
 
 	if (event == "PLAYER_LEAVE_COMBAT") then
-		C_Timer.NewTimer(0.01, function()
+		C_Timer.NewTimer(0.3, function()
 			if (not InCombatLockdown()) then
 				ClearOverrideBindings(MinArchHiddenSurveyButton);
 			end

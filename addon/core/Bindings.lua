@@ -69,12 +69,12 @@ function MinArch:HookDoubleClick()
     local prevTime;
     local clickTime = 0;
 
-    --button:SetScript("PostClick", function(self)
-    --    print('PostClick' .. tostring(clearBinding))
-    --    if clearBinding then
-    --        ClearOverrideBindings(self)
-    --    end
-    --end)
+    button:SetScript("PostClick", function(self)
+        -- print('PostClick' .. tostring(clearBinding))
+        if (clearBinding and not InCombatLockdown()) then
+            ClearOverrideBindings(self)
+        end
+    end)
 
     WorldFrame:HookScript("OnMouseDown", function(_, eButton)
         if eButton == "RightButton" then
@@ -87,9 +87,10 @@ function MinArch:HookDoubleClick()
                     clickTime = GetTime();
                     if (CanCast()) then
                         SetOverrideBindingClick(button, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                        clearBinding = true;
                     end
 
-                    C_Timer.NewTimer(0.01, function()
+                    C_Timer.NewTimer(0.3, function()
                         if (not InCombatLockdown()) then
                             ClearOverrideBindings(button);
                         end
