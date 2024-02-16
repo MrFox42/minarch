@@ -15,6 +15,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 - Updated for 10.2.0
 - **10.2.0.1** Fixed an issue with dbl right click surveying
+- **10.2.0** Addon compartment support
 
 ### 10.1.0
 

@@ -5,6 +5,7 @@
 
 - Updated for 10.2.0
 - **10.2.0.1** Fixed an issue with dbl right click surveying
+- **10.2.1** Addon compartment support
 
 ### 10.1.0
 
