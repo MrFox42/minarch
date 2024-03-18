@@ -358,7 +358,7 @@ function Companion:AutoToggle()
         return;
     end
 
-    if IsInInstance() or (MinArch.db.profile.hideInCombat and UnitAffectingCombat("player")) then
+    if IsInInstance() or (MinArch.db.profile.companion.hideInCombat and UnitAffectingCombat("player")) then
         Companion:HideFrame();
         return;
     end
@@ -543,7 +543,7 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
         Companion.solveButton:SetNormalTexture(artifact.icon)
         Companion.solveButton:SetHighlightTexture(artifact.icon)
         Companion.solveButton:SetPushedTexture(artifact.icon)
-        
+
         Companion.solveButton:GetNormalTexture():SetDesaturated(not artifact.canSolve)
         Companion.solveButton:GetHighlightTexture():SetDesaturated(not artifact.canSolve)
         Companion.solveButton:GetPushedTexture():SetDesaturated(not artifact.canSolve)
@@ -556,7 +556,7 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
             GameTooltip:AddLine(" ");
             if (artifact.canSolve) then
                 GameTooltip:AddLine("Left click to solve this artifact");
-            else 
+            else
                 local progress = artifact.progress or 0;
                 if (artifact.appliedKeystones > 0) then
                     progress = progress + (artifact.modifier)

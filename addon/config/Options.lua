@@ -42,6 +42,7 @@ local general = {
 					order = 2,
 					func = function ()
 						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
+						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
 					end,
                 },
                 companionButton = {
@@ -203,6 +204,13 @@ local general = {
 			inline = true,
 			order = 6,
 			args = {
+			    note = {
+                    type = "description",
+                    name = "Note: these settings do not affect the Companion frame.",
+                    -- fontSize = "small",
+                    width = "full",
+                    order = 1,
+			    },
 				hideAfterDigsite = {
 					type = "toggle",
 					name = "Auto-hide after digsites",
@@ -211,7 +219,7 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.hideAfterDigsite = newValue;
 					end,
-					order = 1,
+					order = 2,
 				},
 				waitForSolve = {
 					type = "toggle",
@@ -222,7 +230,7 @@ local general = {
 						MinArch.db.profile.waitForSolve = newValue;
 					end,
 					disabled = function () return (MinArch.db.profile.hideAfterDigsite == false) end,
-					order = 2
+					order = 3
 				},
 				hideInCombat = {
 					type = "toggle",
@@ -232,7 +240,7 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.hideInCombat = newValue;
 					end,
-					order = 3,
+					order = 4,
 				},
 			}
 		},
@@ -442,7 +450,7 @@ local companionSettings = {
 	args = {
         general = {
 			type = "group",
-			name = "General settings!",
+			name = "General settings",
 			order = 1,
 			inline = true,
 			args = {
@@ -466,7 +474,7 @@ local companionSettings = {
 				alwaysShow = {
 					type = "toggle",
 					name = "Always show",
-					desc = "Enable to always show regardless of other options (except in instances and in combat).",
+					desc = "Enable to always show the companion frame, even if you're not in a digsite (except in instances and if 'Hide in combat' is enabled).",
 					get = function () return MinArch.db.profile.companion.alwaysShow end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.alwaysShow = newValue;
@@ -475,11 +483,23 @@ local companionSettings = {
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 					order = 2,
                 },
+                hideInCombat = {
+                    type = "toggle",
+                    name = "Hide in combat",
+                    desc = "Enable to hide in combat (even if alway show is enabled).",
+                    get = function () return MinArch.db.profile.companion.hideInCombat end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.hideInCombat = newValue;
+                        MinArch.Companion:AutoToggle()
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.hideInCombat == false) end,
+                    order = 3,
+                },
                 hrC = {
                     type = "description",
                     name = "|nColoring",
                     width = "full",
-                    order = 3,
+                    order = 4,
                 },
                 background = {
                     type = "color",
@@ -492,7 +512,7 @@ local companionSettings = {
                         MinArchCompanion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
-                    order = 4,
+                    order = 5,
                 },
                 bgOpacity = {
                     type = "range",
@@ -507,7 +527,7 @@ local companionSettings = {
                         MinArch.Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
-                    order = 5,
+                    order = 6,
                 },
                 hr = {
                     type = "description",

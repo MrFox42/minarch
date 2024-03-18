@@ -76,6 +76,7 @@ MinArch.defaults = {
             showHelpTip = true,
             enable = true,
             alwaysShow = true,
+            hideInCombat = true,
             frameScale = 100,
             savePos = true,
             point = "CENTER",
