@@ -789,7 +789,6 @@ local companionSettings = {
                             type = "toggle",
                             name = "For relevant only",
                             desc = "Enable to only show solves for relevant races",
-                            width = "full",
                             get = function () return MinArch.db.profile.companion.relevantOnly end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.relevantOnly = newValue;
@@ -797,6 +796,31 @@ local companionSettings = {
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 53,
+                        },
+						keystone = {
+                            type = "toggle",
+                            name = "Show keystones",
+                            desc = "Enable to displays keystones on the solve button if available for the current solve. Also allows you to and apply/remove keystones (if auto-apply is not set)",
+                            get = function () return MinArch.db.profile.companion.features.solveButton.keystone end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.solveButton.keystone = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 54,
+                        },
+						alwaysShowNearest = {
+                            type = "toggle",
+                            name = "Always show the nearest project",
+                            desc = "Enable to displays the project related to the nearest digsite, even if you can't solve the project yet.",
+                            get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowNearest end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.solveButton.alwaysShowNearest = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+							width = "double",
+                            order = 55,
                         },
                     }
                 },

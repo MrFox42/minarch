@@ -13,7 +13,6 @@ MinArch.CompanionShowInDigsite = true;
 MinArch.firstRun = true;
 MinArch.artifacts = {};
 MinArch.artifactbars = {};
-MinArch.barlinks = {};
 MinArch.raceButtons = {};
 MinArch.frame = {};
 MinArch.ArchaeologyRaces = {};

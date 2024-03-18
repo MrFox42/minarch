@@ -398,6 +398,7 @@ MinArchDigsiteList = {
     [DS("Digsite: The Crescent Vale")] = {race = ARCHAEOLOGY_RACE_DEMONIC, r = 92.057047530322},
     [DS("Digsite: The Wildwood")] = {race = ARCHAEOLOGY_RACE_DEMONIC, r = 110.29619213735},
     [DS("Digsite: Wretched Hollow")] = {race = ARCHAEOLOGY_RACE_DEMONIC, r = 88.732363513606},
+
     [DS("Digsite: Valley View")] = {race = ARCHAEOLOGY_RACE_DRUSTVARI, r = 108.42683040198},
     [DS("Digsite: Brokenbough Roost")] = {race = ARCHAEOLOGY_RACE_DRUSTVARI, r = 90.949982144927},
     [DS("Digsite: Fernwood Ridge")] = {race = ARCHAEOLOGY_RACE_DRUSTVARI, r = 101.04791223135},
@@ -422,6 +423,7 @@ MinArchDigsiteList = {
     [DS("Digsite: Drowned Lands")] = {race = ARCHAEOLOGY_RACE_DRUSTVARI, r = 82.790349998861},
     [DS("Digsite: Briny Flats")] = {race = ARCHAEOLOGY_RACE_DRUSTVARI, r = 86.657537559899},
     [DS("Digsite: Windwhisper Summit")] = {race = ARCHAEOLOGY_RACE_DRUSTVARI, r = 109.97905859788},
+
     [DS("Digsite: Xibala")] = {race = ARCHAEOLOGY_RACE_ZANDALARI, r = 96.408578874795},
     [DS("Digsite: Tusk Isle")] = {race = ARCHAEOLOGY_RACE_ZANDALARI, r = 105.78850152795},
     [DS("Digsite: Dreadpearl Shallows")] = {race = ARCHAEOLOGY_RACE_ZANDALARI, r = 110.49839317329},

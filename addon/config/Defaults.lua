@@ -96,7 +96,7 @@ MinArch.defaults = {
                 distanceTracker = {enabled = true,  order = 1, shape = 2}, -- 1: circle, 2: square, 3: triangle
                 waypointButton  = {enabled = true,  order = 2},
                 surveyButton    = {enabled = true,  order = 3},
-                solveButton     = {enabled = true,  order = 4},
+                solveButton     = {enabled = true,  order = 4, keystone = true, alwaysShowNearest = true},
                 crateButton     = {enabled = true,  order = 5},
                 mountButton     = {enabled = false, order = 6},
             },

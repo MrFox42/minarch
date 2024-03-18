@@ -197,7 +197,6 @@
 		</HighlightTexture>
 		<Scripts>
 			<OnLoad>
-				self:SetID(self:GetParent():GetID());
 				self:RegisterForClicks("LeftButtonUp","RightButtonUp");
 			</OnLoad>
 			<OnEnable>

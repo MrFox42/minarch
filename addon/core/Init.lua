@@ -25,10 +25,6 @@ function MinArch:InitHelperFrame()
 end
 
 function MinArch.Ace:OnInitialize ()
-	for i=1, ARCHAEOLOGY_NUM_RACES do
-		MinArch.barlinks[i] = {};
-	end
-
 	-- Initialize Settings Database
 	MinArch:SetDynamicDefaults();
 	MinArch:InitDatabase();

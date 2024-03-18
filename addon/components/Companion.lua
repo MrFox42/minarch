@@ -195,7 +195,19 @@ local function InitProjectFrame()
 
     RegisterForDrag(solveButton);
 
+    local keystoneButton = CreateFrame("Button", "$parentKeystoneButton", solveButton, "MATKeystone");
+    keystoneButton:SetPoint("BOTTOMRIGHT", 3, -3);
+    keystoneButton:SetWidth(20);
+    keystoneButton:SetHeight(20);
+    keystoneButton:RegisterForClicks("LeftButtonUp","RightButtonUp");
+
+    keystoneButton:SetScript("OnLeave", function ()
+        GameTooltip:Hide();
+    end)
+
+    solveButton.keystone = keystoneButton;
     Companion.solveButton = solveButton;
+    Companion.solveButton.keystone:Hide();
 end
 
 local function InitCrateButton()
@@ -524,42 +536,82 @@ local function shouldShowRace(raceID)
     return true;
 end
 
+function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
+    local artifact = MinArch['artifacts'][raceID]
+
+    if (artifact.canSolve or alwaysShow) then
+        Companion.solveButton:SetNormalTexture(artifact.icon)
+        Companion.solveButton:SetHighlightTexture(artifact.icon)
+        Companion.solveButton:SetPushedTexture(artifact.icon)
+        
+        Companion.solveButton:GetNormalTexture():SetDesaturated(not artifact.canSolve)
+        Companion.solveButton:GetHighlightTexture():SetDesaturated(not artifact.canSolve)
+        Companion.solveButton:GetPushedTexture():SetDesaturated(not artifact.canSolve)
+
+        Companion.solveButton:SetScript("OnClick", function(self, button)
+            MinArch:SolveArtifact(raceID)
+        end);
+        Companion.solveButton:SetScript("OnEnter", function(self)
+            MinArch:ShowArtifactTooltip(self, raceID)
+            GameTooltip:AddLine(" ");
+            if (artifact.canSolve) then
+                GameTooltip:AddLine("Left click to solve this artifact");
+            else 
+                local progress = artifact.progress or 0;
+                if (artifact.appliedKeystones > 0) then
+                    progress = progress + (artifact.modifier)
+                end
+                GameTooltip:AddLine("Progress: " .. progress .. "/" .. artifact.total);
+            end
+            GameTooltip:Show();
+        end)
+        Companion.solveButton:SetScript("OnLeave", function()
+            MinArch:HideArtifactTooltip();
+        end)
+
+        Companion.solveButton.keystone:SetScript("OnClick", function(self, button, down)
+            MinArch:KeystoneClick(self, raceID, button, down);
+        end)
+        Companion.solveButton.keystone:SetScript("OnEnter", function(self)
+            MinArch:KeystoneTooltip(self, raceID);
+        end)
+
+        if MinArch.db.profile.companion.features.solveButton.enabled then
+            Companion.solveButton:Show();
+
+            if not MinArch.db.profile.companion.features.solveButton.keystone then
+                Companion.solveButton.keystone:Hide();
+            else
+                MinArch:UpdateKeystones(MinArch.Companion.solveButton.keystone, raceID);
+            end
+
+        end
+        Companion:Resize()
+    end
+end
+
 function Companion:Update()
     if not MinArch.db.profile.companion.enable then
         return false;
     end
 
     Companion.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
-
     Companion.solveButton:Hide();
     Companion:Resize();
 
     for i = 1, ARCHAEOLOGY_NUM_RACES do
         if shouldShowRace(i) then
-            local artifact = MinArch['artifacts'][i]
+            Companion:ShowSolveButtonForRace(i)
+            return;
+        end
 
-            if (artifact.canSolve) then
-                Companion.solveButton:SetNormalTexture(artifact.icon)
-                Companion.solveButton:SetHighlightTexture(artifact.icon)
-                Companion.solveButton:SetPushedTexture(artifact.icon)
+        if MinArch.db.profile.companion.features.solveButton.alwaysShowNearest then
+            local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
+            if (digSiteData) then
+                local text = digSiteData.race;
 
-                Companion.solveButton:SetScript("OnClick", function(self, button)
-                    MinArch:SolveArtifact(i)
-                end);
-                Companion.solveButton:SetScript("OnEnter", function(self)
-                    MinArch:ShowArtifactTooltip(self, i)
-                    GameTooltip:AddLine(" ");
-                    GameTooltip:AddLine("Left click to solve this artifact");
-                    GameTooltip:Show();
-                end)
-                Companion.solveButton:SetScript("OnLeave", function()
-                    MinArch:HideArtifactTooltip();
-                end)
-
-                if MinArch.db.profile.companion.features.solveButton.enabled then
-                    Companion.solveButton:Show();
-                end
-                Companion:Resize()
+                local raceID = MinArch:GetRaceIdByName(digSiteData.race);
+                Companion:ShowSolveButtonForRace(raceID, true)
                 return;
             end
         end
