@@ -5,6 +5,7 @@ function MinArch:InitHelperFrame()
 
 	MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
     MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
+	MinArch.HelperFrame:RegisterEvent("GLOBAL_MOUSE_DOWN");
 
 	MinArchMain.showAfterCombat = false;
 	MinArchHist.showAfterCombat = false;
@@ -22,6 +23,13 @@ function MinArch:InitHelperFrame()
     button:SetAttribute("type", "spell");
     button:SetAttribute("spell", SURVEY_SPELL_ID);
     button:Hide();
+
+	button:SetScript("PostClick", function(self)
+        if (MinArch.clearBinding and not InCombatLockdown()) then
+			-- print('PostClick' .. tostring(clearBinding))
+            ClearOverrideBindings(self)
+        end
+    end)
 end
 
 function MinArch.Ace:OnInitialize ()
@@ -48,7 +56,7 @@ function MinArch.Ace:OnInitialize ()
 
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
     MinArch:ShowRaceIconsOnMap();
-    MinArch:HookDoubleClick();
+    -- MinArch:HookDoubleClick();
 	MinArch.IsReady = true;
 	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end

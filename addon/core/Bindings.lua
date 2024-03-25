@@ -1,6 +1,6 @@
 local ADDON, MinArch = ...
 
-local clearBinding = false;
+MinArch.clearBinding = false;
 
 BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
 BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
@@ -62,43 +62,30 @@ local function CanCast()
     return true;
 end
 
-function MinArch:HookDoubleClick()
-    local button = MinArchHiddenSurveyButton;
-
-    local threshold = 0.5;
-    local prevTime;
-    local clickTime = 0;
-
-    button:SetScript("PostClick", function(self)
-        -- print('PostClick' .. tostring(clearBinding))
-        if (clearBinding and not InCombatLockdown()) then
-            ClearOverrideBindings(self)
-        end
-    end)
-
-    WorldFrame:HookScript("OnMouseDown", function(_, eButton)
-        if eButton == "RightButton" then
-            if prevTime then
-                local diff = GetTime() - prevTime;
-                local diff2 = GetTime() - clickTime;
-
-                if diff < threshold and diff2 > threshold then
-                    -- print("shoudcast");
-                    clickTime = GetTime();
-                    if (CanCast()) then
-                        SetOverrideBindingClick(button, true, "BUTTON2", "MinArchHiddenSurveyButton");
-                        clearBinding = true;
+local threshold = 0.5;
+local prevTime;
+local clickTime = 0;
+function MinArch:DoubleClickSurvey(event, button)
+    if button == "RightButton" then
+        if prevTime then
+            local diff = GetTime() - prevTime;
+            local diff2 = GetTime() - clickTime;
+            
+            -- print(prevTime, clickTime, diff, diff2, threshold);
+            if diff < threshold and diff2 > threshold then
+                -- print("shoudcast");
+                clickTime = GetTime();
+                if (CanCast()) then
+                    if ( IsMouselooking() ) then
+                        MouselookStop();
                     end
 
-                    C_Timer.NewTimer(0.3, function()
-                        if (not InCombatLockdown()) then
-                            ClearOverrideBindings(button);
-                        end
-                    end)
+                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                    MinArch.clearBinding = true;
                 end
             end
-
-            prevTime = GetTime();
         end
-    end)
+
+        prevTime = GetTime();
+    end
 end

@@ -38,6 +38,8 @@ function MinArch:EventHelper(event, ...)
 			MinArch.Companion:ShowFrame();
 			MinArch.Companion.showAfterCombat = false;
 		end
+	elseif (event == "GLOBAL_MOUSE_DOWN") then
+		MinArch:DoubleClickSurvey(event, ...);
     end
 end
 
