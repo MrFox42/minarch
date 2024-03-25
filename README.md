@@ -1,3 +1,5 @@
+# Cataclysm classic version is planned!
+
 # Description
 
 View all your artifacts progress, and solve them in one compact frame.
@@ -16,6 +18,9 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - Updated for 10.2.0
 - **10.2.0.1** Fixed an issue with dbl right click surveying
 - **10.2.0** Addon compartment support
+- **10.2.2** Use GLOBAL_MOUSE_DOWN instead of HookScript for double click surveying
+- **10.2.2** Add optional keystone button to the Companion's solve button
+- **10.2.2** Add separate "Hide In Combat" option to the Companion
 
 ### 10.1.0
 
