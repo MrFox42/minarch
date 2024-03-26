@@ -21,6 +21,8 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **10.2.2** Use GLOBAL_MOUSE_DOWN instead of HookScript for double click surveying
 - **10.2.2** Add optional keystone button to the Companion's solve button
 - **10.2.2** Add separate "Hide In Combat" option to the Companion
+- **10.2.3** Fix Companion lua error and main window display issue with bars
+- **10.2.3** Fix Companion not showing solvable relevant artifacts 
 
 ### 10.1.0
 

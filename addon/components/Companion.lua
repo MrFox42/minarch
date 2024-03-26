@@ -540,9 +540,13 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
     local artifact = MinArch['artifacts'][raceID]
 
     if (artifact.canSolve or alwaysShow) then
-        Companion.solveButton:SetNormalTexture(artifact.icon)
-        Companion.solveButton:SetHighlightTexture(artifact.icon)
-        Companion.solveButton:SetPushedTexture(artifact.icon)
+        local icon = 'Interface/Icons/Inv_misc_questionmark';
+        if (artifact.icon) then
+            icon = artifact.icon
+        end
+        Companion.solveButton:SetNormalTexture(icon)
+        Companion.solveButton:SetHighlightTexture(icon)
+        Companion.solveButton:SetPushedTexture(icon)
 
         Companion.solveButton:GetNormalTexture():SetDesaturated(not artifact.canSolve)
         Companion.solveButton:GetHighlightTexture():SetDesaturated(not artifact.canSolve)
@@ -587,7 +591,11 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
 
         end
         Companion:Resize()
+
+        return true;
     end
+
+    return false;
 end
 
 function Companion:Update()
@@ -601,8 +609,9 @@ function Companion:Update()
 
     for i = 1, ARCHAEOLOGY_NUM_RACES do
         if shouldShowRace(i) then
-            Companion:ShowSolveButtonForRace(i)
-            return;
+            if (Companion:ShowSolveButtonForRace(i)) then
+                return;
+            end
         end
 
         if MinArch.db.profile.companion.features.solveButton.alwaysShowNearest then

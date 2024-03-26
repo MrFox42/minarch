@@ -403,6 +403,9 @@ function MinArch:UpdateMain()
 
 	-- TODO: Check is skillbar is visible
 	local barY = -25;
+	if (MinArchMain.skillBar:IsVisible()) then
+		barY = -50;
+	end
 
 	for i=1,ARCHAEOLOGY_NUM_RACES do
         MinArch:UpdateArtifact(i);
