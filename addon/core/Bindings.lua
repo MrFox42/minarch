@@ -67,12 +67,14 @@ local prevTime;
 local clickTime = 0;
 function MinArch:DoubleClickSurvey(event, button)
     if button == "RightButton" then
+        MinArch:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
         if prevTime then
             local diff = GetTime() - prevTime;
             local diff2 = GetTime() - clickTime;
             
             -- print(prevTime, clickTime, diff, diff2, threshold);
             if diff < threshold and diff2 > threshold then
+                MinArch:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
                 -- print("shoudcast");
                 clickTime = GetTime();
                 if (CanCast()) then
@@ -80,8 +82,11 @@ function MinArch:DoubleClickSurvey(event, button)
                         MouselookStop();
                     end
 
-                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                    MinArch:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
+                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON1", "MinArchHiddenSurveyButton");
                     MinArch.clearBinding = true;
+                else
+                    MinArch:DisplayStatusMessage('Can\'t cast', MINARCH_MSG_DEBUG)
                 end
             end
         end

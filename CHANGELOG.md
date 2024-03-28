@@ -11,6 +11,7 @@
 - **10.2.2** Add separate "Hide In Combat" option to the Companion
 - **10.2.3** Fix Companion lua error and main window display issue with bars
 - **10.2.3** Fix Companion not showing solvable relevant artifacts 
+- **10.2.4** Change the right click helper button from InSecureActionButtonTemplate to SecureActionButtonTemplate, added some extra debug messages
 
 ### 10.1.0
 

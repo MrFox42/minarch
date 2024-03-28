@@ -18,7 +18,7 @@ function MinArch:InitHelperFrame()
 		MinArch:EventHelper(event, ...);
 	end)
 
-    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArchHelper, "InSecureActionButtonTemplate");
+    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArchHelper, "SecureActionButtonTemplate");
     button:RegisterForClicks("AnyUp", "AnyDown");
     button:SetAttribute("type", "spell");
     button:SetAttribute("spell", SURVEY_SPELL_ID);

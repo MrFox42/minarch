@@ -202,7 +202,7 @@ function MinArch:DisplayStatusMessage(message, msgtype)
 	end
 
 	if (msgtype == MINARCH_MSG_DEBUG and MinArch.db.profile.showDebugMessages == true) then
-		ChatFrame1:AddMessage(message);
+		ChatFrame1:AddMessage('MinArch DEBUG: ' .. message);
 	end
 end
 
