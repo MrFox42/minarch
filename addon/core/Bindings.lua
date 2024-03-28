@@ -83,7 +83,7 @@ function MinArch:DoubleClickSurvey(event, button)
                     end
 
                     MinArch:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
-                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON1", "MinArchHiddenSurveyButton");
+                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "button2", "MinArchHiddenSurveyButton");
                     MinArch.clearBinding = true;
                 else
                     MinArch:DisplayStatusMessage('Can\'t cast', MINARCH_MSG_DEBUG)
