@@ -38,24 +38,29 @@ end
 local function CanCast()
     -- Prevent casting in combat
     if (InCombatLockdown()) then
+        MinArch:DisplayStatusMessage('Can\'t cast: combat lockdown', MINARCH_MSG_DEBUG)
         return false;
     end
 
     -- Check if casting is enabled at all
     if not MinArch.db.profile.surveyOnDoubleClick then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
         return false;
     end
 
     -- Check general conditions
     if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
+        MinArch:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)
         return false;
     end
 
     -- Check custom conditions (mounted, flying)
     if IsMounted() and MinArch.db.profile.dblClick.disableMounted then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - mounted', MINARCH_MSG_DEBUG)
         return false;
     end
     if IsFlying() and MinArch.db.profile.dblClick.disableInFlight then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - flying', MINARCH_MSG_DEBUG)
         return false;
     end
 
@@ -71,7 +76,7 @@ function MinArch:DoubleClickSurvey(event, button)
         if prevTime then
             local diff = GetTime() - prevTime;
             local diff2 = GetTime() - clickTime;
-            
+
             -- print(prevTime, clickTime, diff, diff2, threshold);
             if diff < threshold and diff2 > threshold then
                 MinArch:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
@@ -85,8 +90,6 @@ function MinArch:DoubleClickSurvey(event, button)
                     MinArch:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
                     SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "button2", "MinArchHiddenSurveyButton");
                     MinArch.clearBinding = true;
-                else
-                    MinArch:DisplayStatusMessage('Can\'t cast', MINARCH_MSG_DEBUG)
                 end
             end
         end
