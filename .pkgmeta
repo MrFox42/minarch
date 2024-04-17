@@ -1,3 +1,5 @@
+package-as: MinimalArchaeology
+
 externals:
     libs/LibStub:
         url: https://repos.wowace.com/wow/libstub/trunk

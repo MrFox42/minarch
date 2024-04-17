@@ -1,0 +1,51 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+    <!-- Core -->
+    <Script file="core\MinArch.lua" />
+    <Script file="core\Defines-Cata.lua" />
+    <Script file="core\Bindings.lua"/>
+    <Script file="core\Init.lua" />
+    <Script file="core\Events.lua" />
+
+    <!-- Locales -->
+    <Script file="locales\Localizations.lua" />
+    <Script file="locales\DigSiteLocales\DeDE.lua" />
+    <Script file="locales\DigSiteLocales\EnGB.lua" />
+    <Script file="locales\DigSiteLocales\EsES.lua" />
+    <Script file="locales\DigSiteLocales\EsMX.lua" />
+    <Script file="locales\DigSiteLocales\FrFR.lua" />
+    <Script file="locales\DigSiteLocales\ItIT.lua" />
+    <Script file="locales\DigSiteLocales\KoKR.lua" />
+    <Script file="locales\DigSiteLocales\PtBR.lua" />
+    <Script file="locales\DigSiteLocales\PtPT.lua" />
+    <Script file="locales\DigSiteLocales\RuRU.lua" />
+    <Script file="locales\DigSiteLocales\ZhCN.lua" />
+    <Script file="locales\DigSiteLocales\ZhTW.lua" />
+
+    <!-- Data -->
+    <Script file="data\ArtifactDB.lua"/>
+    <Script file="data\DigsiteDB.lua"/>
+    <Script file="data\Races.lua"/>
+
+    <!-- Shared templates, common functions  -->
+    <Include file="shared\MATemplates.xml" />
+    <Script  file="shared\Common.lua" />
+    <Script  file="shared\CrateButton.lua" />
+
+    <!-- Plugins, components -->
+    <Include file="components\Main.xml" />
+    <Script  file="components\Main.lua" />
+    <Include file="components\History.xml" />
+    <Script  file="components\History.lua" />
+    <Include file="components\Digsites.xml" />
+    <Script  file="components\Digsites.lua" />
+    <Script  file="components\Companion.lua" />
+    <Script  file="components\DataBroker.lua" />
+    <Script  file="components\Navigation.lua" />
+
+    <!-- Configuration -->
+    <Script file="config\Defaults.lua" />
+    <Script file="config\Options.lua" />
+
+</Ui>

@@ -1,0 +1,18 @@
+## Interface: 40400
+## Title: Minimal Archaeology
+## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
+## Email: gyussz@live.com
+## Version: 10.2.6
+## Notes: Archaeology UI replacement, Archaeology History and more... - Cataclysm Version
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariablesPerCharacter: MinArchOptions
+## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
+## AddonCompartmentFunc: MinArch_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: MinArch_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: MinArch_OnAddonCompartmentLeave
+##IconTexture: Interface\Icons\Trade_Archaeology_Dinosaurskeleton
+# Special thanks to joevt for the contribution
+
+embeds.xml
+addon\addon-cata.xml
