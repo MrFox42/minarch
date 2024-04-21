@@ -233,6 +233,7 @@ function MinArch:UpdateActiveDigSites()
 end
 
 function MinArch:CreateDigSitesList(ContID)
+	ContID = ContID or -1
 	if (ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
 		ContID = MinArch:GetInternalContId();
 

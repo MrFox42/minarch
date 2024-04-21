@@ -8,14 +8,14 @@ function MinArch:IsTomTomAvailable()
 end
 
 function MinArch:IsNavigationEnabled()
-    return MinArch.db.profile.TomTom.enableBlizzWaypoint or MinArch:IsTomTomAvailable();
+    return (MinArch.db.profile.TomTom.enableBlizzWaypoint and C_Map.SetUserWaypoint) or MinArch:IsTomTomAvailable();
 end
 
 local function SetWayToDigsite(title, digsite, isAuto)
 	if not MinArch:IsNavigationEnabled() then return end;
 
 	MinArch:ClearUiWaypoint()
-    if MinArch.db.profile.TomTom.enableBlizzWaypoint then
+    if MinArch.db.profile.TomTom.enableBlizzWaypoint and C_Map.SetUserWaypoint then
         local uiMapPoint = UiMapPoint.CreateFromCoordinates(digsite.uiMapID, digsite.x/100, digsite.y/100, 0);
         C_Map.SetUserWaypoint(uiMapPoint);
         MinArch.db.char.TomTom.uiMapPoint = C_Map.GetUserWaypoint();
@@ -39,11 +39,11 @@ local function SetWayToDigsite(title, digsite, isAuto)
 end
 
 function MinArch:ClearUiWaypoint()
-    local activeWaypoint = C_Map.GetUserWaypoint()
+    local activeWaypoint = C_Map.GetUserWaypoint and C_Map.GetUserWaypoint() or nil
     if (MinArch.db.char.TomTom.uiMapPoint and activeWaypoint and activeWaypoint.uiMapID == MinArch.db.char.TomTom.uiMapPoint.uiMapID
         and Vector2DMixin.IsEqualTo(activeWaypoint.position, MinArch.db.char.TomTom.uiMapPoint.position)
     ) then
-        C_Map.ClearUserWaypoint();
+        if C_Map.ClearUserWaypoint then C_Map.ClearUserWaypoint(); end
     end
     MinArch.db.char.TomTom.uiMapPoint = nil;
 end
