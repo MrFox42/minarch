@@ -2,12 +2,13 @@ local ADDON, MinArch = ...
 
 MinArchHistDB = {}
 MinArchIconDB = {}
+local NYI = 0
 
 -- Drustvari Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
+MinArchIconDB[(ARCHAEOLOGY_RACE_DRUSTVARI or NYI-1)] = {
 
 }
-MinArchHistDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_DRUSTVARI or NYI-1)] = {
 	[160751] = {}, -- Dance of the Dead
 	[161089] = {}, -- Restored Revenant
 	[160833] = {}, -- Fetish of the Tormented Mind
@@ -20,10 +21,10 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
 	[160741] = {pqid = 51955}, -- Soul Coffer
 }
 -- Zandalari Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
+MinArchIconDB[(ARCHAEOLOGY_RACE_ZANDALARI or NYI-1)] = {
 
 }
-MinArchHistDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_ZANDALARI or NYI-1)] = {
 	[160740] = {}, -- Croak Crock
 	[161080] = {}, -- Intact Direhorn Hatchling
 	[160753] = {}, -- Sanguinating Totem
@@ -36,11 +37,11 @@ MinArchHistDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
 	[160743] = {pqid = 51937}, -- Blowgun of the Sethra
 }
 -- Demonic Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_DEMONIC] = {
+MinArchIconDB[(ARCHAEOLOGY_RACE_DEMONIC or NYI-1)] = {
     -- Wyrmy Tunkins item from Infernal Device project
     ["interface\\icons\\inv_archaeology_70_wyrmytunkins"] = "interface\\icons\\inv_pet_wyrmtongue",
 }
-MinArchHistDB[ARCHAEOLOGY_RACE_DEMONIC] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_DEMONIC or NYI-1)] = {
     [131743] = {qline = 330}, -- Blood of Young Mannoroth
     [131724] = {qline = 321}, -- Crystalline Eye of Undravius
     [131735] = {qline = 325}, -- Imp Generator
@@ -55,7 +56,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DEMONIC] = {
 }
 
 -- Highmountain Tauren Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN or NYI-1)] = {
     [131733] = {qline = 323}, -- Spear of Rethu
     [131734] = {qline = 333}, -- Spirit of Eche'ro
     [131736] = {qline = 329}, -- Prizerock Neckband
@@ -68,11 +69,11 @@ MinArchHistDB[ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN] = {
 }
 
 -- Highborne Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
+MinArchIconDB[(ARCHAEOLOGY_RACE_HIGHBORNE or NYI-1)] = {
     -- Sciallax relic from Orb of Sciallax project quest completion
     ["interface\\icons\\inv_icon_shadowcouncilorb_purple"] = "interface\\icons\\inv_jewelcrafting_taladiterecrystal",
 }
-MinArchHistDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_HIGHBORNE or NYI-1)] = {
     [131717] = {qline = 322}, -- Starlight Beacon
     [131740] = {qline = 324}, -- Crown Jewels of Suramar
     [131745] = {qline = 326}, -- Key of Kalyndras
@@ -87,7 +88,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
 }
 
 -- Dwarf Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_DWARF] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_DWARF or NYI-1)] = {
     [64489] = {}, -- Staff of Sorcerer-Thane Thaurissan
     [64488] = {}, -- The Innkeeper's Daughter
     [64373] = {}, -- Chalice of the Mountain King
@@ -123,7 +124,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DWARF] = {
 }
 
 -- Draenei Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_DRAENEI] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_DRAENEI or NYI-1)] = {
     [64456] = {}, -- Arrival of the Naaru
     [64457] = {}, -- The Last Relic of Argus
 
@@ -138,7 +139,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DRAENEI] = {
 }
 
 -- Fossil Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_FOSSIL] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_FOSSIL or NYI-1)] = {
     [69764] = {}, -- Extinct Turtle Shell
     [60954] = {}, -- Fossilized Raptor
     [60955] = {}, -- Fossilized Hatchling
@@ -160,7 +161,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_FOSSIL] = {
 }
 
 -- Night Elf Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_NIGHTELF] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_NIGHTELF or NYI-1)] = {
     [64646] = {}, -- Bones of Transformation
     [64643] = {}, -- Queen Azshara's Dressing Gown
     [64645] = {}, -- Tyrande's Favorite Doll
@@ -190,11 +191,11 @@ MinArchHistDB[ARCHAEOLOGY_RACE_NIGHTELF] = {
 }
 
 -- Nerubian Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
+MinArchIconDB[(ARCHAEOLOGY_RACE_NERUBIAN or NYI-1)] = {
     -- Six-Clawed Cornice has different icon for artifact and item
     ["interface\\icons\\achievement_dungeon_azjollowercity_25man"] = "interface\\icons\\achievement_dungeon_azjollowercity"
 }
-MinArchHistDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_NERUBIAN or NYI-1)] = {
     [64481] = {}, -- Blessing of the Old God
     [64482] = {}, -- Puzzle Box of Yogg-Saron
 
@@ -208,7 +209,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_NERUBIAN] = {
 }
 
 -- Orc Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_ORC] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_ORC or NYI-1)] = {
     [64644] = {}, -- Headdress of the First Shaman
 
     [64421] = {}, -- Fierce Wolf Figurine
@@ -223,11 +224,11 @@ MinArchHistDB[ARCHAEOLOGY_RACE_ORC] = {
 }
 
 -- Tol'vir Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_TOLVIR] = {
+MinArchIconDB[(ARCHAEOLOGY_RACE_TOLVIR or NYI-1)] = {
     -- Crawling Claw has different icon for artifact and item
     ["interface\\icons\\trade_archaeology_shriveledmonkeypaw"] = "interface\\icons\\inv_offhand_stratholme_a_02"
 }
-MinArchHistDB[ARCHAEOLOGY_RACE_TOLVIR] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_TOLVIR or NYI-1)] = {
     [60847] = {}, -- Crawling Claw
     [64881] = {}, -- Pendant of the Scarab Storm
     [64904] = {}, -- Ring of the Boy Emperor
@@ -245,7 +246,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_TOLVIR] = {
 }
 
 -- Troll Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_TROLL] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_TROLL or NYI-1)] = {
     [64377] = {}, -- Zin'rokh, Destroyer of Worlds
     [69824] = {}, -- Voodoo Figurine
     [69777] = {}, -- Haunted War Drum
@@ -267,7 +268,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_TROLL] = {
 }
 
 -- Vrykul Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_VRYKUL] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_VRYKUL or NYI-1)] = {
     [64460] = {}, -- Nifflevar Bearded Axe
     [69775] = {}, -- Vrykul Drinking Horn
 
@@ -279,7 +280,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_VRYKUL] = {
 }
 
 -- Mantid Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_MANTID] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_MANTID or NYI-1)] = {
     [95391] = {}, -- Mantid Sky Reaver
     [95392] = {}, -- Sonic Pulse Generator
 
@@ -294,7 +295,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_MANTID] = {
 }
 
 -- Pandaren Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_PANDAREN] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_PANDAREN or NYI-1)] = {
     [79907] = {}, -- Spear of Xuen
     [79906] = {}, -- Umbrella of Chi-Ji
 
@@ -311,7 +312,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_PANDAREN] = {
 }
 
 -- Mogu Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_MOGU] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_MOGU or NYI-1)] = {
     [89611] = {}, -- Quilen Statuette
     [89614] = {}, -- Anatomical Dummy
 
@@ -328,10 +329,10 @@ MinArchHistDB[ARCHAEOLOGY_RACE_MOGU] = {
 }
 
 -- Arakkoa Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
+MinArchIconDB[(ARCHAEOLOGY_RACE_ARAKKOA or NYI-1)] = {
     ["interface\\icons\\ability_skyreach_empowered"] = "interface\\icons\\inv_eng_gizmo1"
 }
-MinArchHistDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_ARAKKOA or NYI-1)] = {
     [117382] = {}, -- Beakbreaker of Terokk
     [117354] = {}, -- Ancient Nest Guardian
 
@@ -348,7 +349,7 @@ MinArchHistDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
 }
 
 -- Draenor Clans Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_DRAENOR] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_DRAENOR or NYI-1)] = {
     [116985] = {}, -- Headdress of the First Shaman
     [117380] = {}, -- Frostwolf Ghostpup // Ancient Frostwolf Fang
 
@@ -374,11 +375,11 @@ MinArchHistDB[ARCHAEOLOGY_RACE_DRAENOR] = {
 }
 
 -- Ogre Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_OGRE] = {
+MinArchIconDB[(ARCHAEOLOGY_RACE_OGRE or NYI-1)] = {
     ["interface\\icons\\inv_archaeology_ogres_sorcerer_king_toe_ring"] = "interface\\icons\\inv_60dungeon_neck4b",
     ["interface\\icons\\inv_archaeology_ogres_warmaul_chieftain"] = "interface\\icons\\inv_mace_2h_dreanorogre_b_02",
 }
-MinArchHistDB[ARCHAEOLOGY_RACE_OGRE] = {
+MinArchHistDB[(ARCHAEOLOGY_RACE_OGRE or NYI-1)] = {
     [117385] = {}, -- Sorcerer-King Toe Ring
     [117384] = {}, -- Warmaul of the Warmaul Chieftain
 

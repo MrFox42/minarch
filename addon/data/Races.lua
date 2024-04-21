@@ -1,84 +1,82 @@
 MinArchRaceConfig = {};
-for i=1, ARCHAEOLOGY_NUM_RACES do
-    MinArchRaceConfig[i] = {};
-end
-MinArchRaceConfig[ARCHAEOLOGY_RACE_DRUSTVARI] = {
+local NYI = 0
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_DRUSTVARI or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Drustvari",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_ZANDALARI] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_ZANDALARI or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Zandalari",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_DEMONIC] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_DEMONIC or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Demons",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-HighmountainTauren",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_HIGHBORNE] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_HIGHBORNE or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-HighborneNightElves",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_OGRE] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_OGRE or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Ogre",
 	fragmentCap = 250,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_DRAENOR] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_DRAENOR or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-DraenorOrc",
 	fragmentCap = 250,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_ARAKKOA] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_ARAKKOA or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Arakkoa",
 	fragmentCap = 250,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_MOGU] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_MOGU or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Mogu",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_PANDAREN] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_PANDAREN or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Pandaren",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_MANTID] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_MANTID or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Mantid",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_VRYKUL] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_VRYKUL or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Vrykul",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_TROLL] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_TROLL or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Troll",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_TOLVIR] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_TOLVIR or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Tolvir",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_ORC] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_ORC or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Orc",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_NERUBIAN] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_NERUBIAN or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Nerubian",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_NIGHTELF] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_NIGHTELF or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-NightElf",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_FOSSIL] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_FOSSIL or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Fossil",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_DRAENEI] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_DRAENEI or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Draenei",
 	fragmentCap = 200,
 };
-MinArchRaceConfig[ARCHAEOLOGY_RACE_DWARF] = {
+MinArchRaceConfig[(ARCHAEOLOGY_RACE_DWARF or NYI-1)] = {
 	texture = "Interface\\Archeology\\Arch-Race-Dwarf",
 	fragmentCap = 200,
 };

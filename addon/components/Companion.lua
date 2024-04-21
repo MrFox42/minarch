@@ -71,26 +71,50 @@ local function InitDistanceTracker()
             InterfaceOptionsFrame_OpenToCategory(MinArch.Options.companionSettings);
 
             MinArch.db.profile.companion.showHelpTip = false;
-            HelpPlate_TooltipHide();
+            if HelpPlate_TooltipHide then
+                HelpPlate_TooltipHide();
+            else
+                if GameTooltip:IsOwned(self) then
+                    GameTooltip_Hide();
+                end
+            end
         end
     end)
 
     Companion.trackerFrame:SetScript("OnEnter", function(self)
         if (MinArch.db.profile.companion.showHelpTip) then
-            HelpPlate_TooltipHide();
-            HelpPlateTooltip.ArrowUP:Show();
-            HelpPlateTooltip.ArrowGlowUP:Show();
-            HelpPlateTooltip:SetPoint("BOTTOM", MinArchCompanion, "TOP", 0, 20);
-            HelpPlateTooltip.Text:SetText("This is the Mininimal Archaeology Companion frame with distance tracker and more."
-                                            .. "|n|n"
-                                            .. "|cFFFFD100[Right-Click]|r to disable this tutorial tooltip and to show customization settings.");
-            HelpPlateTooltip:Show();
+            if HelpPlate_TooltipHide then
+                HelpPlate_TooltipHide();
+                HelpPlateTooltip.ArrowUP:Show();
+                HelpPlateTooltip.ArrowGlowUP:Show();
+                HelpPlateTooltip:SetPoint("BOTTOM", MinArchCompanion, "TOP", 0, 20);
+                HelpPlateTooltip.Text:SetText("This is the Mininimal Archaeology Companion frame with distance tracker and more."
+                                                .. "|n|n"
+                                                .. "|cFFFFD100[Right-Click]|r to disable this tutorial tooltip and to show customization settings.");
+                HelpPlateTooltip:Show();
+            else -- Cataclysm Classic
+                if GameTooltip:IsOwned(self) then
+                    GameTooltip_Hide();
+                end
+                GameTooltip:SetOwner(self,"ANCHOR_TOP",0,20);
+                GameTooltip:SetText("This is the Mininimal Archaeology Companion frame with distance tracker and more.", 1,1,1,1,true)
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine("|cFFFF7F00[Right-Click]|r to disable this tutorial tooltip and show customization settings.")
+                GameTooltip:Show();
+            end
         end
     end)
 
-    Companion.trackerFrame:SetScript("OnLeave", function()
+    Companion.trackerFrame:SetScript("OnLeave", function(self)
         if (MinArch.db.profile.companion.showHelpTip) then
-            HelpPlate_TooltipHide();
+            if HelpPlate_TooltipHide then
+                HelpPlate_TooltipHide();
+            else
+                if GameTooltip:IsOwned(self) then
+                    GameTooltip_Hide();
+                end
+            end
         end
     end)
 

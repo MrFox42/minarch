@@ -158,7 +158,7 @@ function MinArch:InitHist(self)
 	self:RegisterEvent("QUEST_ACCEPTED");
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("QUEST_REMOVED");
-    self:RegisterEvent("QUESTLINE_UPDATE");
+    pcall(self.RegisterEvent, self, "QUESTLINE_UPDATE"); -- Cataclysm Classic client doesn't have this event
 
     -- Achievement checks
     self:RegisterEvent("CRITERIA_COMPLETE");
@@ -516,7 +516,7 @@ local function GetArtifactFrame(scrollc, index)
     text:SetFontObject("ChatFontSmall")
     text:SetWordWrap(true)
     text:SetJustifyH("LEFT")
-    text:SetJustifyV("CENTER")
+    text:SetJustifyV("MIDDLE")
     text:SetText("...");
     name.text = text;
     frame.name = name;
@@ -562,7 +562,7 @@ local function GetArtifactFrame(scrollc, index)
     progressText:SetFontObject("ChatFontSmall");
     progressText:SetWordWrap(true);
     progressText:SetJustifyH("RIGHT");
-    progressText:SetJustifyV("CENTER");
+    progressText:SetJustifyV("MIDDLE");
     progressText:SetText("...");
     progressIcon.texture = pTex;
     progress.icon = progressIcon;

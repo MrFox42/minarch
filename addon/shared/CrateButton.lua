@@ -24,7 +24,9 @@ function MinArch:RefreshCrateButtonGlow()
     MinArch.Companion:hideCrateButton()
     MinArch.nextCratable = nil;
 
-	for i = 1, ARCHAEOLOGY_RACE_MANTID do
+    local i = 1
+
+    while (MinArchHistDB[i]) do
 		for artifactID, data in pairs(MinArchHistDB[i]) do
 			if (data.pqid) then
 				-- iterate containers
@@ -49,6 +51,7 @@ function MinArch:RefreshCrateButtonGlow()
 				end
 			end
 		end
-	end
+    	i = i + 1
+    end
 end
 

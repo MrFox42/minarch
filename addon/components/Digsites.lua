@@ -184,7 +184,7 @@ function MinArch:UpdateActiveDigSites()
             table.insert(zones, {mapID = 390});
         end
 
-		for mapkey, zone in pairs(zones) do
+		for mapkey, zone in pairs(zones or {}) do
             local uiMapID = zone.mapID;
 			for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
 				local name = tostring(digsite.name)
