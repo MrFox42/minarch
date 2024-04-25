@@ -1,3 +1,9 @@
+
+[![Install](http://img.shields.io/badge/install-curseforge-f16436)](https://www.curseforge.com/wow/addons/minimal-archaeology)
+[![Patreon](http://img.shields.io/badge/support-patreon-ff424d)](https://www.patreon.com/minarch)
+
+---
+
 # Description
 
 View all your artifacts progress, and solve them in one compact frame.
