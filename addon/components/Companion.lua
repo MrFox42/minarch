@@ -10,6 +10,12 @@ local cx, cy, cInstance;
 local timer;
 local baseHeight = 31;
 
+if HelpPlate_TooltipHide == nil then
+    HelpPlate_TooltipHide = function () 
+        HelpPlateTooltip:Hide()
+    end
+end
+
 local MinArchDistanceTrackerShapes = {
     "Interface\\Addons\\MinimalArchaeology\\Textures\\Indicator.tga",
     "Interface\\Addons\\MinimalArchaeology\\Textures\\IndicatorSquare.tga",

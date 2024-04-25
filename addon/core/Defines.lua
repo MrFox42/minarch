@@ -1,3 +1,20 @@
+MINARCH_EXPANSION = 'Mainline'
+
+-- uiMapIDs for continents [uiMapID] = internalContID
+MinArchContIDMap = {
+	[12] = 1, -- Kalimdor
+	[13] = 2, -- EK
+	[101] = 3, -- Outland
+	[113] = 4, -- Northrend
+	[948] = 5, -- Maelstrom
+	[424] = 6, -- Pandaria
+	[572] = 7, -- Draenor
+	[619] = 8, -- Broken Isles
+	[876] = 9, -- Kul Tiras
+	[875] = 10, -- Zandalar
+};
+
+ARCHAEOLOGY_RACE_OTHER               = 0
 ARCHAEOLOGY_RACE_DRUSTVARI           = 1
 ARCHAEOLOGY_RACE_ZANDALARI           = 2
 ARCHAEOLOGY_RACE_DEMONIC             = 3

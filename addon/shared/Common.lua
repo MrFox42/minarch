@@ -24,20 +24,6 @@ local ResearchBranchMap = {
 	[424] = ARCHAEOLOGY_RACE_DRUSTVARI, -- Drust
 };
 
--- uiMapIDs for continents [uiMapID] = internalContID
-local MinArchContIDMap = {
-	[12] = 1, -- Kalimdor
-	[13] = 2, -- EK
-	[101] = 3, -- Outland
-	[113] = 4, -- Northrend
-	[948] = 5, -- Maelstrom
-	[424] = 6, -- Pandaria
-	[572] = 7, -- Draenor
-	[619] = 8, -- Broken Isles
-	[876] = 9, -- Kul Tiras
-	[875] = 10, -- Zandalar
-};
-
 local MinArchContinentRaces = {
 	[1] = {ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}, -- Kalimdor
 	[2] = {ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}, -- EK

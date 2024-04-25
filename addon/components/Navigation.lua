@@ -15,11 +15,11 @@ local function SetWayToDigsite(title, digsite, isAuto)
 	if not MinArch:IsNavigationEnabled() then return end;
 
 	MinArch:ClearUiWaypoint()
-    if MinArch.db.profile.TomTom.enableBlizzWaypoint then
+    if MinArch.db.profile.TomTom.enableBlizzWaypoint and MINARCH_EXPANSION == 'Mainline' then
         local uiMapPoint = UiMapPoint.CreateFromCoordinates(digsite.uiMapID, digsite.x/100, digsite.y/100, 0);
-        C_Map.SetUserWaypoint(uiMapPoint);
+		C_Map.SetUserWaypoint(uiMapPoint);
         MinArch.db.char.TomTom.uiMapPoint = C_Map.GetUserWaypoint();
-        C_SuperTrack.SetSuperTrackedUserWaypoint(MinArch.db.profile.TomTom.superTrack);
+		C_SuperTrack.SetSuperTrackedUserWaypoint(MinArch.db.profile.TomTom.superTrack);
     end
 
 	if MinArch:IsTomTomAvailable() then
@@ -39,12 +39,14 @@ local function SetWayToDigsite(title, digsite, isAuto)
 end
 
 function MinArch:ClearUiWaypoint()
-    local activeWaypoint = C_Map.GetUserWaypoint()
-    if (MinArch.db.char.TomTom.uiMapPoint and activeWaypoint and activeWaypoint.uiMapID == MinArch.db.char.TomTom.uiMapPoint.uiMapID
-        and Vector2DMixin.IsEqualTo(activeWaypoint.position, MinArch.db.char.TomTom.uiMapPoint.position)
-    ) then
-        C_Map.ClearUserWaypoint();
-    end
+	if (MINARCH_EXPANSION == 'Mainline') then
+		local activeWaypoint = C_Map.GetUserWaypoint()
+		if (MinArch.db.char.TomTom.uiMapPoint and activeWaypoint and activeWaypoint.uiMapID == MinArch.db.char.TomTom.uiMapPoint.uiMapID
+			and Vector2DMixin.IsEqualTo(activeWaypoint.position, MinArch.db.char.TomTom.uiMapPoint.position)
+		) then
+			C_Map.ClearUserWaypoint();
+		end
+	end
     MinArch.db.char.TomTom.uiMapPoint = nil;
 end
 

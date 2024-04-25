@@ -50,6 +50,7 @@ local function InitRaceButtons(self)
 			if (i == 10) then
 				currX = baseX;
 				currY = currY - sizeY - padding;
+                MinArchHistGrad:SetHeight(60);
 			end
 			raceButton:SetSize(sizeX, sizeY);
 			raceButton:SetNormalTexture(MinArchRaceConfig[i].texture);
@@ -158,7 +159,9 @@ function MinArch:InitHist(self)
 	self:RegisterEvent("QUEST_ACCEPTED");
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("QUEST_REMOVED");
-    self:RegisterEvent("QUESTLINE_UPDATE");
+    if MINARCH_EXPANSION == 'Mainline' then
+        self:RegisterEvent("QUESTLINE_UPDATE");
+    end
 
     -- Achievement checks
     self:RegisterEvent("CRITERIA_COMPLETE");
@@ -330,23 +333,25 @@ function MinArch:GetHistory(RaceID, caller)
 end
 
 function MinArch:GetCurrentQuestArtifact()
-	for i=1, #qLineRaces do
-		local RaceID = qLineRaces[i];
+    if (MINARCH_EXPANSION == 'Mainline') then
+        for i=1, #qLineRaces do
+            local RaceID = qLineRaces[i];
 
-		for itemid, details in pairs(MinArchHistDB[RaceID]) do
-			local isQuestAvailable, isOnQuest = MinArch:IsQuestAvailableForArtifact(RaceID, itemid);
+            for itemid, details in pairs(MinArchHistDB[RaceID]) do
+                local isQuestAvailable, isOnQuest = MinArch:IsQuestAvailableForArtifact(RaceID, itemid);
 
-			if (isQuestAvailable) then
-				currentQuestArtifact = itemid;
-				isOnArtifactQuestLine = isOnQuest;
-				currentQuestArtifactRace = RaceID;
-				MinArchHistQuestIndicator:SetPoint("BOTTOMRIGHT", MinArch.raceButtons[RaceID], "BOTTOMRIGHT", 2, 2);
-				MinArchHistQuestIndicator:Show();
+                if (isQuestAvailable) then
+                    currentQuestArtifact = itemid;
+                    isOnArtifactQuestLine = isOnQuest;
+                    currentQuestArtifactRace = RaceID;
+                    MinArchHistQuestIndicator:SetPoint("BOTTOMRIGHT", MinArch.raceButtons[RaceID], "BOTTOMRIGHT", 2, 2);
+                    MinArchHistQuestIndicator:Show();
 
-				return;
-			end
-		end
-	end
+                    return;
+                end
+            end
+        end
+    end
 
 	currentQuestArtifact = nil;
 	currentQuestArtifactRace = nil;
@@ -396,7 +401,7 @@ local function SetProgressTooltip(frame, progressState, achievementState, totalC
 
     if totalComplete == 1 then
         stateStrings[MINARCH_PROGRESS_KNOWN] = stateStrings[MINARCH_PROGRESS_KNOWN] .. totalComplete .. "|r time"
-    elseif totalComplete and totalComplete > 1 then
+    elseif totalComplete == 0 or (totalComplete and totalComplete > 1) then
         stateStrings[MINARCH_PROGRESS_KNOWN] = stateStrings[MINARCH_PROGRESS_KNOWN] .. totalComplete .. "|r times";
     end
     if totalComplete and totalComplete > 0 and achievementState == MINARCH_ACHIPROGRESS_INCOMPLETE then
@@ -458,6 +463,10 @@ local function ResizeHistoryWindow(scrollc, scrollf, height)
         MinArchHistHeight = 310;
     end
 
+    if (ARCHAEOLOGY_NUM_RACES < 11) then
+        MinArchHistHeight = MinArchHistHeight - 25;
+    end
+
     MinArchHist:ClearAllPoints();
     if (MinArchHist.firstRun == false and relativeTo == nil) then
         MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
@@ -516,7 +525,7 @@ local function GetArtifactFrame(scrollc, index)
     text:SetFontObject("ChatFontSmall")
     text:SetWordWrap(true)
     text:SetJustifyH("LEFT")
-    text:SetJustifyV("CENTER")
+    text:SetJustifyV("MIDDLE")
     text:SetText("...");
     name.text = text;
     frame.name = name;
@@ -562,7 +571,7 @@ local function GetArtifactFrame(scrollc, index)
     progressText:SetFontObject("ChatFontSmall");
     progressText:SetWordWrap(true);
     progressText:SetJustifyH("RIGHT");
-    progressText:SetJustifyV("CENTER");
+    progressText:SetJustifyV("MIDDLE");
     progressText:SetText("...");
     progressIcon.texture = pTex;
     progress.icon = progressIcon;

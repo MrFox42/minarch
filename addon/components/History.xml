@@ -8,7 +8,7 @@
 		</Anchors>
 		<Frames>
 			<Frame name="$parentGrad">
-				<size x="376" y="60" />
+				<size x="376" y="40" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" x="12" y="-10"/>
 				</Anchors>

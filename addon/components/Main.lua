@@ -399,12 +399,12 @@ function MinArch:UpdateMain()
 	local point, relativeTo, relativePoint, xOfs, yOfs = MinArchMain:GetPoint()
 	local x1, size1 = MinArchMain:GetSize();
 
-	local MinArchFrameHeight = MinArch['frame']['height'];
+	local MinArchFrameHeight = ARCHAEOLOGY_NUM_RACES * 25 + 40
 
-	-- TODO: Check is skillbar is visible
 	local barY = -25;
 	if (MinArchMain.skillBar:IsVisible()) then
 		barY = -50;
+		MinArchFrameHeight = MinArchFrameHeight + 20
 	end
 
 	for i=1,ARCHAEOLOGY_NUM_RACES do

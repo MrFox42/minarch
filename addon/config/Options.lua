@@ -985,7 +985,7 @@ local TomTomSettings = {
                 uiMapPoint = {
 					type = "toggle",
 					name = "Map pin",
-					desc = "Enable to create a map pin over digsites.",
+					desc = "Enable to create a map pin over digsites (only available in Mainline).",
 					get = function () return MinArch.db.profile.TomTom.enableBlizzWaypoint end,
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.enableBlizzWaypoint = newValue;
@@ -993,20 +993,23 @@ local TomTomSettings = {
                             MinArch:ClearUiWaypoint()
                         end
 					end,
+					disabled = function () return (MINARCH_EXPANSION == 'Cata') end,
 					order = 2,
                 },
                 superTrack = {
 					type = "toggle",
 					name = "Show floating pin",
-					desc = "Enable to show the floating pin over the destination.",
+					desc = "Enable to show the floating pin over the destination (only available in Mainline).",
 					get = function () return MinArch.db.profile.TomTom.superTrack end,
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.superTrack = newValue;
                         if MinArch.db.char.TomTom.uiMapPoint then
-                            C_SuperTrack.SetSuperTrackedUserWaypoint(newValue);
+							if (MINARCH_EXPANSION == 'Mainline') then
+                            	C_SuperTrack.SetSuperTrackedUserWaypoint(newValue);
+							end
                         end
 					end,
-					disabled = function () return (MinArch.db.profile.TomTom.enableBlizzWaypoint == false) end,
+					disabled = function () return (MinArch.db.profile.TomTom.enableBlizzWaypoint == false or MINARCH_EXPANSION == 'Cata') end,
 					order = 2,
 				},
             }

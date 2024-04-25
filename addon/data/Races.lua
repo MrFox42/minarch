@@ -1,7 +1,12 @@
 MinArchRaceConfig = {};
-for i=1, ARCHAEOLOGY_NUM_RACES do
-    MinArchRaceConfig[i] = {};
-end
+--for i=1, ARCHAEOLOGY_NUM_RACES do
+--    MinArchRaceConfig[i] = {};
+--end
+
+-- MinArchRaceConfig[ARCHAEOLOGY_RACE_OTHER] = {
+-- 	texture = "Interface\\Icons\\Inv_misc_questionmark",
+-- 	fragmentCap = 200,
+-- };
 MinArchRaceConfig[ARCHAEOLOGY_RACE_DRUSTVARI] = {
 	texture = "Interface\\Archeology\\Arch-Race-Drustvari",
 	fragmentCap = 200,

@@ -3,88 +3,212 @@ local ADDON, MinArch = ...
 MinArchHistDB = {}
 MinArchIconDB = {}
 
--- Drustvari Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
-
-}
-MinArchHistDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
-	[160751] = {}, -- Dance of the Dead
-	[161089] = {}, -- Restored Revenant
-	[160833] = {}, -- Fetish of the Tormented Mind
-
-	[154921] = {pqid = 51950}, -- Ceremonial Bonesaw
-	[154922] = {pqid = 51951}, -- Ancient Runebound Tome
-	[154923] = {pqid = 51952}, -- Disembowling Sickle
-	[154924] = {pqid = 51953}, -- Jagged Blade of the Drust
-	[154925] = {pqid = 51954}, -- Ritual Fetish
-	[160741] = {pqid = 51955}, -- Soul Coffer
-}
--- Zandalari Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
-
-}
-MinArchHistDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
-	[160740] = {}, -- Croak Crock
-	[161080] = {}, -- Intact Direhorn Hatchling
-	[160753] = {}, -- Sanguinating Totem
-
-	[154913] = {pqid = 51926}, -- Akun'Jar Vase
-	[154914] = {pqid = 51929}, -- Urn of Passage
-	[154915] = {pqid = 51932}, -- Rezan Idol
-	[154916] = {pqid = 51934}, -- High Apothecary's Hood
-	[154917] = {pqid = 51936}, -- Bwonsamdi Voodoo Mask
-	[160743] = {pqid = 51937}, -- Blowgun of the Sethra
-}
--- Demonic Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_DEMONIC] = {
-    -- Wyrmy Tunkins item from Infernal Device project
-    ["interface\\icons\\inv_archaeology_70_wyrmytunkins"] = "interface\\icons\\inv_pet_wyrmtongue",
-}
-MinArchHistDB[ARCHAEOLOGY_RACE_DEMONIC] = {
-    [131743] = {qline = 330}, -- Blood of Young Mannoroth
-    [131724] = {qline = 321}, -- Crystalline Eye of Undravius
-    [131735] = {qline = 325}, -- Imp Generator
-    [131732] = {qline = 332}, -- Purple Hills of Mac'Aree
-    [136922] = {qline = 327}, -- Wyrmy Tunkins // Infernal Device
-
-    [130920] = {pqid = 40363}, -- Houndstooth Hauberk
-    [130919] = {pqid = 40362}, -- Orb of Inner Chaos
-    [130918] = {pqid = 40361}, -- Malformed Abyssal
-    [130917] = {pqid = 40360}, -- Flayed-Skin Chronicle
-    [130916] = {pqid = 40359}, -- Imp's Cup
+MinArchIconDB[ARCHAEOLOGY_RACE_OTHER] = {
 }
 
--- Highmountain Tauren Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN] = {
-    [131733] = {qline = 323}, -- Spear of Rethu
-    [131734] = {qline = 333}, -- Spirit of Eche'ro
-    [131736] = {qline = 329}, -- Prizerock Neckband
-
-    [130915] = {pqid = 40358}, -- Stonewood Bow
-    [130914] = {pqid = 40357}, -- Drogbar Gem-Roller
-    [130913] = {pqid = 40356}, -- Hand-Smoothed Pyrestone
-    [130912] = {pqid = 40355}, -- Moosebone Fish-Hook
-    [130911] = {pqid = 40354}, -- Trailhead Drum
+MinArchHistDB[ARCHAEOLOGY_RACE_OTHER] = {
 }
 
--- Highborne Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
-    -- Sciallax relic from Orb of Sciallax project quest completion
-    ["interface\\icons\\inv_icon_shadowcouncilorb_purple"] = "interface\\icons\\inv_jewelcrafting_taladiterecrystal",
-}
-MinArchHistDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
-    [131717] = {qline = 322}, -- Starlight Beacon
-    [131740] = {qline = 324}, -- Crown Jewels of Suramar
-    [131745] = {qline = 326}, -- Key of Kalyndras
-    [131744] = {qline = 331}, -- Key to Nar'thalas Academy
-    [134078] = {qline = 328}, -- Dark Shard of Sciallax // Orb of Sciallax gives one of 6 relics
+if MINARCH_EXPANSION == 'Mainline' then
+    -- Drustvari Artifacts
+    MinArchIconDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
 
-    [130910] = {pqid = 40353}, -- Nobleman's Letter Opener
-    [130909] = {pqid = 40352}, -- Pre-War Highborne Tapestry
-    [130908] = {pqid = 40351}, -- Quietwine Vial
-    [130907] = {pqid = 40350}, -- Inert Leystone Charm
-    [130906] = {pqid = 40349}, -- Violetglass Vessel
-}
+    }
+
+    MinArchHistDB[ARCHAEOLOGY_RACE_DRUSTVARI] = {
+        [160751] = {}, -- Dance of the Dead
+        [161089] = {}, -- Restored Revenant
+        [160833] = {}, -- Fetish of the Tormented Mind
+
+        [154921] = {pqid = 51950}, -- Ceremonial Bonesaw
+        [154922] = {pqid = 51951}, -- Ancient Runebound Tome
+        [154923] = {pqid = 51952}, -- Disembowling Sickle
+        [154924] = {pqid = 51953}, -- Jagged Blade of the Drust
+        [154925] = {pqid = 51954}, -- Ritual Fetish
+        [160741] = {pqid = 51955}, -- Soul Coffer
+    }
+    -- Zandalari Artifacts
+    MinArchIconDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
+
+    }
+    MinArchHistDB[ARCHAEOLOGY_RACE_ZANDALARI] = {
+        [160740] = {}, -- Croak Crock
+        [161080] = {}, -- Intact Direhorn Hatchling
+        [160753] = {}, -- Sanguinating Totem
+
+        [154913] = {pqid = 51926}, -- Akun'Jar Vase
+        [154914] = {pqid = 51929}, -- Urn of Passage
+        [154915] = {pqid = 51932}, -- Rezan Idol
+        [154916] = {pqid = 51934}, -- High Apothecary's Hood
+        [154917] = {pqid = 51936}, -- Bwonsamdi Voodoo Mask
+        [160743] = {pqid = 51937}, -- Blowgun of the Sethra
+    }
+    -- Demonic Artifacts
+    MinArchIconDB[ARCHAEOLOGY_RACE_DEMONIC] = {
+        -- Wyrmy Tunkins item from Infernal Device project
+        ["interface\\icons\\inv_archaeology_70_wyrmytunkins"] = "interface\\icons\\inv_pet_wyrmtongue",
+    }
+    MinArchHistDB[ARCHAEOLOGY_RACE_DEMONIC] = {
+        [131743] = {qline = 330}, -- Blood of Young Mannoroth
+        [131724] = {qline = 321}, -- Crystalline Eye of Undravius
+        [131735] = {qline = 325}, -- Imp Generator
+        [131732] = {qline = 332}, -- Purple Hills of Mac'Aree
+        [136922] = {qline = 327}, -- Wyrmy Tunkins // Infernal Device
+
+        [130920] = {pqid = 40363}, -- Houndstooth Hauberk
+        [130919] = {pqid = 40362}, -- Orb of Inner Chaos
+        [130918] = {pqid = 40361}, -- Malformed Abyssal
+        [130917] = {pqid = 40360}, -- Flayed-Skin Chronicle
+        [130916] = {pqid = 40359}, -- Imp's Cup
+    }
+
+    -- Highmountain Tauren Artifacts
+    MinArchHistDB[ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN] = {
+        [131733] = {qline = 323}, -- Spear of Rethu
+        [131734] = {qline = 333}, -- Spirit of Eche'ro
+        [131736] = {qline = 329}, -- Prizerock Neckband
+
+        [130915] = {pqid = 40358}, -- Stonewood Bow
+        [130914] = {pqid = 40357}, -- Drogbar Gem-Roller
+        [130913] = {pqid = 40356}, -- Hand-Smoothed Pyrestone
+        [130912] = {pqid = 40355}, -- Moosebone Fish-Hook
+        [130911] = {pqid = 40354}, -- Trailhead Drum
+    }
+
+    -- Highborne Artifacts
+    MinArchIconDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
+        -- Sciallax relic from Orb of Sciallax project quest completion
+        ["interface\\icons\\inv_icon_shadowcouncilorb_purple"] = "interface\\icons\\inv_jewelcrafting_taladiterecrystal",
+    }
+    MinArchHistDB[ARCHAEOLOGY_RACE_HIGHBORNE] = {
+        [131717] = {qline = 322}, -- Starlight Beacon
+        [131740] = {qline = 324}, -- Crown Jewels of Suramar
+        [131745] = {qline = 326}, -- Key of Kalyndras
+        [131744] = {qline = 331}, -- Key to Nar'thalas Academy
+        [134078] = {qline = 328}, -- Dark Shard of Sciallax // Orb of Sciallax gives one of 6 relics
+
+        [130910] = {pqid = 40353}, -- Nobleman's Letter Opener
+        [130909] = {pqid = 40352}, -- Pre-War Highborne Tapestry
+        [130908] = {pqid = 40351}, -- Quietwine Vial
+        [130907] = {pqid = 40350}, -- Inert Leystone Charm
+        [130906] = {pqid = 40349}, -- Violetglass Vessel
+    }
+
+    -- Mantid Artifacts
+    MinArchHistDB[ARCHAEOLOGY_RACE_MANTID] = {
+        [95391] = {}, -- Mantid Sky Reaver
+        [95392] = {}, -- Sonic Pulse Generator
+
+        [95375] = {pqid = 32686, achievement = 8221}, -- Banner of the Mantid Empire
+        [95376] = {pqid = 32687, achievement = 8223}, -- Ancient Sap Feeder
+        [95377] = {pqid = 32688, achievement = 8225}, -- The Praying Mantid
+        [95378] = {pqid = 32689, achievement = 8227}, -- Inert Sound Beacon
+        [95379] = {pqid = 32690, achievement = 8229}, -- Remains of a Paragon
+        [95380] = {pqid = 32691, achievement = 8231}, -- Mantid Lamp
+        [95381] = {pqid = 32692, achievement = 8233}, -- Pollen Collector
+        [95382] = {pqid = 32693, achievement = 8235}, -- Kypari Sap Container
+    }
+
+    -- Pandaren Artifacts
+    MinArchHistDB[ARCHAEOLOGY_RACE_PANDAREN] = {
+        [79907] = {}, -- Spear of Xuen
+        [79906] = {}, -- Umbrella of Chi-Ji
+
+        [79903]	= {pqid = 31802, achievement = 7365}, -- Apothecary Tins
+        [79901] = {pqid = 31800, achievement = 7363}, -- Carved Bronze Mirror
+        [79900] = {pqid = 31799, achievement = 7362}, -- Empty Keg // Empty Keg of Brewfather Xin Wo Yin
+        [79902] = {pqid = 31801, achievement = 7364}, -- Gold-Inlaid Figurine // Gold-Inlaid Porcelain Funerary Figurine
+        [79897] = {pqid = 31796, achievement = 7359}, -- Pandaren Game Board
+        [79896] = {pqid = 31795, achievement = 7358}, -- Pandaren Tea Set
+        [79904] = {pqid = 31803, achievement = 7366}, -- Pearl of Yu'lon
+        [79905] = {pqid = 31804, achievement = 7367}, -- Standard of Niuzao
+        [79898] = {pqid = 31797, achievement = 7360}, -- Twin Stein Set // Twin Stein Set of Brewfather Quan Tou Kuo
+        [79899] = {pqid = 31798, achievement = 7361}, -- Walking Cane // Walking Cane of Brewfather Ren Yun
+    }
+
+    -- Mogu Artifacts
+    MinArchHistDB[ARCHAEOLOGY_RACE_MOGU] = {
+        [89611] = {}, -- Quilen Statuette
+        [89614] = {}, -- Anatomical Dummy
+
+        [79909] = {pqid = 31787, achievement = 7369}, -- Cracked Mogu Runestone
+        [79913] = {pqid = 31791, achievement = 7373}, -- Edicts of the Thunder King
+        [79914] = {pqid = 31792, achievement = 7374}, -- Iron Amulet
+        [79908] = {pqid = 31786, achievement = 7368}, -- Manacles of Rebellion
+        [79916] = {pqid = 31794, achievement = 7376}, -- Mogu Coin
+        [79911] = {pqid = 31789, achievement = 7371}, -- Petrified Bone Whip
+        [79910] = {pqid = 31788, achievement = 7370}, -- Terracotta Arm
+        [79912] = {pqid = 31790, achievement = 7372}, -- Thunder King Insignia
+        [79915] = {pqid = 31793, achievement = 7375}, -- Warlord's Branding Iron
+        [79917] = {pqid = 31805, achievement = 7377}, -- Worn Monument Ledger
+    }
+    -- Arakkoa Artifacts
+    MinArchIconDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
+        ["interface\\icons\\ability_skyreach_empowered"] = "interface\\icons\\inv_eng_gizmo1"
+    }
+    MinArchHistDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
+        [117382] = {}, -- Beakbreaker of Terokk
+        [117354] = {}, -- Ancient Nest Guardian
+
+        [114197] = {pqid = 36771}, -- Dreamcatcher
+        [114198] = {pqid = 36772}, -- Burial Urn
+        [114199] = {pqid = 36773}, -- Decree Scrolls
+        [114200] = {pqid = 36774}, -- Solar Orb
+        [114201] = {pqid = 36775}, -- Sundial
+        [114202] = {pqid = 36776}, -- Talonpriest Mask
+        [114203] = {pqid = 36777}, -- Outcast Dreamcatcher
+        [114204] = {pqid = 36778}, -- Apexis Crystal
+        [114205] = {pqid = 36779}, -- Apexis Hieroglyph
+        [114206] = {pqid = 36780}, -- Apexis Scroll
+    }
+
+    -- Draenor Clans Artifacts
+    MinArchHistDB[ARCHAEOLOGY_RACE_DRAENOR] = {
+        [116985] = {}, -- Headdress of the First Shaman
+        [117380] = {}, -- Frostwolf Ghostpup // Ancient Frostwolf Fang
+
+        [114171] = {pqid = 36756}, -- Ancestral Talisman
+        [114163] = {pqid = 36753}, -- Barbed Fishing Hook
+        [114157] = {pqid = 36750}, -- Blackrock Razor
+        [114165] = {pqid = 36754}, -- Calcified Eye In a Jar // Calcified Eye in a Jar
+        [114167] = {pqid = 36755}, -- Ceremonial Tattoo Needles
+        [114169] = {pqid = 36757}, -- Cracked Ivory Idol
+        [114177] = {pqid = 36760}, -- Doomsday Prophecy
+        [114155] = {pqid = 36749}, -- Elemental Bellows
+        [114141] = {pqid = 36725}, -- Fang-Scarred Frostwolf Axe
+        [114173] = {pqid = 36758}, -- Flask of Blazegrease
+        [114143] = {pqid = 36743}, -- Frostwolf Ancestry Scrimshaw
+        [114175] = {pqid = 36759}, -- Gronn-Tooth Necklace
+        [114161] = {pqid = 36752}, -- Hooked Dagger
+        [114153] = {pqid = 36748}, -- Metalworker's Hammer
+        [114149] = {pqid = 36746}, -- Screaming Bullroarer
+        [114147] = {pqid = 36745}, -- Warsinger's Drums
+        [114151] = {pqid = 36747}, -- Warsong Ceremonial Pike
+        [114159] = {pqid = 36751}, -- Weighted Chopping Axe
+        [114145] = {pqid = 36744}, -- Wolfskin Snowshoes
+    }
+
+    -- Ogre Artifacts
+    MinArchIconDB[ARCHAEOLOGY_RACE_OGRE] = {
+        ["interface\\icons\\inv_archaeology_ogres_sorcerer_king_toe_ring"] = "interface\\icons\\inv_60dungeon_neck4b",
+        ["interface\\icons\\inv_archaeology_ogres_warmaul_chieftain"] = "interface\\icons\\inv_mace_2h_dreanorogre_b_02",
+    }
+    MinArchHistDB[ARCHAEOLOGY_RACE_OGRE] = {
+        [117385] = {}, -- Sorcerer-King Toe Ring
+        [117384] = {}, -- Warmaul of the Warmaul Chieftain
+
+        [114191] = {pqid = 36767}, -- Eye of Har'gunn the Blind // pristine = Eye of Har'guun the Blind
+        [114189] = {pqid = 36765}, -- Gladiator's Shield
+        [114194] = {pqid = 36770}, -- Imperial Decree Stele
+        [114190] = {pqid = 36766}, -- Mortar and Pestle
+        [114185] = {pqid = 36763}, -- Ogre Figurine
+        [114187] = {pqid = 36764}, -- Pictogram Carving
+        [114193] = {pqid = 36769}, -- Rylak Riding Harness
+        [114192] = {pqid = 36768}, -- Stone Dentures
+        [114183] = {pqid = 36762}, -- Stone Manacles
+        [114181] = {pqid = 36761}, -- Stonemaul Succession Stone
+    }
+end
 
 -- Dwarf Artifacts
 MinArchHistDB[ARCHAEOLOGY_RACE_DWARF] = {
@@ -276,120 +400,4 @@ MinArchHistDB[ARCHAEOLOGY_RACE_VRYKUL] = {
     [64459] = {}, -- Intricate Treasure Chest Key
     [64461] = {}, -- Scramseax
     [64467] = {}, -- Thorned Necklace
-}
-
--- Mantid Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_MANTID] = {
-    [95391] = {}, -- Mantid Sky Reaver
-    [95392] = {}, -- Sonic Pulse Generator
-
-    [95375] = {pqid = 32686, achievement = 8221}, -- Banner of the Mantid Empire
-    [95376] = {pqid = 32687, achievement = 8223}, -- Ancient Sap Feeder
-    [95377] = {pqid = 32688, achievement = 8225}, -- The Praying Mantid
-    [95378] = {pqid = 32689, achievement = 8227}, -- Inert Sound Beacon
-    [95379] = {pqid = 32690, achievement = 8229}, -- Remains of a Paragon
-    [95380] = {pqid = 32691, achievement = 8231}, -- Mantid Lamp
-    [95381] = {pqid = 32692, achievement = 8233}, -- Pollen Collector
-    [95382] = {pqid = 32693, achievement = 8235}, -- Kypari Sap Container
-}
-
--- Pandaren Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_PANDAREN] = {
-    [79907] = {}, -- Spear of Xuen
-    [79906] = {}, -- Umbrella of Chi-Ji
-
-    [79903]	= {pqid = 31802, achievement = 7365}, -- Apothecary Tins
-    [79901] = {pqid = 31800, achievement = 7363}, -- Carved Bronze Mirror
-    [79900] = {pqid = 31799, achievement = 7362}, -- Empty Keg // Empty Keg of Brewfather Xin Wo Yin
-    [79902] = {pqid = 31801, achievement = 7364}, -- Gold-Inlaid Figurine // Gold-Inlaid Porcelain Funerary Figurine
-    [79897] = {pqid = 31796, achievement = 7359}, -- Pandaren Game Board
-    [79896] = {pqid = 31795, achievement = 7358}, -- Pandaren Tea Set
-    [79904] = {pqid = 31803, achievement = 7366}, -- Pearl of Yu'lon
-    [79905] = {pqid = 31804, achievement = 7367}, -- Standard of Niuzao
-    [79898] = {pqid = 31797, achievement = 7360}, -- Twin Stein Set // Twin Stein Set of Brewfather Quan Tou Kuo
-    [79899] = {pqid = 31798, achievement = 7361}, -- Walking Cane // Walking Cane of Brewfather Ren Yun
-}
-
--- Mogu Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_MOGU] = {
-    [89611] = {}, -- Quilen Statuette
-    [89614] = {}, -- Anatomical Dummy
-
-    [79909] = {pqid = 31787, achievement = 7369}, -- Cracked Mogu Runestone
-    [79913] = {pqid = 31791, achievement = 7373}, -- Edicts of the Thunder King
-    [79914] = {pqid = 31792, achievement = 7374}, -- Iron Amulet
-    [79908] = {pqid = 31786, achievement = 7368}, -- Manacles of Rebellion
-    [79916] = {pqid = 31794, achievement = 7376}, -- Mogu Coin
-    [79911] = {pqid = 31789, achievement = 7371}, -- Petrified Bone Whip
-    [79910] = {pqid = 31788, achievement = 7370}, -- Terracotta Arm
-    [79912] = {pqid = 31790, achievement = 7372}, -- Thunder King Insignia
-    [79915] = {pqid = 31793, achievement = 7375}, -- Warlord's Branding Iron
-    [79917] = {pqid = 31805, achievement = 7377}, -- Worn Monument Ledger
-}
-
--- Arakkoa Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
-    ["interface\\icons\\ability_skyreach_empowered"] = "interface\\icons\\inv_eng_gizmo1"
-}
-MinArchHistDB[ARCHAEOLOGY_RACE_ARAKKOA] = {
-    [117382] = {}, -- Beakbreaker of Terokk
-    [117354] = {}, -- Ancient Nest Guardian
-
-    [114197] = {pqid = 36771}, -- Dreamcatcher
-    [114198] = {pqid = 36772}, -- Burial Urn
-    [114199] = {pqid = 36773}, -- Decree Scrolls
-    [114200] = {pqid = 36774}, -- Solar Orb
-    [114201] = {pqid = 36775}, -- Sundial
-    [114202] = {pqid = 36776}, -- Talonpriest Mask
-    [114203] = {pqid = 36777}, -- Outcast Dreamcatcher
-    [114204] = {pqid = 36778}, -- Apexis Crystal
-    [114205] = {pqid = 36779}, -- Apexis Hieroglyph
-    [114206] = {pqid = 36780}, -- Apexis Scroll
-}
-
--- Draenor Clans Artifacts
-MinArchHistDB[ARCHAEOLOGY_RACE_DRAENOR] = {
-    [116985] = {}, -- Headdress of the First Shaman
-    [117380] = {}, -- Frostwolf Ghostpup // Ancient Frostwolf Fang
-
-    [114171] = {pqid = 36756}, -- Ancestral Talisman
-    [114163] = {pqid = 36753}, -- Barbed Fishing Hook
-    [114157] = {pqid = 36750}, -- Blackrock Razor
-    [114165] = {pqid = 36754}, -- Calcified Eye In a Jar // Calcified Eye in a Jar
-    [114167] = {pqid = 36755}, -- Ceremonial Tattoo Needles
-    [114169] = {pqid = 36757}, -- Cracked Ivory Idol
-    [114177] = {pqid = 36760}, -- Doomsday Prophecy
-    [114155] = {pqid = 36749}, -- Elemental Bellows
-    [114141] = {pqid = 36725}, -- Fang-Scarred Frostwolf Axe
-    [114173] = {pqid = 36758}, -- Flask of Blazegrease
-    [114143] = {pqid = 36743}, -- Frostwolf Ancestry Scrimshaw
-    [114175] = {pqid = 36759}, -- Gronn-Tooth Necklace
-    [114161] = {pqid = 36752}, -- Hooked Dagger
-    [114153] = {pqid = 36748}, -- Metalworker's Hammer
-    [114149] = {pqid = 36746}, -- Screaming Bullroarer
-    [114147] = {pqid = 36745}, -- Warsinger's Drums
-    [114151] = {pqid = 36747}, -- Warsong Ceremonial Pike
-    [114159] = {pqid = 36751}, -- Weighted Chopping Axe
-    [114145] = {pqid = 36744}, -- Wolfskin Snowshoes
-}
-
--- Ogre Artifacts
-MinArchIconDB[ARCHAEOLOGY_RACE_OGRE] = {
-    ["interface\\icons\\inv_archaeology_ogres_sorcerer_king_toe_ring"] = "interface\\icons\\inv_60dungeon_neck4b",
-    ["interface\\icons\\inv_archaeology_ogres_warmaul_chieftain"] = "interface\\icons\\inv_mace_2h_dreanorogre_b_02",
-}
-MinArchHistDB[ARCHAEOLOGY_RACE_OGRE] = {
-    [117385] = {}, -- Sorcerer-King Toe Ring
-    [117384] = {}, -- Warmaul of the Warmaul Chieftain
-
-    [114191] = {pqid = 36767}, -- Eye of Har'gunn the Blind // pristine = Eye of Har'guun the Blind
-    [114189] = {pqid = 36765}, -- Gladiator's Shield
-    [114194] = {pqid = 36770}, -- Imperial Decree Stele
-    [114190] = {pqid = 36766}, -- Mortar and Pestle
-    [114185] = {pqid = 36763}, -- Ogre Figurine
-    [114187] = {pqid = 36764}, -- Pictogram Carving
-    [114193] = {pqid = 36769}, -- Rylak Riding Harness
-    [114192] = {pqid = 36768}, -- Stone Dentures
-    [114183] = {pqid = 36762}, -- Stone Manacles
-    [114181] = {pqid = 36761}, -- Stonemaul Succession Stone
 }

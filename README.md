@@ -13,6 +13,10 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - Double Right Click surveying
 - Collector achievement progress indicators in the History window
 
+### 10.2.7
+
+- Updated for Cataclysm Classic
+
 ### 10.2.0
 
 - Updated for 10.2.0

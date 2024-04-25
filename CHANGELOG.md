@@ -1,6 +1,10 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 10.2.7
+
+- Updated for Cataclysm Classic
+
 ### 10.2.0 - 10.2.2
 
 - Updated for 10.2.0
