@@ -20,6 +20,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ### 10.2.7
 
 - Updated for Cataclysm Classic
+- **10.2.8** Options menu restructured, clarified race related settings
 
 ### 10.2.0
 

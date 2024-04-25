@@ -97,8 +97,8 @@ function MinArch:CreateAutoWaypointButton(parent, x, y)
         if (button == "LeftButton") then
             MinArch:SetWayToNearestDigsite()
         elseif (button == "RightButton") then
-            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
-		    InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
+            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+		    InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
         end
 	end)
 

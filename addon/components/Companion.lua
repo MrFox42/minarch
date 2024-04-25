@@ -73,8 +73,8 @@ local function InitDistanceTracker()
 
     Companion.trackerFrame:SetScript("OnMouseUp", function(self, button)
         if (button == "RightButton") then
-            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.companionSettings);
-            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.companionSettings);
+            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
 
             MinArch.db.profile.companion.showHelpTip = false;
             HelpPlate_TooltipHide();

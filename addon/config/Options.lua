@@ -18,7 +18,7 @@ local function updateOrdering(frame, newValue)
     MinArch.Companion:Update();
 end
 
-local general = {
+local home = {
 	name = "Minimal Archaeology v" .. GetAddOnMetadata("MinimalArchaeology", "Version"),
 	handler = MinArch,
 	type = "group",
@@ -30,47 +30,106 @@ local general = {
             width = "full",
             order = 1,
         },
-		welcome = {
+		info = {
+            type = "description",
+            name = "For configration options, please expand the Minimal Archaeology section on the left. Here's an overview for the addon and the settings:",
+            fontSize = "small",
+            width = "full",
+            order = 2,
+        },
+		general = {
 			type = "group",
-			name = "Settings",
-			order = 2,
-			inline = true,
+            name = "General Settings - Main windows",
+            inline = true,
+            order = 3,
 			args = {
-				raceButton = {
+				message = {
+					type = "description",
+					name = "Open this section to configure |cFFF96854double right click surveying|r, and the |cFFF96854Main|r, |cFFF96854History|r and |cFFF96854Digsites|r windows. If you're unfamiliar with MinArch, click the buttons below to toggle each specific window.",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+				main = {
 					type = "execute",
-					name = "Race Settings",
+					name = "Toggle Main",
 					order = 2,
 					func = function ()
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
+						MinArchMain:Toggle()
 					end,
                 },
-                companionButton = {
+                digsites = {
 					type = "execute",
-					name = "Companion Settings",
+					name = "Toggle History",
 					order = 3,
 					func = function ()
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.companionSettings);
+						MinArchHist:Toggle()
 					end,
 				},
-				TomTomButton = {
+				history = {
 					type = "execute",
-					name = "Navigation Settings",
+					name = "Toggle Digsites",
 					order = 4,
 					func = function ()
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
-					end,
-				},
-				deBbutton = {
-					type = "execute",
-					name = "Dev Settings",
-					order = 5,
-					func = function ()
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.devSettings);
+						MinArchDigsites:Toggle()
 					end,
 				},
 			}
-        },
+		},
+		companion = {
+			type = "group",
+            name = "Companion Settings",
+            inline = true,
+            order = 4,
+			args = {
+				message = {
+					type = "description",
+					name = "The |cFFF96854Companion|r is a tiny floating window that features a distance tracker, and buttons for waypoints, solves, crates and a button for summoning a random mount. Each button can be disabled and you can also customize their order. The Companion has separate scaling and auto-show/auto-hide functionality from the rest of the windows.",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+			}
+		},
+		race = {
+			type = "group",
+            name = "Race Settings",
+            inline = true,
+            order = 5,
+			args = {
+				message = {
+					type = "description",
+					name = "Race related options: |cFFF96854hide|r or |cFFF96854prioritizy|r races, set |cFFF96854farming mode|r or enable |cFFF96854automatic keystone|r application.",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+			}
+		},
+
+		navigation = {
+			type = "group",
+            name = "Navigation Settings",
+            inline = true,
+            order = 6,
+			args = {
+				message = {
+					type = "description",
+					name = "Options for |cFFF96854TomTom|r integration and Blizzard |cFFF96854Waypoint|r system support (if available).",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+			}
+		}
+	}
+}
+
+local general = {
+	name = "General Settings",
+	handler = MinArch,
+	type = "group",
+	args = {
         surveying = {
             type = "group",
             name = "Surveying",
@@ -155,7 +214,7 @@ local general = {
 				scale = {
 					type = "range",
 					name = "Scale",
-					desc = "...",
+					desc = "Scale for the Main, History and Digsites windows. The Companion is scaled using a separate slider in the Companion section.",
 					min = 30,
 					max = 200,
 					step = 5,
@@ -174,6 +233,13 @@ local general = {
             inline = true,
             order = 5,
             args = {
+				note = {
+                    type = "description",
+                    name = "Note: these settings do not affect the Companion frame.",
+                    -- fontSize = "small",
+                    width = "full",
+                    order = 1,
+			    },
                 startHidden = {
 					type = "toggle",
 					name = "Start Hidden",
@@ -384,14 +450,14 @@ local raceSettings = {
 					args = {
                         hideCapped = {
                             type = "toggle",
-							name = "Hide irrelevant solves for fragment-capped races",
-							desc = "Enable to treat fragment-capped races as irrelevant when they have a solve available, but they would be irrelevant based on other relevancy settings.",
+							name = "Hide irrelevant solves for races set to Farming mode (fragment-capped)",
+							desc = "Enable to treat races with farming mode enabled (fragment-capped) as irrelevant when they have a solve available, but they would be irrelevant based on other relevancy settings.",
 							get = function () return MinArch.db.profile.relevancy.hideCapped end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.hideCapped = newValue;
                                 MinArch:UpdateMain();
                             end,
-                            width = 2,
+                            width = "full",
 							order = 5,
                         },
                     },
@@ -415,15 +481,22 @@ local raceSettings = {
 		},
 		cap = {
 			type = "group",
-			name = "Fragment-Cap",
+			name = "Farming mode",
 			order = 3,
 			inline = false,
 			args = {
+				message = {
+					type = "description",
+					name = "If you enable farming mode for a race, the Main window will show the fragment cap for the race instead of the fragments required for the current solve. Useful for collecting fossil fragments for Darkmoon Faire.",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
                 solveConfirmation = {
                     width = "full",
 					type = "toggle",
 					name = "Show confirmation for fragment-capped solves",
-					desc = "Show confirmation before solving artifacts for fragment-capped races",
+					desc = "Show confirmation before solving artifacts for races with farming mode enabled",
 					get = function () return MinArch.db.profile.showSolvePopup end,
 					set = function (_, newValue)
 						MinArch.db.profile.showSolvePopup = newValue;
@@ -434,10 +507,17 @@ local raceSettings = {
 		},
 		keystone = {
 			type = "group",
-			name = "Keystone",
+			name = "Auto-keystone",
 			order = 4,
 			inline = false,
 			args = {
+				message = {
+					type = "description",
+					name = "Automatically applies keystones (uncommon fragments) for checked races.",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
 			}
 		},
 	}
@@ -808,7 +888,7 @@ local companionSettings = {
                         relevantOnly = {
                             type = "toggle",
                             name = "For relevant only",
-                            desc = "Enable to only show solves for relevant races",
+                            desc = "Enable to only show solves for relevant races (customized in the Races section)",
                             get = function () return MinArch.db.profile.companion.relevantOnly end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.relevantOnly = newValue;
@@ -846,7 +926,7 @@ local companionSettings = {
                 },
                 crateButton = {
                     type = "group",
-                    name = "Distance Tracker settings",
+                    name = "Crate button settings",
                     order = 5,
                     inline = true,
                     args = {
@@ -1118,6 +1198,36 @@ local TomTomSettings = {
 	}
 }
 
+local PatronSettings = {
+	name = "MinArch Patrons",
+	handler = MinArch,
+	type = "group",
+	args = {
+		message = {
+            type = "description",
+            name = "Thanks for using Minimal Archaeology. If you like this addon, please consider supporting development by becoming a patron at |cFFF96854patreon.com/minarch|r.",
+            fontSize = "normal",
+            width = "full",
+            order = 1,
+        },
+		patrons = {
+			type = "group",
+			name = "Patrons",
+			inline = true,
+			order = 3,
+			args = {
+				message = {
+					type = "description",
+					name = "Patrons will be listed here.",
+					fontSize = "normal",
+					width = "full",
+					order = 1,
+				},
+			}
+		},
+	}
+	}
+
 function Options:OnInitialize()
 	local count = 1;
 	for group, races in pairs(ArchRaceGroups) do
@@ -1203,20 +1313,26 @@ function Options:OnInitialize()
 end
 
 function Options:RegisterMenus()
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", general);
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", home);
 	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", "Minimal Archaeology");
+
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch General Settings", general);
+	self.general = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch General Settings", "General Settings", "Minimal Archaeology");
+
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Companion Settings", companionSettings);
+	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Companion Settings", "Companion Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
 	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");
-
-    LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Companion Settings", companionSettings);
-	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Companion Settings", "Companion Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Navigation Settings", TomTomSettings);
 	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Navigation Settings", "Navigation Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Developer Settings", devSettings);
     self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Developer Settings", "Developer Settings", "Minimal Archaeology");
+
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Patrons", PatronSettings);
+    self.patrons = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Patrons", "Patrons", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(parent.db));
     self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Profiles", "Profiles", "Minimal Archaeology");

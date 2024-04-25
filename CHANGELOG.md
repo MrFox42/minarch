@@ -4,6 +4,7 @@
 ### 10.2.7
 
 - Updated for Cataclysm Classic
+- **10.2.8** Options menu restructured, clarified race related settings
 
 ### 10.2.0 - 10.2.2
 
