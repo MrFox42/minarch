@@ -19,7 +19,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - Updated for Cataclysm Classic
 - **10.2.8** Options menu restructured, clarified race related settings
 
-For past changes, visit the [Changelog page](https://www.curseforge.com/wow/addons/minimal-archaeology/pages/minimal-archaeology/changelog).
+For past changes, visit the [Changelog page](https://github.com/MrFox42/minarch/blob/master/CHANGELOG.md) on GitHub.
 
 ## Companion
 
