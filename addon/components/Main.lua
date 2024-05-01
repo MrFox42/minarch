@@ -513,7 +513,7 @@ function MinArch:KeystoneTooltip(self, raceID)
 	GameTooltip:AddLine("You have "..artifact['heldKeystones'].." "..tostring(name)..plural .. " in your bags", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
 	GameTooltip:AddLine(" ");
 	GameTooltip:AddLine("Left click to apply a keystone");
-	GameTooltip:AddLine("Rught click to remove a keystone");
+	GameTooltip:AddLine("Right click to remove a keystone");
 	GameTooltip:Show();
 end
 
