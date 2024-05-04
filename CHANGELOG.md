@@ -5,6 +5,9 @@
 
 - Updated for Cataclysm Classic
 - **10.2.8** Options menu restructured, clarified race related settings
+- **10.2.8.6** fixed a lua error (attempt to index local 'artifact')
+- **10.2.8.6** fixed race related options
+- **10.2.8.6** fixed companion showing hidden races
 
 ### 10.2.0 - 10.2.2
 
@@ -15,7 +18,7 @@
 - **10.2.2** Add optional keystone button to the Companion's solve button
 - **10.2.2** Add separate "Hide In Combat" option to the Companion
 - **10.2.3** Fix Companion lua error and main window display issue with bars
-- **10.2.3** Fix Companion not showing solvable relevant artifacts 
+- **10.2.3** Fix Companion not showing solvable relevant artifacts
 - **10.2.4** Change the right click helper button from InSecureActionButtonTemplate to SecureActionButtonTemplate, added some extra debug messages
 
 ### 10.1.0
