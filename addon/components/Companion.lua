@@ -11,7 +11,7 @@ local timer;
 local baseHeight = 31;
 
 if HelpPlate_TooltipHide == nil then
-    HelpPlate_TooltipHide = function () 
+    HelpPlate_TooltipHide = function ()
         HelpPlateTooltip:Hide()
     end
 end
@@ -544,6 +544,11 @@ end
 
 function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
     local artifact = MinArch['artifacts'][raceID]
+
+    if not artifact then
+        MinArch:DisplayStatusMessage('Artifact not found for ' .. raceID, MINARCH_MSG_STATUS)
+        return false;
+    end
 
     if (artifact.canSolve or alwaysShow) then
         local icon = 'Interface/Icons/Inv_misc_questionmark';
