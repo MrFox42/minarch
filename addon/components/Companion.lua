@@ -627,12 +627,15 @@ function Companion:Update()
 
         if MinArch.db.profile.companion.features.solveButton.alwaysShowNearest then
             local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
-            if (digSiteData) then
+
+            if digSiteData then
                 local text = digSiteData.race;
 
                 local raceID = MinArch:GetRaceIdByName(digSiteData.race);
-                Companion:ShowSolveButtonForRace(raceID, true)
-                return;
+                if not MinArch.db.profile.raceOptions.hide[raceID] then
+                    Companion:ShowSolveButtonForRace(raceID, true)
+                    return;
+                end
             end
         end
     end

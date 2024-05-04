@@ -1231,82 +1231,86 @@ local PatronSettings = {
 function Options:OnInitialize()
 	local count = 1;
 	for group, races in pairs(ArchRaceGroups) do
-		local groupkey = 'group' .. tostring(group);
+        if races[1] > 0 then
+            local groupkey = 'group' .. tostring(group);
 
-		raceSettings.args.hide.args[groupkey] = {
-			type = 'group',
-			name = ArchRaceGroupText[group],
-			order = count + 1,
-			inline = true,
-			args = {
-			}
-		};
-		raceSettings.args.cap.args[groupkey] = {
-			type = 'group',
-			name = ArchRaceGroupText[group],
-			order = count + 1,
-			inline = true,
-			args = {
-			}
-		};
-		raceSettings.args.keystone.args[groupkey] = {
-			type = 'group',
-			name = ArchRaceGroupText[group],
-			order = count,
-			inline = true,
-			args = {
-			}
-		};
-		for idx=1, #races do
-			local i = races[idx];
-			raceSettings.args.hide.args[groupkey].args['race' .. tostring(i)] = {
-				type = "toggle",
-				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function ()
-					return "Hide the "..MinArch['artifacts'][i]['race'].." artifact bar even if it has been discovered."
-				end,
-				order = i,
-				get = function () return MinArch.db.profile.raceOptions.hide[i] end,
-				set = function (_, newValue)
-					MinArch.db.profile.raceOptions.hide[i] = newValue;
-					MinArch:UpdateMain();
-				end,
-			};
-			raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
-				type = "toggle",
-				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function ()
-					return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
-				end,
-				order = i,
-				get = function () return MinArch.db.profile.raceOptions.cap[i] end,
-				set = function (_, newValue)
-					MinArch.db.profile.raceOptions.cap[i] = newValue;
-					MinArch:UpdateMain();
-				end,
-			};
-			raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
-				type = "toggle",
-				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function ()
-					local RuneName, _, _, _, _, _, _, _, _, _ = GetItemInfo(MinArch['artifacts'][i]['raceitemid']);
-					local RaceName = MinArch['artifacts'][i]['race'];
+            raceSettings.args.hide.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count + 1,
+                inline = true,
+                args = {
+                }
+            };
+            raceSettings.args.cap.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count + 1,
+                inline = true,
+                args = {
+                }
+            };
+            raceSettings.args.keystone.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count,
+                inline = true,
+                args = {
+                }
+            };
+            for idx=1, #races do
+                local i = races[idx];
+                if i > 0 then
+                    raceSettings.args.hide.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "toggle",
+                        name = function () return GetArchaeologyRaceInfo(i) end,
+                        desc = function ()
+                            return "Hide the "..MinArch['artifacts'][i]['race'].." artifact bar even if it has been discovered."
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.hide[i] end,
+                        set = function (_, newValue)
+                            MinArch.db.profile.raceOptions.hide[i] = newValue;
+                            MinArch:UpdateMain();
+                        end,
+                    };
+                    raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "toggle",
+                        name = function () return GetArchaeologyRaceInfo(i) end,
+                        desc = function ()
+                            return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.cap[i] end,
+                        set = function (_, newValue)
+                            MinArch.db.profile.raceOptions.cap[i] = newValue;
+                            MinArch:UpdateMain();
+                        end,
+                    };
+                    raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "toggle",
+                        name = function () return GetArchaeologyRaceInfo(i) end,
+                        desc = function ()
+                            local RuneName, _, _, _, _, _, _, _, _, _ = GetItemInfo(MinArch['artifacts'][i]['raceitemid']);
+                            local RaceName = MinArch['artifacts'][i]['race'];
 
-					if (RuneName ~= nil and RaceName ~= nil) then
-						return "Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.";
-					end
-				end,
-				order = i,
-				get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
-				set = function (_, newValue)
-					MinArch.db.profile.raceOptions.keystone[i] = newValue;
-					MinArch:UpdateMain();
-				end,
-				disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
-			};
-		end
+                            if (RuneName ~= nil and RaceName ~= nil) then
+                                return "Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.";
+                            end
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
+                        set = function (_, newValue)
+                            MinArch.db.profile.raceOptions.keystone[i] = newValue;
+                            MinArch:UpdateMain();
+                        end,
+                        disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
+                    };
+                end
+            end
 
-		count = count + 1;
+            count = count + 1;
+        end
 	end
 
 	self:RegisterMenus();
