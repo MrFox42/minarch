@@ -12,6 +12,7 @@
 ## AddonCompartmentFuncOnEnter: MinArch_OnAddonCompartmentEnter
 ## AddonCompartmentFuncOnLeave: MinArch_OnAddonCompartmentLeave
 ## X-Curse-Project-ID: 28160
+## X-Wago-ID: nGvpwe6x
 ## IconTexture: Interface\Icons\Trade_Archaeology_Dinosaurskeleton
 # Special thanks to joevt for the contribution
 
