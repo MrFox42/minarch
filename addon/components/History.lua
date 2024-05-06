@@ -214,6 +214,7 @@ function MinArch:LoadItemDetails(RaceID, caller)
 		MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").", MINARCH_MSG_DEBUG)
 	else
 		MinArch:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").", MINARCH_MSG_DEBUG)
+        MinArch:DelayedHistoryUpdate();
 	end
 
 	return allGood
