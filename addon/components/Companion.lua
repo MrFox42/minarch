@@ -152,6 +152,8 @@ function Companion:RegisterEvents()
     Companion:RegisterEvent("PLAYER_STOPPED_MOVING")
     Companion:RegisterEvent("PLAYER_ENTERING_WORLD")
     Companion:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
+    Companion:RegisterEvent("SPELL_UPDATE_USABLE")
+    Companion:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 end
 
 function Companion:UnregisterEvents()
@@ -160,6 +162,8 @@ function Companion:UnregisterEvents()
     Companion:UnregisterEvent("PLAYER_STOPPED_MOVING")
     Companion:UnregisterEvent("PLAYER_ENTERING_WORLD")
     Companion:UnregisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
+    Companion:UnregisterEvent("SPELL_UPDATE_USABLE")
+    Companion:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
 end
 
 local function InitSurveyButton()
@@ -286,6 +290,7 @@ end
 
 function Companion.events:PLAYER_STARTED_MOVING(...)
     timer = MinArch.Ace:ScheduleRepeatingTimer(Companion.UpdateDistance, 0.1)
+    Companion:Update()
 end
 
 function Companion.events:ARCHAEOLOGY_SURVEY_CAST(...)
@@ -296,10 +301,18 @@ end
 function Companion.events:PLAYER_STOPPED_MOVING(...)
     MinArch.Companion:AutoToggle();
     MinArch.Ace:CancelTimer(timer)
+    Companion:Update()
 end
 
 function Companion.events:RESEARCH_ARTIFACT_DIG_SITE_UPDATED(...)
     Companion:HideDistance()
+end
+
+function Companion.events:SPELL_UPDATE_COOLDOWN(...)
+    MinArch.Companion:Update()
+end
+function Companion.events:SPELL_UPDATE_USABLE(...)
+    MinArch.Companion:Update()
 end
 
 function Companion:UpdateDistance()
@@ -612,6 +625,14 @@ end
 function Companion:Update()
     if not MinArch.db.profile.companion.enable then
         return false;
+    end
+
+    if Companion.surveyButton:IsVisible() then
+        local canCast = true;
+        if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
+            canCast = false;
+        end
+        Companion.surveyButton:GetNormalTexture():SetDesaturated(not canCast);
     end
 
     Companion.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
