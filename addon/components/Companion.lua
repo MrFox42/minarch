@@ -645,8 +645,10 @@ function Companion:Update()
                 return;
             end
         end
+    end
 
-        if MinArch.db.profile.companion.features.solveButton.alwaysShowNearest then
+    if MinArch.db.profile.companion.features.solveButton.alwaysShowNearest then
+        for i = 1, ARCHAEOLOGY_NUM_RACES do
             local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 
             if digSiteData then
