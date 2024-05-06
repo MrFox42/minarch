@@ -260,6 +260,11 @@ function MinArch:ShowWindowButtonTooltip(button, text)
 end
 
 function MinArch:TestForMissingDigsites()
+	-- temporarily disabled
+	if true then
+		return;
+	end
+
 	for k, v in pairs(MinArch.DigsiteLocales.enGB) do
 		if (MinArchDigsiteList[k] == nil) then
 			print("Missing race for: " .. k);

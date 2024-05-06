@@ -190,16 +190,23 @@ function MinArch:UpdateActiveDigSites()
 				local name = tostring(digsite.name)
 				local x = digsite.position.x;
 				local y = digsite.position.y;
+				local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
+                -- Workaround for the phased version of Vale of Eternal Blossoms
+                if uiMapID == 390 then
+                    digsiteZone = C_Map.GetMapInfo(uiMapID);
+                end
+				local continentUiMapID = MinArch:GetNearestContinentId(uiMapID);
+				local contID = MinArch:GetInternalContId(continentUiMapID);
 
 				MinArchDigsitesGlobalDB["continent"][i][name] = MinArchDigsitesGlobalDB["continent"][i][name] or {};
 				MinArchDigsitesDB      ["continent"][i][name] = MinArchDigsitesDB["continent"][i][name] or {};
 
 				-- if we don't have this in the DB yet, try to use the race from the digsite list
 				-- if not MinArchDigsitesGlobalDB["continent"][i][name]["race"] or MinArchDigsitesGlobalDB["continent"][i][name]["race"] == "Unknown" then
-					if MinArchDigsiteList[name] then
-						local race = GetArchaeologyRaceInfo(MinArchDigsiteList[name].race)
+					if MinArchDigsiteList[contID][name] then
+						local race = GetArchaeologyRaceInfo(MinArchDigsiteList[contID][name].race)
                         MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
-                        MinArchDigsitesGlobalDB["continent"][i][name]["raceId"] = MinArchDigsiteList[name].race
+                        MinArchDigsitesGlobalDB["continent"][i][name]["raceId"] = MinArchDigsiteList[contID][name].race
 					elseif not SpamBlock[name] then
 						MinArch:DisplayStatusMessage("Minimal Archaeology: Unknown digsite " .. name, MINARCH_MSG_STATUS)
 						SpamBlock[name] = 1
@@ -207,16 +214,10 @@ function MinArch:UpdateActiveDigSites()
 				--end
 
 				-- TODO: remove digsites assigned to the wrong continent in old/buggy releases
-
-                local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
-                -- Workaround for the phased version of Vale of Eternal Blossoms
-                if uiMapID == 390 then
-                    digsiteZone = C_Map.GetMapInfo(uiMapID);
-                end
                 local currentZoneUiMapID = MinArch:GetNearestZoneId(digsiteZone.mapID);
 				if (currentZoneUiMapID ~= nil and (currentZoneUiMapID == uiMapID or currentZoneUiMapID == digsiteZone.parentMapID)) then
-					if (playerContID == i and MinArchDigsiteList[name]) then
-						MinArch.RelevantRaces[MinArchDigsiteList[name].race] = true;
+					if (playerContID == i and MinArchDigsiteList[contID][name]) then
+						MinArch.RelevantRaces[MinArchDigsiteList[contID][name].race] = true;
 					end
 					MinArchDigsitesDB      ["continent"][i][name]["status"] = true;
 					MinArchDigsitesGlobalDB["continent"][i][name]["uiMapID"] = currentZoneUiMapID;
@@ -513,10 +514,10 @@ function MinArch:GetNearestDigsite()
 	local nearestDigSiteDetails = nil;
 	local ax = 0;
 	local ay = 0;
-	local ContID = MinArch:GetInternalContId();
+	local contID = MinArch:GetInternalContId();
 
-	local uiMapID = MinArch:GetUiMapIdByContId(ContID);
-	if (ContID == nil or uiMapID == nil) then
+	local uiMapID = MinArch:GetUiMapIdByContId(contID);
+	if (contID == nil or uiMapID == nil) then
 		return false;
 	end
 
@@ -540,16 +541,16 @@ function MinArch:GetNearestDigsite()
 		local yd = math.abs(ay - tonumber(digsitey));
 		local d = math.sqrt((xd*xd)+(yd*yd));
 
-        if (MinArchDigsitesDB["continent"][ContID][name] and MinArchDigsitesDB["continent"][ContID][name]["status"] == true) then
-			if (MinArchDigsiteList[name]) then
-                local currentRace = MinArchDigsiteList[name].race;
+        if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
+			if (MinArchDigsiteList[contID][name]) then
+                local currentRace = MinArchDigsiteList[contID][name].race;
                 if ( (prioRace == currentRace and (nearestDistance == nil or nearestDigSiteDetails.raceId ~= prioRace or (nearestDigSiteDetails.raceId == prioRace and d < nearestDistance) ) )
                     or nearestDigSite == nil
                     or (nearestDigSiteDetails.raceId ~= prioRace and d < nearestDistance))
                 then
                     nearestDigSite = name;
                     nearestDistance = d;
-                    nearestDigSiteDetails = MinArchDigsitesGlobalDB["continent"][ContID][nearestDigSite];
+                    nearestDigSiteDetails = MinArchDigsitesGlobalDB["continent"][contID][nearestDigSite];
                 end
             else
                 MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
