@@ -261,7 +261,7 @@ function MinArch:MainEventAddonLoaded()
 	-- Apply Settins/SavedVariables
 
 	if (MinArchOptions['CurrentHistPage'] == nil) then
-		MinArchOptions['CurrentHistPage'] = 1;
+		MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_OTHER + 1;
 	end
 
 	if (MinArch.db.profile.startHidden == true and not MinArch.overrideStartHidden) then

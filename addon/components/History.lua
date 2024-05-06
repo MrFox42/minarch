@@ -150,6 +150,10 @@ function MinArch:InitHist(self)
 		end
 		MinArch:DimHistoryButtons();
 
+        if not MinArchOptions['CurrentHistPage'] then
+            MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_OTHER + 1;
+        end
+
 		MinArch.raceButtons[MinArchOptions['CurrentHistPage']]:SetAlpha(1.0);
 		MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "MATBOpenHist");
     end)
