@@ -1291,7 +1291,7 @@ function Options:OnInitialize()
                         type = "toggle",
                         name = function () return GetArchaeologyRaceInfo(i) end,
                         desc = function ()
-                            local RuneName, _, _, _, _, _, _, _, _, _ = GetItemInfo(MinArch['artifacts'][i]['raceitemid']);
+                            local RuneName, _, _, _, _, _, _, _, _, _ = C_Item.GetItemInfo(MinArch['artifacts'][i]['raceitemid']);
                             local RaceName = MinArch['artifacts'][i]['race'];
 
                             if (RuneName ~= nil and RaceName ~= nil) then

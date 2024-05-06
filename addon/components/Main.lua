@@ -274,7 +274,11 @@ end
 
 function MinArch:UpdateKeystones(keystoneFrame, RaceIndex)
 	local artifact = MinArch['artifacts'][RaceIndex];
-	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = GetItemInfo(artifact['raceitemid']);
+	if not artifact or not artifact['raceitemid'] then
+		return
+	end
+
+	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = C_Item.GetItemInfo(artifact['raceitemid']);
 
 	keystoneFrame.icon:SetTexture(runeStoneIconPath);
 
@@ -299,7 +303,7 @@ function MinArch:UpdateArtifactBar(RaceIndex)
 	end
 
 	local artifact = MinArch['artifacts'][RaceIndex];
-	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = GetItemInfo(artifact['raceitemid']);
+	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = C_Item.GetItemInfo(artifact['raceitemid']);
 	local total = artifact['total']
 
 	if (MinArch.db.profile.raceOptions.cap[RaceIndex] == true) then

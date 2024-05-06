@@ -191,7 +191,7 @@ function MinArch:LoadItemDetails(RaceID, caller)
 		if not details.name then
 			newItemCount = newItemCount + 1
 
-			local name, _, rarity, _, _, _, _, _, _, icon, sellPrice = GetItemInfo(itemid);
+			local name, _, rarity, _, _, _, _, _, _, icon, sellPrice = C_Item.GetItemInfo(itemid);
 
 			if name ~= nil and icon ~= nil then
 				details.name = name
