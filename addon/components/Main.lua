@@ -194,11 +194,16 @@ function MinArch:UpdateArchaeologySkillBar()
 	if (arch) then
 		local name, _, rank, maxRank = GetProfessionInfo(arch);
 
-		if (rank ~= maxRank) then
+		if (rank ~= ARCHAEOLOGY_MAX_RANK) then
 			MinArchMain.skillBar:Show();
 			MinArchMain.skillBar:SetMinMaxValues(0, maxRank);
 			MinArchMain.skillBar:SetValue(rank);
             MinArchMain.skillBar.text:SetText(name.." "..rank.."/"..maxRank);
+			if (maxRank ~= ARCHAEOLOGY_MAX_RANK and rank + 25 >= maxRank) then
+				MinArchMain.skillBar.text:SetTextColor(1,1,0,1)
+			else
+				MinArchMain.skillBar.text:SetTextColor(1,1,1,1)
+			end
             MinArch['frame']['height'] = MinArch['frame']['defaultHeight'];
             -- MinArch.artifactbars[1]:SetPoint("TOP", -25, -50);
 		else
@@ -503,7 +508,7 @@ end
 
 function MinArch:KeystoneTooltip(self, raceID)
 	local artifact = MinArch['artifacts'][raceID];
-	local name = GetItemInfo(artifact['raceitemid']);
+	local name = C_Item.GetItemInfo(artifact['raceitemid']);
 
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
 
@@ -602,8 +607,8 @@ function MinArch_OnAddonCompartmentClick(_, button)
 end
 
 function MinArch_OnAddonCompartmentEnter()
-    -- 
+    --
 end
 function MinArch_OnAddonCompartmentLeave()
-    -- 
+    --
 end
