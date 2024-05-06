@@ -477,6 +477,18 @@ local raceSettings = {
 					width = "full",
 					order = 1,
 				},
+				wpIgnoreHidden = {
+					type = "toggle",
+					name = "Ignore hidden races when creating waypoints",
+					desc = "Enable this to also ignore hidden races when creating waypoints.",
+					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
+                    set = function (_, newValue)
+						MinArch.db.profile.TomTom.ignoreHidden = newValue;
+					end,
+                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					width = "full",
+					order = 2,
+                },
 			}
 		},
 		cap = {
@@ -1193,6 +1205,17 @@ local TomTomSettings = {
                     disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
                     order = 3,
                 },
+				ignoreHidden = {
+					type = "toggle",
+					name = "Ignore hidden races",
+					desc = "Enable this to ignore hidden races when creating waypoints.",
+					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
+                    set = function (_, newValue)
+						MinArch.db.profile.TomTom.ignoreHidden = newValue;
+					end,
+                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					order = 4,
+                },
 			},
 		},
 	}
@@ -1237,7 +1260,7 @@ function Options:OnInitialize()
             raceSettings.args.hide.args[groupkey] = {
                 type = 'group',
                 name = ArchRaceGroupText[group],
-                order = count + 1,
+                order = count + 2,
                 inline = true,
                 args = {
                 }

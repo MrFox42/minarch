@@ -58,6 +58,7 @@ MinArch.defaults = {
 			autoWayOnMove = false,
             autoWayOnComplete = true,
             prioRace = -1,
+            ignoreHidden = false,
 		},
 
 		-- dynamic options

@@ -546,7 +546,8 @@ function MinArch:GetNearestDigsite()
                 local currentRace = MinArchDigsiteList[contID][name].race;
                 if ( (prioRace == currentRace and (nearestDistance == nil or nearestDigSiteDetails.raceId ~= prioRace or (nearestDigSiteDetails.raceId == prioRace and d < nearestDistance) ) )
                     or nearestDigSite == nil
-                    or (nearestDigSiteDetails.raceId ~= prioRace and d < nearestDistance))
+                    or (nearestDigSiteDetails.raceId ~= prioRace and d < nearestDistance) ) 
+					and (not MinArch.db.profile.TomTom.ignoreHidden or not MinArch.db.profile.raceOptions.hide[currentRace])
                 then
                     nearestDigSite = name;
                     nearestDistance = d;
