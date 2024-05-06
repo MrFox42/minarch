@@ -15,6 +15,15 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Recent changes
 
+### 10.2.9
+
+- Navigation: **new option** to ignore hidden races when creating waypoints (disabled by default)
+- Companion: grey out survey button when spell can't be casted
+- Companion solve button: prioritize solvable artifacts over nearest available
+- History: Fix lua error and history list not loading on first try
+- Main Window: Show profession bar until expanion's max skill level is reached
+- Fix missing race data for digsites
+
 ### 10.2.7
 
 - Updated for Cataclysm Classic
