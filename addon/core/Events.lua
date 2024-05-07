@@ -121,7 +121,9 @@ function MinArch:EventMain(event, ...)
 		MinArch.ShowOnSurvey = true;
         MinArch.ShowInDigsite = true;
         MinArch.CompanionShowInDigsite = true;
-        MinArch.Companion:Hide();
+		if not MinArch.db.profile.companion.alwaysShow then
+        	MinArch.Companion:Hide();
+		end
 	end
 
 	if (event == "QUEST_LOG_UPDATE") then

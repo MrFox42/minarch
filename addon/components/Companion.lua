@@ -57,6 +57,15 @@ local function CalculateDistance(ax, ay, bx, by)
     return MinArch:Round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
 end
 
+local function OpenSettingsAndHideHelp(self, button)
+    if (button == "RightButton") then
+        InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+
+        MinArch.db.profile.companion.showHelpTip = false;
+        HelpPlate_TooltipHide();
+    end
+end
+
 local function InitDistanceTracker()
     Companion.trackerFrame = CreateFrame("Frame", "$parentTracker", Companion)
 
@@ -71,15 +80,7 @@ local function InitDistanceTracker()
     Companion.trackerFrame.indicator:SetWidth(16)
     Companion.trackerFrame.indicator:SetHeight(16)
 
-    Companion.trackerFrame:SetScript("OnMouseUp", function(self, button)
-        if (button == "RightButton") then
-            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
-            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
-
-            MinArch.db.profile.companion.showHelpTip = false;
-            HelpPlate_TooltipHide();
-        end
-    end)
+    Companion.trackerFrame:SetScript("OnMouseUp", OpenSettingsAndHideHelp)
 
     Companion.trackerFrame:SetScript("OnEnter", function(self)
         if (MinArch.db.profile.companion.showHelpTip) then
@@ -114,10 +115,10 @@ local function InitDistanceTracker()
     Companion.trackerFrame.indicator:Show()
 
     local fontString = Companion.trackerFrame.indicator:CreateFontString("$parentDistanceText", "OVERLAY")
-    fontString:SetFont("Fonts\\ARIALN.TTF", 12, "OUTLINE, MONOCHROME")
+    fontString:SetFontObject(GameFontWhiteSmall)
     fontString:SetText("")
     fontString:SetTextColor(0.0, 1.0, 0.0, 1.0)
-    fontString:SetPoint("LEFT", Companion.trackerFrame.indicator, "LEFT", 19, -1)
+    fontString:SetPoint("LEFT", Companion.trackerFrame.indicator, "LEFT", 19, 0)
     fontString:Show()
 
     Companion:SetScript("OnEvent", Companion.EventHandler)
@@ -261,6 +262,66 @@ local function InitRandomMountButton()
     RegisterForDrag(mountButton);
 
     Companion.mountButton = mountButton;
+end
+
+local function InitSkillBar()
+    local anchorPoint = "TOPLEFT"
+    local posMod = 1
+    local expandedHeight = 14;
+
+    local skillBar = CreateFrame("Frame", "$parentTracker", Companion)
+    skillBar:SetPoint(anchorPoint, 0, 5 * posMod)
+    skillBar:SetWidth(Companion:GetWidth())
+    skillBar:SetHeight(5)
+    
+    local tex = skillBar:CreateTexture(nil, "BACKGROUND")
+    tex:SetAllPoints()
+    tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
+    skillBar.texture = tex
+
+    local progressBar = CreateFrame("Frame", "$parentProgress", skillBar)
+    progressBar:SetPoint("TOPLEFT", 0, 0)
+    progressBar:SetHeight(5);
+    skillBar.progressBar = progressBar
+
+    local tex2 = progressBar:CreateTexture(nil, "BACKGROUND")
+    tex2:SetAllPoints()
+    tex2:SetColorTexture(0, 1, 0.5, 0.5)
+    progressBar.texture = tex2
+
+    local fontString = skillBar:CreateFontString("$parentProgressText", "OVERLAY")
+    fontString:SetFontObject("GameFontWhiteSmall")
+    fontString:SetText("")
+    fontString:SetTextColor(1, 1, 1, 1.0)
+    fontString:Hide()
+
+    skillBar.fontString = fontString;
+
+    RegisterForDrag(skillBar);
+
+    skillBar:SetScript("OnEnter", function()
+        skillBar:SetHeight(expandedHeight)
+        progressBar:SetHeight(expandedHeight);
+        skillBar:SetPoint(anchorPoint, 0, expandedHeight * posMod)
+        fontString:SetPoint("CENTER", skillBar)
+        fontString:Show()
+
+        -- GameTooltip:SetOwner(skillBar, "ANCHOR_TOPRIGHT");
+        -- GameTooltip:AddLine("Skill in Archaeology");
+        -- GameTooltip:Show();
+    end)
+
+    skillBar:SetScript("OnLeave", function()
+        skillBar:SetHeight(5)
+        progressBar:SetHeight(5);
+        skillBar:SetPoint(anchorPoint, 0, 5 * posMod)
+        fontString:Hide()
+        -- GameTooltip:Hide()
+    end)
+
+    skillBar:SetScript("OnMouseUp", OpenSettingsAndHideHelp)
+
+    Companion.skillBar = skillBar
 end
 
 function Companion:showCrateButton(itemID)
@@ -435,6 +496,7 @@ function Companion:Init()
         InitProjectFrame()
         InitCrateButton()
         InitRandomMountButton()
+        InitSkillBar()
 
         Companion.initialized = true;
     end
@@ -539,6 +601,9 @@ function Companion:Resize()
 
     Companion:SetWidth(width + baseOffset);
     Companion:SetHeight(baseHeight + MinArch.db.profile.companion.padding * 2)
+
+    Companion.skillBar:SetWidth(width + baseOffset)
+    MinArch:UpdateArchaeologySkillBar()
 end
 
 local function shouldShowRace(raceID)
@@ -627,6 +692,12 @@ function Companion:Update()
         return false;
     end
 
+    if MinArch.db.profile.companion.features.skillBar.enabled then
+        Companion.skillBar:Show()
+    else
+        Companion.skillBar:Hide()
+    end
+
     if Companion.surveyButton:IsVisible() then
         local canCast = true;
         if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
@@ -636,6 +707,7 @@ function Companion:Update()
     end
 
     Companion.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
+    Companion.skillBar.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
     Companion.solveButton:Hide();
     Companion:Resize();
 
@@ -662,6 +734,5 @@ function Companion:Update()
             end
         end
     end
-
 end
 

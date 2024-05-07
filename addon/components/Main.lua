@@ -206,8 +206,18 @@ function MinArch:UpdateArchaeologySkillBar()
 			end
             MinArch['frame']['height'] = MinArch['frame']['defaultHeight'];
             -- MinArch.artifactbars[1]:SetPoint("TOP", -25, -50);
+
+			if MinArch.db.profile.companion.features.skillBar.enabled then
+				local width = math.floor(MinArch.Companion:GetWidth() * (rank / maxRank))
+				MinArch.Companion.skillBar.progressBar:SetWidth(width);
+				MinArch.Companion.skillBar.fontString:SetText(rank .. '/' .. maxRank)
+				MinArch.Companion.skillBar:Show()
+			else
+				MinArch.Companion.skillBar:Hide()
+			end
 		else
 			MinArchMain.skillBar:Hide();
+			MinArch.Companion.skillBar:Hide()
 			MinArch['frame']['height'] = MinArch['frame']['defaultHeight'] - 25;
 			-- MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
 		end

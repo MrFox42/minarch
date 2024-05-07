@@ -84,7 +84,7 @@ local home = {
 			args = {
 				message = {
 					type = "description",
-					name = "The |cFFF96854Companion|r is a tiny floating window that features a distance tracker, and buttons for waypoints, solves, crates and a button for summoning a random mount. Each button can be disabled and you can also customize their order. The Companion has separate scaling and auto-show/auto-hide functionality from the rest of the windows.",
+					name = "The |cFFF96854Companion|r is a tiny floating window that features a skill bar, distance tracker, and buttons for waypoints, solves, crates and a button for summoning a random mount. Each button can be disabled and you can also customize their order. The Companion has separate scaling and auto-show/auto-hide functionality from the rest of the windows.",
 					fontSize = "small",
 					width = "full",
 					order = 1,
@@ -995,6 +995,26 @@ local companionSettings = {
                                 updateOrdering("mountButton", newValue)
                             end,
                             width = 0.5,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 7,
+                        },
+                    }
+                },
+				skillBar = {
+                    type = "group",
+                    name = "Skill bar settings",
+                    order = 6,
+                    inline = true,
+                    args = {
+                        toggleMountButton = {
+                            type = "toggle",
+                            name = "Show skill bar",
+                            desc = "Display the skill progress bar on the Companion frame",
+                            get = function () return MinArch.db.profile.companion.features.skillBar.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.skillBar.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 7,
                         },
