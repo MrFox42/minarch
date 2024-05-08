@@ -377,6 +377,21 @@ local general = {
 					end,
 					order = 1,
 				},
+				showStats = {
+					type = "toggle",
+					name = "Show statistics",
+					desc = "Show progress and number of total solves for each race.",
+					get = function () return MinArch.db.profile.history.showStats end,
+					set = function (_, newValue)
+                        MinArch.db.profile.history.showStats = newValue;
+						if newValue then
+							MinArchHist.statsFrame:Show()
+						else
+							MinArchHist.statsFrame:Hide()
+						end
+					end,
+					order = 2,
+				},
             }
         },
 	}

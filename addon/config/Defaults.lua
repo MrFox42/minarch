@@ -107,6 +107,7 @@ MinArch.defaults = {
 
         history = {
             autoResize = true,
+            showStats = true,
         },
 
 		-- deprecated, left for compatibility

@@ -130,10 +130,34 @@ local function CreateHeightToggle(parent, x, y)
 	end)
 end
 
+local function InitStatistics()
+    local statsFrame = CreateFrame("Frame", "$parentStats", MinArchHist, "BackdropTemplate")
+    statsFrame:SetPoint("CENTER", MinArchHist, "BOTTOM", 0, -30)
+    statsFrame:SetWidth(MinArchHist:GetWidth() - 70)
+    statsFrame:SetHeight(60)
+
+    local fontString = statsFrame:CreateFontString("$parentText", "OVERLAY")
+    fontString:SetFontObject(GameFontWhiteSmall)
+    fontString:SetText("")
+    fontString:SetPoint("CENTER", statsFrame, "CENTER", 0, 0)
+
+    statsFrame.text = fontString;
+
+    statsFrame:SetScript("OnEnter", function (self)
+        -- haxx to enable drag and drop
+    end)
+    MinArch:CommonFrameLoad(statsFrame, MinArchHist)
+    MinArchHist.statsFrame = statsFrame
+
+    if not MinArch.db.profile.history.showStats then
+        statsFrame:Hide()
+    end
+end
+
 function MinArch:InitHist(self)
-	InitQuestIndicator(self);
-    InitRaceButtons(self);
-    CreateHeightToggle(self, 10, 4);
+	InitQuestIndicator(self)
+    InitRaceButtons(self)
+    CreateHeightToggle(self, 10, 4)
 
     for i=1, ARCHAEOLOGY_NUM_RACES do
         unknownArtifactInfoIndex[i] = 1;
@@ -175,6 +199,8 @@ function MinArch:InitHist(self)
     self:RegisterEvent("UNIT_INVENTORY_CHANGED");
 
     MinArch:CommonFrameLoad(self);
+    
+    InitStatistics()
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology History Initialized!");
 end
@@ -684,7 +710,9 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
     MinArch:UpdateArtifact(RaceID);
 
-    local count = 0;
+    local count = 0
+    local sumComplete = 0
+    local sumTotalComplete = 0
 
     for _, gparams in ipairs(groups) do
         for itemid, details in pairs(MinArchHistDB[RaceID]) do
@@ -757,18 +785,25 @@ function MinArch:CreateHistoryList(RaceID, caller)
                 if not details.firstcomplete then
                     frame.progress.text:SetText("0");
                     frame.progress.text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
-                elseif MinArch.artifacts[RaceID].project == details.artifactname then
-                    if not details.totalcomplete or details.totalcomplete == 0 then
-                        frame.progress.text:SetText("#1")
-                    else
-                        frame.progress.text:SetText("#" .. (details.totalcomplete + 1))
-                    end
-                    frame.progress.text:SetTextColor(1.0, 0.8, 0.0, 1.0)
-                    progressState = MINARCH_PROGRESS_CURRENT;
                 else
-                    frame.progress.text:SetText("x" .. details.totalcomplete)
-                    frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
-                    progressState = MINARCH_PROGRESS_KNOWN;
+                    if MinArch.artifacts[RaceID].project == details.artifactname then
+                        if not details.totalcomplete or details.totalcomplete == 0 then
+                            frame.progress.text:SetText("#1")
+                        else
+                            frame.progress.text:SetText("#" .. (details.totalcomplete + 1))
+                        end
+                        frame.progress.text:SetTextColor(1.0, 0.8, 0.0, 1.0)
+                        progressState = MINARCH_PROGRESS_CURRENT;
+                    else
+                        frame.progress.text:SetText("x" .. details.totalcomplete)
+                        frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
+                        progressState = MINARCH_PROGRESS_KNOWN;
+                    end
+                    
+                    if details.totalcomplete > 0 then
+                        sumComplete = sumComplete + 1
+                        sumTotalComplete = sumTotalComplete + details.totalcomplete
+                    end
                 end
 
                 local achiInProgress = false;
@@ -804,6 +839,8 @@ function MinArch:CreateHistoryList(RaceID, caller)
             height = count * (20 + PADDING);
         end
     end
+
+    MinArchHist.statsFrame.text:SetText('Progress: ' .. sumComplete .. '/' .. count .. ' - Total: ' .. sumTotalComplete)
 
     -- Set the size of the scroll child
     if height > 2 then

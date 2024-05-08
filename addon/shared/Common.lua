@@ -44,8 +44,9 @@ local MinArchAlternateContIDMap = {
 	[1011] = 10, -- Zandalar Flight map
 }
 
-function MinArch:CommonFrameLoad(self)
-    self:SetBackdrop({
+function MinArch:CommonFrameLoad(self, movable)
+	movable = movable or self
+	self:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         tile = true,
@@ -57,10 +58,10 @@ function MinArch:CommonFrameLoad(self)
 
     self:RegisterForDrag("LeftButton");
     self:SetScript("OnDragStart", function(self, button)
-		MinArch:CommonFrameDragStart(self, button);
+		MinArch:CommonFrameDragStart(movable, button);
     end)
     self:SetScript("OnDragStop", function(self)
-		MinArch:CommonFrameDragStop(self);
+		MinArch:CommonFrameDragStop(movable);
     end)
 end
 
