@@ -222,6 +222,7 @@ function MinArch:UpdateArchaeologySkillBar()
 			-- MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
 		end
 	else
+        MinArch.Companion.skillBar:Hide()
 		MinArchMain.skillBar:SetMinMaxValues(0, 100);
 		MinArchMain.skillBar:SetValue(0);
 		MinArchMain.skillBar.text:SetText(ARCHAEOLOGY_RANK_TOOLTIP);
