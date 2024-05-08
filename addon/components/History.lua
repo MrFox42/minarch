@@ -936,7 +936,7 @@ function MinArch:ShowHistory()
 	--	MinArchHist.showAfterCombat = true;
 	--else
 		MinArchHist:Show();
-		MinArch.db.char.WindowStates.history = true;
+		MinArch.db.char.WindowStates.history = MinArch.db.profile.rememberState;
 	--end
 end
 

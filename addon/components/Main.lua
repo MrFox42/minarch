@@ -569,7 +569,7 @@ function MinArch:ShowMain()
 	--else
 		MinArchMain:Show();
 		-- MinArch.db.profile.hideMain = false;
-		MinArch.db.char.WindowStates.main = true;
+		MinArch.db.char.WindowStates.main = MinArch.db.profile.rememberState;
 	--end
 end
 

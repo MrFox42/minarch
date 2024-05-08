@@ -727,7 +727,7 @@ function MinArch:ShowDigsites()
 	--	MinArchDigsites.showAfterCombat = true;
 	--else
 		MinArchDigsites:Show();
-		MinArch.db.char.WindowStates.digsites = true;
+		MinArch.db.char.WindowStates.digsites = MinArch.db.profile.rememberState;
 	--end
 end
 
