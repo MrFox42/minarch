@@ -1,5 +1,5 @@
-Copyright (c) 2010 Joseph O'Connor 
-jgmoconnor@gmail.com
+Copyright (c) 2010-2024 Gyula Pataki, Joseph O'Connor
+gyussz@live.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
