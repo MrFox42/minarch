@@ -15,6 +15,15 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Recent changes
 
+### 10.2.10
+
+- History: implement race statistics (can be hidden)
+- Companion: added optional skill bar (enabled by default)
+- Fix max rank in Cata pre-patch
+- Fix main window popping up the wrong time when autoShowOnCap is enabled
+- Fix history refresh (mostly, blizzard API sometimes reports the wrong data)
+- Fix remember window state functionality
+
 ### 10.2.9
 
 - Navigation: **new option** to ignore hidden races when creating waypoints (disabled by default)
