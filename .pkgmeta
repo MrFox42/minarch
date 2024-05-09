@@ -32,7 +32,7 @@ externals:
         tag: latest
 
 tools-used:
-    - LibDataBroker-1.1
+    - libdatabroker-1-1
     - LibIconPath
 
 optional-dependencies:
