@@ -269,7 +269,7 @@ local function BuildHistory(RaceID, caller)
 		end
 		icon = icon..".blp"
 
-		-- local foundCount = 0
+		local foundCount = 0
         for itemid, details in pairs(MinArchHistDB[RaceID]) do
 			if (details.name == name and details.icon ~= icon) then
 				MinArchIconDB[RaceID] = MinArchIconDB[RaceID] or {}
@@ -285,7 +285,7 @@ local function BuildHistory(RaceID, caller)
 
         for itemid, details in pairs(MinArchHistDB[RaceID]) do
             if ((details.name == name and details.icon == icon) or (foundCount == 0 and details.icon == icon)) then
-                -- foundCount = foundCount + 1
+                foundCount = foundCount + 1
                 -- if foundCount > 1 then
                 --     MinArch:DisplayStatusMessage("Minimal Archaeology - found duplicate #" .. foundCount, MINARCH_MSG_DEBUG)
                 --     MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
@@ -341,12 +341,13 @@ function MinArch:GetHistory(RaceID, caller)
         else
             local previousCompleted = details.totalcomplete;
             local name, desc, _, _, spelldesc, _, _, _, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, details.apiIndex)
-            -- if (previousCompleted and previousCompleted > 0 and previousCompleted > totalcomplete) then
-            --     -- Don't update stored data if the response is bogus
-            --     MinArch:DisplayStatusMessage("Bogus data from API, refreshing ...", MINARCH_MSG_DEBUG)
-            --     MinArch:DelayedHistoryUpdate();
-            --     return;
-            -- end
+            if (previousCompleted and previousCompleted > 0 and previousCompleted > totalcomplete) then
+                -- Don't update stored data if the response is bogus
+                MinArch:DisplayStatusMessage("Bogus data from API, skipping refresh", MINARCH_MSG_DEBUG)
+                --BuildHistory(RaceID, 'GetHistory');
+                --MinArch:DelayedHistoryUpdate();
+                return;
+            end
 
             details.artifactname = name
             details.firstcomplete = firstcomplete
