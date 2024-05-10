@@ -207,22 +207,28 @@ function MinArch:UpdateArchaeologySkillBar()
             MinArch['frame']['height'] = MinArch['frame']['defaultHeight'];
             -- MinArch.artifactbars[1]:SetPoint("TOP", -25, -50);
 
-			if MinArch.db.profile.companion.features.skillBar.enabled then
-				local width = math.floor(MinArch.Companion:GetWidth() * (rank / maxRank))
-				MinArch.Companion.skillBar.progressBar:SetWidth(width);
-				MinArch.Companion.skillBar.fontString:SetText(rank .. '/' .. maxRank)
-				MinArch.Companion.skillBar:Show()
-			else
-				MinArch.Companion.skillBar:Hide()
+			if MinArch.db.profile.companion.enable then
+				if MinArch.db.profile.companion.features.skillBar.enabled then
+					local width = math.floor(MinArch.Companion:GetWidth() * (rank / maxRank))
+					MinArch.Companion.skillBar.progressBar:SetWidth(width);
+					MinArch.Companion.skillBar.fontString:SetText(rank .. '/' .. maxRank)
+					MinArch.Companion.skillBar:Show()
+				else
+					MinArch.Companion.skillBar:Hide()
+				end
 			end
 		else
 			MinArchMain.skillBar:Hide();
-			MinArch.Companion.skillBar:Hide()
+			if MinArch.db.profile.companion.enable then
+				MinArch.Companion.skillBar:Hide()
+			end
 			MinArch['frame']['height'] = MinArch['frame']['defaultHeight'] - 25;
 			-- MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
 		end
 	else
-        MinArch.Companion.skillBar:Hide()
+		if MinArch.db.profile.companion.enable then
+        	MinArch.Companion.skillBar:Hide()
+		end
 		MinArchMain.skillBar:SetMinMaxValues(0, 100);
 		MinArchMain.skillBar:SetValue(0);
 		MinArchMain.skillBar.text:SetText(ARCHAEOLOGY_RANK_TOOLTIP);

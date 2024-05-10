@@ -9,6 +9,7 @@
 - Fix main window popping up the wrong time when autoShowOnCap is enabled
 - Fix history refresh (mostly, blizzard API sometimes reports the wrong data)
 - Fix remember window state functionality
+- **10.2.10.2** Fix lua error: attempt to index field 'skillBar'
 
 ### 10.2.9
 
