@@ -1,7 +1,8 @@
 local ADDON, MinArch = ...
 
-local eventTimer = nil;
-local histEventTimer = nil;
+local eventTimer = nil
+local researchEventTimer = nil
+local historyUpdateTimout = 0.3
 
 function MinArch:EventHelper(event, ...)
 	if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.hideInCombat) then
@@ -192,9 +193,32 @@ function MinArch:EventHist(event, ...)
             MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
             return;
 		end
+
+		MinArch:DelayedHistoryUpdate()
     end
 
-    MinArch:DelayedHistoryUpdate()
+	if (event == "RESEARCH_ARTIFACT_COMPLETE") then
+		local artifactName = ...;
+		if (researchEventTimer ~= nil) then
+			MinArch:DisplayStatusMessage("RESEARCH_ARTIFACT_COMPLETE called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
+			researchEventTimer:Cancel();
+		end
+		researchEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()
+			for RaceID, _ in pairs(MinArchHistDB) do
+				for _, details in pairs(MinArchHistDB[RaceID]) do
+					if (details.artifactname == artifactName) then
+						details.totalcomplete = details.totalcomplete + 1
+
+						if (MinArch.artifacts[RaceID].project == artifactName) then
+							MinArch.artifacts[RaceID].totalcomplete = details.totalcomplete
+						end
+						
+    					return MinArch:DelayedHistoryUpdate()
+					end
+				end
+			end
+		end)
+	end
 end
 
 function MinArch:EventDigsites(event, ...)

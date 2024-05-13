@@ -211,6 +211,8 @@ local function InitProjectFrame()
     keystoneButton:SetWidth(20);
     keystoneButton:SetHeight(20);
     keystoneButton:RegisterForClicks("LeftButtonUp","RightButtonUp");
+    
+    keystoneButton.text:SetFontObject(NumberFontNormal)
 
     keystoneButton:SetScript("OnLeave", function ()
         GameTooltip:Hide();

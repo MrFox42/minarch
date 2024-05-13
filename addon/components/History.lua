@@ -184,6 +184,7 @@ function MinArch:InitHist(self)
 
 	-- self:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	self:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
+    self:RegisterEvent("RESEARCH_ARTIFACT_COMPLETE")
 	self:RegisterEvent("QUEST_ACCEPTED");
 	self:RegisterEvent("QUEST_TURNED_IN");
 	self:RegisterEvent("QUEST_REMOVED");
@@ -195,11 +196,10 @@ function MinArch:InitHist(self)
     self:RegisterEvent("CRITERIA_COMPLETE");
     self:RegisterEvent("CRITERIA_EARNED");
     self:RegisterEvent("CRITERIA_UPDATE");
-
     self:RegisterEvent("UNIT_INVENTORY_CHANGED");
 
     MinArch:CommonFrameLoad(self);
-    
+
     InitStatistics()
 
 	MinArch:DisplayStatusMessage("Minimal Archaeology History Initialized!");
@@ -309,7 +309,9 @@ local function BuildHistory(RaceID, caller)
 
                 details.artifactname = name
                 details.firstcomplete = firstcomplete
-                details.totalcomplete = totalcomplete
+                if (details.totalcomplete == 0 or details.totalcomplete == nil) then
+                    details.totalcomplete = totalcomplete
+                end
                 details.description = desc
                 details.spelldescription = spelldesc
                 details.apiIndex = i;
@@ -343,23 +345,23 @@ function MinArch:GetHistory(RaceID, caller)
             local name, desc, _, _, spelldesc, _, _, _, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, details.apiIndex)
             if (previousCompleted and previousCompleted > 0 and previousCompleted > totalcomplete) then
                 -- Don't update stored data if the response is bogus
-                MinArch:DisplayStatusMessage("Bogus data from API, skipping refresh", MINARCH_MSG_DEBUG)
-                --BuildHistory(RaceID, 'GetHistory');
-                --MinArch:DelayedHistoryUpdate();
-                return;
-            end
+                MinArch:DisplayStatusMessage("Bogus data from API, skipping detail update", MINARCH_MSG_DEBUG)
+                -- BuildHistory(RaceID, 'GetHistory');
+                -- MinArch:DelayedHistoryUpdate();
+                -- return;
+            else
+                details.totalcomplete = totalcomplete
+                details.artifactname = name
+                details.firstcomplete = firstcomplete
+                details.description = desc
+                details.spelldescription = spelldesc
 
-            details.artifactname = name
-            details.firstcomplete = firstcomplete
-            details.totalcomplete = totalcomplete
-            details.description = desc
-            details.spelldescription = spelldesc
-
-            if (MinArch.artifacts[RaceID].project == name) then
-                MinArch.artifacts[RaceID].firstcomplete = firstcomplete
-                MinArch.artifacts[RaceID].totalcomplete = totalcomplete
-                MinArch.artifacts[RaceID].sellprice = details.sellprice
-            end
+                if (MinArch.artifacts[RaceID].project == name) then
+                    MinArch.artifacts[RaceID].firstcomplete = firstcomplete
+                    MinArch.artifacts[RaceID].totalcomplete = totalcomplete
+                    MinArch.artifacts[RaceID].sellprice = details.sellprice
+                end
+            end            
         end
     end
 end
@@ -554,7 +556,7 @@ local function GetArtifactFrame(scrollc, index)
     local text = name:CreateFontString("$parentText", "OVERLAY");
     text:SetPoint("TOPLEFT", name, "TOPLEFT", 0, 0);
     text:SetSize(parentWidth, 20)
-    text:SetFontObject("ChatFontSmall")
+    text:SetFontObject("GameFontNormalSmall")
     text:SetWordWrap(true)
     text:SetJustifyH("LEFT")
     text:SetJustifyV("MIDDLE")
@@ -600,7 +602,7 @@ local function GetArtifactFrame(scrollc, index)
     local progressText = progress:CreateFontString("$parentText", "OVERLAY");
     progressText:SetPoint("TOPLEFT", progress, "TOPLEFT", 0, -1);
     progressText:SetSize(40, 20);
-    progressText:SetFontObject("ChatFontSmall");
+    progressText:SetFontObject("GameFontNormalSmall");
     progressText:SetWordWrap(true);
     progressText:SetJustifyH("RIGHT");
     progressText:SetJustifyV("MIDDLE");
@@ -737,8 +739,8 @@ function MinArch:CreateHistoryList(RaceID, caller)
 
                 -- Set text
                 local displayName = details.name;
-                if (strlen(details.name) > 36) then
-                    displayName = strsub(details.name, 0, 33) .. '...';
+                if (strlen(details.name) > 34) then
+                    displayName = strsub(details.name, 0, 30) .. '...';
                 end
                 frame.name.text:SetText(displayName)
                 frame.name.text:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
@@ -800,7 +802,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
                         frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
                         progressState = MINARCH_PROGRESS_KNOWN;
                     end
-                    
+
                     if details.totalcomplete > 0 then
                         sumComplete = sumComplete + 1
                         sumTotalComplete = sumTotalComplete + details.totalcomplete
