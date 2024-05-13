@@ -361,7 +361,7 @@ function MinArch:GetHistory(RaceID, caller)
                     MinArch.artifacts[RaceID].totalcomplete = totalcomplete
                     MinArch.artifacts[RaceID].sellprice = details.sellprice
                 end
-            end            
+            end
         end
     end
 end
@@ -602,7 +602,7 @@ local function GetArtifactFrame(scrollc, index)
     local progressText = progress:CreateFontString("$parentText", "OVERLAY");
     progressText:SetPoint("TOPLEFT", progress, "TOPLEFT", 0, -1);
     progressText:SetSize(40, 20);
-    progressText:SetFontObject("GameFontNormalSmall");
+    progressText:SetFontObject("NumberFont_Small");
     progressText:SetWordWrap(true);
     progressText:SetJustifyH("RIGHT");
     progressText:SetJustifyV("MIDDLE");
