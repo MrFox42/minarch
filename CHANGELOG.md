@@ -11,6 +11,7 @@
 - Fix remember window state functionality
 - **10.2.10.2** Fix lua error: attempt to index field 'skillBar'
 - **10.2.10.3** History: fix completed counts
+- **10.2.10.4** Companion: fix keystone count when canceling solve
 
 ### 10.2.9
 

@@ -409,9 +409,9 @@ function MinArch:SolveArtifact(RaceIndex, confirmed)
     for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
 		SocketItemToArtifact();
 	end
-	MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 0;
-
+	
 	SolveArtifact();
+
 	MinArch:CreateHistoryList(RaceIndex, "SolveArtifact");
 end
 
