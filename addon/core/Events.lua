@@ -207,8 +207,8 @@ function MinArch:EventHist(event, ...)
 			for RaceID, _ in pairs(MinArchHistDB) do
 				for _, details in pairs(MinArchHistDB[RaceID]) do
 					if (details.artifactname == artifactName) then
-						if not MinArch.db.profile.raceOptions.keystone[RaceIndex] then
-							MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 0;
+						if not MinArch.db.profile.raceOptions.keystone[RaceID] then
+							MinArch.artifacts[RaceID].appliedKeystones = 0;
 						end
 
 						details.totalcomplete = details.totalcomplete + 1

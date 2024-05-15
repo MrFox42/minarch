@@ -26,6 +26,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **10.2.10.2** Fix lua error: attempt to index field 'skillBar'
 - **10.2.10.3** History: fix completed counts
 - **10.2.10.4** Companion: fix keystone count when canceling solve
+- **10.2.10.5** Fix lua error after solving artifacts
 
 ### 10.2.9
 
