@@ -5,22 +5,26 @@ local researchEventTimer = nil
 local historyUpdateTimout = 0.3
 
 function MinArch:EventHelper(event, ...)
-	if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.hideInCombat) then
-		if (MinArchMain:IsVisible()) then
-			MinArch:HideMain();
-			MinArchMain.showAfterCombat = true;
+	if event == "PLAYER_REGEN_DISABLED" then
+		if MinArch.db.profile.hideInCombat then
+			if (MinArchMain:IsVisible()) then
+				MinArch:HideMain();
+				MinArchMain.showAfterCombat = true;
+			end
+			if (MinArchHist:IsVisible()) then
+				MinArch:HideHistory();
+				MinArchHist.showAfterCombat = true;
+			end
+			if (MinArchDigsites:IsVisible()) then
+				MinArch:HideDigsites();
+				MinArchDigsites.showAfterCombat = true;
+			end
 		end
-		if (MinArchHist:IsVisible()) then
-			MinArch:HideHistory();
-			MinArchHist.showAfterCombat = true;
-		end
-		if (MinArchDigsites:IsVisible()) then
-			MinArch:HideDigsites();
-			MinArchDigsites.showAfterCombat = true;
-        end
-        if (MinArch.Companion:IsVisible()) then
-            MinArch.Companion:HideFrame();
-            MinArch.Companion.showAfterCombat = true;
+		if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.companion.hideInCombat) then
+			if (MinArch.Companion:IsVisible()) then
+				MinArch.Companion:HideFrame();
+				MinArch.Companion.showAfterCombat = true;
+			end
 		end
 	elseif (event == "PLAYER_REGEN_ENABLED") then
 		if (MinArchMain.showAfterCombat) then

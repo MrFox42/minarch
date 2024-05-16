@@ -599,7 +599,7 @@ local companionSettings = {
                         MinArch.db.profile.companion.hideInCombat = newValue;
                         MinArch.Companion:AutoToggle()
                     end,
-                    disabled = function () return (MinArch.db.profile.companion.hideInCombat == false) end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 3,
                 },
                 hrC = {
