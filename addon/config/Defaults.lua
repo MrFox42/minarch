@@ -20,6 +20,7 @@ MinArch.defaults = {
 		startHidden = false,
 		hideMain = false,
 		frameScale = 100,
+        mapPinScale = 120,
 		showStatusMessages = false,
 		showDebugMessages = false,
 		showWorldMapOverlay = true,

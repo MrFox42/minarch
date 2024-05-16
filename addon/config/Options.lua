@@ -177,6 +177,28 @@ local general = {
 			inline = true,
 			order = 4,
 			args = {
+				scale = {
+					type = "range",
+					name = "Window Scale",
+					desc = "Scale for the Main, History and Digsites windows. The Companion is scaled using a separate slider in the Companion section.",
+					min = 30,
+					max = 200,
+					step = 5,
+					get = function () return MinArch.db.profile.frameScale end,
+					set = function (_, newValue)
+						MinArch.db.profile.frameScale = newValue;
+						MinArch:CommonFrameScale(newValue);
+					end,
+					order = 1,
+				},
+				spacer = {
+					name = "",
+					fontSize = "normal",
+					type = "description",
+					desc = "",
+					width = "full",
+					order = 2,
+				},
 				hideMinimapButton = {
 					type = "toggle",
 					name = "Hide Minimap Button",
@@ -187,7 +209,7 @@ local general = {
 
 						MinArch:RefreshMinimapButton();
 					end,
-					order = 1,
+					order = 3,
 				},
 				disableSound = {
 					type = "toggle",
@@ -197,7 +219,7 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.disableSound = newValue;
 					end,
-					order = 2,
+					order = 4,
 				},
 				showWorldMapOverlay = {
 					type = "toggle",
@@ -208,23 +230,25 @@ local general = {
 						MinArch.db.profile.showWorldMapOverlay = newValue;
 						MinArch:ShowRaceIconsOnMap();
 					end,
+				
 					width = "double",
 					order = 5,
 				},
-				scale = {
+				pinScale = {
 					type = "range",
-					name = "Scale",
-					desc = "Scale for the Main, History and Digsites windows. The Companion is scaled using a separate slider in the Companion section.",
-					min = 30,
-					max = 200,
+					name = "Map Pin Scale",
+					desc = "Scale for the digsite icons on the world map. Reopen your map after changing.",
+					min = 50,
+					max = 500,
 					step = 5,
-					get = function () return MinArch.db.profile.frameScale end,
+					get = function () return MinArch.db.profile.mapPinScale end,
 					set = function (_, newValue)
-						MinArch.db.profile.frameScale = newValue;
-						MinArch:CommonFrameScale(newValue);
+						MinArch.db.profile.mapPinScale = newValue;
 					end,
-					order = 99,
-				}
+					disabled = function () return not MinArch.db.profile.showWorldMapOverlay end,
+					order = 6,
+				},
+				
 			}
         },
         startup = {
@@ -674,7 +698,7 @@ local companionSettings = {
                 },
                 scale = {
                     type = "range",
-                    name = "Scale",
+                    name = "Companion scale",
                     desc = "Set the size of the companion. Default: 100.",
                     min = 30,
                     max = 300,
