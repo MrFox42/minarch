@@ -526,19 +526,16 @@ function MinArch:GetNearestDigsite()
 		return false;
 	end
 
-	local continentID, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, playerPos);
-
-	ax = worldPos.x;
-	ay = worldPos.y;
+	ax = playerPos.x;
+	ay = playerPos.y;
 
 	for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
-        local name = tostring(digsite.name)
-        local _, digsiteWorldPos = C_Map.GetWorldPosFromMapPos(uiMapID, digsite.position)
-		local digsitex = digsiteWorldPos.x;
-        local digsitey = digsiteWorldPos.y;
+		local name = tostring(digsite.name)
+		local digsitex = digsite.position.x;
+        local digsitey = digsite.position.y;
 
-        local xd = math.abs(ax - tonumber(digsitex));
-		local yd = math.abs(ay - tonumber(digsitey));
+        local xd = ax - tonumber(digsitex);
+		local yd = ay - tonumber(digsitey);
 		local d = math.sqrt((xd*xd)+(yd*yd));
 
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
@@ -546,7 +543,7 @@ function MinArch:GetNearestDigsite()
                 local currentRace = MinArchDigsiteList[contID][name].race;
                 if ( (prioRace == currentRace and (nearestDistance == nil or nearestDigSiteDetails.raceId ~= prioRace or (nearestDigSiteDetails.raceId == prioRace and d < nearestDistance) ) )
                     or nearestDigSite == nil
-                    or (nearestDigSiteDetails.raceId ~= prioRace and d < nearestDistance) ) 
+                    or (nearestDigSiteDetails.raceId ~= prioRace and d < nearestDistance) )
 					and (not MinArch.db.profile.TomTom.ignoreHidden or not MinArch.db.profile.raceOptions.hide[currentRace])
                 then
                     nearestDigSite = name;
