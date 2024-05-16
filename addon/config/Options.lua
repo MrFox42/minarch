@@ -938,7 +938,7 @@ local companionSettings = {
                         },
                         relevantOnly = {
                             type = "toggle",
-                            name = "For relevant only",
+                            name = "Only show relevant",
                             desc = "Enable to only show solves for relevant races (customized in the Races section)",
                             get = function () return MinArch.db.profile.companion.relevantOnly end,
                             set = function (_, newValue)
@@ -946,7 +946,34 @@ local companionSettings = {
                                 MinArch.Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+							width = "full",
                             order = 53,
+                        },
+						alwaysShowNearest = {
+                            type = "toggle",
+                            name = "Show artifacts in progress",
+                            desc = "Enable to displays the project related to the nearest digsite, even if you can't solve the project yet",
+                            get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowNearest end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.solveButton.alwaysShowNearest = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+							width = 1.5,
+                            order = 54,
+                        },
+						alwaysShowSolvable = {
+                            type = "toggle",
+                            name = "Always show solvable artifacts",
+                            desc = "Enable to override the previous setting by displaying projects that can be solved, even if it's not related to the nearest digsite",
+                            get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+							width = 1.5,
+                            order = 55,
                         },
 						keystone = {
                             type = "toggle",
@@ -958,20 +985,7 @@ local companionSettings = {
                                 MinArch.Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
-                            order = 54,
-                        },
-						alwaysShowNearest = {
-                            type = "toggle",
-                            name = "Always show the nearest project",
-                            desc = "Enable to displays the project related to the nearest digsite, even if you can't solve the project yet.",
-                            get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowNearest end,
-                            set = function (_, newValue)
-                                MinArch.db.profile.companion.features.solveButton.alwaysShowNearest = newValue;
-                                MinArch.Companion:Update();
-                            end,
-                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
-							width = "double",
-                            order = 55,
+                            order = 57,
                         },
                     }
                 },

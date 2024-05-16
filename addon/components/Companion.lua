@@ -842,24 +842,27 @@ function Companion:Update()
         if shouldShowRace(i) then
             if (Companion:ShowSolveButtonForRace(i)) then
                 UpdateProgressBar(i)
-                return;
+                if MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable then
+                    return;
+                end
             end
         end
     end
 
-    if MinArch.db.profile.companion.features.solveButton.alwaysShowNearest then
-        for i = 1, ARCHAEOLOGY_NUM_RACES do
-            local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
+    
+    for i = 1, ARCHAEOLOGY_NUM_RACES do
+        local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 
-            if digSiteData then
-                local text = digSiteData.race;
+        if digSiteData then
+            local text = digSiteData.race;
 
-                local raceID = MinArch:GetRaceIdByName(digSiteData.race);
-                if not MinArch.db.profile.raceOptions.hide[raceID] then
+            local raceID = MinArch:GetRaceIdByName(digSiteData.race);
+            if not MinArch.db.profile.raceOptions.hide[raceID] then
+                if MinArch.db.profile.companion.features.solveButton.alwaysShowNearest then
                     Companion:ShowSolveButtonForRace(raceID, true)
-                    UpdateProgressBar(raceID)
-                    return;
                 end
+                UpdateProgressBar(raceID)
+                return
             end
         end
     end
