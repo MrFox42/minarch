@@ -271,7 +271,7 @@ local function InitSkillBar()
     local posMod = 1
     local expandedHeight = 14;
 
-    local skillBar = CreateFrame("Frame", "$parentTracker", Companion)
+    local skillBar = CreateFrame("Frame", "$parentSkillBar", Companion)
     skillBar:SetPoint(anchorPoint, 0, 5 * posMod)
     skillBar:SetWidth(Companion:GetWidth())
     skillBar:SetHeight(5)
@@ -324,6 +324,147 @@ local function InitSkillBar()
     skillBar:SetScript("OnMouseUp", OpenSettingsAndHideHelp)
 
     Companion.skillBar = skillBar
+end
+
+local function UpdateSolveButtonScripts(frame, artifact, raceID, solveOnClick, showTooltip)
+    frame:SetScript("OnClick", function(self, button)
+        if not solveOnClick then
+            return
+        end
+        MinArch:SolveArtifact(raceID)
+    end);
+    frame:SetScript("OnEnter", function(self)
+        if showTooltip then
+            MinArch:ShowArtifactTooltip(self, raceID)
+            GameTooltip:AddLine(" ");
+            if (artifact.canSolve) then
+                GameTooltip:AddLine("Left click to solve this artifact");
+            else
+                local progress = artifact.progress or 0;
+                if (artifact.appliedKeystones > 0) then
+                    progress = progress + (artifact.modifier)
+                end
+                GameTooltip:AddLine("Progress: " .. progress .. "/" .. artifact.total);
+            end
+            GameTooltip:Show();
+        end
+
+        if frame:GetName() == 'MinArchCompanionProgressBar' then
+            frame:DefaultOnEnter()
+        end
+    end)
+    frame:SetScript("OnLeave", function()
+        if showTooltip then
+            MinArch:HideArtifactTooltip();
+        end
+
+        if frame:GetName() == 'MinArchCompanionProgressBar' then
+            frame:DefaultOnLeave()
+        end
+    end)
+end
+
+local function UpdateProgressBar(raceID)
+    if MinArch.db.profile.companion.enable then
+        if MinArch.db.profile.companion.features.progressBar.enabled then
+            local artifact = MinArch.artifacts[raceID]
+
+            if (artifact and artifact.total) then
+                local progress = artifact.progress or 0
+                if (artifact.appliedKeystones > 0) then
+                    progress = progress + (artifact.modifier)
+                end
+                local total = artifact.total;
+                if (MinArch.db.profile.raceOptions.cap[raceID] == true) then
+                    total = MinArchRaceConfig[raceID].fragmentCap
+                end
+                local pct = 0
+                if total > 0 then
+                    pct = progress / total
+                end 
+
+                if pct >= 1 then
+                    Companion.progressBar.progressBarFrame.texture:SetColorTexture(0, 1, 0.5, 0.5)
+                    pct = 1
+                else
+                    Companion.progressBar.progressBarFrame.texture:SetColorTexture(0.7, 0.7, 0.7, 0.5)
+                end
+
+                local width = math.floor(MinArch.Companion:GetWidth() * pct)
+                Companion.progressBar.progressBarFrame:SetWidth(width);
+                Companion.progressBar.fontString:SetText(progress .. '/' .. total)
+                Companion.progressBar:Show()
+
+                -- TODO: if tooltip enabled
+                UpdateSolveButtonScripts(Companion.progressBar, artifact, raceID, MinArch.db.profile.companion.features.progressBar.solveOnClick, MinArch.db.profile.companion.features.progressBar.showTooltip)
+            end
+        else
+            Companion.progressBar:Hide()
+        end
+    end
+end
+
+local function InitProgressBar()
+    local anchorPoint = "BOTTOMLEFT"
+    local posMod = -1
+    local expandedHeight = 14;
+
+    local progressBar = CreateFrame("Button", "$parentProgressBar", Companion)
+    progressBar:SetPoint(anchorPoint, 0, 5 * posMod)
+    progressBar:SetWidth(Companion:GetWidth())
+    progressBar:SetHeight(5)
+    
+    local tex = progressBar:CreateTexture(nil, "BACKGROUND")
+    tex:SetAllPoints()
+    tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
+    progressBar.texture = tex
+
+    local progressBarFrame = CreateFrame("Frame", "$parentProgress", progressBar)
+    progressBarFrame:SetPoint("TOPLEFT", 0, 0)
+    progressBarFrame:SetHeight(5);
+    progressBar.progressBarFrame = progressBarFrame
+
+    local tex2 = progressBarFrame:CreateTexture(nil, "BACKGROUND")
+    tex2:SetAllPoints()
+    tex2:SetColorTexture(0, 1, 0.5, 0.5)
+    progressBarFrame.texture = tex2
+
+    local fontString = progressBar:CreateFontString("$parentProgressText", "OVERLAY")
+    fontString:SetFontObject("GameFontWhiteSmall")
+    fontString:SetText("")
+    fontString:SetTextColor(1, 1, 1, 1.0)
+    fontString:Hide()
+
+    progressBar.fontString = fontString;
+
+    RegisterForDrag(progressBar);
+
+    function progressBar:DefaultOnEnter ()
+        progressBar:SetHeight(expandedHeight)
+        progressBarFrame:SetHeight(expandedHeight);
+        progressBar:SetPoint(anchorPoint, 0, expandedHeight * posMod)
+        fontString:SetPoint("CENTER", progressBar)
+        fontString:Show()
+    end
+
+    function progressBar:DefaultOnLeave ()
+        progressBar:SetHeight(5)
+        progressBarFrame:SetHeight(5);
+        progressBar:SetPoint(anchorPoint, 0, 5 * posMod)
+        fontString:Hide()
+    end
+
+    progressBar:SetScript("OnEnter", function ()
+        progressBar:DefaultOnEnter()
+    end)
+
+    progressBar:SetScript("OnLeave", function ()
+        progressBar:DefaultOnLeave()
+    end)
+
+    progressBar:SetScript("OnMouseUp", OpenSettingsAndHideHelp)
+
+    Companion.progressBar = progressBar
 end
 
 function Companion:showCrateButton(itemID)
@@ -499,6 +640,7 @@ function Companion:Init()
         InitCrateButton()
         InitRandomMountButton()
         InitSkillBar()
+        InitProgressBar()
 
         Companion.initialized = true;
     end
@@ -605,6 +747,7 @@ function Companion:Resize()
     Companion:SetHeight(baseHeight + MinArch.db.profile.companion.padding * 2)
 
     Companion.skillBar:SetWidth(width + baseOffset)
+    Companion.progressBar:SetWidth(width + baseOffset)
     MinArch:UpdateArchaeologySkillBar()
 end
 
@@ -643,26 +786,7 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
         Companion.solveButton:GetHighlightTexture():SetDesaturated(not artifact.canSolve)
         Companion.solveButton:GetPushedTexture():SetDesaturated(not artifact.canSolve)
 
-        Companion.solveButton:SetScript("OnClick", function(self, button)
-            MinArch:SolveArtifact(raceID)
-        end);
-        Companion.solveButton:SetScript("OnEnter", function(self)
-            MinArch:ShowArtifactTooltip(self, raceID)
-            GameTooltip:AddLine(" ");
-            if (artifact.canSolve) then
-                GameTooltip:AddLine("Left click to solve this artifact");
-            else
-                local progress = artifact.progress or 0;
-                if (artifact.appliedKeystones > 0) then
-                    progress = progress + (artifact.modifier)
-                end
-                GameTooltip:AddLine("Progress: " .. progress .. "/" .. artifact.total);
-            end
-            GameTooltip:Show();
-        end)
-        Companion.solveButton:SetScript("OnLeave", function()
-            MinArch:HideArtifactTooltip();
-        end)
+        UpdateSolveButtonScripts(Companion.solveButton, artifact, raceID, true, true)
 
         Companion.solveButton.keystone:SetScript("OnClick", function(self, button, down)
             MinArch:KeystoneClick(self, raceID, button, down);
@@ -710,12 +834,14 @@ function Companion:Update()
 
     Companion.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
     Companion.skillBar.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
+    Companion.progressBar.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
     Companion.solveButton:Hide();
     Companion:Resize();
 
     for i = 1, ARCHAEOLOGY_NUM_RACES do
         if shouldShowRace(i) then
             if (Companion:ShowSolveButtonForRace(i)) then
+                UpdateProgressBar(i)
                 return;
             end
         end
@@ -731,6 +857,7 @@ function Companion:Update()
                 local raceID = MinArch:GetRaceIdByName(digSiteData.race);
                 if not MinArch.db.profile.raceOptions.hide[raceID] then
                     Companion:ShowSolveButtonForRace(raceID, true)
+                    UpdateProgressBar(raceID)
                     return;
                 end
             end

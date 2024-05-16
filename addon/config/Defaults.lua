@@ -102,7 +102,8 @@ MinArch.defaults = {
                 solveButton     = {enabled = true,  order = 4, keystone = true, alwaysShowNearest = true},
                 crateButton     = {enabled = true,  order = 5},
                 mountButton     = {enabled = false, order = 6},
-                skillBar        = {enabled = true}
+                skillBar        = {enabled = true},
+                progressBar     = {enabled = true, showTooltip = true, solveOnClick = true}
             },
         },
 

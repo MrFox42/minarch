@@ -1055,7 +1055,51 @@ local companionSettings = {
                                 MinArch.Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
-                            order = 7,
+                            order = 1,
+                        },
+                    }
+                },
+				progressBar = {
+                    type = "group",
+                    name = "Progress bar settings",
+                    order = 8,
+                    inline = true,
+                    args = {
+                        toggleMountButton = {
+                            type = "toggle",
+                            name = "Show progress bar",
+                            desc = "Display the artifact progress progress bar on the Companion frame",
+                            get = function () return MinArch.db.profile.companion.features.progressBar.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.progressBar.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 1,
+                        },
+						showTooltip = {
+                            type = "toggle",
+                            name = "Show tooltip",
+                            desc = "Display the artifact tooltip when hovering over the progress bar",
+                            get = function () return MinArch.db.profile.companion.features.progressBar.showTooltip end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.progressBar.showTooltip = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 1,
+                        },
+						solveOnClick = {
+                            type = "toggle",
+                            name = "Solve on click",
+                            desc = "Solve the currently activate artifact when clicking the progress bar",
+                            get = function () return MinArch.db.profile.companion.features.progressBar.solveOnClick end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.progressBar.solveOnClick = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 1,
                         },
                     }
                 },
