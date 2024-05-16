@@ -502,6 +502,15 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	MinArch:ShowRaceIconsOnMap();
 end
 
+function MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, position)
+    if contID > 5 then
+        local _, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, position)
+        return worldPos.x, worldPos.y
+    end
+
+    return position.x, position.y
+end
+
 function MinArch:GetNearestDigsite()
 	if (IsInInstance()) then
 		return false;
@@ -526,16 +535,14 @@ function MinArch:GetNearestDigsite()
 		return false;
 	end
 
-	ax = playerPos.x;
-	ay = playerPos.y;
+    ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos)
 
 	for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
-		local name = tostring(digsite.name)
-		local digsitex = digsite.position.x;
-        local digsitey = digsite.position.y;
+        local name = tostring(digsite.name)
+		local digsitex, digsitey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, digsite.position)
 
-        local xd = ax - tonumber(digsitex);
-		local yd = ay - tonumber(digsitey);
+        local xd = math.abs(ax - tonumber(digsitex));
+		local yd = math.abs(ay - tonumber(digsitey));
 		local d = math.sqrt((xd*xd)+(yd*yd));
 
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
