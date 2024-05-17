@@ -15,6 +15,16 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Recent changes
 
+### 10.2.11
+
+- Companion: implement optional artifact progress bar with optional tooltip and solve on click (enabled by default)
+- Companion: add option to hide solvable artifact if it's not related to the nearest digsite
+- History: implement total sold price display for race statistics (by *Delrik* via GitHub)
+- Implement map pin scaling option
+- Fix issue with auto-waypoint sometimes not selecting the closest digsite
+- Fix Companion not always hiding properly in combat
+- Fix Nerubian issue with digsites on Eastern Kingdoms
+
 ### 10.2.10
 
 - History: implement race statistics (can be hidden)
