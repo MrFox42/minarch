@@ -716,6 +716,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
     local count = 0
     local sumComplete = 0
     local sumTotalComplete = 0
+    local sumTotalSoldPrice = 0
 
     for _, gparams in ipairs(groups) do
         for itemid, details in pairs(MinArchHistDB[RaceID]) do
@@ -806,6 +807,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
                     if details.totalcomplete > 0 then
                         sumComplete = sumComplete + 1
                         sumTotalComplete = sumTotalComplete + details.totalcomplete
+                        sumTotalSoldPrice = sumTotalSoldPrice + details.sellprice * details.totalcomplete
                     end
                 end
 
@@ -843,7 +845,8 @@ function MinArch:CreateHistoryList(RaceID, caller)
         end
     end
 
-    MinArchHist.statsFrame.text:SetText('Progress: ' .. sumComplete .. '/' .. count .. ' - Total: ' .. sumTotalComplete)
+    sumTotalSoldPrice = math.floor(sumTotalSoldPrice / 10000)
+    MinArchHist.statsFrame.text:SetText('Progress: ' .. sumComplete .. '/' .. count .. ' - Total: ' .. sumTotalComplete .. ' (' .. sumTotalSoldPrice .. 'g)')
 
     -- Set the size of the scroll child
     if height > 2 then
