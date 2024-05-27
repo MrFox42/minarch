@@ -511,6 +511,16 @@ function MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, position)
     return position.x, position.y
 end
 
+function DigSiteSort(a, b)
+	if (true) then
+		if (a.prio ~= b.prio) then
+			return a.prio < b.prio
+		end
+	end
+
+	return a.distance < b.distance
+end
+
 function MinArch:GetNearestDigsite()
 	if (IsInInstance()) then
 		return false;
@@ -537,6 +547,7 @@ function MinArch:GetNearestDigsite()
 
     ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos)
 
+	local digsites = {}
 	for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
         local name = tostring(digsite.name)
 		local digsitex, digsitey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, digsite.position)
@@ -548,23 +559,26 @@ function MinArch:GetNearestDigsite()
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
 			if (MinArchDigsiteList[contID][name]) then
                 local currentRace = MinArchDigsiteList[contID][name].race;
-                if ( (prioRace == currentRace and (nearestDistance == nil or nearestDigSiteDetails.raceId ~= prioRace or (nearestDigSiteDetails.raceId == prioRace and d < nearestDistance) ) )
-                    or nearestDigSite == nil
-                    or (nearestDigSiteDetails.raceId ~= prioRace and d < nearestDistance) )
-					and (not MinArch.db.profile.TomTom.ignoreHidden or not MinArch.db.profile.raceOptions.hide[currentRace])
-                then
-                    nearestDigSite = name;
-                    nearestDistance = d;
-                    nearestDigSiteDetails = MinArchDigsitesGlobalDB["continent"][contID][nearestDigSite];
-                end
+                digsites[key] = {
+					name = name,
+					distance = d,
+					prio = MinArch.db.profile.raceOptions.priority[currentRace] or 99,
+					details = MinArchDigsitesGlobalDB["continent"][contID][name]
+				}
             else
                 MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
             end
 		end
 	end
 
-	-- print("GetNearestDigsite", nearestDigSite, nearestDistance);
-	return nearestDigSite, nearestDistance, nearestDigSiteDetails;
+	if digsites[1] then
+		table.sort(digsites, DigSiteSort)
+
+		-- print("GetNearestDigsite", digsites[1].name, digsites[1].distance)
+		return digsites[1].name, digsites[1].distance, digsites[1].details, digsites[1].prio
+	end
+
+	return nil, nil, nil;
 end
 
 function MinArch:IsNearDigSite()

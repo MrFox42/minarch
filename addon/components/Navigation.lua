@@ -53,7 +53,7 @@ end
 function MinArch:SetWayToNearestDigsite()
 	if not MinArch:IsNavigationEnabled() then return end;
 
-	local digsiteName, distance, digsite = MinArch:GetNearestDigsite();
+	local digsiteName, distance, digsite, priority = MinArch:GetNearestDigsite();
 	if (digsite and (digsiteName ~= previousDigsite or distance > 1.7)) then
 		if (_G.TomTom and MinArch.autoWaypoint ~= nil) then
 			_G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
@@ -61,7 +61,7 @@ function MinArch:SetWayToNearestDigsite()
 
         previousDigsite = digsiteName;
         local suffix = 'closest';
-        if (MinArch.db.profile.TomTom.prioRace > 0 and digsite.raceId == MinArch.db.profile.TomTom.prioRace) then
+        if (priority) then
             suffix = '*' .. digsite.race;
         end
 		local newWayPoint = SetWayToDigsite(digsiteName .. ' (' .. suffix .. ')', digsite, true);

@@ -5,6 +5,26 @@ MinArch.Options = MinArch.Ace:NewModule("Options");
 local Options = MinArch.Options;
 local parent = MinArch;
 
+local ArchRaceGroupText = {
+	"Kul Tiras, Zuldazar",
+	"Broken Isles",
+	"Draenor",
+	"Pandaria",
+	"Northrend",
+	"Outland",
+	"Eastern Kingdoms, Kalimdor"
+};
+
+local ArchRaceGroups = {
+	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
+	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
+	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
+	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
+	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
+	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
+	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF, ARCHAEOLOGY_RACE_NERUBIAN}
+};
+
 local function updateOrdering(frame, newValue)
     local oldValue = MinArch.db.profile.companion.features[frame].order;
 
@@ -16,6 +36,59 @@ local function updateOrdering(frame, newValue)
 
     MinArch.db.profile.companion.features[frame].order = newValue;
     MinArch.Companion:Update();
+end
+
+
+local function updatePrioOrdering(group, currentRace, newValue, ignoreCrossCheck)
+	local oldValue = MinArch.db.profile.raceOptions.priority[currentRace]
+
+	if not oldValue or oldValue > newValue then
+		for _, race in pairs(ArchRaceGroups[group]) do
+			local currentVal = MinArch.db.profile.raceOptions.priority[race]
+			if race ~= currentRace and currentVal and currentVal >= newValue then
+				MinArch.db.profile.raceOptions.priority[race] = currentVal + 1
+			end
+		end
+	elseif oldValue and oldValue < newValue then
+		for _, race in pairs(ArchRaceGroups[group]) do
+			local currentVal = MinArch.db.profile.raceOptions.priority[race]
+			if currentVal == newValue then
+				MinArch.db.profile.raceOptions.priority[race] = oldValue
+			end
+		end
+	end
+
+	MinArch.db.profile.raceOptions.priority[currentRace] = newValue
+
+	-- fix duplicates / non-numerical order
+	local tmp = {}
+	for idx, race in pairs(ArchRaceGroups[group]) do
+		tmp[idx] = {
+			order = MinArch.db.profile.raceOptions.priority[race] or 0,
+			race = race
+		}
+	end
+	table.sort(tmp, function(a, b)
+		return (tonumber(a.order) or 0) < (tonumber(b.order) or 0)
+	end)
+
+	local i = 1
+	for _, val in pairs(tmp) do
+		if val.order > 0 then
+			if group ~= 5 or val.race ~= ARCHAEOLOGY_RACE_NERUBIAN or MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN] <= 2 then
+				MinArch.db.profile.raceOptions.priority[val.race] = i
+			end
+			i = i + 1
+		end
+	end
+
+	if not ignoreCrossCheck and (group == 5 or group == 7) and MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN] then
+		if group == 5 then
+			updatePrioOrdering(7, ARCHAEOLOGY_RACE_NERUBIAN, MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN], true)
+		else 
+			updatePrioOrdering(5, ARCHAEOLOGY_RACE_NERUBIAN, MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN], true)
+		end
+	end
 end
 
 local home = {
@@ -571,6 +644,32 @@ local raceSettings = {
 				},
 			}
 		},
+		priority = {
+			type = "group",
+			name = "Priority",
+			order = 5,
+			inline = false,
+			args = {
+				message = {
+					type = "description",
+					name = "Priority currently only applies to waypoint generation order. Automatic waypoints will point to the prioritized races before pointing to other (otherwise closer) digsites. Smaller number means higher priority.",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
+				reset = {
+					type = "execute",
+					name = "Reset All",
+					order = 2,
+					func = function ()
+						for i=1, ARCHAEOLOGY_NUM_RACES do
+							MinArch.db.profile.raceOptions.priority[i] = nil
+						end
+						MinArch:UpdateMain();
+					end,
+				}
+			}
+		},
 	}
 }
 
@@ -1124,26 +1223,6 @@ local companionSettings = {
     }
 }
 
-local ArchRaceGroupText = {
-	"Kul Tiras, Zuldazar",
-	"Broken Isles",
-	"Draenor",
-	"Pandaria",
-	"Northrend",
-	"Outland",
-	"Eastern Kingdoms, Kalimdor"
-};
-
-local ArchRaceGroups = {
-	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
-	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
-	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
-	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
-	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
-	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
-	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}
-};
-
 local devSettings = {
 	name = "Tester/Developer Settings",
 	handler = MinArch,
@@ -1303,18 +1382,9 @@ local TomTomSettings = {
 					order = 2,
                 },
                 prioRace = {
-                    type = "select",
-                    values = function ()
-                        local raceSelectTable = {}
-                        raceSelectTable[-1] = 'Do not Prioritize';
-                        for i=1,ARCHAEOLOGY_NUM_RACES do
-                            raceSelectTable[i] = GetArchaeologyRaceInfo(i);
-                        end
-
-                        return raceSelectTable
-                    end,
-					name = "Prioritize a Race",
-                    desc = "Select a race to prioritize, even if there are closer digsites with different races.",
+                    type = "toggle",
+					name = "Prioritize digsites",
+                    desc = "Navigate to prioritized races first, even if there are closer digsites with different races. You can customize priority in the Race Settings section.",
                     get = function () return MinArch.db.profile.TomTom.prioRace end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.prioRace = newValue;
@@ -1398,6 +1468,19 @@ function Options:OnInitialize()
                 args = {
                 }
             };
+			raceSettings.args.priority.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count + 2,
+                inline = true,
+                args = {
+                }
+            };
+			local values = {}
+			values[0] = 'No priority'
+			for idx=1, #races do
+				values[idx] = tostring(idx)
+			end
             for idx=1, #races do
                 local i = races[idx];
                 if i > 0 then
@@ -1445,6 +1528,34 @@ function Options:OnInitialize()
                             MinArch:UpdateMain();
                         end,
                         disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
+                    };
+					raceSettings.args.priority.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "select",
+						values = values,
+                        name = function ()  
+							local suffix = ''
+							if i == ARCHAEOLOGY_RACE_NERUBIAN then
+								suffix = ' (affects both Northrend and Eastern Kingdom)'
+							end
+							return MinArch['artifacts'][i]['race'] .. suffix
+						end,
+                        desc = function ()
+                            local RaceName = MinArch['artifacts'][i]['race'];
+
+                            if (RuneName ~= nil and RaceName ~= nil) then
+                                return "Set " .. RaceName .. " pirority";
+                            end
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.priority[i] or 0 end,
+                        set = function (_, newValue)
+							if (newValue == 0) then
+								MinArch.db.profile.raceOptions.priority[i] = 0
+							else
+								updatePrioOrdering(group, i, newValue)
+							end
+                            MinArch:UpdateMain();
+                        end,
                     };
                 end
             end

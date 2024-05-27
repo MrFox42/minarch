@@ -58,7 +58,7 @@ MinArch.defaults = {
 			persistent = false,
 			autoWayOnMove = false,
             autoWayOnComplete = true,
-            prioRace = -1,
+            prioRace = true,
             ignoreHidden = false,
 		},
 
@@ -66,7 +66,8 @@ MinArch.defaults = {
 		raceOptions = {
 			hide = {},
 			cap = {},
-			keystone = {}
+			keystone = {},
+            priority = {}
         },
 
         ProgressBar = {

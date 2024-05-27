@@ -171,4 +171,15 @@ function MinArch:UpgradeSettings()
 
         MinArch.db.profile.settingsVersion = 4;
     end
+
+	-- Convert priority to the new multi-prio system
+	if (MinArch.db.profile.settingsVersion == 4) then
+		local raceID = MinArch.db.profile.TomTom.prioRace
+		if raceID then
+			MinArch.db.profile.raceOptions.priority[raceID] = 1
+		end
+		MinArch.db.profile.TomTom.prioRace = true
+
+        MinArch.db.profile.settingsVersion = 5;
+    end
 end
