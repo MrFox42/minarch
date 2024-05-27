@@ -1358,8 +1358,8 @@ local PatronSettings = {
 			args = {
 				message = {
 					type = "description",
-					name = "Patrons will be listed here.",
-					fontSize = "normal",
+					name = "Ice Reaper",
+					fontSize = "medium",
 					width = "full",
 					order = 1,
 				},
