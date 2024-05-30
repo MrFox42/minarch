@@ -503,7 +503,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 end
 
 function MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, position)
-    if contID > 5 then
+    if contID ~= 1 and contID ~= 2 then
         local _, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, position)
         return worldPos.x, worldPos.y
     end
@@ -512,7 +512,7 @@ function MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, position)
 end
 
 function DigSiteSort(a, b)
-	if (true) then
+	if MinArch.db.profile.TomTom.prioRace then
 		if (a.prio ~= b.prio) then
 			return a.prio < b.prio
 		end
