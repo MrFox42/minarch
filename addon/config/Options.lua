@@ -1255,6 +1255,45 @@ local devSettings = {
 					order = 2,
 				}
 			}
+		},
+		message = {
+            type = "description",
+            name = "Experimental Features are placed here, because they're in a beta state, and might need additional work and feedback. Experimental features can be used without debug messages enabled, but I might ask for them in some cases if there are any issues.",
+            fontSize = "normal",
+            width = "full",
+            order = 1,
+        },
+		experimental = {
+			type = 'group',
+			name = 'Experimental Features',
+			inline = true,
+			order = 2,
+			args = {
+				optimizePath = {
+                    type = "toggle",
+					name = "Optimize Path",
+                    desc = "The waypoint will not always point to the nearest site, but tries to optimize travel times on the long run.",
+                    get = function () return MinArch.db.profile.TomTom.optimizePath end,
+                    set = function (_, newValue)
+						MinArch.db.profile.TomTom.optimizePath = newValue;
+					end,
+                    order = 1,
+                },
+				optimizeModifier = {
+					type = "range",
+					name = "Optimization Modifier",
+					desc = "Sets the optimization modifier to a custom value.",
+					min = 0.5,
+					max = 5,
+					step = 0.05,
+					get = function () return MinArch.db.profile.TomTom.optimizationModifier end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.optimizationModifier = newValue;
+						MinArch:SetWayToNearestDigsite()
+					end,
+					order = 2,
+				},
+			}
 		}
 	}
 }

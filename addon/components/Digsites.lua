@@ -518,52 +518,83 @@ function DigSiteSort(a, b)
 		end
 	end
 
-	return a.distance < b.distance
+	if MinArch.db.profile.TomTom.optimizePath and a.pathDistance and b.pathDistance then -- path mode
+		return a.pathDistance < b.pathDistance
+	else
+		return a.distance < b.distance
+	end
 end
 
-function MinArch:GetNearestDigsite()
+local function CalculateDigSitePathDistance(ax, ay, sites, pathDistance)
+	local pathDistance = pathDistance or 0
+
+	local name, distance, details = MinArch:GetNearestDigsite(ax, ay, sites, true)
+
+	for key, site in pairs(sites) do
+		if site.name == name then
+			table.remove(sites, key)
+		end
+	end
+
+	pathDistance = pathDistance + distance -- * MinArch.db.profile.TomTom.optimizationModifier
+
+	if #sites > 0 then
+		return CalculateDigSitePathDistance(details.ax, details.ay, sites, pathDistance)
+	else
+		-- print(unpack(path))
+		return pathDistance
+	end
+end
+
+function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 	if (IsInInstance()) then
 		return false;
     end
 
-    local prioRace = MinArch.db.profile.TomTom.prioRace;
+	local nDigsite, nDistance, nDetails, nPrio
 
-	local nearestDistance = nil;
-	local nearestDigSite = nil;
-	local nearestDigSiteDetails = nil;
-	local ax = 0;
-	local ay = 0;
-	local contID = MinArch:GetInternalContId();
+    local contID = MinArch:GetInternalContId();
 
 	local uiMapID = MinArch:GetUiMapIdByContId(contID);
 	if (contID == nil or uiMapID == nil) then
 		return false;
 	end
 
-	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player");
+	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player")
 	if (playerPos == nil) then
 		return false;
 	end
+	local sites = sites or C_ResearchInfo.GetDigSitesForMap(uiMapID)
 
-    ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos)
+	if not ax or not ay then
+    	ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos)
+	end
 
 	local digsites = {}
-	for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
+	for key, digsite in pairs(sites) do
         local name = tostring(digsite.name)
 		local digsitex, digsitey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, digsite.position)
 
-        local xd = math.abs(ax - tonumber(digsitex));
-		local yd = math.abs(ay - tonumber(digsitey));
-		local d = math.sqrt((xd*xd)+(yd*yd));
+        local xd = math.abs(ax - tonumber(digsitex))
+		local yd = math.abs(ay - tonumber(digsitey))
+		local d = math.sqrt((xd*xd)+(yd*yd))
 
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
 			if (MinArchDigsiteList[contID][name]) then
                 local currentRace = MinArchDigsiteList[contID][name].race;
+				local details = MinArchDigsitesGlobalDB["continent"][contID][name]
+				details.ax = digsitex
+				details.ay = digsitey
+				local prio = MinArch.db.profile.raceOptions.priority[currentRace]
+				if not prio or prio == 0 then
+					prio = 99
+				end
                 digsites[key] = {
 					name = name,
 					distance = d,
-					prio = MinArch.db.profile.raceOptions.priority[currentRace] or 99,
-					details = MinArchDigsitesGlobalDB["continent"][contID][name]
+					position = digsite.position,
+					prio = prio,
+					details = details
 				}
             else
                 MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
@@ -571,14 +602,46 @@ function MinArch:GetNearestDigsite()
 		end
 	end
 
-	if digsites[1] then
-		table.sort(digsites, DigSiteSort)
+	-- IF path mode is enabled
+	if MinArch.db.profile.TomTom.optimizePath and not skipPathCalc then
+		-- cluster prio
+		for key, site in pairs(digsites) do
+			local distanceSum = site.distance
+			for key2, site2 in pairs(digsites) do
+				if key ~= key2 then
+					local xd = math.abs(site.details.ax - tonumber(site2.details.ax))
+					local yd = math.abs(site.details.ay - tonumber(site2.details.ay))
+					local d = math.sqrt((xd*xd)+(yd*yd))
 
-		-- print("GetNearestDigsite", digsites[1].name, digsites[1].distance)
-		return digsites[1].name, digsites[1].distance, digsites[1].details, digsites[1].prio
+					if (d < 2000) then
+						distanceSum = distanceSum - d / MinArch.db.profile.TomTom.optimizationModifier
+					end
+				end
+			end
+
+			site.pathDistance = distanceSum
+		end
+
+		for key, digsite in pairs(digsites) do
+			-- digsite.pathDistance = digsite.distance
+			local tmp = {unpack(digsites)}
+			table.remove(tmp, key)
+			digsite.pathDistance = CalculateDigSitePathDistance(digsite.details.ax, digsite.details.ay, tmp, digsite.pathDistance)
+			tmp = nil
+		end
 	end
 
-	return nil, nil, nil;
+	if #digsites > 0 then
+		table.sort(digsites, DigSiteSort)
+
+	    -- print("GetNearestDigsite", digsites[1].name, digsites[1].distance, digsites[1].prio)
+		nDigsite, nDistance, nDetails, nPrio = unpack({digsites[1].name, digsites[1].distance, digsites[1].details, digsites[1].prio})
+		digsites = nil
+
+		return nDigsite, nDistance, nDetails, nPrio
+	end
+
+	return nDigsite, nDistance, nDetails, nPrio;
 end
 
 function MinArch:IsNearDigSite()
