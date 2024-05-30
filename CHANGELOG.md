@@ -1,6 +1,14 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 10.2.12
+
+- Companion: survey button now respects the same survey settings as double right click
+- Extended priority list: you can now set an order for races instead of prioritizing one at a time
+- Experimental New Feature: Path optimization. Path optimization tries to reduce travel times on the long run by calculating the shortest path that touches all active digsites, also preferring sites that are closer to each other. You can enable it under developer settings, still testing, feedback is welcome!
+- Fix detecting nearest digsite on Outland
+- Updated the list of patrons, thank you for the support!
+
 ### 10.2.11
 
 - Companion: implement optional artifact progress bar with optional tooltip and solve on click (enabled by default)
