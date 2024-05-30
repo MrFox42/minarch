@@ -235,6 +235,38 @@ function MinArch:IsRaceRelevant(raceID)
 	return false;
 end
 
+function MinArch:CanCast()
+    -- Prevent casting in combat
+    if (InCombatLockdown()) then
+        MinArch:DisplayStatusMessage('Can\'t cast: combat lockdown', MINARCH_MSG_DEBUG)
+        return false;
+    end
+
+    -- Check if casting is enabled at all
+    if not MinArch.db.profile.surveyOnDoubleClick then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
+        return false;
+    end
+
+    -- Check general conditions
+    if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
+        MinArch:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)
+        return false;
+    end
+
+    -- Check custom conditions (mounted, flying)
+    if IsMounted() and MinArch.db.profile.dblClick.disableMounted then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - mounted', MINARCH_MSG_DEBUG)
+        return false;
+    end
+    if IsFlying() and MinArch.db.profile.dblClick.disableInFlight then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - flying', MINARCH_MSG_DEBUG)
+        return false;
+    end
+
+    return true;
+end
+
 function MinArch:LoadRaceInfo()
 	for i = 1, ARCHAEOLOGY_NUM_RACES do
 		local name, t = GetArchaeologyRaceInfo(i);

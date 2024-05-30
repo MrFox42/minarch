@@ -61,7 +61,7 @@ function MinArch:SetWayToNearestDigsite()
 
         previousDigsite = digsiteName;
         local suffix = 'closest';
-        if priority > 0 then
+        if priority > 0 and priority < 99 then
             suffix = '*' .. digsite.race;
         end
 		local newWayPoint = SetWayToDigsite(digsiteName .. ' (' .. suffix .. ')', digsite, true);
