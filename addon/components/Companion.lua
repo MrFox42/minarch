@@ -174,7 +174,7 @@ function Companion:UnregisterEvents()
     Companion:UnregisterEvent("GLOBAL_MOUSE_DOWN")
 end
 
-function Companion:UpdateSurveyButton() 
+function Companion:UpdateSurveyButton()
     if Companion.surveyButton:IsVisible() then
         local canCast = MinArch:CanCast()
         Companion.surveyButton:GetNormalTexture():SetDesaturated(not canCast)
@@ -195,6 +195,11 @@ local function InitSurveyButton()
     surveyButton:SetPoint("LEFT", 44, 0)
     surveyButton:SetWidth(28)
     surveyButton:SetHeight(28)
+
+    local cd = CreateFrame("Cooldown", "$parentCooldown", surveyButton, "CooldownFrameTemplate")
+    cd:SetAllPoints(surveyButton)
+    cd:SetSwipeColor(1, 1, 1)
+    surveyButton.cd = cd
 
     surveyButton:SetNormalTexture("Interface/Icons/inv_misc_shovel_01")
     surveyButton:SetHighlightTexture("Interface/Icons/inv_misc_shovel_01")
@@ -239,7 +244,7 @@ local function InitProjectFrame()
     keystoneButton:SetWidth(20);
     keystoneButton:SetHeight(20);
     keystoneButton:RegisterForClicks("LeftButtonUp","RightButtonUp");
-    
+
     keystoneButton.text:SetFontObject(NumberFontNormal)
 
     keystoneButton:SetScript("OnLeave", function ()
@@ -303,7 +308,7 @@ local function InitSkillBar()
     skillBar:SetPoint(anchorPoint, 0, 5 * posMod)
     skillBar:SetWidth(Companion:GetWidth())
     skillBar:SetHeight(5)
-    
+
     local tex = skillBar:CreateTexture(nil, "BACKGROUND")
     tex:SetAllPoints()
     tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
@@ -409,7 +414,7 @@ local function UpdateProgressBar(raceID)
                 local pct = 0
                 if total > 0 then
                     pct = progress / total
-                end 
+                end
 
                 if pct >= 1 then
                     Companion.progressBar.progressBarFrame.texture:SetColorTexture(0, 1, 0.5, 0.5)
@@ -441,7 +446,7 @@ local function InitProgressBar()
     progressBar:SetPoint(anchorPoint, 0, 5 * posMod)
     progressBar:SetWidth(Companion:GetWidth())
     progressBar:SetHeight(5)
-    
+
     local tex = progressBar:CreateTexture(nil, "BACKGROUND")
     tex:SetAllPoints()
     tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
@@ -526,8 +531,10 @@ function Companion.events:PLAYER_STARTED_MOVING(...)
 end
 
 function Companion.events:ARCHAEOLOGY_SURVEY_CAST(...)
+    Companion.surveyButton.cd:SetCooldown(GetTime(), 3)
     cx, cy, _, cInstance = UnitPosition("player")
     Companion:UpdateDistance();
+
 end
 
 function Companion.events:PLAYER_STOPPED_MOVING(...)
@@ -880,7 +887,7 @@ function Companion:Update()
         end
     end
 
-    
+
     for i = 1, ARCHAEOLOGY_NUM_RACES do
         local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 

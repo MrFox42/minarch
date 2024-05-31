@@ -4,6 +4,7 @@
 ### 10.2.12
 
 - Companion: survey button now respects the same survey settings as double right click
+- Companion: show cooldown on Survey button
 - Extended priority list: you can now set an order for races instead of prioritizing one at a time
 - Experimental New Feature: Path optimization. Path optimization tries to reduce travel times on the long run by calculating the shortest path that touches all active digsites, also preferring sites that are closer to each other. You can enable it under developer settings, still testing, feedback is welcome!
 - Fix detecting nearest digsite on Outland
