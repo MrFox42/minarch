@@ -536,7 +536,7 @@ local function CalculateDigSitePathDistance(ax, ay, sites, pathDistance)
 		end
 	end
 
-	pathDistance = pathDistance + distance -- * MinArch.db.profile.TomTom.optimizationModifier
+	pathDistance = pathDistance + distance * MinArch.db.profile.TomTom.optimizationModifier
 
 	if #sites > 0 then
 		return CalculateDigSitePathDistance(details.ax, details.ay, sites, pathDistance)
@@ -604,26 +604,8 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 
 	-- IF path mode is enabled
 	if MinArch.db.profile.TomTom.optimizePath and not skipPathCalc then
-		-- cluster prio
-		for key, site in pairs(digsites) do
-			local distanceSum = site.distance
-			for key2, site2 in pairs(digsites) do
-				if key ~= key2 then
-					local xd = math.abs(site.details.ax - tonumber(site2.details.ax))
-					local yd = math.abs(site.details.ay - tonumber(site2.details.ay))
-					local d = math.sqrt((xd*xd)+(yd*yd))
-
-					if (d < 2000) then
-						distanceSum = distanceSum - d / MinArch.db.profile.TomTom.optimizationModifier
-					end
-				end
-			end
-
-			site.pathDistance = distanceSum
-		end
-
 		for key, digsite in pairs(digsites) do
-			-- digsite.pathDistance = digsite.distance
+			digsite.pathDistance = digsite.distance
 			local tmp = {unpack(digsites)}
 			table.remove(tmp, key)
 			digsite.pathDistance = CalculateDigSitePathDistance(digsite.details.ax, digsite.details.ay, tmp, digsite.pathDistance)
