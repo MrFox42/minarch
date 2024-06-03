@@ -587,6 +587,9 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 				if not prio or prio == 0 then
 					prio = 99
 				end
+				if MinArch.db.profile.raceOptions.hide[currentRace] then
+					prio = 100
+				end
                 digsites[key] = {
 					name = name,
 					distance = d,
