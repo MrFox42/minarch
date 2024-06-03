@@ -178,7 +178,7 @@ function MinArch:UpgradeSettings()
 		if raceID then
 			MinArch.db.profile.raceOptions.priority[raceID] = 1
 		end
-		MinArch.db.profile.TomTom.prioRace = true
+		MinArch.db.profile.TomTom.prioRace = nil
 
         MinArch.db.profile.settingsVersion = 5;
     end

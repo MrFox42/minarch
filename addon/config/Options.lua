@@ -1420,17 +1420,6 @@ local TomTomSettings = {
 					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
 					order = 2,
                 },
-                prioRace = {
-                    type = "toggle",
-					name = "Prioritize digsites",
-                    desc = "Navigate to prioritized races first, even if there are closer digsites with different races. You can customize priority in the Race Settings section.",
-                    get = function () return MinArch.db.profile.TomTom.prioRace end,
-                    set = function (_, newValue)
-						MinArch.db.profile.TomTom.prioRace = newValue;
-					end,
-                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
-                    order = 3,
-                },
 				ignoreHidden = {
 					type = "toggle",
 					name = "Ignore hidden races",
@@ -1442,6 +1431,13 @@ local TomTomSettings = {
                     disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
 					order = 4,
                 },
+				message = {
+					type = "description",
+					name = "Note: Priority options have been moved to the Race Settings section",
+					fontSize = "normal",
+					width = "full",
+					order = 5,
+				},
 			},
 		},
 	}

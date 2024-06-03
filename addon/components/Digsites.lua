@@ -512,10 +512,8 @@ function MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, position)
 end
 
 function DigSiteSort(a, b)
-	if MinArch.db.profile.TomTom.prioRace then
-		if (a.prio ~= b.prio) then
-			return a.prio < b.prio
-		end
+	if (a.prio ~= b.prio) then
+		return a.prio < b.prio
 	end
 
 	if MinArch.db.profile.TomTom.optimizePath and a.pathDistance and b.pathDistance then -- path mode
