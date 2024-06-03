@@ -133,6 +133,7 @@ local function RegisterEvents(self)
     self:RegisterEvent("QUEST_TURNED_IN");
     self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("PLAYER_LEAVE_COMBAT");
+	self:RegisterEvent("PLAYER_REGEN_ENABLED");
     self:RegisterEvent("QUEST_LOG_UPDATE");
     self:RegisterEvent("PLAYER_STOPPED_MOVING");
     self:RegisterEvent("ZONE_CHANGED");

@@ -263,6 +263,10 @@ function MinArch:CanCast()
         MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - flying', MINARCH_MSG_DEBUG)
         return false;
     end
+	if GetNumLootItems() ~= 0 then
+		MinArch:DisplayStatusMessage('Can\'t cast while looting', MINARCH_MSG_DEBUG)
+		return false
+	end
 
     return true;
 end

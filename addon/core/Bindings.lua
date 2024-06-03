@@ -1,7 +1,5 @@
 local ADDON, MinArch = ...
 
-MinArch.clearBinding = false;
-
 BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
 BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
 setglobal("BINDING_NAME_SPELL Survey", "Survey")
@@ -38,7 +36,8 @@ end
 local threshold = 0.5;
 local prevTime;
 local clickTime = 0;
-function MinArch:DoubleClickSurvey(event, button)
+
+WorldFrame:HookScript("OnMouseDown", function(_, button, down)
     if button == "RightButton" then
         MinArch:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
         if prevTime then
@@ -46,7 +45,7 @@ function MinArch:DoubleClickSurvey(event, button)
             local diff2 = GetTime() - clickTime;
 
             -- print(prevTime, clickTime, diff, diff2, threshold);
-            if diff < threshold and diff2 > threshold then
+            if diff <= threshold and diff2 > threshold then
                 MinArch:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
                 -- print("shoudcast");
                 clickTime = GetTime();
@@ -56,12 +55,11 @@ function MinArch:DoubleClickSurvey(event, button)
                     end
 
                     MinArch:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
-                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "button2", "MinArchHiddenSurveyButton");
-                    MinArch.clearBinding = true;
+                    SetOverrideBindingClick(MinArch.hiddenButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
                 end
             end
         end
 
         prevTime = GetTime();
     end
-end
+end)

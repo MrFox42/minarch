@@ -889,7 +889,6 @@ function Companion:Update()
 
 
     for i = 1, ARCHAEOLOGY_NUM_RACES do
-        local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 
         if digSiteData then
             local text = digSiteData.race;

@@ -44,7 +44,7 @@ function MinArch:EventHelper(event, ...)
 			MinArch.Companion.showAfterCombat = false;
 		end
 	elseif (event == "GLOBAL_MOUSE_DOWN") then
-		MinArch:DoubleClickSurvey(event, ...);
+		-- MinArch:DoubleClickSurvey(event, ...);
     end
 end
 
@@ -94,7 +94,7 @@ function MinArch:EventMain(event, ...)
         MinArch.Companion:AutoToggle()
 	end
 
-	if (event == "PLAYER_LEAVE_COMBAT") then
+	if (event == "PLAYER_REGEN_ENABLED") then
 		C_Timer.NewTimer(0.3, function()
 			if (not InCombatLockdown()) then
 				ClearOverrideBindings(MinArchHiddenSurveyButton);
