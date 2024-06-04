@@ -10,6 +10,7 @@
 - Fix detecting nearest digsite on Outland
 - Create waypoint to digsites related to hidden races if nothing else is available
 - Updated the list of patrons, thank you for the support!
+- **10.2.12.1** Fix double right click surveying
 
 ### 10.2.11
 
