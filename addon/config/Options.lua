@@ -725,6 +725,18 @@ local companionSettings = {
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 3,
                 },
+				hideWhenUnavailable = {
+                    type = "toggle",
+                    name = "Hide when unavailable",
+                    desc = "Enable to hide when there are no digsites available on the world map.",
+                    get = function () return MinArch.db.profile.companion.hideWhenUnavailable end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.hideWhenUnavailable = newValue;
+                        MinArch.Companion:AutoToggle()
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                    order = 3,
+                },
                 hrC = {
                     type = "description",
                     name = "|nColoring",

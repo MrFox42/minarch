@@ -636,6 +636,13 @@ function Companion:AutoToggle()
 
     if not MinArch.db.profile.companion.alwaysShow and not MinArch:IsNearDigSite() then
         Companion:HideFrame()
+        return
+    end
+
+    local digSite = MinArch:GetNearestDigsite();
+    if not digSite and MinArch.db.profile.companion.hideWhenUnavailable then
+        Companion:HideFrame()
+        return
     end
 end
 
@@ -888,6 +895,7 @@ function Companion:Update()
     end
 
 
+    local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
     for i = 1, ARCHAEOLOGY_NUM_RACES do
 
         if digSiteData then

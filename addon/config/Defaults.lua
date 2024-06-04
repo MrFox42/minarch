@@ -82,6 +82,7 @@ MinArch.defaults = {
             enable = true,
             alwaysShow = true,
             hideInCombat = true,
+            hideWhenUnavailable = false,
             frameScale = 100,
             savePos = true,
             point = "CENTER",
