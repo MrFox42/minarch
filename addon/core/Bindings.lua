@@ -13,7 +13,7 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 	elseif (msg == "toggle") then
 		MinArchMain:Toggle();
 	elseif (msg == "version") then
-		ChatFrame1:AddMessage("Minimal Archaeology " .. tostring(GetAddOnMetadata("MinimalArchaeology", "Version")));
+		ChatFrame1:AddMessage("Minimal Archaeology " .. tostring(C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version")));
     elseif (msg == "comp") then
         ChatFrame1:AddMessage("Minimal Archaeology Companion related Commands");
         ChatFrame1:AddMessage(" Usage: /minarch [cmd]");
@@ -47,7 +47,6 @@ WorldFrame:HookScript("OnMouseDown", function(_, button, down)
             -- print(prevTime, clickTime, diff, diff2, threshold);
             if diff <= threshold and diff2 > threshold then
                 MinArch:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
-                -- print("shoudcast");
                 clickTime = GetTime();
                 if (MinArch:CanCast()) then
                     if ( IsMouselooking() ) then
