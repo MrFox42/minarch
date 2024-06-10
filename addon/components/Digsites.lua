@@ -534,7 +534,7 @@ local function CalculateDigSitePathDistance(ax, ay, sites, pathDistance)
 		end
 	end
 
-	pathDistance = pathDistance + distance * MinArch.db.profile.TomTom.optimizationModifier
+	pathDistance = (pathDistance + distance) * MinArch.db.profile.TomTom.optimizationModifier
 
 	if #sites > 0 then
 		return CalculateDigSitePathDistance(details.ax, details.ay, sites, pathDistance)
@@ -610,7 +610,6 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 			local tmp = {unpack(digsites)}
 			table.remove(tmp, key)
 			digsite.pathDistance = CalculateDigSitePathDistance(digsite.details.ax, digsite.details.ay, tmp, digsite.pathDistance)
-			tmp = nil
 		end
 	end
 
@@ -619,7 +618,6 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 
 	    -- print("GetNearestDigsite", digsites[1].name, digsites[1].distance, digsites[1].prio)
 		nDigsite, nDistance, nDetails, nPrio = unpack({digsites[1].name, digsites[1].distance, digsites[1].details, digsites[1].prio})
-		digsites = nil
 
 		return nDigsite, nDistance, nDetails, nPrio
 	end
