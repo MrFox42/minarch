@@ -242,12 +242,6 @@ function MinArch:CanCast()
         return false;
     end
 
-    -- Check if casting is enabled at all
-    if not MinArch.db.profile.surveyOnDoubleClick then
-        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
-        return false;
-    end
-
     -- Check general conditions
     if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
         MinArch:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)

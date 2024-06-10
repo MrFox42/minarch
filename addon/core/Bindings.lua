@@ -38,8 +38,14 @@ local prevTime;
 local clickTime = 0;
 
 WorldFrame:HookScript("OnMouseDown", function(_, button, down)
+    -- Check if casting is enabled at all
     if button == "RightButton" then
         MinArch:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
+        
+        if not MinArch.db.profile.surveyOnDoubleClick then
+            MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
+            return
+        end
         if prevTime then
             local diff = GetTime() - prevTime;
             local diff2 = GetTime() - clickTime;
