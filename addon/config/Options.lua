@@ -489,6 +489,17 @@ local general = {
 					end,
 					order = 2,
 				},
+				groupByProgress = {
+					type = "toggle",
+					name = "Group by progress",
+					desc = "If enabled, artifacts will be grouped by progress: current > incomplete > completed.",
+					get = function () return MinArch.db.profile.history.groupByProgress end,
+					set = function (_, newValue)
+                        MinArch.db.profile.history.groupByProgress = newValue;
+                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+					end,
+					order = 3,
+				},
             }
         },
 	}

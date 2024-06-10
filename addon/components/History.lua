@@ -224,6 +224,7 @@ function MinArch:LoadItemDetails(RaceID, caller)
 			local name, _, rarity, _, _, _, _, _, _, icon, sellPrice = C_Item.GetItemInfo(itemid);
 
 			if name ~= nil and icon ~= nil then
+                details.itemid = itemid
 				details.name = name
 				details.rarity = rarity
 				details.icon = "interface\\icons\\"..LibIconPath_getName(icon)..".blp"
@@ -617,6 +618,22 @@ local function GetArtifactFrame(scrollc, index)
     return frame;
 end
 
+local function HistorySort(a, b)
+    if MinArch.db.profile.history.groupByProgress then -- todo option
+        if a.groupSortValue ~= b.groupSortValue then
+            return a.groupSortValue < b.groupSortValue
+        end
+    end
+
+    if a.rarity > 1 or b.rarity > 1 then
+        if a.rarity ~= b.rarity then
+            return a.rarity > b.rarity
+        end
+    end
+
+    return a.sellprice > b.sellprice
+end
+
 function MinArch:CreateHistoryList(RaceID, caller)
     if not MinArchHist:IsVisible() then
         return
@@ -718,131 +735,137 @@ function MinArch:CreateHistoryList(RaceID, caller)
     local sumTotalComplete = 0
     local sumTotalSoldPrice = 0
 
-    for _, gparams in ipairs(groups) do
-        for itemid, details in pairs(MinArchHistDB[RaceID]) do
-            if details.rarity == gparams.rarity
-                and ((not gparams.goldmin) or details.sellprice >= gparams.goldmin)
-                and ((not gparams.goldmax) or details.sellprice < gparams.goldmax)
-            then
-                count = count + 1;
-                local frame = GetArtifactFrame(scrollc, count);
-
-                -- Set icon
-                frame.icon.texture:SetTexture(details.icon);
-                frame.icon:SetScript("OnEnter", function (self)
-                    GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-                    GameTooltip:SetItemByID(itemid);
-                    GameTooltip:Show();
-                end);
-                frame.icon:SetScript("OnLeave", function()
-                    GameTooltip:Hide()
-                end)
-
-                -- Set text
-                local displayName = details.name;
-                if (strlen(details.name) > 34) then
-                    displayName = strsub(details.name, 0, 30) .. '...';
-                end
-                frame.name.text:SetText(displayName)
-                frame.name.text:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
-
-                frame.name:SetScript("OnEnter", function (self)
-                    MinArch:HistoryTooltip(self, RaceID, itemid)
-                end);
-                frame.name:SetScript("OnLeave", function()
-                    MinArchTooltipIcon:Hide();
-                    GameTooltip:Hide()
-                end)
-
-                -- Set pristine indicator
-                local questState = MINARCH_QSTATE_NIL;
-                if currentQuestArtifact == itemid then
-                    frame.quest.texture:SetTexture([[Interface\QuestTypeIcons]]);
-                    frame.quest.texture:SetTexCoord(0, 0.140625, 0.28125, 0.5625);
-                    questState = MINARCH_QSTATE_LEGION_AVAILABLE;
-                elseif MinArch.HasPristine[RaceID] == true then
-                    if not details.pqid then
-                        -- hide?
-                    elseif C_QuestLog.IsQuestFlaggedCompleted(details.pqid) == true then
-                        frame.quest.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Criteria-Check]]);
-                        frame.quest.texture:SetTexCoord(0.125, 0.5625, 0, 0.6875);
-                        frame.quest.texture2:Show();
-                        questState = MINARCH_QSTATE_PRISTINE_COMPLETE
-                    else
-                        if C_QuestLog.IsOnQuest(details.pqid) then
-                            frame.quest.texture:SetTexture([[Interface\GossipFrame\ActiveQuestIcon]]);
-                            frame.quest.texture:SetTexCoord(0, 1, 0, 1);
-                            questState = MINARCH_QSTATE_PRISTINE_ONQUEST
-                        else
-                            frame.quest.texture:SetTexture([[Interface\GossipFrame\IncompleteQuestIcon]]);
-                            frame.quest.texture:SetTexCoord(0, 1, 0, 1);
-                            questState = MINARCH_QSTATE_PRISTINE_INCOMPLETE
-                        end
-                        frame.quest.texture2:Hide();
-                    end
-                end
-                SetQuestTooltip(frame.quest, questState);
-
-                -- Set Progress
-                local progressState = MINARCH_PROGRESS_UNKNOWN;
-                local achievementState = MINARCH_ACHIPROGRESS_NONE;
-                if not details.firstcomplete then
-                    frame.progress.text:SetText("0");
-                    frame.progress.text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
-                else
-                    if MinArch.artifacts[RaceID].project == details.artifactname then
-                        if not details.totalcomplete or details.totalcomplete == 0 then
-                            frame.progress.text:SetText("#1")
-                        else
-                            frame.progress.text:SetText("#" .. (details.totalcomplete + 1))
-                        end
-                        frame.progress.text:SetTextColor(1.0, 0.8, 0.0, 1.0)
-                        progressState = MINARCH_PROGRESS_CURRENT;
-                    else
-                        frame.progress.text:SetText("x" .. details.totalcomplete)
-                        frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
-                        progressState = MINARCH_PROGRESS_KNOWN;
-                    end
-
-                    if details.totalcomplete > 0 then
-                        sumComplete = sumComplete + 1
-                        sumTotalComplete = sumTotalComplete + details.totalcomplete
-                        sumTotalSoldPrice = sumTotalSoldPrice + details.sellprice * details.totalcomplete
-                    end
-                end
-
-                local achiInProgress = false;
-                if details.achievement then
-                    local _, _, _, _, _, _, _, _, _, _, _, _, wasEarnedByMe, earnedBy = GetAchievementInfo(details.achievement)
-                    achiInProgress = not wasEarnedByMe;
-                    if wasEarnedByMe then
-                        achievementState = MINARCH_ACHIPROGRESS_COMPLETE;
-                    end
-                end
-
-                if achiInProgress then
-                    frame.progress.icon.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Progressive-Shield-NoPoints]])
-                    frame.progress.icon.texture:SetTexCoord(0.125, 0.53125, 0.125, 0.625);
-                    frame.progress.icon:SetSize(14, 18);
-                    frame.progress.icon.texture:SetSize(14, 18);
-                    frame.progress.text:SetText(frame.progress.text:GetText() .. " /" .. 20)
-                    achievementState = MINARCH_ACHIPROGRESS_INCOMPLETE;
-                else
-                    frame.progress.icon:SetSize(16, 16);
-                    frame.progress.icon.texture:SetSize(16, 16);
-                    if (MinArch.artifacts[RaceID].project and MinArch.artifacts[RaceID].project == details.artifactname) then
-                        frame.progress.icon.texture:SetTexture([[Interface\MINIMAP\TRACKING\ArchBlob.PNG]])
-                        frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
-                    else
-                        frame.progress.icon.texture:SetTexture([[Interface\ARCHEOLOGY\Arch-Icon-Marker]])
-                        frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
-                    end
-                end
-
-                SetProgressTooltip(frame.progress, progressState, achievementState, details.totalcomplete)
-            end
-            height = count * (20 + PADDING);
+    local tmp = {}
+    for _, details in pairs(MinArchHistDB[RaceID]) do
+        details.groupSortValue = (details.totalcomplete or 0) + 1
+        if MinArch.artifacts[RaceID].project == details.artifactname then
+            details.groupSortValue = 0
         end
+        table.insert(tmp, details)
+    end
+
+    table.sort(tmp, HistorySort)
+
+    for _, details in pairs(tmp) do
+        local itemid = details.itemid
+
+        count = count + 1;
+        local frame = GetArtifactFrame(scrollc, count);
+
+        -- Set icon
+        frame.icon.texture:SetTexture(details.icon);
+        frame.icon:SetScript("OnEnter", function (self)
+            GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+            GameTooltip:SetItemByID(itemid);
+            GameTooltip:Show();
+        end);
+        frame.icon:SetScript("OnLeave", function()
+            GameTooltip:Hide()
+        end)
+
+        -- Set text
+        local displayName = details.name;
+        if (strlen(details.name) > 34) then
+            displayName = strsub(details.name, 0, 30) .. '...';
+        end
+        frame.name.text:SetText(displayName)
+        frame.name.text:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
+
+        frame.name:SetScript("OnEnter", function (self)
+            MinArch:HistoryTooltip(self, RaceID, itemid)
+        end);
+        frame.name:SetScript("OnLeave", function()
+            MinArchTooltipIcon:Hide();
+            GameTooltip:Hide()
+        end)
+
+        -- Set pristine indicator
+        local questState = MINARCH_QSTATE_NIL;
+        if currentQuestArtifact == itemid then
+            frame.quest.texture:SetTexture([[Interface\QuestTypeIcons]]);
+            frame.quest.texture:SetTexCoord(0, 0.140625, 0.28125, 0.5625);
+            questState = MINARCH_QSTATE_LEGION_AVAILABLE;
+        elseif MinArch.HasPristine[RaceID] == true then
+            if not details.pqid then
+                -- hide?
+            elseif C_QuestLog.IsQuestFlaggedCompleted(details.pqid) == true then
+                frame.quest.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Criteria-Check]]);
+                frame.quest.texture:SetTexCoord(0.125, 0.5625, 0, 0.6875);
+                frame.quest.texture2:Show();
+                questState = MINARCH_QSTATE_PRISTINE_COMPLETE
+            else
+                if C_QuestLog.IsOnQuest(details.pqid) then
+                    frame.quest.texture:SetTexture([[Interface\GossipFrame\ActiveQuestIcon]]);
+                    frame.quest.texture:SetTexCoord(0, 1, 0, 1);
+                    questState = MINARCH_QSTATE_PRISTINE_ONQUEST
+                else
+                    frame.quest.texture:SetTexture([[Interface\GossipFrame\IncompleteQuestIcon]]);
+                    frame.quest.texture:SetTexCoord(0, 1, 0, 1);
+                    questState = MINARCH_QSTATE_PRISTINE_INCOMPLETE
+                end
+                frame.quest.texture2:Hide();
+            end
+        end
+        SetQuestTooltip(frame.quest, questState);
+
+        -- Set Progress
+        local progressState = MINARCH_PROGRESS_UNKNOWN;
+        local achievementState = MINARCH_ACHIPROGRESS_NONE;
+        if not details.firstcomplete then
+            frame.progress.text:SetText("0");
+            frame.progress.text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1)
+        else
+            if MinArch.artifacts[RaceID].project == details.artifactname then
+                if not details.totalcomplete or details.totalcomplete == 0 then
+                    frame.progress.text:SetText("#1")
+                else
+                    frame.progress.text:SetText("#" .. (details.totalcomplete + 1))
+                end
+                frame.progress.text:SetTextColor(1.0, 0.8, 0.0, 1.0)
+                progressState = MINARCH_PROGRESS_CURRENT;
+            else
+                frame.progress.text:SetText("x" .. details.totalcomplete)
+                frame.progress.text:SetTextColor(0.0, 1.0, 0.0, 1.0)
+                progressState = MINARCH_PROGRESS_KNOWN;
+            end
+
+            if details.totalcomplete > 0 then
+                sumComplete = sumComplete + 1
+                sumTotalComplete = sumTotalComplete + details.totalcomplete
+                sumTotalSoldPrice = sumTotalSoldPrice + details.sellprice * details.totalcomplete
+            end
+        end
+
+        local achiInProgress = false;
+        if details.achievement then
+            local _, _, _, _, _, _, _, _, _, _, _, _, wasEarnedByMe, earnedBy = GetAchievementInfo(details.achievement)
+            achiInProgress = not wasEarnedByMe;
+            if wasEarnedByMe then
+                achievementState = MINARCH_ACHIPROGRESS_COMPLETE;
+            end
+        end
+
+        if achiInProgress then
+            frame.progress.icon.texture:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-Progressive-Shield-NoPoints]])
+            frame.progress.icon.texture:SetTexCoord(0.125, 0.53125, 0.125, 0.625);
+            frame.progress.icon:SetSize(14, 18);
+            frame.progress.icon.texture:SetSize(14, 18);
+            frame.progress.text:SetText(frame.progress.text:GetText() .. " /" .. 20)
+            achievementState = MINARCH_ACHIPROGRESS_INCOMPLETE;
+        else
+            frame.progress.icon:SetSize(16, 16);
+            frame.progress.icon.texture:SetSize(16, 16);
+            if (MinArch.artifacts[RaceID].project and MinArch.artifacts[RaceID].project == details.artifactname) then
+                frame.progress.icon.texture:SetTexture([[Interface\MINIMAP\TRACKING\ArchBlob.PNG]])
+                frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
+            else
+                frame.progress.icon.texture:SetTexture([[Interface\ARCHEOLOGY\Arch-Icon-Marker]])
+                frame.progress.icon.texture:SetTexCoord(0, 1, 0, 1);
+            end
+        end
+
+        SetProgressTooltip(frame.progress, progressState, achievementState, details.totalcomplete)
+        height = count * (20 + PADDING);
     end
 
     sumTotalSoldPrice = math.floor(sumTotalSoldPrice / 10000)
