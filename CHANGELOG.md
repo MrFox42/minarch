@@ -11,6 +11,8 @@
 - Create waypoint to digsites related to hidden races if nothing else is available
 - Updated the list of patrons, thank you for the support!
 - **10.2.12.1** Fix double right click surveying
+- **10.2.12.2** Fix survey button being disabled when double right click is disabled
+- **10.2.12.2** Fix path optimization calculation
 
 ### 10.2.11
 
