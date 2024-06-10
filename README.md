@@ -27,6 +27,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **10.2.12.1** Fix double right click surveying
 - **10.2.12.2** Fix survey button being disabled when double right click is disabled
 - **10.2.12.2** Fix path optimization calculation
+- **10.2.12.2** Add option to hide Companion when no digsites are available on the world
 
 ### 10.2.11
 
