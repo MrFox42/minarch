@@ -343,12 +343,8 @@ end
 function MinArch:MapLayerChanged(self)
 	-- update the map when map layer has changed
 	if (self.mapID ~= nil) then
-		if (WorldMapFrame.isMaximized) then
-			C_Timer.After(0.11, function ()
-				MinArch:ShowRaceIconsOnMap();
-			end)
-		else
-			MinArch:ShowRaceIconsOnMap();
-		end
+		C_Timer.After(0.11, function ()
+			MinArch:ShowRaceIconsOnMap()
+		end)
 	end
 end
