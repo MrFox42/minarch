@@ -92,7 +92,7 @@ local function updatePrioOrdering(group, currentRace, newValue, ignoreCrossCheck
 end
 
 local home = {
-	name = "Minimal Archaeology v" .. GetAddOnMetadata("MinimalArchaeology", "Version"),
+	name = "Minimal Archaeology v" .. C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version"),
 	handler = MinArch,
 	type = "group",
 	args = {
