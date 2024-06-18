@@ -61,7 +61,16 @@ MinArch.defaults = {
             prioRace = true, -- Removed in 10.2.12
             ignoreHidden = false,
             optimizePath = false,
-            optimizationModifier = 2
+            optimizationModifier = 2,
+            taxi = {
+                enabled = true,
+                archMode = false,
+                autoEnableArchMode = false,
+                autoDisableArchMode = false,
+                distance = 4000,
+                alpha = 50,
+                zoneCheck = false
+            }
 		},
 
 		-- dynamic options

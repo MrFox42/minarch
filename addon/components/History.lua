@@ -619,7 +619,7 @@ local function GetArtifactFrame(scrollc, index)
 end
 
 local function HistorySort(a, b)
-    if MinArch.db.profile.history.groupByProgress then -- todo option
+    if MinArch.db.profile.history.groupByProgress then
         if a.groupSortValue ~= b.groupSortValue then
             return a.groupSortValue < b.groupSortValue
         end

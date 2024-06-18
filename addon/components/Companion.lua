@@ -428,7 +428,6 @@ local function UpdateProgressBar(raceID)
                 Companion.progressBar.fontString:SetText(progress .. '/' .. total)
                 Companion.progressBar:Show()
 
-                -- TODO: if tooltip enabled
                 UpdateSolveButtonScripts(Companion.progressBar, artifact, raceID, MinArch.db.profile.companion.features.progressBar.solveOnClick, MinArch.db.profile.companion.features.progressBar.showTooltip)
             end
         else

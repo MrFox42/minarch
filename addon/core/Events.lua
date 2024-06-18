@@ -3,6 +3,7 @@ local ADDON, MinArch = ...
 local eventTimer = nil
 local researchEventTimer = nil
 local historyUpdateTimout = 0.3
+local waypointOnLanding = false
 
 function MinArch:EventHelper(event, ...)
 	if event == "PLAYER_REGEN_DISABLED" then
@@ -267,6 +268,24 @@ function MinArch:EventDigsites(event, ...)
 		if (MinArch.db.profile.TomTom.autoWayOnMove) then
 			MinArch:SetWayToNearestDigsite();
 		end
+	end
+
+	if (event == "TAXIMAP_OPENED") then
+		MinArch:UpdateFlightMap()
+	end
+
+	if event == "PLAYER_CONTROL_LOST" then
+		C_Timer.After(1, function ()
+			if UnitOnTaxi("player") then
+				waypointOnLanding = true
+				MinArch:ClearAllDigsiteWaypoints()
+			end
+		end)
+	end
+
+	if event == "PLAYER_CONTROL_GAINED" and waypointOnLanding then
+		waypointOnLanding = false
+		MinArch:SetWayToNearestDigsite()
 	end
 end
 

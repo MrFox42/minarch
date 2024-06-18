@@ -50,10 +50,10 @@ function MinArch.Ace:OnInitialize ()
 	MinArch:InitDatabase();
 	MinArch:MainEventAddonLoaded();
 
+	MinArch:InitHelperFrame();
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
-	MinArch:InitHelperFrame();
 
 	MinArch.Companion:Init();
 

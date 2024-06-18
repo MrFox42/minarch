@@ -11,12 +11,12 @@ function MinArch:IsNavigationEnabled()
     return MinArch.db.profile.TomTom.enableBlizzWaypoint or MinArch:IsTomTomAvailable();
 end
 
-local function SetWayToDigsite(title, digsite, isAuto)
+local function SetWayToDigsite(title, position, isAuto)
 	if not MinArch:IsNavigationEnabled() then return end;
 
 	MinArch:ClearUiWaypoint()
     if MinArch.db.profile.TomTom.enableBlizzWaypoint and MINARCH_EXPANSION == 'Mainline' then
-        local uiMapPoint = UiMapPoint.CreateFromCoordinates(digsite.uiMapID, digsite.x/100, digsite.y/100, 0);
+        local uiMapPoint = UiMapPoint.CreateFromCoordinates(position.uiMapID, position.x/100, position.y/100, 0);
 		C_Map.SetUserWaypoint(uiMapPoint);
         MinArch.db.char.TomTom.uiMapPoint = C_Map.GetUserWaypoint();
 		C_SuperTrack.SetSuperTrackedUserWaypoint(MinArch.db.profile.TomTom.superTrack);
@@ -28,7 +28,7 @@ local function SetWayToDigsite(title, digsite, isAuto)
 			persistent = false
 		end
 
-		local newWaypoint = _G.TomTom:AddWaypoint(digsite.uiMapID, digsite.x/100, digsite.y/100, {
+		local newWaypoint = _G.TomTom:AddWaypoint(position.uiMapID, position.x/100, position.y/100, {
 			title = title,
 			crazy = MinArch.db.profile.TomTom.arrow,
 			persistent = persistent,
@@ -51,21 +51,36 @@ function MinArch:ClearUiWaypoint()
 end
 
 function MinArch:SetWayToNearestDigsite()
-	if not MinArch:IsNavigationEnabled() then return end;
+	if not MinArch:IsNavigationEnabled() then return end
 
-	local digsiteName, distance, digsite, priority = MinArch:GetNearestDigsite();
-	if (digsite and (digsiteName ~= previousDigsite or distance > 1.7)) then
+	local taxiNode
+	local newWayPoint
+	local digsiteName, distance, digsite, priority = MinArch:GetNearestDigsite()
+	if (MinArch.db.profile.TomTom.taxi.enabled and distance > MinArch.db.profile.TomTom.taxi.distance) then
+		taxiNode = MinArch:GetNearestFlightMaster()
+	end
+
+	if (taxiNode or ( digsite and (digsiteName ~= previousDigsite or distance > 2000)) ) then
 		if (_G.TomTom and MinArch.autoWaypoint ~= nil) then
-			_G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
+			_G.TomTom:RemoveWaypoint(MinArch.autoWaypoint)
 		end
 
-        previousDigsite = digsiteName;
         local suffix = 'closest';
         if priority > 0 and priority < 99 then
             suffix = '*' .. digsite.race;
         end
-		local newWayPoint = SetWayToDigsite(digsiteName .. ' (' .. suffix .. ')', digsite, true);
-		MinArch.autoWaypoint = newWayPoint;
+		if taxiNode then
+			newWayPoint = SetWayToDigsite(taxiNode.name .. ' (Flight Master)', taxiNode, true);
+			previousDigsite = taxiNode.name
+		else
+			newWayPoint = SetWayToDigsite(digsiteName .. ' (' .. suffix .. ')', digsite, true);
+			previousDigsite = digsiteName
+		end
+		MinArch.autoWaypoint = newWayPoint
+	end
+
+	if MinArch.db.profile.TomTom.taxi.enabled and MinArch.db.profile.TomTom.taxi.autoEnableArchMode then
+		MinArch.db.profile.TomTom.taxi.archMode = true
 	end
 end
 

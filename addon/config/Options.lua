@@ -85,7 +85,7 @@ local function updatePrioOrdering(group, currentRace, newValue, ignoreCrossCheck
 	if not ignoreCrossCheck and (group == 5 or group == 7) and MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN] then
 		if group == 5 then
 			updatePrioOrdering(7, ARCHAEOLOGY_RACE_NERUBIAN, MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN], true)
-		else 
+		else
 			updatePrioOrdering(5, ARCHAEOLOGY_RACE_NERUBIAN, MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN], true)
 		end
 	end
@@ -303,7 +303,7 @@ local general = {
 						MinArch.db.profile.showWorldMapOverlay = newValue;
 						MinArch:ShowRaceIconsOnMap();
 					end,
-				
+
 					width = "double",
 					order = 5,
 				},
@@ -321,7 +321,7 @@ local general = {
 					disabled = function () return not MinArch.db.profile.showWorldMapOverlay end,
 					order = 6,
 				},
-				
+
 			}
         },
         startup = {
@@ -1463,6 +1463,81 @@ local TomTomSettings = {
 				},
 			},
 		},
+		taxi = {
+			type = 'group',
+			name = 'Taxi Options',
+			inline = true,
+			order = 4,
+			args = {
+				enable = {
+					type = "toggle",
+					name = "Navigate to nearest Flight Master",
+					desc = "Enable to set the waypoint to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					get = function () return MinArch.db.profile.TomTom.taxi.enabled end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.enabled = newValue;
+						if not newValue then
+							MinArch.db.profile.TomTom.taxi.archMode = false
+						end
+					end,
+					width = 1.5,
+					order = 1,
+				},
+				distance = {
+					type = "range",
+					name = "Distance limit",
+					desc = "If enabled, waypoints will be created to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					min = 2000,
+					max = 10000,
+					step = 100,
+					get = function () return MinArch.db.profile.TomTom.taxi.distance end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.distance = newValue;
+					end,
+					order = 2,
+				},
+				spacer = {
+					fontSize = "normal",
+					type = "description",
+					name = "",
+					width = "full",
+					order = 3,
+				},
+				pinAlpha = {
+					type = "range",
+					name = "Pin Opacity",
+					desc = "Set the opacity of unrelated taxi nodes on the flight map",
+					min = 0,
+					max = 100,
+					step = 5,
+					get = function () return MinArch.db.profile.TomTom.taxi.alpha end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.alpha = newValue;
+					end,
+					order = 4,
+				},
+				autoToggle = {
+					type = "toggle",
+					name = "Auto Enable",
+					desc = "Automatically enable Archeology Mode on flight maps when a waypoint is created by MinArch",
+					get = function () return MinArch.db.profile.TomTom.taxi.autoEnableArchMode end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.autoEnableArchMode = newValue;
+					end,
+					order = 5,
+				},
+				disableOnLogin = {
+					type = "toggle",
+					name = "Auto-Disable",
+					desc = "Automatically disable Archaeology Mode on flight maps when there are no digsites on the world map and upon login",
+					get = function () return MinArch.db.profile.TomTom.taxi.autoDisableArchMode end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.autoDisableArchMode = newValue;
+					end,
+					order = 6,
+				},				
+			}
+		}
 	}
 }
 
@@ -1590,7 +1665,7 @@ function Options:OnInitialize()
 					raceSettings.args.priority.args[groupkey].args['race' .. tostring(i)] = {
                         type = "select",
 						values = values,
-                        name = function ()  
+                        name = function ()
 							local suffix = ''
 							if i == ARCHAEOLOGY_RACE_NERUBIAN then
 								suffix = ' (affects both Northrend and Eastern Kingdom)'
