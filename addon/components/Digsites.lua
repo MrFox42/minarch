@@ -493,7 +493,6 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 				elseif (d < nearestDistance) then
 					nearestDigSite = name;
 					nearestDistance = d;
-
 				end
 			end
 		end
@@ -511,14 +510,14 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	MinArch:ShowRaceIconsOnMap();
 end
 
-function MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, position, force)
-    if (contID ~= 1 and contID ~= 2) or force then
-        local _, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, position)
-        return worldPos.x, worldPos.y
-    end
-
-    return position.x, position.y
-end
+-- function MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, position, force)
+--     if (contID ~= 1 and contID ~= 2) or force then
+--         local _, worldPos = C_Map.GetWorldPosFromMapPos(uiMapID, position)
+--         return worldPos.x, worldPos.y
+--     end
+--
+--     return position.x, position.y
+-- end
 
 function DigSiteSort(a, b)
 	if (a.prio ~= b.prio) then
@@ -539,6 +538,7 @@ local function CalculateDigSitePathDistance(ax, ay, sites, pathDistance)
 
 	for key, site in pairs(sites) do
 		if site.name == name then
+			-- print("    " .. site.name, distance)
 			table.remove(sites, key)
 		end
 	end
@@ -726,6 +726,7 @@ function MinArch:UpdateFlightMap()
 	end
 
 	local zoneUiMapID = C_Map.GetBestMapForUnit("player")
+	local _, _, instance = HBD:GetPlayerWorldPosition()
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(zoneUiMapID)
 
 	if not MinArch.db.profile.TomTom.taxi.archMode then
@@ -764,12 +765,16 @@ function MinArch:UpdateFlightMap()
 	local node, nodeName, nodeID, distance
 	for key, digsite in pairs(sites) do
 		local name = tostring(digsite.name)
-		local digsitex, digsitey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, digsite.position, true)
+		-- local digsitex, digsitey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, digsite.position, true)
+		local digsitex, digsitey = HBD:GetWorldCoordinatesFromZone(digsite.position.x, digsite.position.y, uiMapID)
+
 		for idx, taxiNode in pairs(taxiNodes) do
-			local nodex, nodey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, zoneUiMapID, taxiNode.position, true)
-			local xd = math.abs(nodex - tonumber(digsitex))
-			local yd = math.abs(nodey - tonumber(digsitey))
-			local d = math.sqrt((xd*xd)+(yd*yd))
+			--local nodex, nodey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, zoneUiMapID, taxiNode.position, true)
+			local nodex, nodey = HBD:GetWorldCoordinatesFromZone(taxiNode.position.x, taxiNode.position.y, zoneUiMapID)
+			--local xd = math.abs(nodex - tonumber(digsitex))
+			--local yd = math.abs(nodey - tonumber(digsitey))
+			--local d = math.sqrt((xd*xd)+(yd*yd))
+			local _, d = HBD:GetWorldVector(instance, digsitex, digsitey, nodex, nodey)
 
 			local nodeType = TaxiNodeGetType(taxiNode.slotIndex or idx)
 			if (nodeType == "REACHABLE" or nodeType == "CURRENT") and (not distance or d < distance) then
@@ -879,7 +884,7 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame, taxiNode)
 			if FlightMapFrame then
 				parentFrame.owner:RemoveRouteToPin(parentFrame)
 			else
-				TaxiNodeOnButtonLeave(parentFrame) 
+				TaxiNodeOnButtonLeave(parentFrame)
 			end
 		end
 	end);
@@ -1014,7 +1019,8 @@ function MinArch:GetNearestFlightMaster()
 	if (playerPos == nil) then
 		return false;
 	end
-	local ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos, true)
+	-- local ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos, true)
+	local ax, ay, instance = HBD:GetPlayerWorldPosition()
 
 	local nearestTaxiNode, distance, x, y, idx
 
@@ -1022,13 +1028,13 @@ function MinArch:GetNearestFlightMaster()
 
 	for i=1, #nodes do
 		if (nodes[i].faction == 0 or nodes[i].faction == factionID) then
-			local tx, ty = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, nodes[i].position, true)
-			-- local tx = nodes[i].position.x
-			-- local ty = nodes[i].position.y
+			-- local tx, ty = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, nodes[i].position, true)
+			local tx, ty = HBD:GetWorldCoordinatesFromZone(nodes[i].position.x, nodes[i].position.y, uiMapID)
 
-			local xd = math.abs(ax - tonumber(tx))
-			local yd = math.abs(ay - tonumber(ty))
-			local d = math.sqrt((xd*xd)+(yd*yd))
+			-- local xd = math.abs(ax - tonumber(tx))
+			-- local yd = math.abs(ay - tonumber(ty))
+			-- local d = math.sqrt((xd*xd)+(yd*yd))
+			local _, d = HBD:GetWorldVector(instance, ax, ay, tx, ty)
 
 			if nearestTaxiNode == nil or d < distance then
 				nearestTaxiNode = nodes[i]
