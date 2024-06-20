@@ -573,23 +573,26 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 	end
 	local sites = sites or C_ResearchInfo.GetDigSitesForMap(uiMapID)
 
+	local pX, pY, instance = HBD:GetPlayerWorldPosition()
 	if not ax or not ay then
     	-- ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos)
-		ax, ay = HBD:GetWorldCoordinatesFromZone(playerPos.x, playerPos.y, uiMapID)
+		-- ax, ay = HBD:GetWorldCoordinatesFromZone(playerPos.x, playerPos.y, uiMapID)
+		ax = pX
+		ay = pY
 	end
 
-	local x, y, instance = HBD:GetPlayerWorldPosition()
+	
 
 	local digsites = {}
 	for key, digsite in pairs(sites) do
         local name = tostring(digsite.name)
-		local digsitex, digsitey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, digsite.position)
+		-- local digsitex, digsitey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, digsite.position)
 		local dX, dY = HBD:GetWorldCoordinatesFromZone(digsite.position.x, digsite.position.y, uiMapID)
 
-        local xd = math.abs(ax - tonumber(digsitex))
-		local yd = math.abs(ay - tonumber(digsitey))
-		local d = math.sqrt((xd*xd)+(yd*yd))
-		local _, d = HBD:GetWorldVector(instance, x, y, dX, dY)
+        -- local xd = math.abs(ax - tonumber(digsitex))
+		-- local yd = math.abs(ay - tonumber(digsitey))
+		-- local d = math.sqrt((xd*xd)+(yd*yd))
+		local _, d = HBD:GetWorldVector(instance, ax, ay, dX, dY)
 		-- d = math.floor(d)
 
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
