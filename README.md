@@ -15,6 +15,14 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Recent changes
 
+### 10.2.13
+
+- **New Feature: Taxi Service**: if enabled, waypoints will be created to the nearest flight master if the nearest digsite is farther than the user-configured distance. You can find the options in the Navigation section.
+- Added digsite icons on flight maps (indicated on the nearest known flight master)
+- History: artifact list is now grouped by progress (enabled by default)
+- Fix multiple issues with race icons on the map
+- Added HereBeDragons as a dependency, digsite distances are now returned in yards
+
 ### 10.2.12
 
 - Companion: survey button now respects the same survey settings as double right click
@@ -51,23 +59,6 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **10.2.10.3** History: fix completed counts
 - **10.2.10.4** Companion: fix keystone count when canceling solve
 - **10.2.10.5** Fix lua error after solving artifacts
-
-### 10.2.9
-
-- Navigation: **new option** to ignore hidden races when creating waypoints (disabled by default)
-- Companion: grey out survey button when spell can't be casted
-- Companion solve button: prioritize solvable artifacts over nearest available
-- History: Fix lua error and history list not loading on first try
-- Main Window: Show profession bar until expanion's max skill level is reached
-- Fix missing race data for digsites
-
-### 10.2.7
-
-- Updated for Cataclysm Classic
-- **10.2.8** Options menu restructured, clarified race related settings
-- **10.2.8.6** fixed a lua error (attempt to index local 'artifact')
-- **10.2.8.6** fixed race related options
-- **10.2.8.6** fixed companion showing hidden races
 
 For past changes, visit the [Changelog page](https://github.com/MrFox42/minarch/blob/master/CHANGELOG.md) on GitHub.
 

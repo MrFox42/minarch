@@ -1,6 +1,14 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 10.2.13
+
+- **New Feature: Taxi Service**: if enabled, waypoints will be created to the nearest flight master if the nearest digsite is farther than the user-configured distance. You can find the options in the Navigation section.
+- Added digsite icons on flight maps (indicated on the nearest known flight master)
+- History: artifact list is now grouped by progress (enabled by default)
+- Fix multiple issues with race icons on the map
+- Added HereBeDragons as a dependency, digsite distances are now returned in yards
+
 ### 10.2.12
 
 - Companion: survey button now respects the same survey settings as double right click
