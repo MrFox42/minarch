@@ -670,10 +670,11 @@ function MinArch:GetOrCreateMinArchTaxiMapFrame(i)
 	return MinArchTaxiMapFrames[i];
 end
 
-function AcquireTaxiMapPin(taxiNode)
+function AcquireTaxiMapPin(nodeName)
 	for pin in FlightMapFrame:EnumeratePinsByTemplate("FlightMap_FlightPointPinTemplate") do
 		if (pin.taxiNodeData) then
-			if(pin.taxiNodeData.name == taxiNode.name) then
+			print(pin.taxiNodeData.name, nodeName)
+			if(pin.taxiNodeData.name == nodeName) then
 				return pin
 			end
 		end
@@ -734,7 +735,7 @@ function MinArch:UpdateFlightMap()
 	if not MinArch.db.profile.TomTom.taxi.archMode then
 		for idx, taxiNode in ipairs(taxiNodes) do
 			if FlightMapFrame then
-				local pin = AcquireTaxiMapPin(taxiNode)
+				local pin = AcquireTaxiMapPin(taxiNode.name)
 				pin:SetAlphaLimits(2.0, 1, 1)
 				pin:SetAlpha(1)
 			else
@@ -785,14 +786,17 @@ function MinArch:UpdateFlightMap()
 			end
 		end
 		digsiteByNode[nodeID] = digsite
-		table.insert(taxiNodeIDs, nodeID)
+		table.insert(taxiNodeIDs, {
+			id = nodeID,
+			name = nodeName
+		})
 		distance = nil
 		-- print(name, nodeName, nodeID)
 	end
 
 	for idx,taxiNode in ipairs(taxiNodes) do
 		if FlightMapFrame then
-			local pin = AcquireTaxiMapPin(taxiNode)
+			local pin = AcquireTaxiMapPin(taxiNode.name)
 			pin.OnAddAnim:Stop()
 			pin:SetAlphaLimits(2.0, MinArch.db.profile.TomTom.taxi.alpha / 100, MinArch.db.profile.TomTom.taxi.alpha / 100)
 			pin:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
@@ -802,12 +806,13 @@ function MinArch:UpdateFlightMap()
 	end
 
 	local i = 1
-	for _, idx in ipairs(taxiNodeIDs) do
+	for _, node in pairs(taxiNodeIDs) do
+		local idx = node.id
 		local digsite = digsiteByNode[idx]
 		local pin
 		MinArch:GetOrCreateMinArchTaxiMapFrame(i)
 		if FlightMapFrame then
-			pin = AcquireTaxiMapPin(taxiNodes[idx])
+			pin = AcquireTaxiMapPin(node.name)
 			pin:SetAlphaLimits(2.0, 1.0, 1.0)
 			pin:SetAlpha(1.0)
 		else
