@@ -724,10 +724,12 @@ function MinArch:UpdateFlightMap()
 			GameTooltip:Hide()
 		end)
 	end
-
+	
+	local contID = MinArch:GetInternalContId();
+	local uiMapID = MinArch:GetUiMapIdByContId(contID);
 	local zoneUiMapID = C_Map.GetBestMapForUnit("player")
 	local _, _, instance = HBD:GetPlayerWorldPosition()
-	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(zoneUiMapID)
+	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(uiMapID)
 
 	if not MinArch.db.profile.TomTom.taxi.archMode then
 		for idx, taxiNode in ipairs(taxiNodes) do
@@ -747,9 +749,6 @@ function MinArch:UpdateFlightMap()
 		return
 	end
 
-	local contID = MinArch:GetInternalContId();
-
-	local uiMapID = MinArch:GetUiMapIdByContId(contID);
 	if (contID == nil or uiMapID == nil) then
 		return false;
 	end
@@ -770,11 +769,12 @@ function MinArch:UpdateFlightMap()
 
 		for idx, taxiNode in pairs(taxiNodes) do
 			--local nodex, nodey = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, zoneUiMapID, taxiNode.position, true)
-			local nodex, nodey = HBD:GetWorldCoordinatesFromZone(taxiNode.position.x, taxiNode.position.y, zoneUiMapID)
+			local nodex, nodey = HBD:GetWorldCoordinatesFromZone(taxiNode.position.x, taxiNode.position.y, uiMapID)
 			--local xd = math.abs(nodex - tonumber(digsitex))
 			--local yd = math.abs(nodey - tonumber(digsitey))
 			--local d = math.sqrt((xd*xd)+(yd*yd))
 			local _, d = HBD:GetWorldVector(instance, digsitex, digsitey, nodex, nodey)
+			-- print(instance, digsitex, digsitey, nodex, nodey)
 
 			local nodeType = TaxiNodeGetType(taxiNode.slotIndex or idx)
 			if (nodeType == "REACHABLE" or nodeType == "CURRENT") and (not distance or d < distance) then
