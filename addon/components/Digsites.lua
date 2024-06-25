@@ -581,7 +581,7 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 		ay = pY
 	end
 
-	
+
 
 	local digsites = {}
 	for key, digsite in pairs(sites) do
@@ -673,7 +673,7 @@ end
 function AcquireTaxiMapPin(nodeName)
 	for pin in FlightMapFrame:EnumeratePinsByTemplate("FlightMap_FlightPointPinTemplate") do
 		if (pin.taxiNodeData) then
-			print(pin.taxiNodeData.name, nodeName)
+			-- print(pin.taxiNodeData.name, nodeName)
 			if(pin.taxiNodeData.name == nodeName) then
 				return pin
 			end
@@ -725,7 +725,7 @@ function MinArch:UpdateFlightMap()
 			GameTooltip:Hide()
 		end)
 	end
-	
+
 	local contID = MinArch:GetInternalContId();
 	local uiMapID = MinArch:GetUiMapIdByContId(contID);
 	local zoneUiMapID = C_Map.GetBestMapForUnit("player")
