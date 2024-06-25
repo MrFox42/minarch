@@ -728,6 +728,9 @@ function MinArch:UpdateFlightMap()
 
 	local contID = MinArch:GetInternalContId();
 	local uiMapID = MinArch:GetUiMapIdByContId(contID);
+	if (contID == nil or uiMapID == nil) then
+		return;
+	end
 	local zoneUiMapID = C_Map.GetBestMapForUnit("player")
 	local _, _, instance = HBD:GetPlayerWorldPosition()
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(uiMapID)
@@ -748,10 +751,6 @@ function MinArch:UpdateFlightMap()
 		end
 
 		return
-	end
-
-	if (contID == nil or uiMapID == nil) then
-		return false;
 	end
 
 	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player")

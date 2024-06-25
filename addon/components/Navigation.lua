@@ -56,7 +56,7 @@ function MinArch:SetWayToNearestDigsite()
 	local taxiNode
 	local newWayPoint
 	local digsiteName, distance, digsite, priority = MinArch:GetNearestDigsite()
-	if (MinArch.db.profile.TomTom.taxi.enabled and distance > MinArch.db.profile.TomTom.taxi.distance) then
+	if (MinArch.db.profile.TomTom.taxi.enabled and distance and distance > MinArch.db.profile.TomTom.taxi.distance) then
 		taxiNode = MinArch:GetNearestFlightMaster()
 	end
 
