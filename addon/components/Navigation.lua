@@ -50,7 +50,7 @@ function MinArch:ClearUiWaypoint()
     MinArch.db.char.TomTom.uiMapPoint = nil;
 end
 
-function MinArch:SetWayToNearestDigsite()
+function MinArch:SetWayToNearestDigsite(afterFlight)
 	if not MinArch:IsNavigationEnabled() then return end
 
 	local taxiNode
@@ -58,6 +58,10 @@ function MinArch:SetWayToNearestDigsite()
 	local digsiteName, distance, digsite, priority = MinArch:GetNearestDigsite()
 	if (MinArch.db.profile.TomTom.taxi.enabled and distance and distance > MinArch.db.profile.TomTom.taxi.distance) then
 		taxiNode = MinArch:GetNearestFlightMaster()
+
+		if (afterFlight and taxiNode.distance < 100) then
+			return
+		end
 	end
 
 	if (taxiNode or ( digsite and (digsiteName ~= previousDigsite or distance > 2000)) ) then

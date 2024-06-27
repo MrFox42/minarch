@@ -285,7 +285,7 @@ function MinArch:EventDigsites(event, ...)
 
 	if event == "PLAYER_CONTROL_GAINED" and waypointOnLanding then
 		waypointOnLanding = false
-		MinArch:SetWayToNearestDigsite()
+		MinArch:SetWayToNearestDigsite(true)
 	end
 end
 

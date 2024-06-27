@@ -1055,7 +1055,8 @@ function MinArch:GetNearestFlightMaster()
 		name = nearestTaxiNode.name,
 		x = nearestTaxiNode.position.x * 100,
 		y = nearestTaxiNode.position.y * 100,
-		idx = idx
+		idx = idx,
+		distance = distance
 	}
 end
 
