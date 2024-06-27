@@ -36,7 +36,7 @@ MinArch.defaults = {
         surveyOnDoubleClick = true,
         dblClick = {
             disableMounted = false,
-            disableInFlight = false,
+            disableInFlight = true,
         },
 		relevancy = {
 			relevantOnly = false,
