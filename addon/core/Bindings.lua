@@ -66,5 +66,7 @@ WorldFrame:HookScript("OnMouseDown", function(_, button, down)
         end
 
         prevTime = GetTime();
+    else
+        prevTime = nil
     end
 end)
