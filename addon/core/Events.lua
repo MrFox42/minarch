@@ -141,6 +141,8 @@ function MinArch:EventMain(event, ...)
 		if (changedCVAR == "SHOW_DIG_SITES") then
 			MinArch:ShowRaceIconsOnMap();
 		end
+		
+		return
 	end
 
     if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
