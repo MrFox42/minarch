@@ -9,6 +9,7 @@ MinArch.IsReady = false;
 MinArch.ShowOnSurvey = true;
 MinArch.ShowInDigsite = true;
 MinArch.CompanionShowInDigsite = true;
+MinArch.waypointOnLanding = false
 
 MinArch.firstRun = true;
 MinArch.artifacts = {};

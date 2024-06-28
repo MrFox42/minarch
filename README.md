@@ -22,6 +22,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - History: artifact list is now grouped by progress (enabled by default)
 - Fix multiple issues with race icons on the map
 - Added HereBeDragons as a dependency, digsite distances are now returned in yards
+- **10.2.13.1** Fix issue with unwanted waypoints being generated
 
 ### 10.2.12
 

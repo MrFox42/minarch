@@ -142,7 +142,7 @@ function MinArch:InitDigsites(self)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("TAXIMAP_OPENED")
 	self:RegisterEvent("PLAYER_CONTROL_GAINED")
-	self:RegisterEvent("PLAYER_CONTROL_LOST")
+	-- self:RegisterEvent("PLAYER_CONTROL_LOST")
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
 	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
     hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);
@@ -862,6 +862,8 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame, taxiNode)
 		if (button == "LeftButton") then
 			if (taxiNode) then
 				TakeTaxiNode(taxiNode)
+				MinArch.waypointOnLanding = true
+				MinArch:ClearAllDigsiteWaypoints()
 			else
 				MinArch:SetWayToDigsiteOnClick(NAME, DETAILS)
 			end
