@@ -450,3 +450,7 @@ MinArch.DigsiteLocales.zhCN = {
     ["Digsite: Court of Zak'rajan"] = "挖掘场：扎克拉加之庭",
     ["Digsite: Terrace of the Fang"] = "挖掘场：利齿平台",
 }
+
+if MINARCH_EXPANSION == 'Cata' then
+    MinArch.DigsiteLocales.zhCN["Tomb of the Watchers Digsite"] = "观察者陵墓挖掘场"
+end

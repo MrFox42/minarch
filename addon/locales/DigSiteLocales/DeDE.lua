@@ -450,3 +450,8 @@ MinArch.DigsiteLocales.deDE = {
     ["Digsite: Court of Zak'rajan"] = "Ausgrabungsstätte: Hof von Zak'rajan",
     ["Digsite: Terrace of the Fang"] = "Ausgrabungsstätte: Terrasse der Klaue",
 }
+
+if MINARCH_EXPANSION == 'Cata' then
+    MinArch.DigsiteLocales.deDE["Gurubashi Arena Digsite"] = "Ausgrabungsstätte an der Arena der Gurubashiarena"
+    MinArch.DigsiteLocales.deDE["Shrine of Goldrinn Digsite"] = "Ausgrabungsstätte des Schrein von Goldrinn"
+end

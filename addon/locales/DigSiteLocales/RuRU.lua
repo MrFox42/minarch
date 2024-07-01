@@ -450,3 +450,8 @@ MinArch.DigsiteLocales.ruRU = {
     ["Digsite: Court of Zak'rajan"] = "Раскопки: двор Зак'ражана",
     ["Digsite: Terrace of the Fang"] = "Раскопки: терраса Клыков",
 }
+
+if MINARCH_EXPANSION == 'Cata' then
+    MinArch.DigsiteLocales.ruRU["Dire Maul Digsite"] = "Забытый Город - раскопки"
+    MinArch.DigsiteLocales.ruRU["Baleheim Digsite"] = "Гибльхейм - раскопки"
+end

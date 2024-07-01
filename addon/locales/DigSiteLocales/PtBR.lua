@@ -450,3 +450,7 @@ MinArch.DigsiteLocales.ptBR = {
     ["Digsite: Court of Zak'rajan"] = "Sítio de Escavação: Paço de Zak'rajan",
     ["Digsite: Terrace of the Fang"] = "Sítio de Escavação: Terraço da Presa",
 }
+
+if MINARCH_EXPANSION == 'Cata' then
+    MinArch.DigsiteLocales.ptBR["Pyrox Flats Digsite"] = "Sítio de Escavação das Planícies Pyrox"
+end
