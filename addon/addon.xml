@@ -11,7 +11,7 @@
     <!-- Locales -->
     <Script file="locales\Localizations.lua" />
     <Script file="locales\DigSiteLocales\DeDE.lua" />
-    <Script file="locales\DigSiteLocales\EnGB.lua" />
+    <Script file="locales\DigSiteLocales\EnUS.lua" />
     <Script file="locales\DigSiteLocales\EsES.lua" />
     <Script file="locales\DigSiteLocales\EsMX.lua" />
     <Script file="locales\DigSiteLocales\FrFR.lua" />
