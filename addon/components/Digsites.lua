@@ -581,8 +581,6 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 		ay = pY
 	end
 
-
-
 	local digsites = {}
 	for key, digsite in pairs(sites) do
         local name = tostring(digsite.name)
@@ -597,30 +595,34 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
 			if (MinArchDigsiteList[contID][name]) then
-                local currentRace = MinArchDigsiteList[contID][name].race;
-				local details = MinArchDigsitesGlobalDB["continent"][contID][name]
-				details.ax = dX
-				details.ay = dY
-				-- details.ax = digsitex
-				-- details.ay = digsitey
+				MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
+			end
 
-				local prio = MinArch.db.profile.raceOptions.priority[currentRace]
+			local currentRace = MinArchDigsiteList[contID][name] and MinArchDigsiteList[contID][name].race or nil;
+			local details = MinArchDigsitesGlobalDB["continent"][contID][name]
+			details.ax = dX
+			details.ay = dY
+			-- details.ax = digsitex
+			-- details.ay = digsitey
+
+			local prio = 99
+			if currentRace then
+				prio = MinArch.db.profile.raceOptions.priority[currentRace]
 				if not prio or prio == 0 then
 					prio = 99
 				end
 				if MinArch.db.profile.raceOptions.hide[currentRace] then
 					prio = 100
 				end
-                digsites[key] = {
-					name = name,
-					distance = d,
-					position = digsite.position,
-					prio = prio,
-					details = details
-				}
-            else
-                MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
-            end
+			end
+
+			digsites[key] = {
+				name = name,
+				distance = d,
+				position = digsite.position,
+				prio = prio,
+				details = details
+			}
 		end
 	end
 
