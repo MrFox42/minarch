@@ -296,14 +296,14 @@ function MinArch:TestForMissingDigsites()
 		return;
 	end
 
-	for k, v in pairs(MinArch.DigsiteLocales.enGB) do
+	for k, v in pairs(MinArch.DigsiteLocales.enUS) do
 		if (MinArchDigsiteList[k] == nil) then
 			print("Missing race for: " .. k);
 		end
 	end
 
 	for k, v in pairs(MinArchDigsiteList) do
-		if (MinArch.DigsiteLocales.enGB[k] == nil) then
+		if (MinArch.DigsiteLocales.enUS[k] == nil) then
 			print("Missing translation for: " .. k);
 		end
 	end

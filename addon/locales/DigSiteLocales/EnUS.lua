@@ -1,6 +1,6 @@
 local ADDON, MinArch = ...
 
-MinArch.DigsiteLocales.enGB = {
+MinArch.DigsiteLocales.enUS = {
     ["Ironband's Excavation Site"] = "Ironband's Excavation Site",
     ["Ironbeard's Tomb"] = "Ironbeard's Tomb",
     ["Whelgar's Excavation Site"] = "Whelgar's Excavation Site",
