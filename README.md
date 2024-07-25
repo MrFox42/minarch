@@ -15,6 +15,10 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Recent changes
 
+### 11.0.0
+
+- Updated for War Within
+
 ### 10.2.13
 
 - **New Feature: Taxi Service**: if enabled, waypoints will be created to the nearest flight master if the nearest digsite is farther than the user-configured distance. You can find the options in the Navigation section.
