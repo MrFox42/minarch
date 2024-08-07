@@ -46,8 +46,7 @@ local function CreateRelevancyToggleButton(parent, x, y)
 	end);
 	button:SetScript("OnMouseUp", function(self, button)
 		if (button == "RightButton") then
-			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
-			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+			MinArch:OpenSettings(MinArch.Options.menu);
 		end
 	end);
 	button:SetScript("OnEnter", ShowRelevancyButtonTooltip)
@@ -615,8 +614,7 @@ function MinArch:OpenWindow(button)
 		end
 
 	elseif (button == "RightButton") then
-		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
-		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+		MinArch:OpenSettings(MinArch.Options.menu);
 	end
 end
 

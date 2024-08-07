@@ -98,8 +98,7 @@ function MinArch:CreateAutoWaypointButton(parent, x, y)
         if (button == "LeftButton") then
             MinArch:SetWayToNearestDigsite()
         elseif (button == "RightButton") then
-            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
-		    InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+            MinArch:OpenSettings(MinArch.Options.menu);
         end
 	end)
 
@@ -309,6 +308,14 @@ function MinArch:TestForMissingDigsites()
 	end
 end
 
+function MinArch:OpenSettings(category)
+	if Settings and Settings.OpenToCategory then
+		Settings.OpenToCategory(category.name);
+	else
+		InterfaceOptionsFrame_OpenToCategory(category)
+	end
+end
+
 function MinArch:Round(x)
     return math.floor(x + 0.5);
 end
@@ -316,7 +323,6 @@ end
 function MinArch_TrackingChanged(self)
 	MinArch:TrackingChanged(self);
 end
-
 
 function MinArch_MapLayerChanged(self)
 	MinArch:MapLayerChanged(self);
