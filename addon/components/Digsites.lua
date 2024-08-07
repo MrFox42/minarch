@@ -611,7 +611,7 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 				if not prio or prio == 0 then
 					prio = 99
 				end
-				if MinArch.db.profile.raceOptions.hide[currentRace] then
+				if MinArch.db.profile.raceOptions.hide[currentRace] and MinArch.db.profile.TomTom.ignoreHidden then
 					prio = 100
 				end
 			end
