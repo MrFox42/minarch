@@ -18,6 +18,8 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ### 11.0.0
 
 - Updated for War Within
+- **11.0.0.1** Fix waypoint creation ignoring hidden races even when the "Ignore Hidden" option is disabled
+- **11.0.0.1** Fix opening Options on Mainline
 
 ### 10.2.13
 
