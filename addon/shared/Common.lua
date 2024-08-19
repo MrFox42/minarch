@@ -310,9 +310,9 @@ end
 
 function MinArch:GetSpellCooldown(spellID)
     if C_Spell and C_Spell.GetSpellCooldown then
-        C_Spell.GetSpellCooldown(spellID)
+        return C_Spell.GetSpellCooldown(spellID).startTime
     else
-        GetSpellCooldown(spellID)
+        return GetSpellCooldown(spellID)
     end
 end
 
