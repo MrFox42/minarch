@@ -242,7 +242,7 @@ function MinArch:CanCast()
     end
 
     -- Check general conditions
-    if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
+    if InCombatLockdown() or not CanScanResearchSite() or MinArch:GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
         MinArch:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)
         return false;
     end
@@ -306,6 +306,14 @@ function MinArch:TestForMissingDigsites()
 			print("Missing translation for: " .. k);
 		end
 	end
+end
+
+function MinArch:GetSpellCooldown(spellID)
+    if C_Spell and C_Spell.GetSpellCooldown then
+        C_Spell.GetSpellCooldown(spellID)
+    else
+        GetSpellCooldown(spellID)
+    end
 end
 
 function MinArch:OpenSettings(category)
