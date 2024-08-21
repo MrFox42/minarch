@@ -675,8 +675,9 @@ end
 function AcquireTaxiMapPin(nodeName)
 	for pin in FlightMapFrame:EnumeratePinsByTemplate("FlightMap_FlightPointPinTemplate") do
 		if (pin.taxiNodeData) then
-			-- print(pin.taxiNodeData.name, nodeName)
-			if(pin.taxiNodeData.name == nodeName) then
+			local nodeType = TaxiNodeGetType(pin.taxiNodeData.slotIndex)
+			-- print(pin.taxiNodeData.name, nodeName, pin.taxiNodeData.textureKit, nodeType)
+			if (pin.taxiNodeData.name == nodeName and not pin.taxiNodeData.textureKit and (nodeType == "REACHABLE" or nodeType == "CURRENT")) then
 				return pin
 			end
 		end
@@ -741,8 +742,10 @@ function MinArch:UpdateFlightMap()
 		for idx, taxiNode in ipairs(taxiNodes) do
 			if FlightMapFrame then
 				local pin = AcquireTaxiMapPin(taxiNode.name)
-				pin:SetAlphaLimits(2.0, 1, 1)
-				pin:SetAlpha(1)
+				if pin then
+					pin:SetAlphaLimits(2.0, 1, 1)
+					pin:SetAlpha(1)
+				end
 			else
 				_G["TaxiButton" .. idx]:SetAlpha(1)
 			end
@@ -779,7 +782,7 @@ function MinArch:UpdateFlightMap()
 			-- print(instance, digsitex, digsitey, nodex, nodey)
 
 			local nodeType = TaxiNodeGetType(taxiNode.slotIndex or idx)
-			if (nodeType == "REACHABLE" or nodeType == "CURRENT") and (not distance or d < distance) then
+			if (nodeType == "REACHABLE" or nodeType == "CURRENT") and not taxiNode.textureKit and (not distance or d < distance) then
 				node = taxiNode
 				nodeName = taxiNode.name
 				distance = d
@@ -798,9 +801,11 @@ function MinArch:UpdateFlightMap()
 	for idx,taxiNode in ipairs(taxiNodes) do
 		if FlightMapFrame then
 			local pin = AcquireTaxiMapPin(taxiNode.name)
-			pin.OnAddAnim:Stop()
-			pin:SetAlphaLimits(2.0, MinArch.db.profile.TomTom.taxi.alpha / 100, MinArch.db.profile.TomTom.taxi.alpha / 100)
-			pin:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
+			if pin then
+				pin.OnAddAnim:Stop()
+				pin:SetAlphaLimits(2.0, MinArch.db.profile.TomTom.taxi.alpha / 100, MinArch.db.profile.TomTom.taxi.alpha / 100)
+				pin:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
+			end
 		else
 			_G["TaxiButton" .. idx]:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
 		end
