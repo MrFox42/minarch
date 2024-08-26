@@ -21,7 +21,8 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **11.0.0.1** Fix waypoint creation ignoring hidden races even when the "Ignore Hidden" option is disabled
 - **11.0.0.1** Fix opening Options on Mainline
 - **11.0.0.2** Fix GetSpellInfo lua error
-- **11.0.0.3** Fix Survey button, double right click surveying
+- **11.0.0.3** Fix surveying
+- **11.0.0.4** Fix flight map showing hidden and special pins
 
 ### 10.2.13
 
