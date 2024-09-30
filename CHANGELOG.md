@@ -9,6 +9,7 @@
 - **11.0.0.2** Fix GetSpellInfo lua error
 - **11.0.0.3** Fix surveying
 - **11.0.0.4** Fix flight map showing hidden and special pins
+- **11.0.0.5** Bump toc for 11.0.2
 
 ### 10.2.13
 
