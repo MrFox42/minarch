@@ -517,7 +517,7 @@ function Companion:hideCrateButton()
 end
 
 function Companion.events:PLAYER_ENTERING_WORLD(...)
-    if MinArch.db.profile.companion.savePos then
+    if MinArch.db.profile.companion.savePos and MinArch.db.profile.companion.posX and MinArch.db.profile.companion.posY then
         Companion:ClearAllPoints();
         Companion:SetPoint(MinArch.db.profile.companion.point, UIParent, MinArch.db.profile.companion.relativePoint, MinArch.db.profile.companion.posX, MinArch.db.profile.companion.posY)
     end
@@ -680,8 +680,18 @@ function Companion:Init()
         Companion:SetMovable(true)
         Companion:EnableMouse(true)
         RegisterForDrag(Companion);
+        Companion:ClearAllPoints();
 
-        Companion:SetPoint("CENTER", 0, 0)
+        if not MinArch.db.profile.companion.posX or not MinArch.db.profile.companion.posY then
+            Companion:SetPoint("CENTER", 0, 0)
+        end
+
+        Companion:SetScript("OnShow", function ()
+            if MinArch.db.profile.companion.posX and MinArch.db.profile.companion.posY then
+                Companion:SetPoint(MinArch.db.profile.companion.point, UIParent, MinArch.db.profile.companion.relativePoint, MinArch.db.profile.companion.posX, MinArch.db.profile.companion.posY)
+            end
+        end)
+        
         Companion:Show()
 
         InitDistanceTracker()
