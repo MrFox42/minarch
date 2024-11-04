@@ -24,6 +24,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **11.0.0.3** Fix surveying
 - **11.0.0.4** Fix flight map showing hidden and special pins
 - **11.0.0.5** Bump toc for 11.0.2
+- **11.0.0.7** Fix  Companion position issues
 
 ### 10.2.13
 
