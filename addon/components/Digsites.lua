@@ -594,7 +594,7 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 		-- d = math.floor(d)
 
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
-			if (MinArchDigsiteList[contID][name]) then
+			if (not MinArchDigsiteList[contID][name]) then
 				MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
 			end
 
