@@ -313,7 +313,7 @@ function MinArch:CreateDigSitesList(ContID)
 				local currentDigSite = scrollc.digsites[count];
 				currentDigSite:SetFontObject("ChatFontSmall");
 				currentDigSite:SetWordWrap(true);
-				currentDigSite:SetText(" "..name);
+				currentDigSite:SetText(" "..name .. " - " .. digsite.race);
 				if (status == true) then
 					currentDigSite:SetTextColor(1.0, 1.0, 1.0, 1.0);
 				else
