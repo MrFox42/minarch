@@ -37,6 +37,7 @@ MinArch.defaults = {
         dblClick = {
             disableMounted = false,
             disableInFlight = true,
+            button = 1,
         },
 		relevancy = {
 			relevantOnly = false,

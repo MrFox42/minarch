@@ -242,6 +242,18 @@ local general = {
                     width = 1.5,
 					order = 3,
                 },
+				doubleClickButton = {
+					name = 'Double click button',
+					desc = "Button for double click surveying.",
+					type = "select",
+					values = {[1] = 'Right Mouse Button', [2] = 'Left Mouse Button'},
+					get = function () return MinArch.db.profile.dblClick.button end,
+					set = function (_, newValue)
+						MinArch.db.profile.dblClick.button = newValue;
+					end,
+					width = 1.5,
+					order = 4,
+				}
             }
         },
 		misc = {

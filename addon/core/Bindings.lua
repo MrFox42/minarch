@@ -36,12 +36,20 @@ end
 local threshold = 0.5;
 local prevTime;
 local clickTime = 0;
+local buttonName = {
+    [1] = "RightButton",
+    [2] = "LeftButton"
+}
+local buttonId = {
+    [1] = "BUTTON2",
+    [2] = "BUTTON1"
+}
 
 WorldFrame:HookScript("OnMouseDown", function(_, button, down)
     -- Check if casting is enabled at all
-    if button == "RightButton" then
+    if button == buttonName[MinArch.db.profile.dblClick.button] then
         MinArch:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
-        
+
         if not MinArch.db.profile.surveyOnDoubleClick then
             MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
             return
@@ -60,7 +68,7 @@ WorldFrame:HookScript("OnMouseDown", function(_, button, down)
                     end
 
                     MinArch:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
-                    SetOverrideBindingClick(MinArch.hiddenButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
+                    SetOverrideBindingClick(MinArch.hiddenButton, true, buttonId[MinArch.db.profile.dblClick.button], "MinArchHiddenSurveyButton");
                 end
             end
         end
