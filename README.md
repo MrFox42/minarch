@@ -27,6 +27,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **11.0.0.7** Fix Companion position issues
 - **11.0.0.8** Show digsite race in digsite list
 - **11.0.0.9** Implement option to use left click for double click surveying
+- **11.0.0.11** Fix Companion survey button
 
 ### 10.2.13
 

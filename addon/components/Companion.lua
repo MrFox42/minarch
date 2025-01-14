@@ -189,7 +189,7 @@ end
 local function InitSurveyButton()
     -- Survey button
     local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion, "InSecureActionButtonTemplate");
-    surveyButton:RegisterForClicks("AnyDown")
+    surveyButton:RegisterForClicks("AnyUp", "AnyDown")
     surveyButton:SetAttribute("type", "spell")
     surveyButton:SetAttribute("spell", SURVEY_SPELL_ID)
     surveyButton:SetPoint("LEFT", 44, 0)
@@ -691,7 +691,7 @@ function Companion:Init()
                 Companion:SetPoint(MinArch.db.profile.companion.point, UIParent, MinArch.db.profile.companion.relativePoint, MinArch.db.profile.companion.posX, MinArch.db.profile.companion.posY)
             end
         end)
-        
+
         Companion:Show()
 
         InitDistanceTracker()
