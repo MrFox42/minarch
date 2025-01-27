@@ -4,6 +4,15 @@
 ..\FrameXML\UI.xsd">
     <Script file="EnUS.lua"/>
     <Script file="DeDE.lua"/>
+    <Script file="EsES.lua"/>
+    <Script file="EsMX.lua"/>
+    <Script file="FrFR.lua"/>
+    <Script file="ItIT.lua"/>
+    <Script file="KoKR.lua"/>
+    <Script file="PtBR.lua"/>
+    <Script file="RuRU.lua"/>
+    <Script file="ZhCN.lua"/>
+    <Script file="ZhTW.lua"/>
     
     <Script file="DigSiteLocales\EnUS.lua" />
     <Script file="DigSiteLocales\DeDE.lua" />

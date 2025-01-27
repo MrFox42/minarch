@@ -1,3 +1,4 @@
+-- If you would like to help with translations, please use https://curseforge.com/wow/addons/minimal-archaeology/localization
 local L = LibStub("AceLocale-3.0"):NewLocale("MinArch", "deDE")
 if not L then return end
 
