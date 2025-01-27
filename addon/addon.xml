@@ -10,18 +10,7 @@
 
     <!-- Locales -->
     <Script file="locales\Localizations.lua" />
-    <Script file="locales\DigSiteLocales\DeDE.lua" />
-    <Script file="locales\DigSiteLocales\EnUS.lua" />
-    <Script file="locales\DigSiteLocales\EsES.lua" />
-    <Script file="locales\DigSiteLocales\EsMX.lua" />
-    <Script file="locales\DigSiteLocales\FrFR.lua" />
-    <Script file="locales\DigSiteLocales\ItIT.lua" />
-    <Script file="locales\DigSiteLocales\KoKR.lua" />
-    <Script file="locales\DigSiteLocales\PtBR.lua" />
-    <Script file="locales\DigSiteLocales\PtPT.lua" />
-    <Script file="locales\DigSiteLocales\RuRU.lua" />
-    <Script file="locales\DigSiteLocales\ZhCN.lua" />
-    <Script file="locales\DigSiteLocales\ZhTW.lua" />
+    <Include file="locales\Locales.xml" />
 
     <!-- Data -->
     <Script file="data\ArtifactDB.lua"/>
