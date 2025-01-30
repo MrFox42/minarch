@@ -1,14 +1,16 @@
 -- Minimal Archaeology
 
-local ADDON, MinArch = ...
+local ADDON, _ = ...
 
-MinArch.Ace = LibStub("AceAddon-3.0"):NewAddon(ADDON, "AceTimer-3.0");
+local modules = {};
+
+---@class MinArch : AceAddon, AceTimer-3.0
+MinArch = LibStub("AceAddon-3.0"):NewAddon(ADDON, "AceTimer-3.0");
 
 MinArch.HideNext = false;
 MinArch.IsReady = false;
 MinArch.ShowOnSurvey = true;
 MinArch.ShowInDigsite = true;
-MinArch.CompanionShowInDigsite = true;
 MinArch.waypointOnLanding = false
 
 MinArch.firstRun = true;
@@ -24,3 +26,15 @@ MinArch.RelevantRaces = {};
 -- Legacy compatibility
 MinArchOptions = {};
 MinArchOptions.ABOptions = {};
+
+---@generic T
+---@param name `T` @Module name
+---@return T @Module reference
+function MinArch:LoadModule(name)
+    if (not modules[name]) then
+        modules[name] = {};
+        return modules[name]
+    else
+        return modules[name]
+    end
+end

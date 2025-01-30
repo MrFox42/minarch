@@ -1,11 +1,12 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+---@type MinArch
 
-MinArch.Options = MinArch.Ace:NewModule("Options");
+---@class MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions");
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
 
-local Options = MinArch.Options;
-local parent = MinArch;
-
-local L = _G.LibStub("AceLocale-3.0"):GetLocale("MinArch")
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
 
 local ArchRaceGroupText = {
 	L["GLOBAL_KUL_TIRAS"] .. ", " .. L["GLOBAL_ZANDALAR"],
@@ -37,7 +38,7 @@ local function updateOrdering(frame, newValue)
     end
 
     MinArch.db.profile.companion.features[frame].order = newValue;
-    MinArch.Companion:Update();
+    Companion:Update();
 end
 
 
@@ -719,9 +720,9 @@ local companionSettings = {
 						MinArch.db.profile.companion.enable = newValue;
 
 						if (newValue) then
-							MinArch.Companion:Enable();
+							Companion:Enable();
 						else
-							MinArch.Companion:Disable();
+							Companion:Disable();
 						end
 					end,
 					order = 1,
@@ -733,7 +734,7 @@ local companionSettings = {
 					get = function () return MinArch.db.profile.companion.alwaysShow end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.alwaysShow = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 					order = 2,
@@ -745,7 +746,7 @@ local companionSettings = {
                     get = function () return MinArch.db.profile.companion.hideInCombat end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.hideInCombat = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 3,
@@ -757,7 +758,7 @@ local companionSettings = {
                     get = function () return MinArch.db.profile.companion.hideWhenUnavailable end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.hideWhenUnavailable = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 3,
@@ -790,7 +791,7 @@ local companionSettings = {
                     get = function () return MinArch.db.profile.companion.bg.a * 100 end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.bg.a = newValue / 100;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 6,
@@ -811,7 +812,7 @@ local companionSettings = {
                     get = function () return MinArch.db.profile.companion.buttonSpacing end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.buttonSpacing = newValue;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 98,
@@ -826,7 +827,7 @@ local companionSettings = {
                     get = function () return MinArch.db.profile.companion.padding end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.padding = newValue;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 98,
@@ -841,7 +842,7 @@ local companionSettings = {
                     get = function () return MinArch.db.profile.companion.frameScale end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.frameScale = newValue;
-                        MinArch.Companion:SetFrameScale(newValue);
+                        Companion:SetFrameScale(newValue);
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 99,
@@ -879,7 +880,7 @@ local companionSettings = {
 					set = function (_, newValue)
                         MinArch.db.profile.companion.savePos = newValue;
                         if newValue then
-                            MinArch.Companion:SavePosition()
+                            Companion:SavePosition()
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
@@ -893,10 +894,10 @@ local companionSettings = {
                     set = function (_, newValue)
                         if (MinArch.db.profile.companion.enable and MinArch.db.profile.companion.savePos) then
                             MinArch.db.profile.companion.posX = tonumber(newValue);
-                            local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
-                            MinArch.Companion:ClearAllPoints();
-                            MinArch.Companion:SetPoint(point, UIParent, relativePoint, tonumber(newValue), yOfs);
-                            MinArch.Companion:SavePosition()
+                            local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
+                            Companion.frame:ClearAllPoints();
+                            Companion.frame:SetPoint(point, UIParent, relativePoint, tonumber(newValue), yOfs);
+                            Companion.frame:SavePosition()
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
@@ -910,10 +911,10 @@ local companionSettings = {
                     set = function (_, newValue)
                         if (MinArch.db.profile.companion.enable and MinArch.db.profile.companion.savePos) then
                             MinArch.db.profile.companion.posY = tonumber(newValue);
-                            local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
-                            MinArch.Companion:ClearAllPoints();
-                            MinArch.Companion:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
-                            MinArch.Companion:SavePosition();
+                            local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
+                            Companion.frame:ClearAllPoints();
+                            Companion.frame:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
+                            Companion.frame:SavePosition();
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
@@ -924,7 +925,7 @@ local companionSettings = {
 					name = L["OPTIONS_COMPANION_POSITION_RESET"],
 					order = 6,
 					func = function ()
-                        MinArch.Companion:ResetPosition();
+                        Companion:ResetPosition();
 					end,
                 },
             }
@@ -948,7 +949,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.distanceTracker.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -972,7 +973,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.shape end,
                             set = function (info, newValue)
                                 MinArch.db.profile.companion.features.distanceTracker.shape = newValue
-                                MinArch.Companion:UpdateIndicatorFrameTexture()
+                                Companion:UpdateIndicatorFrameTexture()
                             end,
                         }
                     }
@@ -990,7 +991,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.waypointButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.waypointButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 6,
@@ -1022,7 +1023,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.surveyButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.surveyButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 3,
@@ -1054,7 +1055,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.solveButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 20,
@@ -1078,7 +1079,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.relevantOnly end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.relevantOnly = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = "full",
@@ -1091,7 +1092,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowNearest end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.alwaysShowNearest = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = 1.5,
@@ -1104,7 +1105,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = 1.5,
@@ -1117,7 +1118,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.solveButton.keystone end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.keystone = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 57,
@@ -1137,7 +1138,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.crateButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.crateButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 51,
@@ -1169,7 +1170,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.mountButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.mountButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 6,
@@ -1201,7 +1202,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.skillBar.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.skillBar.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -1221,7 +1222,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.progressBar.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -1233,7 +1234,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.progressBar.showTooltip end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.showTooltip = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -1245,7 +1246,7 @@ local companionSettings = {
                             get = function () return MinArch.db.profile.companion.features.progressBar.solveOnClick end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.solveOnClick = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -1582,7 +1583,7 @@ local PatronSettings = {
 			}
 		},
 	}
-	}
+}
 
 function Options:OnInitialize()
 	local count = 1;
@@ -1735,6 +1736,6 @@ function Options:RegisterMenus()
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_PATRONS_TITLE"], PatronSettings);
     self.patrons = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_PATRONS_TITLE"], L["OPTIONS_REGISTER_MINARCH_PATRONS_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_PROFILES_TITLE"], LibStub("AceDBOptions-3.0"):GetOptionsTable(parent.db));
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_PROFILES_TITLE"], LibStub("AceDBOptions-3.0"):GetOptionsTable(MinArch.db));
     self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_PROFILES_TITLE"], L["OPTIONS_REGISTER_MINARCH_PROFILES_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 end

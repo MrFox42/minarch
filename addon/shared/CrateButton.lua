@@ -1,4 +1,7 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
 
 function MinArch:SetCrateButtonTooltip(button)
     button:SetScript("OnEnter", function(self)
@@ -21,7 +24,7 @@ end
 MinArch.nextCratable = nil;
 function MinArch:RefreshCrateButtonGlow()
     MinArchMainCrateButtonGlow:Hide();
-    MinArch.Companion:hideCrateButton()
+    Companion:hideCrateButton()
     MinArch.nextCratable = nil;
 
 	for i = 1, ARCHAEOLOGY_RACE_MANTID do
@@ -41,7 +44,7 @@ function MinArch:RefreshCrateButtonGlow()
 
                             MinArchMainCrateButton:SetAttribute("item", "item:" .. itemID);
                             MinArchMainCrateButtonGlow:Show();
-                            MinArch.Companion:showCrateButton(itemID);
+                            Companion:showCrateButton(itemID);
 
 							return;
 						end

@@ -1,4 +1,9 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+---@type MinArch
+---@type MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions")
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
 
 MinArchArtifactBars = {};
 
@@ -46,7 +51,7 @@ local function CreateRelevancyToggleButton(parent, x, y)
 	end);
 	button:SetScript("OnMouseUp", function(self, button)
 		if (button == "RightButton") then
-			MinArch:OpenSettings(MinArch.Options.menu);
+			MinArch:OpenSettings(Options.menu);
 		end
 	end);
 	button:SetScript("OnEnter", ShowRelevancyButtonTooltip)
@@ -209,25 +214,25 @@ function MinArch:UpdateArchaeologySkillBar()
 
 			if MinArch.db.profile.companion.enable then
 				if MinArch.db.profile.companion.features.skillBar.enabled then
-					local width = math.floor(MinArch.Companion:GetWidth() * (rank / maxRank))
-					MinArch.Companion.skillBar.progressBar:SetWidth(width);
-					MinArch.Companion.skillBar.fontString:SetText(rank .. '/' .. maxRank)
-					MinArch.Companion.skillBar:Show()
+					local width = math.floor(Companion.frame:GetWidth() * (rank / maxRank))
+					Companion.skillBar.progressBar:SetWidth(width);
+					Companion.skillBar.fontString:SetText(rank .. '/' .. maxRank)
+					Companion.skillBar:Show()
 				else
-					MinArch.Companion.skillBar:Hide()
+					Companion.skillBar:Hide()
 				end
 			end
 		else
 			MinArchMain.skillBar:Hide();
 			if MinArch.db.profile.companion.enable then
-				MinArch.Companion.skillBar:Hide()
+				Companion.skillBar:Hide()
 			end
 			MinArch['frame']['height'] = MinArch['frame']['defaultHeight'] - 25;
 			-- MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
 		end
 	else
 		if MinArch.db.profile.companion.enable then
-        	MinArch.Companion.skillBar:Hide()
+        	Companion.skillBar:Hide()
 		end
 		MinArchMain.skillBar:SetMinMaxValues(0, 100);
 		MinArchMain.skillBar:SetValue(0);
@@ -470,8 +475,8 @@ function MinArch:UpdateMain()
 	MinArch:RefreshLDBButton();
 	MinArch:RefreshCrateButtonGlow();
     MinArch:DimHistoryButtons();
-    MinArch.Companion:AutoToggle();
-    MinArch.Companion:Update();
+    Companion:AutoToggle();
+    Companion:Update();
 end
 
 function MinArch:ShowArtifactTooltip(self, RaceIndex)
@@ -560,7 +565,7 @@ function MinArch:KeystoneClick(self, raceID, button, down)
 	MinArch:UpdateArtifact(raceID);
 	MinArch:UpdateArtifactBar(raceID);
 	MinArch:RefreshLDBButton();
-	MinArch.Companion:Update()
+	Companion:Update()
 end
 
 function MinArch:HideMain()
@@ -614,7 +619,7 @@ function MinArch:OpenWindow(button)
 		end
 
 	elseif (button == "RightButton") then
-		MinArch:OpenSettings(MinArch.Options.menu);
+		MinArch:OpenSettings(Options.menu);
 	end
 end
 

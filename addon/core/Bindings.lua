@@ -1,4 +1,7 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
 
 BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
 BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
@@ -20,7 +23,7 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 		ChatFrame1:AddMessage(" Commands:");
         ChatFrame1:AddMessage("  comp resetpos - Resets the position of the Companion box");
     elseif (msg == "comp resetpos") then
-        MinArch.Companion:ResetPosition();
+        Companion:ResetPosition();
 	else
 		ChatFrame1:AddMessage("Minimal Archaeology Commands");
 		ChatFrame1:AddMessage(" Usage: /minarch [cmd]");

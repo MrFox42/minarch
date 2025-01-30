@@ -1,4 +1,7 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
 
 local eventTimer = nil
 local researchEventTimer = nil
@@ -21,9 +24,9 @@ function MinArch:EventHelper(event, ...)
 			end
 		end
 		if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.companion.hideInCombat) then
-			if (MinArch.Companion:IsVisible()) then
-				MinArch.Companion:HideFrame();
-				MinArch.Companion.showAfterCombat = true;
+			if (Companion.frame:IsVisible()) then
+				Companion:HideFrame();
+				Companion.showAfterCombat = true;
 			end
 		end
 	elseif (event == "PLAYER_REGEN_ENABLED") then
@@ -39,9 +42,9 @@ function MinArch:EventHelper(event, ...)
 			MinArch:ShowDigsites();
 			MinArchDigsites.showAfterCombat = false;
         end
-        if (MinArch.Companion.showAfterCombat) then
-			MinArch.Companion:ShowFrame();
-			MinArch.Companion.showAfterCombat = false;
+        if (Companion.showAfterCombat) then
+			Companion:ShowFrame();
+			Companion.showAfterCombat = false;
 		end
 	elseif (event == "GLOBAL_MOUSE_DOWN") then
 		-- MinArch:DoubleClickSurvey(event, ...);
@@ -91,7 +94,7 @@ function MinArch:EventMain(event, ...)
 			MinArch:LoadRaceInfo();
 		end
         MinArch:RefreshLDBButton(event);
-        MinArch.Companion:AutoToggle()
+        Companion:AutoToggle()
 	end
 
 	if (event == "PLAYER_REGEN_ENABLED") then
@@ -125,9 +128,9 @@ function MinArch:EventMain(event, ...)
 	if (event == "ARTIFACT_DIGSITE_COMPLETE") then
 		MinArch.ShowOnSurvey = true;
         MinArch.ShowInDigsite = true;
-        MinArch.CompanionShowInDigsite = true;
+        Companion.showInDigsite = true;
 		if not MinArch.db.profile.companion.alwaysShow then
-        	MinArch.Companion:Hide();
+        	Companion.frame:Hide();
 		end
 	end
 
@@ -146,7 +149,7 @@ function MinArch:EventMain(event, ...)
 	end
 
     if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
-        MinArch.Companion:AutoToggle()
+        Companion:AutoToggle()
 		MinArch:RefreshLDBButton(event);
 		return
 	end

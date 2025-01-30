@@ -1,4 +1,6 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+---@type MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions")
 
 -- Local variables
 local ResearchBranchMap = {
@@ -98,7 +100,7 @@ function MinArch:CreateAutoWaypointButton(parent, x, y)
         if (button == "LeftButton") then
             MinArch:SetWayToNearestDigsite()
         elseif (button == "RightButton") then
-            MinArch:OpenSettings(MinArch.Options.menu);
+            MinArch:OpenSettings(Options.menu);
         end
 	end)
 

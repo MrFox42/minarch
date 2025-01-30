@@ -1,5 +1,9 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
 local isClassic = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
+---@type MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions")
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
 
 function MinArch:InitHelperFrame()
     MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
@@ -11,7 +15,7 @@ function MinArch:InitHelperFrame()
 	MinArchMain.showAfterCombat = false;
 	MinArchHist.showAfterCombat = false;
     MinArchDigsites.showAfterCombat = false;
-    MinArch.Companion.showAfterCombat = false;
+    Companion.showAfterCombat = false;
 
     MinArch.HelperFrame:Hide();
 
@@ -44,18 +48,18 @@ function MinArch:InitHelperFrame()
 	MinArch.hiddenButton = button
 end
 
-function MinArch.Ace:OnInitialize ()
+function MinArch:OnInitialize ()
 	-- Initialize Settings Database
 	MinArch:SetDynamicDefaults();
 	MinArch:InitDatabase();
 	MinArch:MainEventAddonLoaded();
-
+	
 	MinArch:InitHelperFrame();
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
 
-	MinArch.Companion:Init();
+	Companion:Init();
 
 	MinArch:InitLDB();
 	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
@@ -69,6 +73,8 @@ function MinArch.Ace:OnInitialize ()
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
     MinArch:ShowRaceIconsOnMap();
     -- MinArch:HookDoubleClick();
+	Options:OnInitialize()
+
 	MinArch.IsReady = true;
 	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
@@ -89,7 +95,7 @@ function MinArch:RefreshConfig()
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
 	MinArch.ShowOnSurvey = true;
     MinArch.ShowInDigsite = true;
-    MinArch.CompanionShowInDigsite = true;
+    Companion.showInDigsite = true;
 	MinArch:UpdateMain();
 end
 

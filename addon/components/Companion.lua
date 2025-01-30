@@ -1,10 +1,14 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+---@type MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions")
 
-MinArch.Companion = CreateFrame("Frame", "MinArchCompanion", UIParent)
+---@class MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
 
-local Companion = MinArch.Companion
+Companion.frame = CreateFrame("Frame", "MinArchCompanion", UIParent)
 Companion.events = {}
-Companion.initialized = false;
+Companion.initialized = false
+Companion.showInDigsite = true
 
 local cx, cy, cInstance;
 local timer;
@@ -60,7 +64,8 @@ end
 
 local function OpenSettingsAndHideHelp(self, button)
     if (button == "RightButton") then
-        MinArch:OpenSettings(MinArch.Options.menu);
+        MinArch:OpenSettings(Options.menu);
+        MinArch:OpenSettings(Options.companionSettings);
 
         MinArch.db.profile.companion.showHelpTip = false;
         HelpPlate_TooltipHide();
@@ -68,7 +73,7 @@ local function OpenSettingsAndHideHelp(self, button)
 end
 
 local function InitDistanceTracker()
-    Companion.trackerFrame = CreateFrame("Frame", "$parentTracker", Companion)
+    Companion.trackerFrame = CreateFrame("Frame", "$parentTracker", Companion.frame)
 
     Companion.trackerFrame:SetPoint("LEFT", 0, 0)
     Companion.trackerFrame:SetWidth(40)
@@ -88,7 +93,7 @@ local function InitDistanceTracker()
             HelpPlate_TooltipHide();
             HelpPlateTooltip.ArrowUP:Show();
             HelpPlateTooltip.ArrowGlowUP:Show();
-            HelpPlateTooltip:SetPoint("BOTTOM", MinArchCompanion, "TOP", 0, 20);
+            HelpPlateTooltip:SetPoint("BOTTOM", Companion.frame, "TOP", 0, 20);
             HelpPlateTooltip.Text:SetText("This is the Mininimal Archaeology Companion frame with distance tracker and more."
                                             .. "|n|n"
                                             .. "|cFFFFD100[Right-Click]|r to disable this tutorial tooltip and to show customization settings.");
@@ -105,7 +110,7 @@ local function InitDistanceTracker()
     RegisterForDrag(Companion.trackerFrame);
 
     local tex = Companion.trackerFrame.indicator:CreateTexture("IndicatorTexture", "BACKGROUND")
-    tex:SetAllPoints(true)
+    tex:SetAllPoints()
     tex:SetWidth(16)
     tex:SetHeight(16)
     tex:SetBlendMode("ADD")
@@ -122,7 +127,7 @@ local function InitDistanceTracker()
     fontString:SetPoint("LEFT", Companion.trackerFrame.indicator, "LEFT", 19, 0)
     fontString:Show()
 
-    Companion:SetScript("OnEvent", Companion.EventHandler)
+    Companion.frame:SetScript("OnEvent", Companion.EventHandler)
 
     Companion.trackerFrame.fontString = fontString;
 end
@@ -132,7 +137,7 @@ function Companion:UpdateIndicatorFrameTexture()
 end
 
 function Companion:SavePosition()
-    local point, _, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
+    local point, _, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
     MinArch.db.profile.companion.point = point;
     MinArch.db.profile.companion.relativePoint = relativePoint;
     MinArch.db.profile.companion.posX = xOfs;
@@ -140,38 +145,38 @@ function Companion:SavePosition()
 end
 
 function Companion:ResetPosition()
-    local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
-    MinArch.Companion:ClearAllPoints();
-    MinArch.Companion:SetPoint("CENTER", UIParent, "CENTER", 0, 0);
+    local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
+    Companion.frame:ClearAllPoints();
+    Companion.frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0);
     if (MinArch.db.profile.companion.savePos) then
-        MinArch.Companion:SavePosition()
+        Companion:SavePosition()
     end
 end
 
 function Companion:RegisterEvents()
-    Companion:RegisterEvent("PLAYER_STARTED_MOVING")
-    Companion:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST")
-    Companion:RegisterEvent("PLAYER_STOPPED_MOVING")
-    Companion:RegisterEvent("PLAYER_ENTERING_WORLD")
-    Companion:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
-    Companion:RegisterEvent("SPELL_UPDATE_USABLE")
-    Companion:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-    Companion:RegisterEvent("BAG_UPDATE_COOLDOWN")
-    Companion:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
-    Companion:RegisterEvent("GLOBAL_MOUSE_DOWN")
+    Companion.frame:RegisterEvent("PLAYER_STARTED_MOVING")
+    Companion.frame:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST")
+    Companion.frame:RegisterEvent("PLAYER_STOPPED_MOVING")
+    Companion.frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+    Companion.frame:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
+    Companion.frame:RegisterEvent("SPELL_UPDATE_USABLE")
+    Companion.frame:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+    Companion.frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+    Companion.frame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+    Companion.frame:RegisterEvent("GLOBAL_MOUSE_DOWN")
 end
 
 function Companion:UnregisterEvents()
-    Companion:UnregisterEvent("PLAYER_STARTED_MOVING")
-    Companion:UnregisterEvent("ARCHAEOLOGY_SURVEY_CAST")
-    Companion:UnregisterEvent("PLAYER_STOPPED_MOVING")
-    Companion:UnregisterEvent("PLAYER_ENTERING_WORLD")
-    Companion:UnregisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
-    Companion:UnregisterEvent("SPELL_UPDATE_USABLE")
-    Companion:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
-    Companion:UnregisterEvent("BAG_UPDATE_COOLDOWN")
-    Companion:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
-    Companion:UnregisterEvent("GLOBAL_MOUSE_DOWN")
+    Companion.frame:UnregisterEvent("PLAYER_STARTED_MOVING")
+    Companion.frame:UnregisterEvent("ARCHAEOLOGY_SURVEY_CAST")
+    Companion.frame:UnregisterEvent("PLAYER_STOPPED_MOVING")
+    Companion.frame:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    Companion.frame:UnregisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
+    Companion.frame:UnregisterEvent("SPELL_UPDATE_USABLE")
+    Companion.frame:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
+    Companion.frame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
+    Companion.frame:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+    Companion.frame:UnregisterEvent("GLOBAL_MOUSE_DOWN")
 end
 
 function Companion:UpdateSurveyButton()
@@ -188,7 +193,7 @@ end
 
 local function InitSurveyButton()
     -- Survey button
-    local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion, "InSecureActionButtonTemplate");
+    local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion.frame, "InSecureActionButtonTemplate");
     surveyButton:RegisterForClicks("AnyUp", "AnyDown")
     surveyButton:SetAttribute("type", "spell")
     surveyButton:SetAttribute("spell", SURVEY_SPELL_ID)
@@ -197,7 +202,7 @@ local function InitSurveyButton()
     surveyButton:SetHeight(28)
 
     local cd = CreateFrame("Cooldown", "$parentCooldown", surveyButton, "CooldownFrameTemplate")
-    cd:SetAllPoints(surveyButton)
+    cd:SetAllPoints()
     cd:SetSwipeColor(1, 1, 1)
     surveyButton.cd = cd
 
@@ -232,7 +237,7 @@ end
 
 local function InitProjectFrame()
     -- Project Solve button
-    local solveButton = CreateFrame("Button", "$parentSolveButton", Companion);
+    local solveButton = CreateFrame("Button", "$parentSolveButton", Companion.frame);
     solveButton:SetPoint("LEFT", 74, 2);
     solveButton:SetWidth(28);
     solveButton:SetHeight(28);
@@ -258,7 +263,7 @@ end
 
 local function InitCrateButton()
     -- Crate Button
-    local crateButton = CreateFrame("Button", "$parentCrateButton", Companion, "InsecureActionButtonTemplate");
+    local crateButton = CreateFrame("Button", "$parentCrateButton", Companion.frame, "InsecureActionButtonTemplate");
     crateButton:RegisterForClicks("AnyUp", "AnyDown");
     crateButton:SetAttribute("type", "item");
     crateButton:SetPoint("LEFT", 108, 2);
@@ -277,7 +282,7 @@ end
 
 local function InitRandomMountButton()
     -- Random mount Button
-    local mountButton = CreateFrame("Button", "$parentMountButton", Companion, "InsecureActionButtonTemplate");
+    local mountButton = CreateFrame("Button", "$parentMountButton", Companion.frame, "InsecureActionButtonTemplate");
     mountButton:RegisterForClicks("AnyUp", "AnyDown");
     mountButton:SetAttribute("type", "item");
     mountButton:SetPoint("LEFT", 142, 2);
@@ -304,9 +309,9 @@ local function InitSkillBar()
     local posMod = 1
     local expandedHeight = 14;
 
-    local skillBar = CreateFrame("Frame", "$parentSkillBar", Companion)
+    local skillBar = CreateFrame("Frame", "$parentSkillBar", Companion.frame)
     skillBar:SetPoint(anchorPoint, 0, 5 * posMod)
-    skillBar:SetWidth(Companion:GetWidth())
+    skillBar:SetWidth(Companion.frame:GetWidth())
     skillBar:SetHeight(5)
 
     local tex = skillBar:CreateTexture(nil, "BACKGROUND")
@@ -423,7 +428,7 @@ local function UpdateProgressBar(raceID)
                     Companion.progressBar.progressBarFrame.texture:SetColorTexture(0.7, 0.7, 0.7, 0.5)
                 end
 
-                local width = math.floor(MinArch.Companion:GetWidth() * pct)
+                local width = math.floor(Companion.frame:GetWidth() * pct)
                 Companion.progressBar.progressBarFrame:SetWidth(width);
                 Companion.progressBar.fontString:SetText(progress .. '/' .. total)
                 Companion.progressBar:Show()
@@ -441,9 +446,9 @@ local function InitProgressBar()
     local posMod = -1
     local expandedHeight = 14;
 
-    local progressBar = CreateFrame("Button", "$parentProgressBar", Companion)
+    local progressBar = CreateFrame("Button", "$parentProgressBar", Companion.frame)
     progressBar:SetPoint(anchorPoint, 0, 5 * posMod)
-    progressBar:SetWidth(Companion:GetWidth())
+    progressBar:SetWidth(Companion.frame:GetWidth())
     progressBar:SetHeight(5)
 
     local tex = progressBar:CreateTexture(nil, "BACKGROUND")
@@ -500,9 +505,9 @@ local function InitProgressBar()
 end
 
 function Companion:showCrateButton(itemID)
-    if MinArch.db.profile.companion.enable and MinArch.db.profile.companion.features.crateButton.enabled and MinArch.Companion.initialized then
+    if MinArch.db.profile.companion.enable and MinArch.db.profile.companion.features.crateButton.enabled and Companion.initialized then
         if itemID then
-            MinArch.Companion.crateButton:SetAttribute("item", "item:" .. itemID);
+            Companion.crateButton:SetAttribute("item", "item:" .. itemID);
         end
         Companion.crateButton:Show();
         Companion:Resize()
@@ -510,22 +515,22 @@ function Companion:showCrateButton(itemID)
 end
 
 function Companion:hideCrateButton()
-    if MinArch.db.profile.companion.enable and MinArch.Companion.initialized then
-        MinArch.Companion.crateButton:Hide();
+    if MinArch.db.profile.companion.enable and Companion.initialized then
+        Companion.crateButton:Hide();
         Companion:Resize()
     end
 end
 
 function Companion.events:PLAYER_ENTERING_WORLD(...)
     if MinArch.db.profile.companion.savePos and MinArch.db.profile.companion.posX and MinArch.db.profile.companion.posY then
-        Companion:ClearAllPoints();
-        Companion:SetPoint(MinArch.db.profile.companion.point, UIParent, MinArch.db.profile.companion.relativePoint, MinArch.db.profile.companion.posX, MinArch.db.profile.companion.posY)
+        Companion.frame:ClearAllPoints();
+        Companion.frame:SetPoint(MinArch.db.profile.companion.point, UIParent, MinArch.db.profile.companion.relativePoint, MinArch.db.profile.companion.posX, MinArch.db.profile.companion.posY)
     end
     Companion:SetFrameScale(MinArch.db.profile.companion.frameScale);
 end
 
 function Companion.events:PLAYER_STARTED_MOVING(...)
-    timer = MinArch.Ace:ScheduleRepeatingTimer(Companion.UpdateDistance, 0.1)
+    timer = MinArch:ScheduleRepeatingTimer(Companion.UpdateDistance, 0.1)
     Companion:Update()
 end
 
@@ -537,8 +542,8 @@ function Companion.events:ARCHAEOLOGY_SURVEY_CAST(...)
 end
 
 function Companion.events:PLAYER_STOPPED_MOVING(...)
-    MinArch.Companion:AutoToggle();
-    MinArch.Ace:CancelTimer(timer)
+    Companion:AutoToggle();
+    MinArch:CancelTimer(timer)
     Companion:Update()
 end
 
@@ -547,10 +552,10 @@ function Companion.events:RESEARCH_ARTIFACT_DIG_SITE_UPDATED(...)
 end
 
 function Companion.events:SPELL_UPDATE_COOLDOWN(...)
-    MinArch.Companion:Update()
+    Companion:Update()
 end
 function Companion.events:SPELL_UPDATE_USABLE(...)
-    MinArch.Companion:Update()
+    Companion:Update()
 end
 function Companion.events:BAG_UPDATE_COOLDOWN(...)
     Companion:UpdateSurveyButton()
@@ -571,7 +576,7 @@ function Companion:UpdateDistance()
     end
 
     local distance = CalculateDistance(cx, cy, nx, ny)
-    Companion.trackerFrame.fontString:SetText(distance)
+    Companion.trackerFrame.fontString:SetText(tostring(distance))
 
     if (distance >= 0 and distance <= 40) then
         Companion.trackerFrame.indicator.texture:SetTexCoord(0, 0.5, 0, 0.5)
@@ -595,7 +600,7 @@ function Companion:HideDistance()
     cx = nil;
     Companion.trackerFrame.indicator.texture:SetTexCoord(0.5, 1, 0.5, 1)
     Companion.trackerFrame.fontString:SetText("")
-    MinArch.Ace:CancelTimer(timer)
+    MinArch:CancelTimer(timer)
     Companion:Update();
 end
 
@@ -604,16 +609,16 @@ function Companion:EventHandler(event, ...)
 end
 
 function Companion:HideFrame()
-    Companion:Hide();
+    Companion.frame:Hide();
     if MinArch.db.profile.companion.enable then
-        MinArch.CompanionShowInDigsite = true;
+        Companion.showInDigsite = true;
     end
 end
 
 function Companion:ShowFrame()
     if MinArch.db.profile.companion.enable then
-        Companion:Show();
-        MinArch.CompanionShowInDigsite = false;
+        Companion.frame:Show();
+        Companion.showInDigsite = false;
 
         Companion:Resize()
     end
@@ -629,7 +634,7 @@ function Companion:AutoToggle()
         return;
     end
 
-    if MinArch.db.profile.companion.alwaysShow or (MinArch.CompanionShowInDigsite == true and MinArch:IsNearDigSite()) then
+    if MinArch.db.profile.companion.alwaysShow or (Companion.showInDigsite == true and MinArch:IsNearDigSite()) then
         Companion:ShowFrame()
     end
 
@@ -650,7 +655,7 @@ function Companion:Enable()
 end
 
 function Companion:Disable()
-    Companion:Hide();
+    Companion.frame:Hide();
     Companion:UnregisterEvents();
 end
 
@@ -662,37 +667,37 @@ function Companion:Init()
     if not Companion.initialized then
         MinArch:DisplayStatusMessage("Initializing Companion", MINARCH_MSG_DEBUG)
 
-        Companion:SetFrameStrata("BACKGROUND")
-        Companion:SetWidth(142)
-        Companion:SetHeight(baseHeight + MinArch.db.profile.companion.padding * 2)
+        Companion.frame:SetFrameStrata("BACKGROUND")
+        Companion.frame:SetWidth(142)
+        Companion.frame:SetHeight(baseHeight + MinArch.db.profile.companion.padding * 2)
 
-        local tex = Companion:CreateTexture(nil, "BACKGROUND")
+        local tex = Companion.frame:CreateTexture(nil, "BACKGROUND")
         tex:SetAllPoints()
         tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
         Companion.texture = tex
 
-        Companion.waypointButton = MinArch:CreateAutoWaypointButton(Companion, 12, 0)
+        Companion.waypointButton = MinArch:CreateAutoWaypointButton(Companion.frame, 12, 0)
         Companion.waypointButton:ClearAllPoints();
         Companion.waypointButton:SetPoint("LEFT", 26, 0);
         Companion.waypointButton:SetFrameStrata("MEDIUM");
         RegisterForDrag(Companion.waypointButton);
 
-        Companion:SetMovable(true)
-        Companion:EnableMouse(true)
-        RegisterForDrag(Companion);
-        Companion:ClearAllPoints();
+        Companion.frame:SetMovable(true)
+        Companion.frame:EnableMouse(true)
+        RegisterForDrag(Companion.frame);
+        Companion.frame:ClearAllPoints();
 
         if not MinArch.db.profile.companion.posX or not MinArch.db.profile.companion.posY then
-            Companion:SetPoint("CENTER", 0, 0)
+            Companion.frame:SetPoint("CENTER", 0, 0)
         end
 
-        Companion:SetScript("OnShow", function ()
+        Companion.frame:SetScript("OnShow", function ()
             if MinArch.db.profile.companion.posX and MinArch.db.profile.companion.posY then
-                Companion:SetPoint(MinArch.db.profile.companion.point, UIParent, MinArch.db.profile.companion.relativePoint, MinArch.db.profile.companion.posX, MinArch.db.profile.companion.posY)
+                Companion.frame:SetPoint(MinArch.db.profile.companion.point, UIParent, MinArch.db.profile.companion.relativePoint, MinArch.db.profile.companion.posX, MinArch.db.profile.companion.posY)
             end
         end)
 
-        Companion:Show()
+        Companion.frame:Show()
 
         InitDistanceTracker()
         InitSurveyButton()
@@ -711,14 +716,14 @@ function Companion:Init()
 end
 
 function Companion:SetFrameScale(scale)
-    local previousScale = Companion:GetScale();
-    local point, _, relativePoint, xOfs, yOfs = MinArch.Companion:GetPoint()
+    local previousScale = Companion.frame:GetScale();
+    local point, _, relativePoint, xOfs, yOfs = Companion.frame:GetPoint()
 
     scale = tonumber(scale)/100;
-    Companion:SetScale(scale);
+    Companion.frame:SetScale(scale);
 
-    Companion:ClearAllPoints()
-    Companion:SetPoint(point, UIParent, relativePoint, xOfs * (previousScale/scale), yOfs * (previousScale/scale));
+    Companion.frame:ClearAllPoints()
+    Companion.frame:SetPoint(point, UIParent, relativePoint, xOfs * (previousScale/scale), yOfs * (previousScale/scale));
 end
 
 local function toggleChildFrames()
@@ -803,8 +808,8 @@ function Companion:Resize()
         end
     end
 
-    Companion:SetWidth(width + baseOffset);
-    Companion:SetHeight(baseHeight + MinArch.db.profile.companion.padding * 2)
+    Companion.frame:SetWidth(width + baseOffset);
+    Companion.frame:SetHeight(baseHeight + MinArch.db.profile.companion.padding * 2)
 
     Companion.skillBar:SetWidth(width + baseOffset)
     Companion.progressBar:SetWidth(width + baseOffset)
@@ -861,7 +866,7 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
             if not MinArch.db.profile.companion.features.solveButton.keystone then
                 Companion.solveButton.keystone:Hide();
             else
-                MinArch:UpdateKeystones(MinArch.Companion.solveButton.keystone, raceID);
+                MinArch:UpdateKeystones(Companion.solveButton.keystone, raceID);
             end
 
         end
