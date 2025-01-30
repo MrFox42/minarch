@@ -7,6 +7,8 @@ local Options = MinArch:LoadModule("MinArchOptions");
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 
 local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
 
@@ -297,7 +299,7 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.minimap.hide = newValue;
 
-						MinArch:RefreshMinimapButton();
+						MinArchLDB:RefreshMinimapButton();
 					end,
 					order = 3,
 				},

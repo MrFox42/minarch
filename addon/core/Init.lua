@@ -6,6 +6,8 @@ local Options = MinArch:LoadModule("MinArchOptions")
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 
 function MinArch:InitHelperFrame()
     MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
@@ -63,7 +65,7 @@ function MinArch:OnInitialize ()
 
 	Companion:Init();
 
-	MinArch:InitLDB();
+	MinArchLDB:Init();
 	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
 	--[[C_Timer.After(0.5, function()
 		tinsert(UISpecialFrames, "MinArchMain");
@@ -92,7 +94,7 @@ end
 function MinArch:RefreshConfig()
 	Common:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
 
-	MinArch:RefreshMinimapButton();
+	MinArchLDB:RefreshMinimapButton();
 	MinArch:ShowRaceIconsOnMap();
 	Common:FrameScale(MinArch.db.profile.frameScale);
 	MinArch.ShowOnSurvey = true;

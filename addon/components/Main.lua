@@ -6,6 +6,8 @@ local Options = MinArch:LoadModule("MinArchOptions")
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 
 MinArchArtifactBars = {};
 
@@ -474,7 +476,7 @@ function MinArch:UpdateMain()
 	end
 	MinArchMain:SetHeight(MinArchFrameHeight);
 
-	MinArch:RefreshLDBButton();
+	MinArchLDB:RefreshLDBButton();
 	Common:RefreshCrateButtonGlow();
     MinArch:DimHistoryButtons();
     Companion:AutoToggle();
@@ -566,7 +568,7 @@ function MinArch:KeystoneClick(self, raceID, button, down)
 
 	MinArch:UpdateArtifact(raceID);
 	MinArch:UpdateArtifactBar(raceID);
-	MinArch:RefreshLDBButton();
+	MinArchLDB:RefreshLDBButton();
 	Companion:Update()
 end
 

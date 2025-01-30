@@ -1,5 +1,8 @@
 local ADDON, _ = ...
 
+---@class MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
 
@@ -7,13 +10,13 @@ local ldb = LibStub:GetLibrary("LibDataBroker-1.1");
 local dataobj = ldb:NewDataObject("MinimalArchaeology", {label = "MinArch", type = "data source", icon = "Interface\\Icons\\Trade_Archaeology_Dinosaurskeleton", text = ""});
 local icon = LibStub("LibDBIcon-1.0", true);
 
-function MinArch:InitLDB()
+function MinArchLDB:Init()
 	icon:Register("MinArch", dataobj, MinArch.db.profile.minimap)
 
-	MinArch:RefreshMinimapButton();
+	MinArchLDB:RefreshMinimapButton();
 end
 
-function MinArch:RefreshMinimapButton()
+function MinArchLDB:RefreshMinimapButton()
 	icon:Refresh("MinArch", MinArch.db.profile.minimap)
 	if (MinArch.db.profile.minimap.hide) then
 		icon:Hide("MinArch");
@@ -22,7 +25,7 @@ function MinArch:RefreshMinimapButton()
 	end
 end
 
-function MinArch:RefreshLDBButton()
+function MinArchLDB:RefreshLDBButton()
 	local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 	if (digSiteData) then
 		local text = digSiteData.race;
@@ -62,6 +65,7 @@ function dataobj:OnLeave()
 end
 
 function dataobj:OnEnter()
+	---@diagnostic disable-next-line: param-type-mismatch
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
 	GameTooltip:ClearLines();

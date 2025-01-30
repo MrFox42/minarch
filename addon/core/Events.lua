@@ -4,6 +4,8 @@ local ADDON, _ = ...
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 
 local eventTimer = nil
 local researchEventTimer = nil
@@ -95,7 +97,7 @@ function MinArch:EventMain(event, ...)
 		if (MinArch.RacesLoaded == false) then
 			Common:LoadRaceInfo();
 		end
-        MinArch:RefreshLDBButton(event);
+        MinArchLDB:RefreshLDBButton(event);
         Companion:AutoToggle()
 	end
 
@@ -152,7 +154,7 @@ function MinArch:EventMain(event, ...)
 
     if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
         Companion:AutoToggle()
-		MinArch:RefreshLDBButton(event);
+		MinArchLDB:RefreshLDBButton(event);
 		return
 	end
 
