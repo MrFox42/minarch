@@ -1,8 +1,15 @@
 local ADDON, _ = ...
-local HBD = LibStub("HereBeDragons-2.0")
+
+---@class MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
+Digsites.frame = _G["MinArchDigsites"]
 
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type HereBeDragons-2.0
+local HBD = LibStub("HereBeDragons-2.0")
+
+local TaxiToggleFrame = nil -- created later
 
 MinArchScrollDS = {}
 MinArchDigsitesDB = {} -- old dig site info per character
@@ -11,63 +18,258 @@ MinArchMapFrames = {}
 MinArchTaxiMapFrames = {}
 
 MinArchDigsitesGlobalDB["continent"] = {
-	[1] = {		--Kalimdor
-		--["name"] = {
-		--	["raceid"] = #,
-		--	["x"] = #,
-		--	["y"] = #
-	},
-	[2] = {		--Eastern Kingdoms
-	},
-	[3] = {		--Outlands
-	},
-	[4] = {		--Northrend
-	},
-	[5] = {		-- The Maelstrom (no dig sites)
-	},
-	[6] = {		-- Pandaria
-	},
-	[7] = {		-- Draenor
-	},
-	[8] = {		-- Broken Isles
-	},
-	[9] = {		-- Zandalar
-	},
-	[10] = {	-- Kul Tiras
-	},
+	[1]  = {}, --Kalimdor
+	[2]  = {}, --Eastern Kingdoms
+	[3]  = {}, --Outlands
+	[4]  = {}, --Northrend
+	[5]  = {}, -- The Maelstrom (no dig sites)
+	[6]  = {}, -- Pandaria
+	[7]  = {}, -- Draenor
+	[8]  = {}, -- Broken Isles
+	[9]  = {}, -- Zandalar
+	[10] = {}, -- Kul Tiras
 }
 
 MinArchDigsitesDB["continent"] = {
-	[1] = {		--Kalimdor
-		--["name"] = {
-		--	["status"] = true/false;
-	},
-	[2] = {		--Eastern Kingdoms
-	},
-	[3] = {		--Outlands
-	},
-	[4] = {		--Northrend
-	},
-	[5] = {		-- The Maelstrom (no dig sites)
-	},
-	[6] = {		-- Pandaria
-	},
-	[7] = {		-- Draenor
-	},
-	[8] = {		-- Broken Isles
-	},
-	[9] = {		-- Zandalar
-	},
-	[10] = {	-- Kul Tiras
-	},
+	[1]  = {}, --Kalimdor
+	[2]  = {}, --Eastern Kingdoms
+	[3]  = {}, --Outlands
+	[4]  = {}, --Northrend
+	[5]  = {}, -- The Maelstrom (no dig sites)
+	[6]  = {}, -- Pandaria
+	[7]  = {}, -- Draenor
+	[8]  = {}, -- Broken Isles
+	[9]  = {}, -- Zandalar
+	[10] = {}, -- Kul Tiras
 }
 
-function MinArch:InitDigsites(self)
+local function DimADIButtons()
+    for i=1,ARCHAEOLOGY_NUM_CONTINENTS do
+        MinArch.DigsiteButtons[i]:SetAlpha(0.5)
+    end
+end
+
+---@param ContID integer
+local function ADIButtonTooltip(ContID)
+	local uiMapID = Common:GetUiMapIdByContId(ContID);
+	if (uiMapID ~= nil) then
+		GameTooltip:SetOwner(Digsites.frame, "ANCHOR_TOPLEFT");
+
+		GameTooltip:AddLine(MinArch.MapContinents[uiMapID], 1.0, 1.0, 1.0, 1.0);
+		GameTooltip:Show();
+	end
+end
+
+local function DigSiteSort(a, b)
+	if (a.prio ~= b.prio) then
+		return a.prio < b.prio
+	end
+
+	if MinArch.db.profile.TomTom.optimizePath and a.pathDistance and b.pathDistance and a.pathDistance ~= b.pathDistance then -- path mode
+		return a.pathDistance < b.pathDistance
+	else
+		return a.distance < b.distance
+	end
+end
+
+local function CalculateDigSitePathDistance(ax, ay, sites, pathDistance)
+	local pathDistance = pathDistance or 0
+
+	local name, distance, details = Digsites:GetNearestDigsite(ax, ay, sites, true)
+
+	for key, site in pairs(sites) do
+		if site.name == name then
+			-- print("    " .. site.name, distance)
+			table.remove(sites, key)
+		end
+	end
+
+	pathDistance = (pathDistance + distance) * MinArch.db.profile.TomTom.optimizationModifier
+
+	if #sites > 0 and details then
+		return CalculateDigSitePathDistance(details.ax, details.ay, sites, pathDistance)
+	else
+		-- print(unpack(path))
+		return pathDistance
+	end
+end
+
+local function DigsiteTooltip(self, name, digsite, tooltip, taxiNode)
+	local progress = 0;
+	local project = "";
+	local project_color = "ffffffff";
+	local first_solve = "";
+	local plural = "";
+
+	local RACE = tostring(digsite["race"]);
+
+	for i=1,ARCHAEOLOGY_NUM_RACES do
+		if (RACE == MinArch['artifacts'][i]['race']) then
+			MinArchTooltipIcon.icon:SetTexture(MinArch['artifacts'][i]['icon']);
+			progress = MinArch['artifacts'][i]['progress'] .. "/" .. MinArch['artifacts'][i]['total'];
+			project = MinArch['artifacts'][i]['project'];
+			if (MinArch['artifacts'][i]['rarity'] == 1) then
+				_,_,_,project_color = C_Item.GetItemQualityColor(3);
+			end
+			if (tonumber(MinArch['artifacts'][i]['firstcomplete']) == 0) then
+				first_solve = "New";
+			end
+		end
+	end
+
+	tooltip:AddLine(name, 1.0, 1.0, 1.0, 1.0);
+
+	if (digsite['subzone'] == "") then
+		digsite['subzone'] = " ";
+	end
+
+	local coords = ""
+	if (digsite.x and digsite.y) then
+		coords = " (" .. string.format("%.2f", digsite.x) .. ", " .. string.format("%.2f", digsite.y) .. ")";
+	end
+
+	tooltip:AddDoubleLine(digsite.subzone, digsite.zone, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+	tooltip:AddDoubleLine(" ", coords, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+
+	if (digsite['race'] ~= "Unknown" and digsite['race'] ~= nil) then
+		if (project ~= nil) then
+			tooltip:AddDoubleLine("Project: |c"..project_color..project, first_solve, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+		end
+		tooltip:AddDoubleLine("Race: |cffffffff"..digsite['race'], "|cffffffff"..progress.." fragments", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+		MinArchTooltipIcon:Show();
+	end
+
+	if (MinArch:IsNavigationEnabled() and not taxiNode) then
+		tooltip:AddLine("Hint: Left-Click to create waypoint here.", 0, 1, 0)
+	end
+
+	if taxiNode then
+		tooltip:AddLine("Hint: Left-Click to travel here.", 0, 1, 0)
+	end
+
+	tooltip:Show();
+end
+
+local function DigsiteMapTooltip(self, name, digsite, taxiNode)
+	-- Use gametooltip if World Quest Tracker is installed to bypass the "slot machine"
+	local tooltip = _G["WorldQuestTrackerAddon"] and GameTooltip or GameTooltip;
+	MinArchTooltipIcon:SetParent(tooltip);
+	MinArchTooltipIcon:SetPoint("TOPRIGHT", tooltip, "TOPLEFT");
+	tooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+
+	DigsiteTooltip(self, name, digsite, tooltip, taxiNode);
+end
+
+local function GetOrCreateMinArchMapFrame(i)
+	if (MinArchMapFrames[i] == nil) then
+		MinArchMapFrames[i] = CreateFrame("Frame", "MinArchMapFrame" .. i, WorldMapFrame.ScrollContainer.Child, "MATMapFrame");
+	end
+
+	return MinArchMapFrames[i];
+end
+
+local function GetOrCreateMinArchTaxiMapFrame(i)
+	if (MinArchTaxiMapFrames[i] == nil) then
+		MinArchTaxiMapFrames[i] = CreateFrame("Frame", "MinArchTaxiMapFrame" .. i, MinArch.HelperFrame, "MATMapFrame");
+	end
+
+	return MinArchTaxiMapFrames[i];
+end
+
+local function AcquireTaxiMapPin(nodeName)
+	for pin in FlightMapFrame:EnumeratePinsByTemplate("FlightMap_FlightPointPinTemplate") do
+		if (pin.taxiNodeData) then
+			local nodeType = TaxiNodeGetType(pin.taxiNodeData.slotIndex)
+			-- print(pin.taxiNodeData.name, nodeName, pin.taxiNodeData.textureKit, nodeType)
+			if (pin.taxiNodeData.name == nodeName and not pin.taxiNodeData.textureKit and (nodeType == "REACHABLE" or nodeType == "CURRENT")) then
+				return pin
+			end
+		end
+	end
+end
+
+local function SetRaceIcon(FRAME, X, Y, NAME, DETAILS, parentFrame, taxiNode)
+	FRAME:SetScript("OnMouseUp", function(self, button)
+		if (button == "LeftButton") then
+			if (taxiNode) then
+				TakeTaxiNode(taxiNode)
+				MinArch.waypointOnLanding = true
+				MinArch:ClearAllDigsiteWaypoints()
+			else
+				MinArch:SetWayToDigsiteOnClick(NAME, DETAILS)
+			end
+		end
+	end)
+	FRAME:SetScript("OnEnter", function()
+		if taxiNode then
+			if FlightMapFrame then
+				parentFrame.owner:HighlightRouteToPin(parentFrame)
+			else
+				TaxiNodeOnButtonEnter(parentFrame)
+			end
+		end
+
+		DigsiteMapTooltip(FRAME, NAME, DETAILS, taxiNode)
+	end);
+	FRAME:SetScript("OnLeave", function()
+		MinArchTooltipIcon:Hide();
+		MinArchTooltipIcon:SetParent(GameTooltip);
+		MinArchTooltipIcon:SetPoint("TOPRIGHT", GameTooltip, "TOPLEFT")
+		GameTooltip:Hide();
+		GameTooltip:Hide();
+
+		if taxiNode then
+			if FlightMapFrame then
+				parentFrame.owner:RemoveRouteToPin(parentFrame)
+			else
+				TaxiNodeOnButtonLeave(parentFrame)
+			end
+		end
+	end);
+
+	local RACE = tostring(DETAILS["race"]);
+
+	local raceID = Common:GetRaceIdByName(RACE);
+	local frameSize = 32;
+	local iconSize = 16;
+	local offsetX = 7;
+	local offsetY = -7;
+
+	if taxiNode then
+		frameSize = 24
+		iconSize = 18
+		offsetX = 5
+		offsetY = -10
+
+		if FlightMapFrame then
+			frameSize = 32
+			iconSize = 28
+		end
+	end
+
+
+	FRAME:SetSize(frameSize, frameSize);
+	FRAME.icon:SetSize(iconSize, iconSize);
+
+	FRAME:SetParent(parentFrame);
+	FRAME:SetPoint("BOTTOMLEFT", offsetX, offsetY);
+	FRAME.icon:SetTexture("Interface/Icons/INV_MISC_QUESTIONMARK");
+	FRAME.icon:SetTexCoord(0, 1, 0, 1);
+
+	if (MinArch['artifacts'][raceID] and RACE == MinArch['artifacts'][raceID]['race']) then
+		FRAME.icon:SetTexture(MinArch['artifacts'][raceID]['raceicon']);
+		FRAME.icon:SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
+	end
+
+	FRAME:Show();
+end
+
+function Digsites:Init()
 	local continents = C_Map.GetMapChildrenInfo(947, 2);
 	for k, v in pairs(continents) do
 		MinArch.MapContinents[v.mapID] = v.name;
 	end
-	local continents = C_Map.GetMapChildrenInfo(946, 2);
+	continents = C_Map.GetMapChildrenInfo(946, 2);
 	for k, v in pairs(continents) do
 		MinArch.MapContinents[v.mapID] = v.name;
     end
@@ -88,10 +290,10 @@ function MinArch:InitDigsites(self)
 
     local counter = 1;
     for i=1,ARCHAEOLOGY_NUM_CONTINENTS do
-        local button = CreateFrame("Button", "$parent" .. continentButtons[i] .. "Button", self, nil, i)
+        local button = CreateFrame("Button", "$parent" .. continentButtons[i] .. "Button", Digsites.frame, nil, i)
         button.parentKey = continentButtons[i] .. "Button";
 
-        button:SetPoint("TOPLEFT", self, "TOPLEFT", 15 + (counter - 1) * 35, -20);
+        button:SetPoint("TOPLEFT", Digsites.frame, "TOPLEFT", 15 + (counter - 1) * 35, -20);
         button:SetWidth(32)
         button:SetHeight(32);
 
@@ -102,11 +304,11 @@ function MinArch:InitDigsites(self)
         end
 
         button:SetScript("OnClick", function ()
-            MinArch:CreateDigSitesList(i);
-            MinArch:CreateDigSitesList(i);
+            Digsites:CreateDigSitesList(i);
+            Digsites:CreateDigSitesList(i);
         end);
         button:SetScript("OnEnter", function ()
-            MinArch:ADIButtonTooltip(i);
+            ADIButtonTooltip(i);
         end);
         button:SetScript("OnLeave", function ()
             GameTooltip:Hide();
@@ -120,37 +322,36 @@ function MinArch:InitDigsites(self)
         end
 	end
 
-	self:SetScript("OnEvent", function(_, event, ...)
+	Digsites.frame:SetScript("OnEvent", function(_, event, ...)
 		MinArch:EventDigsites(event, ...);
     end)
 
-	self:SetScript("OnShow", function()
+	Digsites.wpButton = Common:CreateAutoWaypointButton(Digsites.frame, 15, 3);
+	Digsites.frame:SetScript("OnShow", function()
 		if (MinArch:IsNavigationEnabled()) then
-			MinArchDigsitesAutoWayButton:Show();
+			Digsites.wpButton:Show();
 		else
-			MinArchDigsitesAutoWayButton:Hide();
+			Digsites.wpButton:Hide();
 		end
     end)
 
-	Common:CreateAutoWaypointButton(self, 15, 3);
-
-	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
-	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");
-	-- self:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
-	self:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
-	self:RegisterEvent("PLAYER_ALIVE");
-	self:RegisterEvent("ZONE_CHANGED");
-	self:RegisterEvent("ZONE_CHANGED_INDOORS");
-	self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	self:RegisterEvent("TAXIMAP_OPENED")
-	self:RegisterEvent("PLAYER_CONTROL_GAINED")
-	-- self:RegisterEvent("PLAYER_CONTROL_LOST")
+	Digsites.frame:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
+	Digsites.frame:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");
+	-- Digsites.frame:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
+	Digsites.frame:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST");
+	Digsites.frame:RegisterEvent("PLAYER_ALIVE");
+	Digsites.frame:RegisterEvent("ZONE_CHANGED");
+	Digsites.frame:RegisterEvent("ZONE_CHANGED_INDOORS");
+	Digsites.frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+	Digsites.frame:RegisterEvent("PLAYER_ENTERING_WORLD");
+	Digsites.frame:RegisterEvent("TAXIMAP_OPENED")
+	Digsites.frame:RegisterEvent("PLAYER_CONTROL_GAINED")
+	-- Digsites.frame:RegisterEvent("PLAYER_CONTROL_LOST")
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
 	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
     hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);
 
-    Common:FrameLoad(self);
+    Common:FrameLoad(Digsites.frame);
 
 	if not MinArch.db.profile.TomTom.taxi.enabled or not MinArch.db.profile.TomTom.taxi.autoDisableArchMode then
 		MinArch.db.profile.TomTom.taxi.archMode = false
@@ -162,7 +363,7 @@ end
 -- don't spam about unknown digsites, only once each
 local SpamBlock = {}
 
-function MinArch:UpdateActiveDigSites()
+function Digsites:UpdateActiveDigSites()
 	MinArch.RelevantRaces = {};
 	-- can't do anything until all races are known
 	if GetNumArchaeologyRaces() < ARCHAEOLOGY_NUM_RACES then
@@ -242,11 +443,12 @@ function MinArch:UpdateActiveDigSites()
 		end
 	end
 
-	MinArch:ShowRaceIconsOnMap();
+	Digsites:ShowRaceIconsOnMap();
 end
 
-function MinArch:CreateDigSitesList(ContID)
-	if (ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
+---@param ContID integer|nil
+function Digsites:CreateDigSitesList(ContID)
+	if (not ContID or ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
 		ContID = Common:GetInternalContId();
 
 		if (ContID == nil or ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
@@ -254,10 +456,10 @@ function MinArch:CreateDigSitesList(ContID)
 		end
 	end
 
-    MinArch:DimADIButtons();
+    DimADIButtons();
     MinArch.DigsiteButtons[ContID]:SetAlpha(1.0);
 
-	local scrollf = MinArchDSScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", MinArchDigsites);
+	local scrollf = MinArchDSScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", Digsites.frame);
 	scrollf:SetClipsChildren(true)
 
 	for i = 1, ARCHAEOLOGY_NUM_CONTINENTS do
@@ -271,7 +473,7 @@ function MinArch:CreateDigSitesList(ContID)
 
 	MinArchScrollDS[ContID]:Show();
 
-	local scrollb = MinArchScrollDSBar or CreateFrame("Slider", "MinArchScrollDSBar", MinArchDigsites);
+	local scrollb = MinArchScrollDSBar or CreateFrame("Slider", "MinArchScrollDSBar", Digsites.frame);
 
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
@@ -382,7 +584,8 @@ function MinArch:CreateDigSitesList(ContID)
 					end
 				end)
 				currentMO:SetScript("OnEnter", function(self)
-					MinArch:DigsiteHistoryTooltip(self, name, digsite);
+					GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+					DigsiteTooltip(self, name, digsite, GameTooltip);
 				end)
 				currentMO:SetScript("OnLeave", function()
 					MinArchTooltipIcon:Hide();
@@ -400,7 +603,7 @@ function MinArch:CreateDigSitesList(ContID)
 	-- Size and place the parent frame, and set the scrollchild to be the
 	-- frame of font strings we've created
 	scrollf:SetSize(width, 241)
-	scrollf:SetPoint("BOTTOMLEFT", MinArchDigsites, "BOTTOMLEFT", 12, 10)
+	scrollf:SetPoint("BOTTOMLEFT", Digsites.frame, "BOTTOMLEFT", 12, 10)
 	scrollf:SetScrollChild(scrollc)
 	scrollf:Show()
 
@@ -445,23 +648,8 @@ function MinArch:CreateDigSitesList(ContID)
 
 end
 
-function MinArch:DimADIButtons()
-    for i=1,ARCHAEOLOGY_NUM_CONTINENTS do
-        MinArch.DigsiteButtons[i]:SetAlpha(0.5)
-    end
-end
-
-function MinArch:ADIButtonTooltip(ContID)
-	local uiMapID = Common:GetUiMapIdByContId(ContID);
-	if (uiMapID ~= nil) then
-		GameTooltip:SetOwner(MinArchDigsites, "ANCHOR_TOPLEFT");
-
-		GameTooltip:AddLine(MinArch.MapContinents[uiMapID], 1.0, 1.0, 1.0, 1.0);
-		GameTooltip:Show();
-	end
-end
-
-function MinArch:UpdateActiveDigSitesRace(Race)
+---@param Race integer
+function Digsites:UpdateActiveDigSitesRace(Race)
 	local ax = 0;
 	local ay = 0;
 	local ContID = Common:GetInternalContId();
@@ -473,6 +661,9 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 	end
 
 	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player");
+	if not playerPos then
+		return false
+	end
 
 	ax = playerPos.x * 100;
 	ay = playerPos.y * 100;
@@ -510,7 +701,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 		end
 	end
 
-	MinArch:ShowRaceIconsOnMap();
+	Digsites:ShowRaceIconsOnMap();
 end
 
 -- function MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, position, force)
@@ -522,41 +713,16 @@ end
 --     return position.x, position.y
 -- end
 
-function DigSiteSort(a, b)
-	if (a.prio ~= b.prio) then
-		return a.prio < b.prio
-	end
-
-	if MinArch.db.profile.TomTom.optimizePath and a.pathDistance and b.pathDistance and a.pathDistance ~= b.pathDistance then -- path mode
-		return a.pathDistance < b.pathDistance
-	else
-		return a.distance < b.distance
-	end
-end
-
-local function CalculateDigSitePathDistance(ax, ay, sites, pathDistance)
-	local pathDistance = pathDistance or 0
-
-	local name, distance, details = MinArch:GetNearestDigsite(ax, ay, sites, true)
-
-	for key, site in pairs(sites) do
-		if site.name == name then
-			-- print("    " .. site.name, distance)
-			table.remove(sites, key)
-		end
-	end
-
-	pathDistance = (pathDistance + distance) * MinArch.db.profile.TomTom.optimizationModifier
-
-	if #sites > 0 then
-		return CalculateDigSitePathDistance(details.ax, details.ay, sites, pathDistance)
-	else
-		-- print(unpack(path))
-		return pathDistance
-	end
-end
-
-function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
+---@param ax? number @X coordinate, default: player X
+---@param ay? number @Y coordinate, default: player Y
+---@param sites? table @List of digsites, default: all digsites 
+---@param skipPathCalc? boolean @Skip path calculation, default: false
+---@return string|nil name @Digsite name
+---@return number|nil distance @Distance to digsite
+---@return table|nil digsite @Digsite details
+---@return number|nil priority @Digsite priority based on user settings
+---@return number|nil pathDistance @Distance to digsite with path optimization
+function Digsites:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 	if (IsInInstance()) then
 		return nil;
     end
@@ -567,12 +733,12 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 
 	local uiMapID = Common:GetUiMapIdByContId(contID);
 	if (contID == nil or uiMapID == nil) then
-		return false;
+		return nil;
 	end
 
 	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player")
 	if (playerPos == nil) then
-		return false;
+		return nil;
 	end
 	local sites = sites or C_ResearchInfo.GetDigSitesForMap(uiMapID)
 
@@ -652,82 +818,54 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 	if MinArch.db.profile.TomTom.taxi.autoDisableArchMode then
 		MinArch.db.profile.TomTom.taxi.archMode = false
 	end
+
 	return nDigsite, nDistance, nDetails, nPrio;
 end
 
-function MinArch:IsNearDigSite()
+function Digsites:IsPlayerNearDigSite()
 	return CanScanResearchSite(); -- Note to self: spend more time on WoWPedia
 end
 
-function MinArch:GetOrCreateMinArchMapFrame(i)
-	if (MinArchMapFrames[i] == nil) then
-		MinArchMapFrames[i] = CreateFrame("Frame", "MinArchMapFrame" .. i, WorldMapFrame.ScrollContainer.Child, "MATMapFrame");
-	end
+function Digsites:UpdateFlightMap()
+	if not TaxiToggleFrame then
+		TaxiToggleFrame = CreateFrame("Button", "MinArchTaxiToggle", FlightMapFrame and FlightMapFrame.ScrollContainer or TaxiRouteMap);
+		TaxiToggleFrame:RegisterForClicks("AnyUp", "AnyDown")
+		TaxiToggleFrame:SetSize(32, 32)
+		TaxiToggleFrame:SetPoint("TOPRIGHT", -5, -5)
 
-	return MinArchMapFrames[i];
-end
-
-function MinArch:GetOrCreateMinArchTaxiMapFrame(i)
-	if (MinArchTaxiMapFrames[i] == nil) then
-		MinArchTaxiMapFrames[i] = CreateFrame("Frame", "MinArchTaxiMapFrame" .. i, MinArch.HelperFrame, "MATMapFrame");
-	end
-
-	return MinArchTaxiMapFrames[i];
-end
-
-function AcquireTaxiMapPin(nodeName)
-	for pin in FlightMapFrame:EnumeratePinsByTemplate("FlightMap_FlightPointPinTemplate") do
-		if (pin.taxiNodeData) then
-			local nodeType = TaxiNodeGetType(pin.taxiNodeData.slotIndex)
-			-- print(pin.taxiNodeData.name, nodeName, pin.taxiNodeData.textureKit, nodeType)
-			if (pin.taxiNodeData.name == nodeName and not pin.taxiNodeData.textureKit and (nodeType == "REACHABLE" or nodeType == "CURRENT")) then
-				return pin
-			end
-		end
-	end
-end
-
-function MinArch:UpdateFlightMap()
-	local tf = MinArchTaxiToggle
-	if not tf then
-		tf = CreateFrame("Button", "MinArchTaxiToggle", FlightMapFrame and FlightMapFrame.ScrollContainer or TaxiRouteMap);
-		tf:RegisterForClicks("AnyUp", "AnyDown")
-		tf:SetSize(32, 32)
-		tf:SetPoint("TOPRIGHT", -5, -5)
-
-		local bgTex = tf:CreateTexture("$parentBackground", "BACKGROUND")
-		bgTex:SetPoint("TOPLEFT", tf, "TOPLEFT", 2, -4)
+		local bgTex = TaxiToggleFrame:CreateTexture("$parentBackground", "BACKGROUND")
+		bgTex:SetPoint("TOPLEFT", TaxiToggleFrame, "TOPLEFT", 2, -4)
 		bgTex:SetSize(25, 25)
 		bgTex:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
 
-		local artTex = tf:CreateTexture("$parentArtwork", "ARTWORK")
-		artTex:SetPoint("TOPLEFT", tf, "TOPLEFT", 6, -6)
+		local artTex = TaxiToggleFrame:CreateTexture("$parentArtwork", "ARTWORK")
+		artTex:SetPoint("TOPLEFT", TaxiToggleFrame, "TOPLEFT", 6, -6)
 		artTex:SetSize(20, 20)
 		artTex:SetTexture("Interface\\Icons\\Trade_Archaeology_Dinosaurskeleton")
 
-		local overlayTex = tf:CreateTexture("$parentOverlay", "OVERLAY")
-		overlayTex:SetPoint("TOPLEFT", tf)
+		local overlayTex = TaxiToggleFrame:CreateTexture("$parentOverlay", "OVERLAY")
+		overlayTex:SetPoint("TOPLEFT", TaxiToggleFrame)
 		overlayTex:SetSize(54, 54)
 		overlayTex:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
 
-		tf:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight", "ADD")
-		tf:SetPushedTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Down")
+		TaxiToggleFrame:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight", "ADD")
+		TaxiToggleFrame:SetPushedTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Down")
 
-		tf:SetScript("OnMouseUp", function(self, button)
+		TaxiToggleFrame:SetScript("OnMouseUp", function(self, button)
 			if (button == "LeftButton") then
 				MinArch.db.profile.TomTom.taxi.archMode = not MinArch.db.profile.TomTom.taxi.archMode
-				MinArch:UpdateFlightMap()
+				Digsites:UpdateFlightMap()
 			end
 		end)
 
-		tf:SetScript("OnEnter", function(self, button)
+		TaxiToggleFrame:SetScript("OnEnter", function(self, button)
 			GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
 			GameTooltip:AddLine("Toggle digsites")
 
 			GameTooltip:Show()
 		end)
 
-		tf:SetScript("OnLeave", function(self, button)
+		TaxiToggleFrame:SetScript("OnLeave", function(self, button)
 			GameTooltip:Hide()
 		end)
 	end
@@ -819,7 +957,7 @@ function MinArch:UpdateFlightMap()
 		local idx = node.id
 		local digsite = digsiteByNode[idx]
 		local pin
-		MinArch:GetOrCreateMinArchTaxiMapFrame(i)
+		GetOrCreateMinArchTaxiMapFrame(i)
 		if FlightMapFrame then
 			pin = AcquireTaxiMapPin(node.name)
 			pin:SetAlphaLimits(2.0, 1.0, 1.0)
@@ -828,14 +966,14 @@ function MinArch:UpdateFlightMap()
 			pin = _G["TaxiButton" .. idx]
 			pin:SetAlpha(1)
 		end
-		MinArch:SetIcon(MinArchTaxiMapFrames[i], digsite.position.x, digsite.position.y, tostring(digsite.name), MinArchDigsitesGlobalDB["continent"][contID][tostring(digsite.name)], pin, idx)
+		SetRaceIcon(MinArchTaxiMapFrames[i], digsite.position.x, digsite.position.y, tostring(digsite.name), MinArchDigsitesGlobalDB["continent"][contID][tostring(digsite.name)], pin, idx)
 		i = i + 1
 	end
 end
 
-function MinArch:ShowRaceIconsOnMap()
+function Digsites:ShowRaceIconsOnMap()
 	for i=1, #MinArchMapFrames do
-		MinArch:GetOrCreateMinArchMapFrame(i);
+		GetOrCreateMinArchMapFrame(i);
 		MinArchMapFrames[i]:Hide();
 	end
 
@@ -860,239 +998,31 @@ function MinArch:ShowRaceIconsOnMap()
 					SpamBlock[name] = 1
 				end
 			else
-				MinArch:GetOrCreateMinArchMapFrame(count);
-				MinArch:SetIcon(MinArchMapFrames[count], x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)], pin)
+				GetOrCreateMinArchMapFrame(count);
+				SetRaceIcon(MinArchMapFrames[count], x, y, tostring(name), MinArchDigsitesGlobalDB["continent"][contID][tostring(name)], pin)
 			end
 		end
 	end
 end
 
-function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame, taxiNode)
-	FRAME:SetScript("OnMouseUp", function(self, button)
-		if (button == "LeftButton") then
-			if (taxiNode) then
-				TakeTaxiNode(taxiNode)
-				MinArch.waypointOnLanding = true
-				MinArch:ClearAllDigsiteWaypoints()
-			else
-				MinArch:SetWayToDigsiteOnClick(NAME, DETAILS)
-			end
-		end
-	end)
-	FRAME:SetScript("OnEnter", function()
-		if taxiNode then
-			if FlightMapFrame then
-				parentFrame.owner:HighlightRouteToPin(parentFrame)
-			else
-				TaxiNodeOnButtonEnter(parentFrame)
-			end
-		end
-		MinArch:DigsiteMapTooltip(FRAME, NAME, DETAILS, taxiNode)
-	end);
-	FRAME:SetScript("OnLeave", function()
-		MinArchTooltipIcon:Hide();
-		MinArchTooltipIcon:SetParent(GameTooltip);
-		MinArchTooltipIcon:SetPoint("TOPRIGHT", GameTooltip, "TOPLEFT")
-		GameTooltip:Hide();
-		GameTooltip:Hide();
-
-		if taxiNode then
-			if FlightMapFrame then
-				parentFrame.owner:RemoveRouteToPin(parentFrame)
-			else
-				TaxiNodeOnButtonLeave(parentFrame)
-			end
-		end
-	end);
-
-	local RACE = tostring(DETAILS["race"]);
-
-	local raceID = Common:GetRaceIdByName(RACE);
-	local frameSize = 32;
-	local iconSize = 16;
-	local offsetX = 7;
-	local offsetY = -7;
-
-	if taxiNode then
-		frameSize = 24
-		iconSize = 18
-		offsetX = 5
-		offsetY = -10
-
-		if FlightMapFrame then
-			frameSize = 32
-			iconSize = 28
-		end
-	end
-
-
-	FRAME:SetSize(frameSize, frameSize);
-	FRAME.icon:SetSize(iconSize, iconSize);
-
-	FRAME:SetParent(parentFrame);
-	FRAME:SetPoint("BOTTOMLEFT", offsetX, offsetY);
-	FRAME.icon:SetTexture("Interface/Icons/INV_MISC_QUESTIONMARK");
-	FRAME.icon:SetTexCoord(0, 1, 0, 1);
-
-	if (MinArch['artifacts'][raceID] and RACE == MinArch['artifacts'][raceID]['race']) then
-		FRAME.icon:SetTexture(MinArch['artifacts'][raceID]['raceicon']);
-		FRAME.icon:SetTexCoord(0.0234375, 0.5625, 0.078125, 0.625);
-	end
-
-	FRAME:Show();
-end
-
-function MinArch:DigsiteHistoryTooltip(self, name, digsite)
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-
-	MinArch:DigsiteTooltip(self, name, digsite, GameTooltip);
-end
-
-function MinArch:DigsiteMapTooltip(self, name, digsite, taxiNode)
-	-- Use gametooltip if World Quest Tracker is installed to bypass the "slot machine"
-	local tooltip = WorldQuestTrackerAddon and GameTooltip or GameTooltip;
-	MinArchTooltipIcon:SetParent(tooltip);
-	MinArchTooltipIcon:SetPoint("TOPRIGHT", tooltip, "TOPLEFT");
-	tooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-
-	MinArch:DigsiteTooltip(self, name, digsite, tooltip, taxiNode);
-end
-
-function MinArch:DigsiteTooltip(self, name, digsite, tooltip, taxiNode)
-	local progress = 0;
-	local project = "";
-	local project_color = "ffffffff";
-	local first_solve = "";
-	local plural = "";
-
-	local RACE = tostring(digsite["race"]);
-
-	for i=1,ARCHAEOLOGY_NUM_RACES do
-		if (RACE == MinArch['artifacts'][i]['race']) then
-			MinArchTooltipIcon.icon:SetTexture(MinArch['artifacts'][i]['icon']);
-			progress = MinArch['artifacts'][i]['progress'] .. "/" .. MinArch['artifacts'][i]['total'];
-			project = MinArch['artifacts'][i]['project'];
-			if (MinArch['artifacts'][i]['rarity'] == 1) then
-				_,_,_,project_color = GetItemQualityColor(3);
-			end
-			if (tonumber(MinArch['artifacts'][i]['firstcomplete']) == 0) then
-				first_solve = "New";
-			end
-		end
-	end
-
-	tooltip:AddLine(name, 1.0, 1.0, 1.0, 1.0);
-
-	if (digsite['subzone'] == "") then
-		digsite['subzone'] = " ";
-	end
-
-	local coords = ""
-	if (digsite.x and digsite.y) then
-		coords = " (" .. string.format("%.2f", digsite.x) .. ", " .. string.format("%.2f", digsite.y) .. ")";
-	end
-
-	tooltip:AddDoubleLine(digsite.subzone, digsite.zone, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
-	tooltip:AddDoubleLine(" ", coords, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
-
-	if (digsite['race'] ~= "Unknown" and digsite['race'] ~= nil) then
-		if (project ~= nil) then
-			tooltip:AddDoubleLine("Project: |c"..project_color..project, first_solve, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
-		end
-		tooltip:AddDoubleLine("Race: |cffffffff"..digsite['race'], "|cffffffff"..progress.." fragments", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
-		MinArchTooltipIcon:Show();
-	end
-
-	if (MinArch:IsNavigationEnabled() and not taxiNode) then
-		tooltip:AddLine("Hint: Left-Click to create waypoint here.", 0, 1, 0)
-	end
-
-	if taxiNode then
-		tooltip:AddLine("Hint: Left-Click to travel here.", 0, 1, 0)
-	end
-
-	tooltip:Show();
-end
-
-
-function MinArch:GetNearestFlightMaster()
-	local factions = {
-		['Horde'] = 1,
-		['Alliance'] = 2
-	}
-	local unitFaction = UnitFactionGroup("player")
-	local factionID = factions[unitFaction]
-
-	local contID = Common:GetInternalContId();
-
-	local cUiMapID = Common:GetUiMapIdByContId(contID);
-	if (contID == nil or cUiMapID == nil) then
-		return false
-	end
-
-	local uiMapID = C_Map.GetBestMapForUnit("player");
-	if not uiMapID then
-		return false
-	end
-	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player")
-	if (playerPos == nil) then
-		return false;
-	end
-	-- local ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos, true)
-	local ax, ay, instance = HBD:GetPlayerWorldPosition()
-
-	local nearestTaxiNode, distance, x, y, idx
-
-	local nodes = C_TaxiMap.GetTaxiNodesForMap(uiMapID)
-
-	for i=1, #nodes do
-		if (nodes[i].faction == 0 or nodes[i].faction == factionID) then
-			-- local tx, ty = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, nodes[i].position, true)
-			local tx, ty = HBD:GetWorldCoordinatesFromZone(nodes[i].position.x, nodes[i].position.y, uiMapID)
-
-			-- local xd = math.abs(ax - tonumber(tx))
-			-- local yd = math.abs(ay - tonumber(ty))
-			-- local d = math.sqrt((xd*xd)+(yd*yd))
-			local _, d = HBD:GetWorldVector(instance, ax, ay, tx, ty)
-
-			if nearestTaxiNode == nil or d < distance then
-				nearestTaxiNode = nodes[i]
-				distance = d
-				x = tx
-				y = ty
-				idx = i
-			end
-		end
-	end
-
-	return {
-		uiMapID = uiMapID,
-		name = nearestTaxiNode.name,
-		x = nearestTaxiNode.position.x * 100,
-		y = nearestTaxiNode.position.y * 100,
-		idx = idx,
-		distance = distance
-	}
-end
-
-function MinArch:HideDigsites()
-	MinArchDigsites:Hide();
+function Digsites:HideWindow()
+	Digsites.frame:Hide();
 	MinArch.db.char.WindowStates.digsites = false;
 end
 
-function MinArch:ShowDigsites()
+function Digsites:ShowWindow()
 	--if (UnitAffectingCombat("player")) then
-	--	MinArchDigsites.showAfterCombat = true;
+	--	Digsites.showAfterCombat = true;
 	--else
-		MinArchDigsites:Show();
+		Digsites.frame:Show();
 		MinArch.db.char.WindowStates.digsites = MinArch.db.profile.rememberState;
 	--end
 end
 
-function MinArchDigsites:Toggle()
-	if (MinArchDigsites:IsVisible()) then
-		MinArch:HideDigsites();
+function Digsites:ToggleWindow()
+	if (Digsites.frame:IsVisible()) then
+		Digsites:HideWindow();
 	else
-		MinArch:ShowDigsites();
+		Digsites:ShowWindow();
 	end
 end

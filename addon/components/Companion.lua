@@ -6,6 +6,8 @@ local Companion = MinArch:LoadModule("MinArchCompanion")
 local Options = MinArch:LoadModule("MinArchOptions")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
 
 Companion.frame = CreateFrame("Frame", "MinArchCompanion", UIParent)
 Companion.events = {}
@@ -635,16 +637,16 @@ function Companion:AutoToggle()
         return;
     end
 
-    if MinArch.db.profile.companion.alwaysShow or (Companion.showInDigsite == true and MinArch:IsNearDigSite()) then
+    if MinArch.db.profile.companion.alwaysShow or (Companion.showInDigsite == true and Digsites:IsPlayerNearDigSite()) then
         Companion:ShowFrame()
     end
 
-    if not MinArch.db.profile.companion.alwaysShow and not MinArch:IsNearDigSite() then
+    if not MinArch.db.profile.companion.alwaysShow and not Digsites:IsPlayerNearDigSite() then
         Companion:HideFrame()
         return
     end
 
-    local digSite = MinArch:GetNearestDigsite();
+    local digSite = Digsites:GetNearestDigsite();
     if not digSite and MinArch.db.profile.companion.hideWhenUnavailable then
         Companion:HideFrame()
         return
@@ -910,7 +912,7 @@ function Companion:Update()
     end
 
 
-    local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
+    local digSite, distance, digSiteData = Digsites:GetNearestDigsite();
     for i = 1, ARCHAEOLOGY_NUM_RACES do
 
         if digSiteData then

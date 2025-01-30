@@ -146,9 +146,6 @@
 			<Anchor point="TOPRIGHT" x="-46" y="1"/>
 		</Anchors>
 		<Scripts>
-			<OnClick>
-				MinArchDigsites:Toggle();
-			</OnClick>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>

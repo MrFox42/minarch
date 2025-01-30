@@ -4,6 +4,8 @@ local ADDON, _ = ...
 ---@class MinArchCommon 
 local Common = MinArch:LoadModule("MinArchCommon")
 
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchOptions
@@ -96,7 +98,7 @@ function Common:FrameScale(scale)
 	scale = tonumber(scale)/100;
 	MinArchMain:SetScale(scale);
 	MinArchHist:SetScale(scale);
-	MinArchDigsites:SetScale(scale);
+	Digsites.frame:SetScale(scale);
 end
 
 ---@param parent table|BackdropTemplate|Frame
@@ -443,7 +445,7 @@ end
 
 function MinArch_WorldMapToggled()
 	if (WorldMapFrame.mapID ~= nil and WorldMapFrame:IsVisible()) then
-		MinArch:ShowRaceIconsOnMap();
+		Digsites:ShowRaceIconsOnMap();
 	end
 end
 

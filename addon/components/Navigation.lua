@@ -1,5 +1,8 @@
 local ADDON, _ = ...
 
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
+
 MinArch.autoWaypoint = nil;
 local previousDigsite = nil;
 
@@ -50,12 +53,72 @@ function MinArch:ClearUiWaypoint()
     MinArch.db.char.TomTom.uiMapPoint = nil;
 end
 
+function MinArch:GetNearestFlightMaster()
+	local factions = {
+		['Horde'] = 1,
+		['Alliance'] = 2
+	}
+	local unitFaction = UnitFactionGroup("player")
+	local factionID = factions[unitFaction]
+
+	local contID = Common:GetInternalContId();
+
+	local cUiMapID = Common:GetUiMapIdByContId(contID);
+	if (contID == nil or cUiMapID == nil) then
+		return false
+	end
+
+	local uiMapID = C_Map.GetBestMapForUnit("player");
+	if not uiMapID then
+		return false
+	end
+	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player")
+	if (playerPos == nil) then
+		return false;
+	end
+	-- local ax, ay = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, playerPos, true)
+	local ax, ay, instance = HBD:GetPlayerWorldPosition()
+
+	local nearestTaxiNode, distance, x, y, idx
+
+	local nodes = C_TaxiMap.GetTaxiNodesForMap(uiMapID)
+
+	for i=1, #nodes do
+		if (nodes[i].faction == 0 or nodes[i].faction == factionID) then
+			-- local tx, ty = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, nodes[i].position, true)
+			local tx, ty = HBD:GetWorldCoordinatesFromZone(nodes[i].position.x, nodes[i].position.y, uiMapID)
+
+			-- local xd = math.abs(ax - tonumber(tx))
+			-- local yd = math.abs(ay - tonumber(ty))
+			-- local d = math.sqrt((xd*xd)+(yd*yd))
+			local _, d = HBD:GetWorldVector(instance, ax, ay, tx, ty)
+
+			if nearestTaxiNode == nil or d < distance then
+				nearestTaxiNode = nodes[i]
+				distance = d
+				x = tx
+				y = ty
+				idx = i
+			end
+		end
+	end
+
+	return {
+		uiMapID = uiMapID,
+		name = nearestTaxiNode.name,
+		x = nearestTaxiNode.position.x * 100,
+		y = nearestTaxiNode.position.y * 100,
+		idx = idx,
+		distance = distance
+	}
+end
+
 function MinArch:SetWayToNearestDigsite(afterFlight)
 	if not MinArch:IsNavigationEnabled() then return end
 
 	local taxiNode
 	local newWayPoint
-	local digsiteName, distance, digsite, priority = MinArch:GetNearestDigsite()
+	local digsiteName, distance, digsite, priority = Digsites:GetNearestDigsite()
 	if (MinArch.db.profile.TomTom.taxi.enabled and distance and distance > MinArch.db.profile.TomTom.taxi.distance) then
 		taxiNode = MinArch:GetNearestFlightMaster()
 

@@ -4,6 +4,8 @@ local isClassic = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
 local Options = MinArch:LoadModule("MinArchOptions")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchLDB
@@ -18,7 +20,7 @@ function MinArch:InitHelperFrame()
 
 	MinArchMain.showAfterCombat = false;
 	MinArchHist.showAfterCombat = false;
-    MinArchDigsites.showAfterCombat = false;
+    Digsites.showAfterCombat = false;
     Companion.showAfterCombat = false;
 
     MinArch.HelperFrame:Hide();
@@ -61,7 +63,12 @@ function MinArch:OnInitialize ()
 	MinArch:InitHelperFrame();
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
-	MinArch:InitDigsites(MinArchDigsites);
+	Digsites:Init()
+
+	--@TODO add button in lua
+	MinArchMainButtonOpenADI:SetScript("OnClick", function()
+		Digsites:ToggleWindow()
+	end)
 
 	Companion:Init();
 
@@ -75,7 +82,7 @@ function MinArch:OnInitialize ()
 	end)]]--
 
 	Common:FrameScale(MinArch.db.profile.frameScale);
-    MinArch:ShowRaceIconsOnMap();
+    Digsites:ShowRaceIconsOnMap();
     -- MinArch:HookDoubleClick();
 	Options:OnInitialize()
 
@@ -95,7 +102,7 @@ function MinArch:RefreshConfig()
 	Common:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
 
 	MinArchLDB:RefreshMinimapButton();
-	MinArch:ShowRaceIconsOnMap();
+	Digsites:ShowRaceIconsOnMap();
 	Common:FrameScale(MinArch.db.profile.frameScale);
 	MinArch.ShowOnSurvey = true;
     MinArch.ShowInDigsite = true;

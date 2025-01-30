@@ -2,6 +2,8 @@ local ADDON, _ = ...
 ---@type MinArch
 ---@type MinArchOptions
 local Options = MinArch:LoadModule("MinArchOptions")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
@@ -20,7 +22,7 @@ function MinArch:SetRelevancyToggleButtonTexture()
 		button:SetNormalTexture([[Interface\Buttons\UI-Panel-CollapseButton-Up]]);
 		button:SetPushedTexture([[Interface\Buttons\UI-Panel-CollapseButton-Down]]);
 	end
-
+	
 	button:SetBackdrop({
 		bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]],
 		edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0,
@@ -608,13 +610,13 @@ function MinArch:OpenWindow(button)
 		if shiftKeyIsDown then
 			MinArchHist:Toggle();
 		elseif ctrlKeyIsDown then
-			MinArchDigsites:Toggle();
+			Digsites:ToggleWindow();
 		else
 			if (MinArchMain:IsVisible()) then
 				MinArch:HideMain();
 				if (altKeyDown) then
 					MinArch:HideHistory();
-					MinArch:HideDigsites();
+					Digsites:HideWindow();
 				end
 			else
 				MinArch:ShowMain();

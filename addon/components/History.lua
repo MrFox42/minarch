@@ -2,6 +2,8 @@ local ADDON, _ = ...
 
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
 
 MinArchScroll = {}
 
@@ -171,7 +173,7 @@ function MinArch:InitHist(self)
     end)
 
 	self:SetScript("OnShow", function ()
-		local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
+		local digSite, distance, digSiteData = Digsites:GetNearestDigsite();
 		if (digSite and distance <= 2 and digSiteData) then
 			MinArchOptions['CurrentHistPage'] = Common:GetRaceIdByName(digSiteData.race)
 		end

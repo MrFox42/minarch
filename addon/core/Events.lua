@@ -1,5 +1,7 @@
 local ADDON, _ = ...
 
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
@@ -22,9 +24,9 @@ function MinArch:EventHelper(event, ...)
 				MinArch:HideHistory();
 				MinArchHist.showAfterCombat = true;
 			end
-			if (MinArchDigsites:IsVisible()) then
-				MinArch:HideDigsites();
-				MinArchDigsites.showAfterCombat = true;
+			if (Digsites.frame:IsVisible()) then
+				Digsites:HideWindow();
+				Digsites.showAfterCombat = true;
 			end
 		end
 		if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.companion.hideInCombat) then
@@ -42,9 +44,9 @@ function MinArch:EventHelper(event, ...)
 			MinArch:ShowHistory();
 			MinArchHist.showAfterCombat = false;
 		end
-		if (MinArchDigsites.showAfterCombat) then
-			MinArch:ShowDigsites();
-			MinArchDigsites.showAfterCombat = false;
+		if (Digsites.showAfterCombat) then
+			Digsites:ShowWindow();
+			Digsites.showAfterCombat = false;
         end
         if (Companion.showAfterCombat) then
 			Companion:ShowFrame();
@@ -121,7 +123,7 @@ function MinArch:EventMain(event, ...)
 		end
 	end
 	if ((event == "PLAYER_STOPPED_MOVING" or event == "PLAYER_ENTERING_WORLD")) then
-		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite() and MinArch.ShowInDigsite == true) then
+		if (MinArch.db.profile.autoShowInDigsites and Digsites:IsPlayerNearDigSite() and MinArch.ShowInDigsite == true) then
 			MinArch:ShowMain();
 			MinArch.ShowInDigsite = false;
         end
@@ -139,14 +141,14 @@ function MinArch:EventMain(event, ...)
 	end
 
 	if (event == "QUEST_LOG_UPDATE") then
-		MinArch:ShowRaceIconsOnMap();
+		Digsites:ShowRaceIconsOnMap();
 		return;
 	end
 
 	if (event == "CVAR_UPDATE") then
 		local changedCVAR = ...;
 		if (changedCVAR == "SHOW_DIG_SITES") then
-			MinArch:ShowRaceIconsOnMap();
+			Digsites:ShowRaceIconsOnMap();
 		end
 		
 		return
@@ -243,23 +245,23 @@ function MinArch:EventDigsites(event, ...)
 		local _, _, branchID = ...;
 		local race = Common:GetRaceNameByBranchId(branchID);
 		if (race ~= nil) then
-			MinArch:UpdateActiveDigSitesRace(race);
-			MinArch:CreateDigSitesList(Common:GetInternalContId());
-			MinArch:CreateDigSitesList(Common:GetInternalContId());
+			Digsites:UpdateActiveDigSitesRace(race);
+			Digsites:CreateDigSitesList(Common:GetInternalContId());
+			Digsites:CreateDigSitesList(Common:GetInternalContId());
 		end
 		return;
 	elseif (event == "WORLD_MAP_UPDATE" and MinArch.IsReady == true) then
-		MinArch:ShowRaceIconsOnMap();
+		Digsites:ShowRaceIconsOnMap();
 		return;
 	end
 
 	-- TODO: internal events for updates
-	MinArch:UpdateActiveDigSites();
+	Digsites:UpdateActiveDigSites();
 	local ContID = Common:GetInternalContId();
 
 	if (ContID ~= nil) then
-		MinArch:CreateDigSitesList(ContID);
-		MinArch:CreateDigSitesList(ContID);
+		Digsites:CreateDigSitesList(ContID);
+		Digsites:CreateDigSitesList(ContID);
 	end
 
 	if (event == "PLAYER_ENTERING_WORLD") then
@@ -279,7 +281,7 @@ function MinArch:EventDigsites(event, ...)
 	end
 
 	if (event == "TAXIMAP_OPENED") then
-		MinArch:UpdateFlightMap()
+		Digsites:UpdateFlightMap()
 	end
 
 	if event == "PLAYER_CONTROL_GAINED" and MinArch.waypointOnLanding then
@@ -329,7 +331,7 @@ function MinArch:MainEventAddonLoaded()
 	end
 
 	if (MinArch.db.char.WindowStates.digsites == false or MinArch.db.profile.startHidden) then
-		MinArch:HideDigsites();
+		Digsites:HideWindow();
 	end
 
 	-- discard old unknown digsites
@@ -354,7 +356,7 @@ end
 function MinArch:TrackingChanged(self)
 	-- update the map if digsites tracking has changed
 	if (self.value == "digsites") then
-		MinArch:ShowRaceIconsOnMap()
+		Digsites:ShowRaceIconsOnMap()
 	end
 end
 
@@ -362,7 +364,7 @@ function MinArch:MapLayerChanged(self)
 	-- update the map when map layer has changed
 	if (self.mapID ~= nil) then
 		C_Timer.After(0.11, function ()
-			MinArch:ShowRaceIconsOnMap()
+			Digsites:ShowRaceIconsOnMap()
 		end)
 	end
 end

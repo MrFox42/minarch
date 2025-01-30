@@ -3,6 +3,8 @@ local ADDON, _ = ...
 
 ---@class MinArchOptions
 local Options = MinArch:LoadModule("MinArchOptions");
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
@@ -151,7 +153,7 @@ local home = {
 					name = L["OPTIONS_TOGGLE_DIGSITES"],
 					order = 4,
 					func = function ()
-						MinArchDigsites:Toggle()
+						Digsites:ToggleWindow()
 					end,
 				},
 			}
@@ -320,7 +322,7 @@ local general = {
 					get = function () return MinArch.db.profile.showWorldMapOverlay end,
 					set = function (_, newValue)
 						MinArch.db.profile.showWorldMapOverlay = newValue;
-						MinArch:ShowRaceIconsOnMap();
+						Digsites:ShowRaceIconsOnMap();
 					end,
 
 					width = "double",
@@ -1400,11 +1402,11 @@ local TomTomSettings = {
 
 						if (newValue) then
 							MinArchMainAutoWayButton:Show();
-							MinArchDigsitesAutoWayButton:Show();
+							Digsites.wpButton:Show();
 						else
 							MinArch:ClearAllDigsiteWaypoints();
 							MinArchMainAutoWayButton:Hide();
-							MinArchDigsitesAutoWayButton:Hide();
+							Digsites.wpButton:Hide();
 						end
 					end,
 					order = 1,

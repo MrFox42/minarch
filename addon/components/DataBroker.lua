@@ -5,6 +5,8 @@ local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
 
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1");
 local dataobj = ldb:NewDataObject("MinimalArchaeology", {label = "MinArch", type = "data source", icon = "Interface\\Icons\\Trade_Archaeology_Dinosaurskeleton", text = ""});
@@ -26,7 +28,7 @@ function MinArchLDB:RefreshMinimapButton()
 end
 
 function MinArchLDB:RefreshLDBButton()
-	local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
+	local digSite, distance, digSiteData = Digsites:GetNearestDigsite();
 	if (digSiteData) then
 		local text = digSiteData.race;
 
