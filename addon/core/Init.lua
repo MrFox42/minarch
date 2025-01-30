@@ -11,7 +11,7 @@ local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchLDB
 local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 
-function MinArch:InitHelperFrame()
+local function InitHelperFrame()
     MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
 
 	MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
@@ -54,13 +54,31 @@ function MinArch:InitHelperFrame()
 	MinArch.hiddenButton = button
 end
 
+local function SetDynamicDefaults ()
+	for i=1, ARCHAEOLOGY_NUM_RACES do
+		MinArch.defaults.profile.raceOptions.hide[i] = false;
+		MinArch.defaults.profile.raceOptions.cap[i] = false;
+		MinArch.defaults.profile.raceOptions.keystone[i] = false;
+	end
+end
+
+local function InitDatabase()
+	MinArch.db = LibStub("AceDB-3.0"):New("MinArchDB", MinArch.defaults, true);
+	MinArch.db.RegisterCallback(MinArch, "OnProfileChanged", "RefreshConfig");
+    MinArch.db.RegisterCallback(MinArch, "OnProfileCopied", "RefreshConfig");
+    MinArch.db.RegisterCallback(MinArch, "OnProfileReset", "RefreshConfig");
+	MinArch.db.RegisterCallback(MinArch, "OnDatabaseShutdown", "Shutdown");
+
+	MinArch:UpgradeSettings()
+end
+
 function MinArch:OnInitialize ()
 	-- Initialize Settings Database
-	MinArch:SetDynamicDefaults();
-	MinArch:InitDatabase();
+	SetDynamicDefaults();
+	InitDatabase();
 	MinArch:MainEventAddonLoaded();
 	
-	MinArch:InitHelperFrame();
+	InitHelperFrame();
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	Digsites:Init()
@@ -90,13 +108,6 @@ function MinArch:OnInitialize ()
 	Common:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
-function MinArch:SetDynamicDefaults ()
-	for i=1, ARCHAEOLOGY_NUM_RACES do
-		MinArch.defaults.profile.raceOptions.hide[i] = false;
-		MinArch.defaults.profile.raceOptions.cap[i] = false;
-		MinArch.defaults.profile.raceOptions.keystone[i] = false;
-	end
-end
 
 function MinArch:RefreshConfig()
 	Common:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
@@ -112,16 +123,6 @@ end
 
 function MinArch:Shutdown()
 	Common:DisplayStatusMessage("ShutDown called", MINARCH_MSG_DEBUG);
-end
-
-function MinArch:InitDatabase()
-	MinArch.db = LibStub("AceDB-3.0"):New("MinArchDB", MinArch.defaults, true);
-	MinArch.db.RegisterCallback(MinArch, "OnProfileChanged", "RefreshConfig");
-    MinArch.db.RegisterCallback(MinArch, "OnProfileCopied", "RefreshConfig");
-    MinArch.db.RegisterCallback(MinArch, "OnProfileReset", "RefreshConfig");
-	MinArch.db.RegisterCallback(MinArch, "OnDatabaseShutdown", "Shutdown");
-
-	MinArch:UpgradeSettings()
 end
 
 function MinArch:UpgradeSettings()
