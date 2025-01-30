@@ -6,6 +6,8 @@ Digsites.frame = _G["MinArchDigsites"]
 
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
 ---@type HereBeDragons-2.0
 local HBD = LibStub("HereBeDragons-2.0")
 
@@ -139,7 +141,7 @@ local function DigsiteTooltip(self, name, digsite, tooltip, taxiNode)
 		MinArchTooltipIcon:Show();
 	end
 
-	if (MinArch:IsNavigationEnabled() and not taxiNode) then
+	if (Navigation:IsNavigationEnabled() and not taxiNode) then
 		tooltip:AddLine("Hint: Left-Click to create waypoint here.", 0, 1, 0)
 	end
 
@@ -193,10 +195,10 @@ local function SetRaceIcon(FRAME, X, Y, NAME, DETAILS, parentFrame, taxiNode)
 		if (button == "LeftButton") then
 			if (taxiNode) then
 				TakeTaxiNode(taxiNode)
-				MinArch.waypointOnLanding = true
-				MinArch:ClearAllDigsiteWaypoints()
+				Navigation.waypointOnLanding = true
+				Navigation:ClearAllDigsiteWaypoints()
 			else
-				MinArch:SetWayToDigsiteOnClick(NAME, DETAILS)
+				Navigation:SetWayToDigsiteOnClick(NAME, DETAILS)
 			end
 		end
 	end)
@@ -328,7 +330,7 @@ function Digsites:Init()
 
 	Digsites.wpButton = Common:CreateAutoWaypointButton(Digsites.frame, 15, 3);
 	Digsites.frame:SetScript("OnShow", function()
-		if (MinArch:IsNavigationEnabled()) then
+		if (Navigation:IsNavigationEnabled()) then
 			Digsites.wpButton:Show();
 		else
 			Digsites.wpButton:Hide();
@@ -580,7 +582,7 @@ function Digsites:CreateDigSitesList(ContID)
 
 				currentMO:SetScript("OnMouseUp", function(self, button)
 					if (button == "LeftButton") then
-						MinArch:SetWayToDigsiteOnClick(name, digsite);
+						Navigation:SetWayToDigsiteOnClick(name, digsite);
 					end
 				end)
 				currentMO:SetScript("OnEnter", function(self)

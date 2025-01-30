@@ -10,6 +10,8 @@ local Companion = MinArch:LoadModule("MinArchCompanion")
 local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchLDB
 local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
 
 MinArchArtifactBars = {};
 
@@ -22,7 +24,7 @@ function MinArch:SetRelevancyToggleButtonTexture()
 		button:SetNormalTexture([[Interface\Buttons\UI-Panel-CollapseButton-Up]]);
 		button:SetPushedTexture([[Interface\Buttons\UI-Panel-CollapseButton-Down]]);
 	end
-	
+
 	button:SetBackdrop({
 		bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]],
 		edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0,
@@ -165,7 +167,7 @@ function MinArch:InitMain(self)
 
 	self:SetScript('OnShow', function ()
 		MinArch:UpdateMain();
-		if (MinArch:IsNavigationEnabled()) then
+		if (Navigation:IsNavigationEnabled()) then
 			MinArchMainAutoWayButton:Show();
 		else
 			MinArchMainAutoWayButton:Hide();

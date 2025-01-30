@@ -10,6 +10,8 @@ local Digsites = MinArch:LoadModule("MinArchDigsites")
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchOptions
 local Options = MinArch:LoadModule("MinArchOptions")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
 
 -- Local variables
 local nextCratable = nil
@@ -119,7 +121,7 @@ function Common:CreateAutoWaypointButton(parent, x, y)
 
     button:SetScript("OnMouseUp", function(self, button)
         if (button == "LeftButton") then
-            MinArch:SetWayToNearestDigsite()
+            Navigation:SetWayToNearestDigsite()
         elseif (button == "RightButton") then
             Common:OpenSettings(Options.TomTomSettings);
         end

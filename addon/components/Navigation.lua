@@ -1,23 +1,36 @@
 local ADDON, _ = ...
 
+---@class MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
+Navigation.waypointOnLanding = false
+
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+---@type HereBeDragons-2.0
+local HBD = LibStub("HereBeDragons-2.0")
+local TomTom = _G["TomTom"];
 
 MinArch.autoWaypoint = nil;
 local previousDigsite = nil;
 
-function MinArch:IsTomTomAvailable()
-    return _G.TomTom ~= nil and MinArch.db.profile.TomTom.enableTomTom;
+function Navigation:IsTomTomAvailable()
+    return TomTom ~= nil and MinArch.db.profile.TomTom.enableTomTom;
 end
 
-function MinArch:IsNavigationEnabled()
-    return MinArch.db.profile.TomTom.enableBlizzWaypoint or MinArch:IsTomTomAvailable();
+function Navigation:SetTomTom()
+	TomTom = _G["TomTom"];
+end
+
+function Navigation:IsNavigationEnabled()
+    return MinArch.db.profile.TomTom.enableBlizzWaypoint or Navigation:IsTomTomAvailable();
 end
 
 local function SetWayToDigsite(title, position, isAuto)
-	if not MinArch:IsNavigationEnabled() then return end;
+	if not Navigation:IsNavigationEnabled() then return end;
 
-	MinArch:ClearUiWaypoint()
+	Navigation:ClearUiWaypoint()
     if MinArch.db.profile.TomTom.enableBlizzWaypoint and MINARCH_EXPANSION == 'Mainline' then
         local uiMapPoint = UiMapPoint.CreateFromCoordinates(position.uiMapID, position.x/100, position.y/100, 0);
 		C_Map.SetUserWaypoint(uiMapPoint);
@@ -25,13 +38,13 @@ local function SetWayToDigsite(title, position, isAuto)
 		C_SuperTrack.SetSuperTrackedUserWaypoint(MinArch.db.profile.TomTom.superTrack);
     end
 
-	if MinArch:IsTomTomAvailable() then
+	if Navigation:IsTomTomAvailable() then
 		local persistent = MinArch.db.profile.TomTom.persistent;
 		if (isAuto) then
 			persistent = false
 		end
 
-		local newWaypoint = _G.TomTom:AddWaypoint(position.uiMapID, position.x/100, position.y/100, {
+		local newWaypoint = TomTom:AddWaypoint(position.uiMapID, position.x/100, position.y/100, {
 			title = title,
 			crazy = MinArch.db.profile.TomTom.arrow,
 			persistent = persistent,
@@ -41,7 +54,7 @@ local function SetWayToDigsite(title, position, isAuto)
 	end
 end
 
-function MinArch:ClearUiWaypoint()
+function Navigation:ClearUiWaypoint()
 	if (MINARCH_EXPANSION == 'Mainline') then
 		local activeWaypoint = C_Map.GetUserWaypoint()
 		if (MinArch.db.char.TomTom.uiMapPoint and activeWaypoint and activeWaypoint.uiMapID == MinArch.db.char.TomTom.uiMapPoint.uiMapID
@@ -53,7 +66,7 @@ function MinArch:ClearUiWaypoint()
     MinArch.db.char.TomTom.uiMapPoint = nil;
 end
 
-function MinArch:GetNearestFlightMaster()
+function Navigation:GetNearestFlightMaster()
 	local factions = {
 		['Horde'] = 1,
 		['Alliance'] = 2
@@ -113,14 +126,14 @@ function MinArch:GetNearestFlightMaster()
 	}
 end
 
-function MinArch:SetWayToNearestDigsite(afterFlight)
-	if not MinArch:IsNavigationEnabled() then return end
+function Navigation:SetWayToNearestDigsite(afterFlight)
+	if not Navigation:IsNavigationEnabled() then return end
 
 	local taxiNode
 	local newWayPoint
 	local digsiteName, distance, digsite, priority = Digsites:GetNearestDigsite()
 	if (MinArch.db.profile.TomTom.taxi.enabled and distance and distance > MinArch.db.profile.TomTom.taxi.distance) then
-		taxiNode = MinArch:GetNearestFlightMaster()
+		taxiNode = Navigation:GetNearestFlightMaster()
 
 		if (afterFlight and taxiNode.distance < 100) then
 			return
@@ -128,12 +141,12 @@ function MinArch:SetWayToNearestDigsite(afterFlight)
 	end
 
 	if (taxiNode or ( digsite and (digsiteName ~= previousDigsite or distance > 2000)) ) then
-		if (_G.TomTom and MinArch.autoWaypoint ~= nil) then
-			_G.TomTom:RemoveWaypoint(MinArch.autoWaypoint)
+		if (TomTom and MinArch.autoWaypoint ~= nil) then
+			TomTom:RemoveWaypoint(MinArch.autoWaypoint)
 		end
 
         local suffix = 'closest';
-        if priority > 0 and priority < 99 then
+        if priority > 0 and priority < 99 and digsite then
             suffix = '*' .. digsite.race;
         end
 		if taxiNode then
@@ -151,22 +164,23 @@ function MinArch:SetWayToNearestDigsite(afterFlight)
 	end
 end
 
-function MinArch:SetWayToDigsiteOnClick(digsiteName, digsite)
-	if not MinArch:IsNavigationEnabled() then return end;
+function Navigation:SetWayToDigsiteOnClick(digsiteName, digsite)
+	if not Navigation:IsNavigationEnabled() then return end;
 
 	previousDigsite = digsiteName;
 	local newWaypoint = SetWayToDigsite(digsiteName, digsite);
 	MinArch.db.char.TomTom.waypoints[digsiteName] = newWaypoint;
 end
 
-function MinArch:RefreshDigsiteWaypoints(forceRefresh)
-	if not MinArch:IsNavigationEnabled() and not forceRefresh then return end;
+---@param forceRefresh boolean @default: false
+function Navigation:RefreshDigsiteWaypoints(forceRefresh)
+	if not Navigation:IsNavigationEnabled() and not forceRefresh then return end;
 
-	if MinArch:IsTomTomAvailable() then
+	if Navigation:IsTomTomAvailable() then
 		for title, waypoint in pairs(MinArch.db.char.TomTom.waypoints) do
-			if (_G.TomTom:WaypointExists(waypoint[1], waypoint[2], waypoint[3], title)) then
+			if (TomTom:WaypointExists(waypoint[1], waypoint[2], waypoint[3], title)) then
 				-- re-add waypoint so we have the correct data
-				local newWaypoint = _G.TomTom:AddWaypoint(waypoint[1], waypoint[2], waypoint[3], {
+				local newWaypoint = TomTom:AddWaypoint(waypoint[1], waypoint[2], waypoint[3], {
 					title = title,
 					crazy = waypoint.crazy,
 					persistent = waypoint.persistent,
@@ -179,18 +193,24 @@ function MinArch:RefreshDigsiteWaypoints(forceRefresh)
 	end
 end
 
-function MinArch:ClearAllDigsiteWaypoints()
-	-- Make sure waypoints are up to date
-	MinArch:RefreshDigsiteWaypoints(true);
+function Navigation:RemoveTomTomWaypoint(waypoint)
+	if TomTom then
+		TomTom:RemoveWaypoint(waypoint);
+	end
+end
 
-	if _G.TomTom then
+function Navigation:ClearAllDigsiteWaypoints()
+	-- Make sure waypoints are up to date
+	Navigation:RefreshDigsiteWaypoints(true);
+
+	if TomTom then
 		if (MinArch.autoWaypoint ~= nil) then
-			_G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
+			TomTom:RemoveWaypoint(MinArch.autoWaypoint);
 		end
 
 		for title, waypoint in pairs(MinArch.db.char.TomTom.waypoints) do
 			MinArch.db.char.TomTom.waypoints[title] = nil;
-			_G.TomTom:RemoveWaypoint(waypoint);
+			TomTom:RemoveWaypoint(waypoint);
 		end
 	end
 end

@@ -11,6 +11,8 @@ local Companion = MinArch:LoadModule("MinArchCompanion")
 local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchLDB
 local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
 
 local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
 
@@ -629,7 +631,7 @@ local raceSettings = {
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.ignoreHidden = newValue;
 					end,
-                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+                    disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					width = "full",
 					order = 2,
                 },
@@ -1332,7 +1334,7 @@ local devSettings = {
 					get = function () return MinArch.db.profile.TomTom.optimizationModifier end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.optimizationModifier = newValue;
-						MinArch:SetWayToNearestDigsite()
+						Navigation:SetWayToNearestDigsite()
 					end,
 					order = 2,
 				},
@@ -1360,7 +1362,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.enableBlizzWaypoint = newValue;
                         if MinArch.db.char.TomTom.uiMapPoint and not newValue then
-                            MinArch:ClearUiWaypoint()
+                            Navigation:ClearUiWaypoint()
                         end
 					end,
 					disabled = function () return (MINARCH_EXPANSION == 'Cata') end,
@@ -1389,7 +1391,7 @@ local TomTomSettings = {
 			name = L["OPTIONS_NAV_TOMTOM_TITLE"],
 			inline = true,
 			order = 2,
-			disabled = function () return (_G.TomTom == nil) end,
+			disabled = function () return (_G["TomTom"] == nil) end,
 			args = {
 				enable = {
 					type = "toggle",
@@ -1404,7 +1406,7 @@ local TomTomSettings = {
 							MinArchMainAutoWayButton:Show();
 							Digsites.wpButton:Show();
 						else
-							MinArch:ClearAllDigsiteWaypoints();
+							Navigation:ClearAllDigsiteWaypoints();
 							MinArchMainAutoWayButton:Hide();
 							Digsites.wpButton:Hide();
 						end
@@ -1419,7 +1421,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.arrow = newValue;
 					end,
-					disabled = function () return (MinArch:IsTomTomAvailable() == false) end,
+					disabled = function () return (Navigation:IsTomTomAvailable() == false) end,
 					order = 2,
 				},
 				persistent = {
@@ -1430,7 +1432,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.persistent = newValue;
 					end,
-					disabled = function () return (MinArch:IsTomTomAvailable() == false) end,
+					disabled = function () return (Navigation:IsTomTomAvailable() == false) end,
 					order = 3,
 				},
 			},
@@ -1449,7 +1451,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.autoWayOnMove = newValue;
 					end,
-					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 1,
 				},
 				autoWayOnComplete = {
@@ -1460,7 +1462,7 @@ local TomTomSettings = {
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.autoWayOnComplete = newValue;
 					end,
-					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 2,
                 },
 				ignoreHidden = {
@@ -1471,7 +1473,7 @@ local TomTomSettings = {
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.ignoreHidden = newValue;
 					end,
-                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+                    disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 4,
                 },
 				message = {

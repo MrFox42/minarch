@@ -8,6 +8,8 @@ local Companion = MinArch:LoadModule("MinArchCompanion")
 local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchLDB
 local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
 
 local eventTimer = nil
 local researchEventTimer = nil
@@ -93,6 +95,9 @@ function MinArch:EventMain(event, ...)
 		if (addonname == "Blizzard_ArchaeologyUI") then
 			--MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
+		if (addonname == "TomTom") then
+			Navigation:SetTomTom()
+		end
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
 		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
@@ -112,10 +117,10 @@ function MinArch:EventMain(event, ...)
 	end
 
     if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArch.ShowOnSurvey == true) then
-        if (_G.TomTom and MinArch.autoWaypoint) then
-            _G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
+        if MinArch.autoWaypoint then
+			Navigation:RemoveTomTomWaypoint(MinArch.autoWaypoint)
         end
-        MinArch:ClearUiWaypoint();
+        Navigation:ClearUiWaypoint();
 
 		if (MinArch.db.profile.autoShowOnSurvey) then
 			MinArch:ShowMain();
@@ -265,18 +270,18 @@ function MinArch:EventDigsites(event, ...)
 	end
 
 	if (event == "PLAYER_ENTERING_WORLD") then
-		MinArch:RefreshDigsiteWaypoints();
+		Navigation:RefreshDigsiteWaypoints();
 	end
 
 	if (--[[event == "ARTIFACT_DIGSITE_COMPLETE" or]] event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED") then
 		if (MinArch.db.profile.TomTom.autoWayOnComplete) then
-			MinArch:SetWayToNearestDigsite();
+			Navigation:SetWayToNearestDigsite();
 		end
 	end
 
 	if (event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
 		if (MinArch.db.profile.TomTom.autoWayOnMove) then
-			MinArch:SetWayToNearestDigsite();
+			Navigation:SetWayToNearestDigsite();
 		end
 	end
 
@@ -284,9 +289,9 @@ function MinArch:EventDigsites(event, ...)
 		Digsites:UpdateFlightMap()
 	end
 
-	if event == "PLAYER_CONTROL_GAINED" and MinArch.waypointOnLanding then
-		MinArch.waypointOnLanding = false
-		MinArch:SetWayToNearestDigsite(true)
+	if event == "PLAYER_CONTROL_GAINED" and Navigation.waypointOnLanding then
+		Navigation.waypointOnLanding = false
+		Navigation:SetWayToNearestDigsite(true)
 	end
 end
 

@@ -11,7 +11,6 @@ MinArch.HideNext = false;
 MinArch.IsReady = false;
 MinArch.ShowOnSurvey = true;
 MinArch.ShowInDigsite = true;
-MinArch.waypointOnLanding = false
 
 MinArch.firstRun = true;
 MinArch.artifacts = {};
