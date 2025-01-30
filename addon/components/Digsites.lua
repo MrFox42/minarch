@@ -1,6 +1,9 @@
 local ADDON, _ = ...
 local HBD = LibStub("HereBeDragons-2.0")
 
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+
 MinArchScrollDS = {}
 MinArchDigsitesDB = {} -- old dig site info per character
 MinArchDigsitesGlobalDB = {} -- global dig site information
@@ -129,7 +132,7 @@ function MinArch:InitDigsites(self)
 		end
     end)
 
-	MinArch:CreateAutoWaypointButton(self, 15, 3);
+	Common:CreateAutoWaypointButton(self, 15, 3);
 
 	self:RegisterEvent("ARTIFACT_DIGSITE_COMPLETE");
 	self:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED");
@@ -147,13 +150,13 @@ function MinArch:InitDigsites(self)
 	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
     hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);
 
-    MinArch:CommonFrameLoad(self);
+    Common:FrameLoad(self);
 
 	if not MinArch.db.profile.TomTom.taxi.enabled or not MinArch.db.profile.TomTom.taxi.autoDisableArchMode then
 		MinArch.db.profile.TomTom.taxi.archMode = false
 	end
 
-	MinArch:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
+	Common:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
 end
 
 -- don't spam about unknown digsites, only once each
@@ -170,7 +173,7 @@ function MinArch:UpdateActiveDigSites()
 		return
 	end
 
-	local playerContID = MinArch:GetInternalContId();
+	local playerContID = Common:GetInternalContId();
 
 	for i = 1, ARCHAEOLOGY_NUM_CONTINENTS do
 
@@ -185,7 +188,7 @@ function MinArch:UpdateActiveDigSites()
 			digsite["status"] = false;
 		end
 
-        local zoneUiMapID = MinArch:GetUiMapIdByContId(i);
+        local zoneUiMapID = Common:GetUiMapIdByContId(i);
 
         local zones = C_Map.GetMapChildrenInfo(zoneUiMapID, 3);
         -- Workaround for the phased version of Vale of Eternal Blossoms
@@ -204,8 +207,8 @@ function MinArch:UpdateActiveDigSites()
                 if uiMapID == 390 then
                     digsiteZone = C_Map.GetMapInfo(uiMapID);
                 end
-				local continentUiMapID = MinArch:GetNearestContinentId(uiMapID);
-				local contID = MinArch:GetInternalContId(continentUiMapID);
+				local continentUiMapID = Common:GetNearestContinentId(uiMapID);
+				local contID = Common:GetInternalContId(continentUiMapID);
 
 				MinArchDigsitesGlobalDB["continent"][i][name] = MinArchDigsitesGlobalDB["continent"][i][name] or {};
 				MinArchDigsitesDB      ["continent"][i][name] = MinArchDigsitesDB["continent"][i][name] or {};
@@ -217,13 +220,13 @@ function MinArch:UpdateActiveDigSites()
                         MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
                         MinArchDigsitesGlobalDB["continent"][i][name]["raceId"] = MinArchDigsiteList[contID][name].race
 					elseif not SpamBlock[name] then
-						MinArch:DisplayStatusMessage("Minimal Archaeology: Unknown digsite " .. name, MINARCH_MSG_STATUS)
+						Common:DisplayStatusMessage("Minimal Archaeology: Unknown digsite " .. name, MINARCH_MSG_STATUS)
 						SpamBlock[name] = 1
 					end
 				--end
 
 				-- TODO: remove digsites assigned to the wrong continent in old/buggy releases
-                local currentZoneUiMapID = MinArch:GetNearestZoneId(digsiteZone.mapID);
+                local currentZoneUiMapID = Common:GetNearestZoneId(digsiteZone.mapID);
 				if (currentZoneUiMapID ~= nil and (currentZoneUiMapID == uiMapID or currentZoneUiMapID == digsiteZone.parentMapID)) then
 					if (playerContID == i and MinArchDigsiteList[contID][name]) then
 						MinArch.RelevantRaces[MinArchDigsiteList[contID][name].race] = true;
@@ -244,7 +247,7 @@ end
 
 function MinArch:CreateDigSitesList(ContID)
 	if (ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
-		ContID = MinArch:GetInternalContId();
+		ContID = Common:GetInternalContId();
 
 		if (ContID == nil or ContID < 1 or ContID > ARCHAEOLOGY_NUM_CONTINENTS ) then
 			ContID = 1;
@@ -449,7 +452,7 @@ function MinArch:DimADIButtons()
 end
 
 function MinArch:ADIButtonTooltip(ContID)
-	local uiMapID = MinArch:GetUiMapIdByContId(ContID);
+	local uiMapID = Common:GetUiMapIdByContId(ContID);
 	if (uiMapID ~= nil) then
 		GameTooltip:SetOwner(MinArchDigsites, "ANCHOR_TOPLEFT");
 
@@ -461,10 +464,10 @@ end
 function MinArch:UpdateActiveDigSitesRace(Race)
 	local ax = 0;
 	local ay = 0;
-	local ContID = MinArch:GetInternalContId();
+	local ContID = Common:GetInternalContId();
 
 	local uiMapID = C_Map.GetBestMapForUnit("player");
-	uiMapID = MinArch:GetNearestZoneId(uiMapID);
+	uiMapID = Common:GetNearestZoneId(uiMapID);
 	if (ContID == nil or uiMapID == nil) then
 		return false;
 	end
@@ -479,7 +482,7 @@ function MinArch:UpdateActiveDigSitesRace(Race)
 
 	for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
 		if (ax == nil or digsite["x"] == nil or ay == nil or digsite["y"] == nil) then
-			MinArch:DisplayStatusMessage('MinArch: location error in ' .. GetZoneText() .. " " .. GetSubZoneText());
+			Common:DisplayStatusMessage('MinArch: location error in ' .. GetZoneText() .. " " .. GetSubZoneText());
 		else
 			local xd = math.abs(ax - tonumber(digsite["x"]));
 			local yd = math.abs(ay - tonumber(digsite["y"]));
@@ -560,9 +563,9 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 
 	local nDigsite, nDistance, nDetails, nPrio
 
-    local contID = MinArch:GetInternalContId();
+    local contID = Common:GetInternalContId();
 
-	local uiMapID = MinArch:GetUiMapIdByContId(contID);
+	local uiMapID = Common:GetUiMapIdByContId(contID);
 	if (contID == nil or uiMapID == nil) then
 		return false;
 	end
@@ -595,7 +598,7 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
 			if (not MinArchDigsiteList[contID][name]) then
-				MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
+				Common:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
 			end
 
 			local currentRace = MinArchDigsiteList[contID][name] and MinArchDigsiteList[contID][name].race or nil;
@@ -729,8 +732,8 @@ function MinArch:UpdateFlightMap()
 		end)
 	end
 
-	local contID = MinArch:GetInternalContId();
-	local uiMapID = MinArch:GetUiMapIdByContId(contID);
+	local contID = Common:GetInternalContId();
+	local uiMapID = Common:GetUiMapIdByContId(contID);
 	if (contID == nil or uiMapID == nil) then
 		return;
 	end
@@ -843,8 +846,8 @@ function MinArch:ShowRaceIconsOnMap()
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
 			local pin = WorldMapFrame:AcquirePin("DigSitePinTemplate", digsite);
 			pin.startScale = MinArch.db.profile.mapPinScale / 100
-			local continentUiMapID = MinArch:GetNearestContinentId(uiMapID);
-			local contID = MinArch:GetInternalContId(continentUiMapID);
+			local continentUiMapID = Common:GetNearestContinentId(uiMapID);
+			local contID = Common:GetInternalContId(continentUiMapID);
 			local name = digsite.name;
 			local x = digsite.position.x;
 			local y = digsite.position.y;
@@ -853,7 +856,7 @@ function MinArch:ShowRaceIconsOnMap()
 
 			if not contID then
 				if not SpamBlock[name] then
-					MinArch:DisplayStatusMessage("Minimal Archaeology: Could not find continent for digsite "..name .. " " .. uiMapID)
+					Common:DisplayStatusMessage("Minimal Archaeology: Could not find continent for digsite "..name .. " " .. uiMapID)
 					SpamBlock[name] = 1
 				end
 			else
@@ -904,7 +907,7 @@ function MinArch:SetIcon(FRAME, X, Y, NAME, DETAILS, parentFrame, taxiNode)
 
 	local RACE = tostring(DETAILS["race"]);
 
-	local raceID = MinArch:GetRaceIdByName(RACE);
+	local raceID = Common:GetRaceIdByName(RACE);
 	local frameSize = 32;
 	local iconSize = 16;
 	local offsetX = 7;
@@ -1020,14 +1023,17 @@ function MinArch:GetNearestFlightMaster()
 	local unitFaction = UnitFactionGroup("player")
 	local factionID = factions[unitFaction]
 
-	local contID = MinArch:GetInternalContId();
+	local contID = Common:GetInternalContId();
 
-	local cUiMapID = MinArch:GetUiMapIdByContId(contID);
+	local cUiMapID = Common:GetUiMapIdByContId(contID);
 	if (contID == nil or cUiMapID == nil) then
-		return false;
+		return false
 	end
 
 	local uiMapID = C_Map.GetBestMapForUnit("player");
+	if not uiMapID then
+		return false
+	end
 	local playerPos = C_Map.GetPlayerMapPosition(uiMapID, "player")
 	if (playerPos == nil) then
 		return false;

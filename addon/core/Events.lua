@@ -2,6 +2,8 @@ local ADDON, _ = ...
 
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
 
 local eventTimer = nil
 local researchEventTimer = nil
@@ -60,7 +62,7 @@ local function RepositionDigsiteProgressBar()
 end
 
 function MinArch:EventMain(event, ...)
-    MinArch:DisplayStatusMessage("EventMain: " .. event, MINARCH_MSG_DEBUG)
+    Common:DisplayStatusMessage("EventMain: " .. event, MINARCH_MSG_DEBUG)
     -- RepositionDigsiteProgressBar()
 
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArch.HideNext == true) then
@@ -91,7 +93,7 @@ function MinArch:EventMain(event, ...)
 		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		if (MinArch.RacesLoaded == false) then
-			MinArch:LoadRaceInfo();
+			Common:LoadRaceInfo();
 		end
         MinArch:RefreshLDBButton(event);
         Companion:AutoToggle()
@@ -156,7 +158,7 @@ function MinArch:EventMain(event, ...)
 
 	if (event == "PLAYER_REGEN_ENABLED") then
 		MinArchMain:UnregisterEvent("PLAYER_REGEN_ENABLED");
-		MinArch:DisplayStatusMessage("Main update after combat", MINARCH_MSG_DEBUG);
+		Common:DisplayStatusMessage("Main update after combat", MINARCH_MSG_DEBUG);
 	end
 
 	if (MinArch.IsReady == true) then
@@ -173,7 +175,7 @@ function MinArch:EventMain(event, ...)
 end
 
 function MinArch:EventHist(event, ...)
-    MinArch:DisplayStatusMessage("EventHist: " .. event, MINARCH_MSG_DEBUG)
+    Common:DisplayStatusMessage("EventHist: " .. event, MINARCH_MSG_DEBUG)
 
 	if (event == "RESEARCH_ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
 		if (IsArtifactCompletionHistoryAvailable()) then
@@ -184,12 +186,12 @@ function MinArch:EventHist(event, ...)
 
 			if allGood then
 				-- all item info available, unregister this event
-				MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").", MINARCH_MSG_DEBUG)
 				-- MinArchHist:UnregisterEvent(event)
 				MinArchHist:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
 			else
 				-- not all item info available, try again when more details have been received
-				MinArch:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").", MINARCH_MSG_DEBUG)
 				-- MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
 				MinArchHist:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
@@ -199,7 +201,7 @@ function MinArch:EventHist(event, ...)
 				MinArch:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
 		else
-            MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+            Common:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
             return;
 		end
 
@@ -209,7 +211,7 @@ function MinArch:EventHist(event, ...)
 	if (event == "RESEARCH_ARTIFACT_COMPLETE") then
 		local artifactName = ...;
 		if (researchEventTimer ~= nil) then
-			MinArch:DisplayStatusMessage("RESEARCH_ARTIFACT_COMPLETE called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("RESEARCH_ARTIFACT_COMPLETE called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
 			researchEventTimer:Cancel();
 		end
 		researchEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()
@@ -237,11 +239,11 @@ end
 function MinArch:EventDigsites(event, ...)
 	if (event == "ARCHAEOLOGY_SURVEY_CAST") then
 		local _, _, branchID = ...;
-		local race = MinArch:GetRaceNameByBranchId(branchID);
+		local race = Common:GetRaceNameByBranchId(branchID);
 		if (race ~= nil) then
 			MinArch:UpdateActiveDigSitesRace(race);
-			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
-			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
+			MinArch:CreateDigSitesList(Common:GetInternalContId());
+			MinArch:CreateDigSitesList(Common:GetInternalContId());
 		end
 		return;
 	elseif (event == "WORLD_MAP_UPDATE" and MinArch.IsReady == true) then
@@ -251,7 +253,7 @@ function MinArch:EventDigsites(event, ...)
 
 	-- TODO: internal events for updates
 	MinArch:UpdateActiveDigSites();
-	local ContID = MinArch:GetInternalContId();
+	local ContID = Common:GetInternalContId();
 
 	if (ContID ~= nil) then
 		MinArch:CreateDigSitesList(ContID);

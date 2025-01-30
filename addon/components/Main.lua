@@ -4,6 +4,8 @@ local ADDON, _ = ...
 local Options = MinArch:LoadModule("MinArchOptions")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
 
 MinArchArtifactBars = {};
 
@@ -29,9 +31,9 @@ end
 local function ShowRelevancyButtonTooltip()
 	local button = MinArchMainRelevancyButton;
 	if (MinArch.db.profile.relevancy.relevantOnly) then
-		MinArch:ShowWindowButtonTooltip(button, "Show all races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
+		Common:ShowWindowButtonTooltip(button, "Show all races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
 	else
-		MinArch:ShowWindowButtonTooltip(button, "Only show relevant races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
+		Common:ShowWindowButtonTooltip(button, "Only show relevant races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
 	end
 end
 
@@ -51,7 +53,7 @@ local function CreateRelevancyToggleButton(parent, x, y)
 	end);
 	button:SetScript("OnMouseUp", function(self, button)
 		if (button == "RightButton") then
-			MinArch:OpenSettings(Options.menu);
+			Common:OpenSettings(Options.raceSettings);
 		end
 	end);
 	button:SetScript("OnEnter", ShowRelevancyButtonTooltip)
@@ -79,7 +81,7 @@ local function CreateCrateButton(parent, x, y)
 	overlay.texture:SetTexture([[Interface\Buttons\CheckButtonGlow]]);
 	overlay:Hide();
 
-	MinArch:SetCrateButtonTooltip(button);
+	Common:SetCrateButtonTooltip(button);
 end
 
 local function InitArtifactBars(self)
@@ -169,17 +171,17 @@ function MinArch:InitMain(self)
     InitArtifactBars(self);
 
     self.openADIButton:SetScript("OnEnter", function(self)
-        MinArch:ShowWindowButtonTooltip(self, "Open Digsites");
+        Common:ShowWindowButtonTooltip(self, "Open Digsites");
     end)
     self.buttonOpenHist:SetScript("OnEnter", function(self)
-        MinArch:ShowWindowButtonTooltip(self, "Open History");
+        Common:ShowWindowButtonTooltip(self, "Open History");
     end)
 
 	local skillBarTexture = [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]];
 	self.skillBar:SetStatusBarTexture(skillBarTexture);
 	self.skillBar:SetStatusBarColor(0.03125, 0.85, 0);
 
-	MinArch:CreateAutoWaypointButton(self, 53, 3);
+	Common:CreateAutoWaypointButton(self, 53, 3);
 	CreateCrateButton(self, 32, 1);
     CreateRelevancyToggleButton(self, 10, 4);
 
@@ -189,9 +191,9 @@ function MinArch:InitMain(self)
 	MinArch['frame']['defaultHeight'] = MinArchMain:GetHeight();
     MinArch['frame']['height'] = MinArchMain:GetHeight();
 
-    MinArch:CommonFrameLoad(self);
+    Common:FrameLoad(self);
 
-	MinArch:DisplayStatusMessage("Minimal Archaeology Initialized!");
+	Common:DisplayStatusMessage("Minimal Archaeology Initialized!");
 end
 
 function MinArch:UpdateArchaeologySkillBar()
@@ -363,7 +365,7 @@ function MinArch:UpdateArtifactBar(RaceIndex)
 			if (MinArch.db.profile.disableSound == false) then
 				PlaySound(3175, "SFX");
 			end
-			if (MinArch.db.profile.autoShowOnSolve and MinArch:IsRaceRelevant(RaceIndex)) then
+			if (MinArch.db.profile.autoShowOnSolve and Common:IsRaceRelevant(RaceIndex)) then
 				if (MinArch.firstRun) then
 					MinArch.overrideStartHidden = true;
 				else
@@ -422,7 +424,7 @@ end
 
 function MinArch:UpdateMain()
 	if (InCombatLockdown()) then
-		MinArch:DisplayStatusMessage("Main update delayed until combat ends", MINARCH_MSG_DEBUG);
+		Common:DisplayStatusMessage("Main update delayed until combat ends", MINARCH_MSG_DEBUG);
 		MinArchMain:RegisterEvent("PLAYER_REGEN_ENABLED");
 		return;
 	end
@@ -441,7 +443,7 @@ function MinArch:UpdateMain()
 	for i=1,ARCHAEOLOGY_NUM_RACES do
         MinArch:UpdateArtifact(i);
 
-		if (MinArch.db.profile.raceOptions.hide[i] == false and MinArch:IsRaceRelevant(i)) then
+		if (MinArch.db.profile.raceOptions.hide[i] == false and Common:IsRaceRelevant(i)) then
 			MinArch:UpdateArtifactBar(i);
 			MinArch.artifactbars[i]:Show();
 			MinArch.artifactbars[i]:SetPoint("TOP", MinArchMain, "TOP", -25, barY);
@@ -473,7 +475,7 @@ function MinArch:UpdateMain()
 	MinArchMain:SetHeight(MinArchFrameHeight);
 
 	MinArch:RefreshLDBButton();
-	MinArch:RefreshCrateButtonGlow();
+	Common:RefreshCrateButtonGlow();
     MinArch:DimHistoryButtons();
     Companion:AutoToggle();
     Companion:Update();
@@ -619,7 +621,7 @@ function MinArch:OpenWindow(button)
 		end
 
 	elseif (button == "RightButton") then
-		MinArch:OpenSettings(Options.menu);
+		Common:OpenSettings(Options.menu);
 	end
 end
 

@@ -2,6 +2,8 @@ local ADDON, _ = ...
 
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
 
 BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
 BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
@@ -51,10 +53,10 @@ local buttonId = {
 WorldFrame:HookScript("OnMouseDown", function(_, button, down)
     -- Check if casting is enabled at all
     if button == buttonName[MinArch.db.profile.dblClick.button] then
-        MinArch:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
 
         if not MinArch.db.profile.surveyOnDoubleClick then
-            MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
+            Common:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
             return
         end
         if prevTime then
@@ -63,14 +65,14 @@ WorldFrame:HookScript("OnMouseDown", function(_, button, down)
 
             -- print(prevTime, clickTime, diff, diff2, threshold);
             if diff <= threshold and diff2 > threshold then
-                MinArch:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
+                Common:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
                 clickTime = GetTime();
-                if (MinArch:CanCast()) then
+                if (Common:CanCast()) then
                     if ( IsMouselooking() ) then
                         MouselookStop();
                     end
 
-                    MinArch:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
                     SetOverrideBindingClick(MinArch.hiddenButton, true, buttonId[MinArch.db.profile.dblClick.button], "MinArchHiddenSurveyButton");
                 end
             end

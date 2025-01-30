@@ -1,5 +1,8 @@
 local ADDON, _ = ...
 
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1");
 local dataobj = ldb:NewDataObject("MinimalArchaeology", {label = "MinArch", type = "data source", icon = "Interface\\Icons\\Trade_Archaeology_Dinosaurskeleton", text = ""});
 local icon = LibStub("LibDBIcon-1.0", true);
@@ -24,7 +27,7 @@ function MinArch:RefreshLDBButton()
 	if (digSiteData) then
 		local text = digSiteData.race;
 
-		local raceID = MinArch:GetRaceIdByName(digSiteData.race);
+		local raceID = Common:GetRaceIdByName(digSiteData.race);
 		if (MinArch['artifacts'][raceID]) then
 			local progress = MinArch['artifacts'][raceID]['progress'] or 0;
 			if (MinArch.db.profile.raceOptions.cap[raceID] == true) then

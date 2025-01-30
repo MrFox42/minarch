@@ -1,5 +1,8 @@
 local ADDON, _ = ...
 
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+
 MinArchScroll = {}
 
 MinArch.HistoryListLoaded = {}
@@ -120,9 +123,9 @@ local function CreateHeightToggle(parent, x, y)
 	end);
     button:SetScript("OnEnter", function()
         if MinArch.db.profile.history.autoResize then
-            MinArch:ShowWindowButtonTooltip(button, "Click to set the height of the History window to a fixed size|r");
+            Common:ShowWindowButtonTooltip(button, "Click to set the height of the History window to a fixed size|r");
         else
-            MinArch:ShowWindowButtonTooltip(button, "Click to enable automatic resizing for the History window");
+            Common:ShowWindowButtonTooltip(button, "Click to enable automatic resizing for the History window");
         end
     end)
 	button:SetScript("OnLeave", function()
@@ -146,7 +149,7 @@ local function InitStatistics()
     statsFrame:SetScript("OnEnter", function (self)
         -- haxx to enable drag and drop
     end)
-    MinArch:CommonFrameLoad(statsFrame, MinArchHist)
+    Common:FrameLoad(statsFrame, MinArchHist)
     MinArchHist.statsFrame = statsFrame
 
     if not MinArch.db.profile.history.showStats then
@@ -169,8 +172,8 @@ function MinArch:InitHist(self)
 
 	self:SetScript("OnShow", function ()
 		local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
-		if (digSite and distance <= 2) then
-			MinArchOptions['CurrentHistPage'] = MinArch:GetRaceIdByName(digSiteData.race)
+		if (digSite and distance <= 2 and digSiteData) then
+			MinArchOptions['CurrentHistPage'] = Common:GetRaceIdByName(digSiteData.race)
 		end
 		MinArch:DimHistoryButtons();
 
@@ -198,11 +201,11 @@ function MinArch:InitHist(self)
     self:RegisterEvent("CRITERIA_UPDATE");
     self:RegisterEvent("UNIT_INVENTORY_CHANGED");
 
-    MinArch:CommonFrameLoad(self);
+    Common:FrameLoad(self);
 
     InitStatistics()
 
-	MinArch:DisplayStatusMessage("Minimal Archaeology History Initialized!");
+	Common:DisplayStatusMessage("Minimal Archaeology History Initialized!");
 end
 
 function MinArch:IsItemDetailsLoaded(RaceID)
@@ -241,10 +244,10 @@ function MinArch:LoadItemDetails(RaceID, caller)
 
 	MinArch.HistoryListLoaded[RaceID] = allGood
 	if allGood then
-		MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.", MINARCH_MSG_DEBUG)
-		MinArch:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").", MINARCH_MSG_DEBUG)
+		Common:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.", MINARCH_MSG_DEBUG)
+		Common:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").", MINARCH_MSG_DEBUG)
 	else
-		MinArch:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").", MINARCH_MSG_DEBUG)
+		Common:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").", MINARCH_MSG_DEBUG)
         MinArch:DelayedHistoryUpdate();
 	end
 
@@ -252,10 +255,10 @@ function MinArch:LoadItemDetails(RaceID, caller)
 end
 
 local function BuildHistory(RaceID, caller)
-    MinArch:DisplayStatusMessage("BuildHistory " .. caller, MINARCH_MSG_DEBUG)
+    Common:DisplayStatusMessage("BuildHistory " .. caller, MINARCH_MSG_DEBUG)
 
     local i = 1 -- unknownArtifactInfoIndex[RaceID];
-    MinArch:DisplayStatusMessage("Bulding history for race " .. RaceID .. " from index: " .. i, MINARCH_MSG_DEBUG)
+    Common:DisplayStatusMessage("Bulding history for race " .. RaceID .. " from index: " .. i, MINARCH_MSG_DEBUG)
 	while true do
 		local name, desc, rarity, icon, spelldesc, itemrare, _, spellId, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, i)
 
@@ -275,11 +278,11 @@ local function BuildHistory(RaceID, caller)
 			if (details.name == name and details.icon ~= icon) then
 				MinArchIconDB[RaceID] = MinArchIconDB[RaceID] or {}
 				MinArchIconDB[RaceID][icon] = details.icon
-				MinArch:DisplayStatusMessage("Minimal Archaeology - icon discrepancy detected", MINARCH_MSG_DEBUG)
-				MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-				MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
-				MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
-				MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("Minimal Archaeology - icon discrepancy detected", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
 				icon = details.icon
 			end
 		end
@@ -288,24 +291,24 @@ local function BuildHistory(RaceID, caller)
             if ((details.name == name and details.icon == icon) or (foundCount == 0 and details.icon == icon)) then
                 foundCount = foundCount + 1
                 -- if foundCount > 1 then
-                --     MinArch:DisplayStatusMessage("Minimal Archaeology - found duplicate #" .. foundCount, MINARCH_MSG_DEBUG)
-                --     MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-                --     MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
-                --     MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
-                --     MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
-                --     MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+                --     Common:DisplayStatusMessage("Minimal Archaeology - found duplicate #" .. foundCount, MINARCH_MSG_DEBUG)
+                --     Common:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+                --     Common:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+                --     Common:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
+                --     Common:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+                --     Common:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
                 -- end
 
                 --TODO: In the tooltip, display icon/name/info for artifact and all associated item icons
                 -- Change MinArchHistDB to include the alternate item IDs (for example, Orb of Sciallax can give 6 different relics items)
                 -- Gather the name and icon info here.
                 --[[if (details.name ~= name) then
-                    MinArch:DisplayStatusMessage("Minimal Archaeology - item and artifact names differ", MINARCH_MSG_DEBUG)
-                    MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-                    MinArch:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
-                    MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
-                    MinArch:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
-                    MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("Minimal Archaeology - item and artifact names differ", MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
                 end]]--
 
                 details.artifactname = name
@@ -327,10 +330,10 @@ local function BuildHistory(RaceID, caller)
         end
 
 		if foundCount == 0 and MinArch:IsItemDetailsLoaded(RaceID) then
-			MinArch:DisplayStatusMessage("Minimal Archaeology - found unknown artifact", MINARCH_MSG_DEBUG)
-			MinArch:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-			MinArch:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
-			MinArch:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("Minimal Archaeology - found unknown artifact", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
 		end
 
 		i=i+1;
@@ -346,7 +349,7 @@ function MinArch:GetHistory(RaceID, caller)
             local name, desc, _, _, spelldesc, _, _, _, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, details.apiIndex)
             if (previousCompleted and previousCompleted > 0 and previousCompleted > totalcomplete) then
                 -- Don't update stored data if the response is bogus
-                MinArch:DisplayStatusMessage("Bogus data from API, skipping detail update", MINARCH_MSG_DEBUG)
+                Common:DisplayStatusMessage("Bogus data from API, skipping detail update", MINARCH_MSG_DEBUG)
                 -- BuildHistory(RaceID, 'GetHistory');
                 -- MinArch:DelayedHistoryUpdate();
                 -- return;
@@ -639,7 +642,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
         return
     end
 
-    MinArch:DisplayStatusMessage("createhistorylist", MINARCH_MSG_DEBUG)
+    Common:DisplayStatusMessage("createhistorylist", MINARCH_MSG_DEBUG)
 
 	if (RaceID ~= MinArchOptions.CurrentHistPage) then
 		MinArchOptions.CurrentHistPage = RaceID;
@@ -660,7 +663,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
 		end
 
 		if allGood then
-			MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now.", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("Minimal Archaeology - All items are loaded now.", MINARCH_MSG_DEBUG)
 		else
 			return
 		end
@@ -923,7 +926,7 @@ end
 function MinArch:DimHistoryButtons()
 	for i=1, ARCHAEOLOGY_NUM_RACES do
 		if (MinArch.raceButtons[i] and i ~= MinArchOptions.CurrentHistPage) then
-			MinArch.raceButtons[i]:SetAlpha(MinArch:IsRaceRelevant(i) and 0.5 or 0.3);
+			MinArch.raceButtons[i]:SetAlpha(Common:IsRaceRelevant(i) and 0.5 or 0.3);
 		end
 	end
 end
@@ -977,7 +980,7 @@ end
 
 function MinArch:DelayedHistoryUpdate()
     if (histEventTimer ~= nil) then
-        MinArch:DisplayStatusMessage("CreateHistory called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage("CreateHistory called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
         histEventTimer:Cancel();
     end
     histEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()

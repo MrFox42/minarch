@@ -5,6 +5,8 @@ local ADDON, _ = ...
 local Options = MinArch:LoadModule("MinArchOptions");
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
 
 local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
 
@@ -275,7 +277,7 @@ local general = {
 					get = function () return MinArch.db.profile.frameScale end,
 					set = function (_, newValue)
 						MinArch.db.profile.frameScale = newValue;
-						MinArch:CommonFrameScale(newValue);
+						Common:FrameScale(newValue);
 					end,
 					order = 1,
 				},

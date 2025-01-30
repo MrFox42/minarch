@@ -1,9 +1,11 @@
 local ADDON, _ = ...
----@type MinArchOptions
-local Options = MinArch:LoadModule("MinArchOptions")
-
 ---@class MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
+
+---@type MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
 
 Companion.frame = CreateFrame("Frame", "MinArchCompanion", UIParent)
 Companion.events = {}
@@ -59,13 +61,12 @@ local function CalculateDistance(ax, ay, bx, by)
     local xd = math.abs(ax - bx);
     local yd = math.abs(ay - by);
 
-    return MinArch:Round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
+    return Common:Round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
 end
 
 local function OpenSettingsAndHideHelp(self, button)
     if (button == "RightButton") then
-        MinArch:OpenSettings(Options.menu);
-        MinArch:OpenSettings(Options.companionSettings);
+        Common:OpenSettings(Options.companionSettings);
 
         MinArch.db.profile.companion.showHelpTip = false;
         HelpPlate_TooltipHide();
@@ -181,7 +182,7 @@ end
 
 function Companion:UpdateSurveyButton()
     if Companion.surveyButton:IsVisible() then
-        local canCast = MinArch:CanCast()
+        local canCast = Common:CanCast()
         Companion.surveyButton:GetNormalTexture():SetDesaturated(not canCast)
         if canCast then
             Companion.surveyButton:SetAttribute("spell", SURVEY_SPELL_ID);
@@ -215,7 +216,7 @@ local function InitSurveyButton()
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
         GameTooltip:SetSpellByID(SURVEY_SPELL_ID);
 
-        if not MinArch:CanCast() then
+        if not Common:CanCast() then
             GameTooltip:AddLine("Can't be casted right now")
         end
 
@@ -274,7 +275,7 @@ local function InitCrateButton()
     crateButton:SetHighlightTexture("Interface/Icons/inv_crate_04")
     crateButton:SetPushedTexture("Interface/Icons/inv_crate_04")
 
-    MinArch:SetCrateButtonTooltip(crateButton);
+    Common:SetCrateButtonTooltip(crateButton);
     RegisterForDrag(crateButton);
 
     Companion.crateButton = crateButton;
@@ -665,7 +666,7 @@ function Companion:Init()
     end
 
     if not Companion.initialized then
-        MinArch:DisplayStatusMessage("Initializing Companion", MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage("Initializing Companion", MINARCH_MSG_DEBUG)
 
         Companion.frame:SetFrameStrata("BACKGROUND")
         Companion.frame:SetWidth(142)
@@ -676,7 +677,7 @@ function Companion:Init()
         tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
         Companion.texture = tex
 
-        Companion.waypointButton = MinArch:CreateAutoWaypointButton(Companion.frame, 12, 0)
+        Companion.waypointButton = Common:CreateAutoWaypointButton(Companion.frame, 12, 0)
         Companion.waypointButton:ClearAllPoints();
         Companion.waypointButton:SetPoint("LEFT", 26, 0);
         Companion.waypointButton:SetFrameStrata("MEDIUM");
@@ -823,7 +824,7 @@ local function shouldShowRace(raceID)
     end
 
     -- Don't show irrelevant races
-    if (MinArch.db.profile.companion.relevantOnly and not MinArch:IsRaceRelevant(raceID)) then
+    if (MinArch.db.profile.companion.relevantOnly and not Common:IsRaceRelevant(raceID)) then
         return false;
     end
 
@@ -834,7 +835,7 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
     local artifact = MinArch['artifacts'][raceID]
 
     if not artifact then
-        MinArch:DisplayStatusMessage('Artifact not found for ' .. raceID, MINARCH_MSG_STATUS)
+        Common:DisplayStatusMessage('Artifact not found for ' .. raceID, MINARCH_MSG_STATUS)
         return false;
     end
 
@@ -915,7 +916,7 @@ function Companion:Update()
         if digSiteData then
             local text = digSiteData.race;
 
-            local raceID = MinArch:GetRaceIdByName(digSiteData.race);
+            local raceID = Common:GetRaceIdByName(digSiteData.race);
             if not MinArch.db.profile.raceOptions.hide[raceID] then
                 if MinArch.db.profile.companion.features.solveButton.alwaysShowNearest then
                     Companion:ShowSolveButtonForRace(raceID, true)

@@ -4,6 +4,8 @@ local isClassic = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
 local Options = MinArch:LoadModule("MinArchOptions")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
 
 function MinArch:InitHelperFrame()
     MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
@@ -70,13 +72,13 @@ function MinArch:OnInitialize ()
 		tinsert(UISpecialFrames, "MinArchDigsites");
 	end)]]--
 
-	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
+	Common:FrameScale(MinArch.db.profile.frameScale);
     MinArch:ShowRaceIconsOnMap();
     -- MinArch:HookDoubleClick();
 	Options:OnInitialize()
 
 	MinArch.IsReady = true;
-	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
+	Common:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
 function MinArch:SetDynamicDefaults ()
@@ -88,11 +90,11 @@ function MinArch:SetDynamicDefaults ()
 end
 
 function MinArch:RefreshConfig()
-	MinArch:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
+	Common:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
 
 	MinArch:RefreshMinimapButton();
 	MinArch:ShowRaceIconsOnMap();
-	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
+	Common:FrameScale(MinArch.db.profile.frameScale);
 	MinArch.ShowOnSurvey = true;
     MinArch.ShowInDigsite = true;
     Companion.showInDigsite = true;
@@ -100,7 +102,7 @@ function MinArch:RefreshConfig()
 end
 
 function MinArch:Shutdown()
-	MinArch:DisplayStatusMessage("ShutDown called", MINARCH_MSG_DEBUG);
+	Common:DisplayStatusMessage("ShutDown called", MINARCH_MSG_DEBUG);
 end
 
 function MinArch:InitDatabase()
