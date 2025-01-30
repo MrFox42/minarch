@@ -22,11 +22,11 @@
     <Script  file="shared\Common.lua" />
 
     <!-- Plugins, components -->
-    <Include file="components\Main.xml" />
+    <Include file="components\frames\Main.xml" />
     <Script  file="components\Main.lua" />
-    <Include file="components\History.xml" />
+    <Include file="components\frames\History.xml" />
     <Script  file="components\History.lua" />
-    <Include file="components\Digsites.xml" />
+    <Include file="components\frames\Digsites.xml" />
     <Script  file="components\Digsites.lua" />
     <Script  file="components\Companion.lua" />
     <Script  file="components\DataBroker.lua" />
