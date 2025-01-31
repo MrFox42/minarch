@@ -4,7 +4,7 @@
 	<!-- Basic MinArch Frame -->
 	<Frame name="MATBasic" clampedToScreen="true" movable="true" virtual="true" inherits="BackdropTemplate">
 		<Frames>
-			<Button name="$parentButtonClose" inherits="MATBClose" parentKey="buttonClose" />
+			<Button name="$parentCloseButton" inherits="MATBClose" parentKey="closeButton" />
 		</Frames>
 	</Frame>
 
@@ -110,11 +110,6 @@
 		<Anchors>
 			<Anchor point="TOPRIGHT" x="-6" y="1"/>
 		</Anchors>
-		<Scripts>
-			<OnClick>
-				self:GetParent():Toggle();
-			</OnClick>
-		</Scripts>
 		<NormalTexture file="Interface\AddOns\MinimalArchaeology\Textures\CloseButtonUp.tga"/>
 		<PushedTexture file="Interface\AddOns\MinimalArchaeology\Textures\CloseButtonDown.tga"/>
 		<HighlightTexture file="Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight.tga" alphaMode="ADD"/>
@@ -127,9 +122,6 @@
 			<Anchor point="TOPRIGHT" x="-26" y="1"/>
 		</Anchors>
 		<Scripts>
-			<OnClick>
-			    MinArchHist:Toggle();
-			</OnClick>
 			<OnLeave>
 				GameTooltip:Hide();
 			</OnLeave>

@@ -2,12 +2,16 @@ local ADDON, _ = ...
 ---@class MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
 ---@type MinArchOptions
 local Options = MinArch:LoadModule("MinArchOptions")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
 
 Companion.frame = CreateFrame("Frame", "MinArchCompanion", UIParent)
 Companion.events = {}
@@ -372,11 +376,11 @@ local function UpdateSolveButtonScripts(frame, artifact, raceID, solveOnClick, s
         if not solveOnClick then
             return
         end
-        MinArch:SolveArtifact(raceID)
+        History:SolveArtifact(raceID)
     end);
     frame:SetScript("OnEnter", function(self)
         if showTooltip then
-            MinArch:ShowArtifactTooltip(self, raceID)
+            History:ShowArtifactTooltip(self, raceID)
             GameTooltip:AddLine(" ");
             if (artifact.canSolve) then
                 GameTooltip:AddLine("Left click to solve this artifact");
@@ -396,7 +400,7 @@ local function UpdateSolveButtonScripts(frame, artifact, raceID, solveOnClick, s
     end)
     frame:SetScript("OnLeave", function()
         if showTooltip then
-            MinArch:HideArtifactTooltip();
+            History:HideArtifactTooltip();
         end
 
         if frame:GetName() == 'MinArchCompanionProgressBar' then
@@ -816,7 +820,7 @@ function Companion:Resize()
 
     Companion.skillBar:SetWidth(width + baseOffset)
     Companion.progressBar:SetWidth(width + baseOffset)
-    MinArch:UpdateArchaeologySkillBar()
+    Main:UpdateArchaeologySkillBar()
 end
 
 local function shouldShowRace(raceID)
@@ -857,10 +861,10 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
         UpdateSolveButtonScripts(Companion.solveButton, artifact, raceID, true, true)
 
         Companion.solveButton.keystone:SetScript("OnClick", function(self, button, down)
-            MinArch:KeystoneClick(self, raceID, button, down);
+            Common:KeystoneClick(self, raceID, button, down);
         end)
         Companion.solveButton.keystone:SetScript("OnEnter", function(self)
-            MinArch:KeystoneTooltip(self, raceID);
+            Common:KeystoneTooltip(self, raceID);
         end)
 
         if MinArch.db.profile.companion.features.solveButton.enabled then
@@ -869,7 +873,7 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
             if not MinArch.db.profile.companion.features.solveButton.keystone then
                 Companion.solveButton.keystone:Hide();
             else
-                MinArch:UpdateKeystones(Companion.solveButton.keystone, raceID);
+                Common:UpdateKeystones(Companion.solveButton.keystone, raceID);
             end
 
         end

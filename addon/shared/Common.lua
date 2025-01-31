@@ -4,6 +4,8 @@ local ADDON, _ = ...
 ---@class MinArchCommon 
 local Common = MinArch:LoadModule("MinArchCommon")
 
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
 ---@type MinArchCompanion
@@ -189,6 +191,71 @@ function Common:RefreshCrateButtonGlow()
 				end
 			end
 		end
+	end
+end
+
+function Common:KeystoneTooltip(self, raceID)
+	local artifact = MinArch['artifacts'][raceID];
+	local name = C_Item.GetItemInfo(artifact['raceitemid']);
+
+	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
+
+	local plural = "s";
+	if (artifact['heldKeystones'] == 1) then
+		plural = "";
+	end
+
+	GameTooltip:SetItemByID(artifact['raceitemid']);
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddLine("You have "..artifact['heldKeystones'].." "..tostring(name)..plural .. " in your bags", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddLine("Left click to apply a keystone");
+	GameTooltip:AddLine("Right click to remove a keystone");
+	GameTooltip:Show();
+end
+
+function Common:KeystoneClick(self, raceID, button, down)
+	local numofappliedkeystones = MinArch['artifacts'][raceID]['appliedKeystones'];
+	local numoftotalkeystones = MinArch['artifacts'][raceID]['numKeystones'];
+
+	if (button == "LeftButton") then
+		if (numofappliedkeystones < numoftotalkeystones) then
+			 MinArch['artifacts'][raceID]['appliedKeystones'] = numofappliedkeystones + 1;
+		end
+	elseif (button == "RightButton") then
+		if (numofappliedkeystones > 0) then
+			 MinArch['artifacts'][raceID]['appliedKeystones'] = numofappliedkeystones - 1;
+		end
+	end
+
+	History:UpdateArtifact(raceID);
+	Main:UpdateArtifactBar(raceID);
+	MinArchLDB:RefreshLDBButton();
+	Companion:Update()
+end
+
+function Common:UpdateKeystones(keystoneFrame, RaceIndex)
+	local artifact = MinArch['artifacts'][RaceIndex];
+	if not artifact or not artifact['raceitemid'] then
+		return
+	end
+
+	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = C_Item.GetItemInfo(artifact['raceitemid']);
+
+	keystoneFrame.icon:SetTexture(runeStoneIconPath);
+
+	if (artifact['appliedKeystones'] == 0 or artifact['numKeystones'] == 0) then
+		keystoneFrame.icon:SetAlpha(0.1);
+	else
+		keystoneFrame.icon:SetAlpha((artifact['appliedKeystones']/artifact['numKeystones']));
+	end
+
+	if (artifact['numKeystones'] > 0 and artifact['total'] > 0) then
+		keystoneFrame.text:SetText(artifact['appliedKeystones'].."/"..artifact['numKeystones']);
+		keystoneFrame:Show();
+		keystoneFrame.icon:Show();
+	else
+		keystoneFrame:Hide();
 	end
 end
 

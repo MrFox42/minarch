@@ -1,11 +1,16 @@
 local ADDON, _ = ...
 local isClassic = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
+
 ---@type MinArchOptions
 local Options = MinArch:LoadModule("MinArchOptions")
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchLDB
@@ -18,8 +23,8 @@ local function InitHelperFrame()
     MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
 	MinArch.HelperFrame:RegisterEvent("GLOBAL_MOUSE_DOWN");
 
-	MinArchMain.showAfterCombat = false;
-	MinArchHist.showAfterCombat = false;
+	Main.showAfterCombat = false;
+	History.showAfterCombat = false;
     Digsites.showAfterCombat = false;
     Companion.showAfterCombat = false;
 
@@ -79,13 +84,16 @@ function MinArch:OnInitialize ()
 	MinArch:MainEventAddonLoaded();
 	
 	InitHelperFrame();
-	MinArch:InitMain(MinArchMain);
-	MinArch:InitHist(MinArchHist);
+	Main:Init();
+	History:Init();
 	Digsites:Init()
 
 	--@TODO add button in lua
 	MinArchMainButtonOpenADI:SetScript("OnClick", function()
 		Digsites:ToggleWindow()
+	end)
+	MinArchMainButtonOpenHist:SetScript("OnClick", function()
+		History:ToggleWindow()
 	end)
 
 	Companion:Init();
@@ -118,7 +126,7 @@ function MinArch:RefreshConfig()
 	MinArch.ShowOnSurvey = true;
     MinArch.ShowInDigsite = true;
     Companion.showInDigsite = true;
-	MinArch:UpdateMain();
+	Main:Update();
 end
 
 function MinArch:Shutdown()

@@ -328,6 +328,10 @@ function Digsites:Init()
 		MinArch:EventDigsites(event, ...);
     end)
 
+	Digsites.frame.closeButton:SetScript("OnClick", function()
+		Digsites:HideWindow()
+	end)
+
 	Digsites.wpButton = Common:CreateAutoWaypointButton(Digsites.frame, 15, 3);
 	Digsites.frame:SetScript("OnShow", function()
 		if (Navigation:IsNavigationEnabled()) then

@@ -3,8 +3,12 @@ local ADDON, _ = ...
 
 ---@class MinArchOptions
 local Options = MinArch:LoadModule("MinArchOptions");
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
@@ -139,7 +143,7 @@ local home = {
 					name = L["OPTIONS_TOGGLE_MAIN"],
 					order = 2,
 					func = function ()
-						MinArchMain:Toggle()
+						Main:ToggleWindow()
 					end,
                 },
                 digsites = {
@@ -147,7 +151,7 @@ local home = {
 					name = L["OPTIONS_TOGGLE_HISTORY"],
 					order = 3,
 					func = function ()
-						MinArchHist:Toggle()
+						History:ToggleWindow()
 					end,
 				},
 				history = {
@@ -493,7 +497,7 @@ local general = {
 					get = function () return MinArch.db.profile.history.autoResize end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.autoResize = newValue;
-                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+                        History:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
 					end,
 					order = 1,
 				},
@@ -505,9 +509,9 @@ local general = {
 					set = function (_, newValue)
                         MinArch.db.profile.history.showStats = newValue;
 						if newValue then
-							MinArchHist.statsFrame:Show()
+							History.statsFrame:Show()
 						else
-							MinArchHist.statsFrame:Hide()
+							History.statsFrame:Hide()
 						end
 					end,
 					order = 2,
@@ -519,7 +523,7 @@ local general = {
 					get = function () return MinArch.db.profile.history.groupByProgress end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.groupByProgress = newValue;
-                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+                        History:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
 					end,
 					order = 3,
 				},
@@ -560,7 +564,7 @@ local raceSettings = {
 							get = function () return MinArch.db.profile.relevancy.nearby end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.nearby = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 1,
 						},
@@ -571,7 +575,7 @@ local raceSettings = {
 							get = function () return MinArch.db.profile.relevancy.continentSpecific end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.continentSpecific = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 2,
 						},
@@ -582,7 +586,7 @@ local raceSettings = {
 							get = function () return MinArch.db.profile.relevancy.solvable end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.solvable = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 3,
                         },
@@ -601,7 +605,7 @@ local raceSettings = {
 							get = function () return MinArch.db.profile.relevancy.hideCapped end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.hideCapped = newValue;
-                                MinArch:UpdateMain();
+                                Main:Update();
                             end,
                             width = "full",
 							order = 5,
@@ -699,7 +703,7 @@ local raceSettings = {
 						for i=1, ARCHAEOLOGY_NUM_RACES do
 							MinArch.db.profile.raceOptions.priority[i] = nil
 						end
-						MinArch:UpdateMain();
+						Main:Update();
 					end,
 				}
 			}
@@ -1649,7 +1653,7 @@ function Options:OnInitialize()
                         get = function () return MinArch.db.profile.raceOptions.hide[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.hide[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                     raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
@@ -1662,7 +1666,7 @@ function Options:OnInitialize()
                         get = function () return MinArch.db.profile.raceOptions.cap[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.cap[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                     raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
@@ -1680,7 +1684,7 @@ function Options:OnInitialize()
                         get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.keystone[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                         disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
                     };
@@ -1709,7 +1713,7 @@ function Options:OnInitialize()
 							else
 								updatePrioOrdering(group, i, newValue)
 							end
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                 end

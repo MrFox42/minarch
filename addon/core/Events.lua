@@ -1,7 +1,11 @@
 local ADDON, _ = ...
 
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
@@ -18,13 +22,13 @@ local historyUpdateTimout = 0.3
 function MinArch:EventHelper(event, ...)
 	if event == "PLAYER_REGEN_DISABLED" then
 		if MinArch.db.profile.hideInCombat then
-			if (MinArchMain:IsVisible()) then
-				MinArch:HideMain();
-				MinArchMain.showAfterCombat = true;
+			if (Main.frame:IsVisible()) then
+				Main:HideWindow();
+				Main.showAfterCombat = true;
 			end
 			if (MinArchHist:IsVisible()) then
-				MinArch:HideHistory();
-				MinArchHist.showAfterCombat = true;
+				History:HideWindow();
+				History.showAfterCombat = true;
 			end
 			if (Digsites.frame:IsVisible()) then
 				Digsites:HideWindow();
@@ -38,13 +42,13 @@ function MinArch:EventHelper(event, ...)
 			end
 		end
 	elseif (event == "PLAYER_REGEN_ENABLED") then
-		if (MinArchMain.showAfterCombat) then
-			MinArch:ShowMain();
-			MinArchMain.showAfterCombat = false;
+		if (Main.showAfterCombat) then
+			Main:ShowWindow();
+			Main.showAfterCombat = false;
 		end
-		if (MinArchHist.showAfterCombat) then
-			MinArch:ShowHistory();
-			MinArchHist.showAfterCombat = false;
+		if (History.showAfterCombat) then
+			History:ShowWindow();
+			History.showAfterCombat = false;
 		end
 		if (Digsites.showAfterCombat) then
 			Digsites:ShowWindow();
@@ -75,11 +79,11 @@ function MinArch:EventMain(event, ...)
 		MinArch:MaineEventHideAfterDigsite();
 		return;
 	elseif (event == "SKILL_LINES_CHANGED") then
-		MinArch:UpdateArchaeologySkillBar();
+		Main:UpdateArchaeologySkillBar();
 	elseif ((event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArch.db.profile.hideAfterDigsite == true) then
 		MinArch.HideNext = true;
 	elseif (event == "RESEARCH_ARTIFACT_COMPLETE" and MinArch.HideNext == true and MinArch.db.profile.waitForSolve == true) then
-		MinArch:HideMain();
+		Main:HideWindow();
 		MinArch.HideNext = false;
 
 		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
@@ -123,13 +127,13 @@ function MinArch:EventMain(event, ...)
         Navigation:ClearUiWaypoint();
 
 		if (MinArch.db.profile.autoShowOnSurvey) then
-			MinArch:ShowMain();
+			Main:ShowWindow();
 			MinArch.ShowOnSurvey = false;
 		end
 	end
 	if ((event == "PLAYER_STOPPED_MOVING" or event == "PLAYER_ENTERING_WORLD")) then
 		if (MinArch.db.profile.autoShowInDigsites and Digsites:IsPlayerNearDigSite() and MinArch.ShowInDigsite == true) then
-			MinArch:ShowMain();
+			Main:ShowWindow();
 			MinArch.ShowInDigsite = false;
         end
 
@@ -176,7 +180,7 @@ function MinArch:EventMain(event, ...)
 		end
 
         eventTimer = C_Timer.NewTimer(0.5, function()
-			MinArch:UpdateMain();
+			Main:Update();
             -- RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
@@ -190,7 +194,7 @@ function MinArch:EventHist(event, ...)
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
 			for i = 1, ARCHAEOLOGY_NUM_RACES do
-				allGood = MinArch:LoadItemDetails(i, event .. " {i=" .. i .. "}") and allGood
+				allGood = History:LoadItemDetails(i, event .. " {i=" .. i .. "}") and allGood
 			end
 
 			if allGood then
@@ -207,14 +211,14 @@ function MinArch:EventHist(event, ...)
 			end
 
 			for i = 1, ARCHAEOLOGY_NUM_RACES do
-				MinArch:GetHistory(i, event .. " {i=" .. i .. "}");
+				History:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
 		else
             Common:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
             return;
 		end
 
-		MinArch:DelayedHistoryUpdate()
+		History:DelayedUpdate()
     end
 
 	if (event == "RESEARCH_ARTIFACT_COMPLETE") then
@@ -237,7 +241,7 @@ function MinArch:EventHist(event, ...)
 							MinArch.artifacts[RaceID].totalcomplete = details.totalcomplete
 						end
 
-    					return MinArch:DelayedHistoryUpdate()
+    					return History:DelayedUpdate()
 					end
 				end
 			end
@@ -300,18 +304,18 @@ function MinArch:MaineEventHideAfterDigsite()
 	if (MinArch.db.profile.waitForSolve == true) then
 		local wait = false;
 		for i=1,ARCHAEOLOGY_NUM_RACES do
-			MinArch:UpdateArtifact(i);
+			History:UpdateArtifact(i);
 			if (MinArch['artifacts'][i]['canSolve'] and MinArch.db.profile.raceOptions.hide[i] == false) then
 				wait = true;
 			end
 		end
 
 		if (wait == false) then
-			MinArch:HideMain();
+			Main:HideWindow();
 			MinArch.HideNext = false;
 		end
 	else
-		MinArch:HideMain();
+		Main:HideWindow();
 		MinArch.HideNext = false;
 	end
 end
@@ -324,15 +328,15 @@ function MinArch:MainEventAddonLoaded()
 	end
 
 	if (MinArch.db.profile.startHidden == true and not MinArch.overrideStartHidden) then
-		MinArch:HideMain();
+		Main:HideWindow();
 	end
 
 	if (MinArch.db.char.WindowStates.main == false) then
-		MinArch:HideMain();
+		Main:HideWindow();
 	end
 
 	if (MinArch.db.char.WindowStates.history == false or MinArch.db.profile.startHidden) then
-		MinArch:HideHistory();
+		History:HideWindow();
 	end
 
 	if (MinArch.db.char.WindowStates.digsites == false or MinArch.db.profile.startHidden) then

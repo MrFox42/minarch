@@ -1,5 +1,7 @@
 local ADDON, _ = ...
 
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
 ---@type MinArchCompanion
 local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
@@ -12,11 +14,11 @@ setglobal("BINDING_NAME_SPELL Survey", "Survey")
 SLASH_MINARCH1 = "/minarch"
 SlashCmdList["MINARCH"] = function(msg, editBox)
 	if (msg == "hide") then
-		MinArch:HideMain();
+		Main:HideWindow();
 	elseif (msg == "show") then
-		MinArch:ShowMain();
+		Main:ShowWindow();
 	elseif (msg == "toggle") then
-		MinArchMain:Toggle();
+		Main:ToggleWindow();
 	elseif (msg == "version") then
 		ChatFrame1:AddMessage("Minimal Archaeology " .. tostring(C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version")));
     elseif (msg == "comp") then
