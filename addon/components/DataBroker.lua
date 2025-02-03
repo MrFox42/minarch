@@ -8,6 +8,8 @@ local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1");
 local dataobj = ldb:NewDataObject("MinimalArchaeology", {label = "MinArch", type = "data source", icon = "Interface\\Icons\\Trade_Archaeology_Dinosaurskeleton", text = ""});
 local icon = LibStub("LibDBIcon-1.0", true);
@@ -39,7 +41,7 @@ function MinArchLDB:RefreshLDBButton()
 				text = text .. " " .. progress .. "/" .. MinArchRaceConfig[raceID].fragmentCap;
             else
                 if (MinArch['artifacts'][raceID]['canSolve']) then
-					text = text .. " (Solvable)";
+					text = text .. " (" .. L["TOOLTIP_SOLVABLE"] .. ")";
                 end
 
                 if (MinArch['artifacts'][raceID]['progress'] ~= nil and MinArch['artifacts'][raceID]['total'] ~= nil) then
@@ -71,13 +73,13 @@ function dataobj:OnEnter()
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
 	GameTooltip:ClearLines();
-	GameTooltip:AddLine("Minimal Arcaeology", 1, 0.819, 0.003);
+	GameTooltip:AddLine(L["OPTIONS_REGISTER_MINARCH"], 1, 0.819, 0.003);
 	GameTooltip:AddLine(" ");
-	GameTooltip:AddLine("Hint: Left-Click to toggle MinArch main window.", 0, 1, 0)
-	GameTooltip:AddLine("Shift + Left-Click to toggle MinArch history window.", 0, 1, 0)
-	GameTooltip:AddLine("Ctrl + Left-Click to toggle MinArch dig sites window.", 0, 1, 0)
-	GameTooltip:AddLine("Alt + Left-Click to hide every MinArch window.", 0, 1, 0)
-	GameTooltip:AddLine("Right-click to open settings", 0, 1, 0)
+	GameTooltip:AddLine(L["DATABROKER_HINT_LEFTCLICK"], 0, 1, 0)
+	GameTooltip:AddLine(L["DATABROKER_HINT_SHIFT_LEFTCLICK"], 0, 1, 0)
+	GameTooltip:AddLine(L["DATABROKER_HINT_CTRL_LEFTCLICK"], 0, 1, 0)
+	GameTooltip:AddLine(L["DATABROKER_HINT_ALT_LEFTCLICK"], 0, 1, 0)
+	GameTooltip:AddLine(L["DATABROKER_HINT_RIGHTCLICK"], 0, 1, 0)
 
 	GameTooltip:Show()
 end

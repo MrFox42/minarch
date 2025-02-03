@@ -19,6 +19,8 @@ local History = MinArch:LoadModule("MinArchHistory")
 ---@type MinArchLDB
 local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
 -- Local variables
 local nextCratable = nil
 
@@ -136,9 +138,9 @@ function Common:CreateAutoWaypointButton(parent, x, y)
 
 	button:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-        GameTooltip:AddLine("Left click to create waypoint to the closest available digsite", 1.0, 1.0, 1.0, 1.0)
+        GameTooltip:AddLine(L["TOOLTIP_WP_BUTTON_LEFTCLICK"], 1.0, 1.0, 1.0, 1.0)
         GameTooltip:AddLine(" ");
-        GameTooltip:AddLine("Right Click to open waypoint settings");
+        GameTooltip:AddLine(L["TOOLTIP_WP_BUTTON_RIGHTCLICK"]);
         GameTooltip:Show();
 	end)
 	button:SetScript("OnLeave", function()
@@ -154,9 +156,9 @@ function Common:SetCrateButtonTooltip(button)
 		if (nextCratable ~= nil) then
 			GameTooltip:SetItemByID(nextCratable.itemID);
 			GameTooltip:AddLine(" ");
-			GameTooltip:AddLine("Click to crate this artifact");
+			GameTooltip:AddLine(L["TOOLTIP_CRATE_BUTTON_LEFTCLICK"]);
 		else
-			GameTooltip:AddLine("You don't have anything to crate.");
+			GameTooltip:AddLine(L["TOOLTIP_CRATE_BUTTON_RIGHTCLICK"]);
 		end
 
 		GameTooltip:Show();
@@ -205,17 +207,17 @@ function Common:KeystoneTooltip(self, raceID)
 
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
 
-	local plural = "s";
+	local plural = L["TOOLTIP_KEYSTONES_YOUHAVE_INYOURBAGS_PLURAL"];
 	if (artifact['heldKeystones'] == 1) then
 		plural = "";
 	end
 
 	GameTooltip:SetItemByID(artifact['raceitemid']);
 	GameTooltip:AddLine(" ");
-	GameTooltip:AddLine("You have "..artifact['heldKeystones'].." "..tostring(name)..plural .. " in your bags", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
+	GameTooltip:AddLine(L["TOOLTIP_KEYSTONES_YOUHAVE"] .. " "..artifact['heldKeystones'].." "..tostring(name)..plural .. " " .. L["TOOLTIP_KEYSTONES_YOUHAVE_INYOURBAGS"], GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
 	GameTooltip:AddLine(" ");
-	GameTooltip:AddLine("Left click to apply a keystone");
-	GameTooltip:AddLine("Right click to remove a keystone");
+	GameTooltip:AddLine(L["TOOLTIP_KEYSTONES_LEFTCLICK"]);
+	GameTooltip:AddLine(L["TOOLTIP_KEYSTONES_RIGHTCLICK"]);
 	GameTooltip:Show();
 end
 

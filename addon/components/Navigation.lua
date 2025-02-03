@@ -12,6 +12,8 @@ local Common = MinArch:LoadModule("MinArchCommon")
 local HBD = LibStub("HereBeDragons-2.0")
 local TomTom = _G["TomTom"];
 
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
 MinArch.autoWaypoint = nil;
 local previousDigsite = nil;
 
@@ -145,12 +147,12 @@ function Navigation:SetWayToNearestDigsite(afterFlight)
 			TomTom:RemoveWaypoint(MinArch.autoWaypoint)
 		end
 
-        local suffix = 'closest';
+        local suffix = L["NAVIGATION_CLOSEST"];
         if priority > 0 and priority < 99 and digsite then
             suffix = '*' .. digsite.race;
         end
 		if taxiNode then
-			newWayPoint = SetWayToDigsite(taxiNode.name .. ' (Flight Master)', taxiNode, true);
+			newWayPoint = SetWayToDigsite(taxiNode.name .. ' (' .. L["NAVIGATION_FLIGHTMASTER"] .. ')', taxiNode, true);
 			previousDigsite = taxiNode.name
 		else
 			newWayPoint = SetWayToDigsite(digsiteName .. ' (' .. suffix .. ')', digsite, true);

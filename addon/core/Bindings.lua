@@ -7,9 +7,11 @@ local Companion = MinArch:LoadModule("MinArchCompanion")
 ---@type MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
 
-BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
-BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
-BINDING_NAME_MINARCH_CASTSURVEY = "Cast Survey"
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
+BINDING_HEADER_MINARCH_HEADER = L["OPTIONS_REGISTER_MINARCH"]
+BINDING_NAME_MINARCH_SHOWHIDE = L["BINDINGS_MINARCH_SHOWHIDE"]
+BINDING_NAME_MINARCH_CASTSURVEY = L["BINDINGS_MINARCH_CASTSURVEY"]
 setglobal("BINDING_NAME_SPELL Survey", "Survey")
 
 SLASH_MINARCH1 = "/minarch"
@@ -21,23 +23,23 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 	elseif (msg == "toggle") then
 		Main:ToggleWindow();
 	elseif (msg == "version") then
-		ChatFrame1:AddMessage("Minimal Archaeology " .. tostring(C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version")));
+		ChatFrame1:AddMessage(L["OPTIONS_REGISTER_MINARCH"] .. " " .. tostring(C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version")));
     elseif (msg == "comp") then
-        ChatFrame1:AddMessage("Minimal Archaeology Companion related Commands");
-        ChatFrame1:AddMessage(" Usage: /minarch [cmd]");
-		ChatFrame1:AddMessage(" Commands:");
-        ChatFrame1:AddMessage("  comp resetpos - Resets the position of the Companion box");
+        ChatFrame1:AddMessage(L["BINDINGS_MINARCH_COMPANION_COMMANDS"]);
+        ChatFrame1:AddMessage(" " .. L["BINDINGS_USAGE"] .. ": /minarch [cmd]");
+		ChatFrame1:AddMessage(" " .. L["BINDINGS_COMMANDS"] .. ":");
+        ChatFrame1:AddMessage("  comp resetpos - " .. L["BINDINGS_COMPANION_RESETPOS"]);
     elseif (msg == "comp resetpos") then
         Companion:ResetPosition();
 	else
-		ChatFrame1:AddMessage("Minimal Archaeology Commands");
-		ChatFrame1:AddMessage(" Usage: /minarch [cmd]");
-		ChatFrame1:AddMessage(" Commands:");
-		ChatFrame1:AddMessage("  hide - Hide the main Minimal Archaeology Frame");
-		ChatFrame1:AddMessage("  show - Show the main Minimal Archaeology Frame");
-		ChatFrame1:AddMessage("  toggle - Toggle the main Minimal Archaeology Frame");
-        ChatFrame1:AddMessage("  comp - Companion related commands, for more information type: /minarch comp");
-		ChatFrame1:AddMessage("  version - Display the running version of Minimal Archaeology");
+		ChatFrame1:AddMessage(L["BINDINGS_MINARCH_MAIN_COMMANDS"]);
+		ChatFrame1:AddMessage(" " .. L["BINDINGS_USAGE"] .. ": /minarch [cmd]");
+		ChatFrame1:AddMessage(" " .. L["BINDINGS_COMMANDS"] .. ":");
+		ChatFrame1:AddMessage("  hide - " .. L["BINDINGS_HIDEMAIN"]);
+		ChatFrame1:AddMessage("  show - " .. L["BINDINGS_SHOWMAIN"]);
+		ChatFrame1:AddMessage("  toggle - " .. L["BINDINGS_TOGGLEMAIN"]);
+        ChatFrame1:AddMessage("  comp - " .. L["BINDINGS_COMPANION_MORE"] .. " /minarch comp");
+		ChatFrame1:AddMessage("  version - " .. L["BINDINGS_MINARCH_VERSION"]);
 	end
 end
 

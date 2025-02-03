@@ -13,6 +13,8 @@ local Digsites = MinArch:LoadModule("MinArchDigsites")
 ---@type MinArchHistory
 local History = MinArch:LoadModule("MinArchHistory")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
 Companion.frame = CreateFrame("Frame", "MinArchCompanion", UIParent)
 Companion.events = {}
 Companion.initialized = false
@@ -101,9 +103,7 @@ local function InitDistanceTracker()
             HelpPlateTooltip.ArrowUP:Show();
             HelpPlateTooltip.ArrowGlowUP:Show();
             HelpPlateTooltip:SetPoint("BOTTOM", Companion.frame, "TOP", 0, 20);
-            HelpPlateTooltip.Text:SetText("This is the Mininimal Archaeology Companion frame with distance tracker and more."
-                                            .. "|n|n"
-                                            .. "|cFFFFD100[Right-Click]|r to disable this tutorial tooltip and to show customization settings.");
+            HelpPlateTooltip.Text:SetText(L["COMPANION_TUTORIAL_1"]);
             HelpPlateTooltip:Show();
         end
     end)
@@ -223,7 +223,7 @@ local function InitSurveyButton()
         GameTooltip:SetSpellByID(SURVEY_SPELL_ID);
 
         if not Common:CanCast() then
-            GameTooltip:AddLine("Can't be casted right now")
+            GameTooltip:AddLine(L["TOOLTIP_SURVEY_CANTCAST"])
         end
 
 		GameTooltip:Show()
@@ -383,13 +383,13 @@ local function UpdateSolveButtonScripts(frame, artifact, raceID, solveOnClick, s
             History:ShowArtifactTooltip(self, raceID)
             GameTooltip:AddLine(" ");
             if (artifact.canSolve) then
-                GameTooltip:AddLine("Left click to solve this artifact");
+                GameTooltip:AddLine(L["TOOLTIP_LEFTCLICK_SOLVE"]);
             else
                 local progress = artifact.progress or 0;
                 if (artifact.appliedKeystones > 0) then
                     progress = progress + (artifact.modifier)
                 end
-                GameTooltip:AddLine("Progress: " .. progress .. "/" .. artifact.total);
+                GameTooltip:AddLine(L["TOOLTIP_PROGRESS"] .. ": " .. progress .. "/" .. artifact.total);
             end
             GameTooltip:Show();
         end

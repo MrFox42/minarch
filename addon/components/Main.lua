@@ -18,6 +18,8 @@ local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 ---@type MinArchNavigation
 local Navigation = MinArch:LoadModule("MinArchNavigation")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
 MinArchArtifactBars = {};
 
 local function SetRelevancyToggleButtonTexture()
@@ -42,9 +44,9 @@ end
 local function ShowRelevancyButtonTooltip()
 	local button = Main.frame.relevancyButton;
 	if (MinArch.db.profile.relevancy.relevantOnly) then
-		Common:ShowWindowButtonTooltip(button, "Show all races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
+		Common:ShowWindowButtonTooltip(button, L["TOOLTIP_MAIN_RELEVANCY_DISABLE"]);
 	else
-		Common:ShowWindowButtonTooltip(button, "Only show relevant races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
+		Common:ShowWindowButtonTooltip(button, L["TOOLTIP_MAIN_RELEVANCY_ENABLE"]);
 	end
 end
 
@@ -185,10 +187,10 @@ function Main:Init()
     InitArtifactBars(Main.frame);
 
     Main.frame.openADIButton:SetScript("OnEnter", function(self)
-        Common:ShowWindowButtonTooltip(self, "Open Digsites");
+        Common:ShowWindowButtonTooltip(self, L["TOOLTIP_OPEN_DIGSITES"]);
     end)
     Main.frame.openHistButton:SetScript("OnEnter", function(self)
-        Common:ShowWindowButtonTooltip(self, "Open History");
+        Common:ShowWindowButtonTooltip(self, L["TOOLTIP_OPEN_HISTORY"]);
     end)
 	Main.frame.openADIButton:SetScript("OnClick", function()
 		Digsites:ToggleWindow()

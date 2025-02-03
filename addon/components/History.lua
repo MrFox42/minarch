@@ -9,6 +9,8 @@ local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
 local LibIconPath_getName = _G["LibIconPath_getName"]
 
 local MinArchTooltipIcon = _G["MinArchTooltipIcon"]
@@ -141,9 +143,9 @@ local function CreateHeightToggle(parent, x, y)
 	end);
     button:SetScript("OnEnter", function()
         if MinArch.db.profile.history.autoResize then
-            Common:ShowWindowButtonTooltip(button, "Click to set the height of the History window to a fixed size|r");
+            Common:ShowWindowButtonTooltip(button, L["TOOLTIP_HISTORY_AUTORESIZE_DISABLE"]);
         else
-            Common:ShowWindowButtonTooltip(button, "Click to enable automatic resizing for the History window");
+            Common:ShowWindowButtonTooltip(button, L["TOOLTIP_HISTORY_AUTORESIZE_ENABLE"]);
         end
     end)
 	button:SetScript("OnLeave", function()
@@ -515,17 +517,17 @@ end
 
 local function SetProgressTooltip(frame, progressState, achievementState, totalComplete)
     local stateStrings = {
-        [MINARCH_PROGRESS_UNKNOWN]        = "You haven't found this artifact yet",
-        [MINARCH_PROGRESS_KNOWN]          = "Completed |cFFDDDDDD",
-        [MINARCH_PROGRESS_CURRENT]        = "Currently available for this race",
-        [MINARCH_ACHIPROGRESS_INCOMPLETE] = "Collector achievement in progress: ";
-        [MINARCH_ACHIPROGRESS_COMPLETE]   = "Collector achievement completed";
+        [MINARCH_PROGRESS_UNKNOWN]        = L["TOOLTIP_HISTORY_PROGRESS_UNKNOWN"],
+        [MINARCH_PROGRESS_KNOWN]          = L["TOOLTIP_HISTORY_PROGRESS_KNOWN"],
+        [MINARCH_PROGRESS_CURRENT]        = L["TOOLTIP_HISTORY_PROGRESS_CURRENT"],
+        [MINARCH_ACHIPROGRESS_INCOMPLETE] = L["TOOLTIP_HISTORY_PROGRESS_ACHI_INCOMPLETE"];
+        [MINARCH_ACHIPROGRESS_COMPLETE]   = L["TOOLTIP_HISTORY_PROGRESS_ACHI_COMPLETE"];
     }
 
     if totalComplete == 1 then
-        stateStrings[MINARCH_PROGRESS_KNOWN] = stateStrings[MINARCH_PROGRESS_KNOWN] .. totalComplete .. "|r time"
+        stateStrings[MINARCH_PROGRESS_KNOWN] = stateStrings[MINARCH_PROGRESS_KNOWN] .. totalComplete .. "|r " .. L["TOOLTIP_HISTORY_PROGRESS_SINGULAR"]
     elseif totalComplete == 0 or (totalComplete and totalComplete > 1) then
-        stateStrings[MINARCH_PROGRESS_KNOWN] = stateStrings[MINARCH_PROGRESS_KNOWN] .. totalComplete .. "|r times";
+        stateStrings[MINARCH_PROGRESS_KNOWN] = stateStrings[MINARCH_PROGRESS_KNOWN] .. totalComplete .. "|r " .. L["TOOLTIP_HISTORY_PROGRESS_PLURAL"]
     end
     if totalComplete and totalComplete > 0 and achievementState == MINARCH_ACHIPROGRESS_INCOMPLETE then
         stateStrings[MINARCH_ACHIPROGRESS_INCOMPLETE] = stateStrings[MINARCH_ACHIPROGRESS_INCOMPLETE]
@@ -534,7 +536,7 @@ local function SetProgressTooltip(frame, progressState, achievementState, totalC
 
     frame:SetScript("OnEnter", function (self)
         GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-        GameTooltip:AddLine("Artifact Progress Information");
+        GameTooltip:AddLine(L["HISTORY_TOOLTIP_PROGRESSINFO"]);
         GameTooltip:AddLine(" ");
         if progressState == MINARCH_PROGRESS_CURRENT then
             GameTooltip:AddLine(stateStrings[MINARCH_PROGRESS_KNOWN]);
@@ -553,10 +555,10 @@ end
 
 local function SetQuestTooltip(frame, questState)
     local stateStrings = {
-        [MINARCH_QSTATE_LEGION_AVAILABLE]    = "Currently available from the bi-weekly Legion quest",
-        [MINARCH_QSTATE_PRISTINE_INCOMPLETE] = "Pristine version not found yet",
-        [MINARCH_QSTATE_PRISTINE_ONQUEST]    = "Pristine version found, but not yet handed in",
-        [MINARCH_QSTATE_PRISTINE_COMPLETE]   = "Pristine version already found"
+        [MINARCH_QSTATE_LEGION_AVAILABLE]    = L["TOOLTIP_HISTORY_LEGIONQUEST_AVAILABLE"],
+        [MINARCH_QSTATE_PRISTINE_INCOMPLETE] = L["TOOLTIP_HISTORY_PRISTINE_INCOMPLETE"],
+        [MINARCH_QSTATE_PRISTINE_ONQUEST]    = L["TOOLTIP_HISTORY_PRISTINE_ONQUEST"],
+        [MINARCH_QSTATE_PRISTINE_COMPLETE]   = L["TOOLTIP_HISTORY_PRISTINE_COMPLETE"]
     }
 
     frame:SetScript("OnEnter", function (self)
@@ -764,7 +766,7 @@ local function HistoryTooltip(self, RaceID, ItemID)
 		end
 		discovereddate = date("*t", artifact["firstcomplete"]);
 		if (discovereddate) then
-			GameTooltip:AddDoubleLine("Discovered On: |cffffffff"..discovereddate["month"].."/"..discovereddate["day"].."/"..discovereddate["year"], "x"..artifact["totalcomplete"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+			GameTooltip:AddDoubleLine(L["TOOLTIP_HISTORY_DISCOVEREDON"] .. ": |cffffffff"..discovereddate["month"].."/"..discovereddate["day"].."/"..discovereddate["year"], "x"..artifact["totalcomplete"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 		end
 	end
 
@@ -775,10 +777,10 @@ end
 function History:SolveArtifact(RaceIndex, confirmed)
     if confirmed ~= true and MinArch.db.profile.showSolvePopup and MinArch.db.profile.raceOptions.cap[RaceIndex] then
         StaticPopupDialogs["MINARCH_SOLVE_CONFIRMATION"] = {
-            text = "Are you sure you want to solve this artifact for this fragment-capped race?",
-            button1 = "Yes",
-            button2 = "No",
-            button3 = "Yes, always!",
+            text = L["HISTORY_SOLVE_CONFIRMATION_QUESTION"],
+            button1 = L["HISTORY_SOLVE_CONFIRMATION_YES"],
+            button2 = L["HISTORY_SOLVE_CONFIRMATION_NO"],
+            button3 = L["HISTORY_SOLVE_CONFIRMATION_ALWAYS"],
             OnAccept = function()
                 History:SolveArtifact(RaceIndex, true)
             end,
@@ -815,7 +817,7 @@ function History:ShowArtifactTooltip(self, RaceIndex)
 
     if artifact.total == 0 then
         GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-        GameTooltip:AddLine("You haven't discovered this race yet.")
+        GameTooltip:AddLine(L["TOOLTIP_HISTORY_HAVENT_DISCOVERED"])
         GameTooltip:Show();
         return
     end
@@ -846,7 +848,7 @@ function History:ShowArtifactTooltip(self, RaceIndex)
 				GameTooltip:AddLine(" ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 			end
 			local discovereddate = date("*t", artifact["firstcomplete"]);
-			GameTooltip:AddDoubleLine("Discovered On: |cffffffff"..discovereddate["month"].."/"..discovereddate["day"].."/"..discovereddate["year"], "x"..artifact["totalcomplete"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+			GameTooltip:AddDoubleLine(L["TOOLTIP_HISTORY_DISCOVEREDON"] .. ": |cffffffff"..discovereddate["month"].."/"..discovereddate["day"].."/"..discovereddate["year"], "x"..artifact["totalcomplete"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 		end
 	end
 
@@ -1096,7 +1098,7 @@ function History:CreateHistoryList(RaceID, caller)
     end
 
     sumTotalSoldPrice = math.floor(sumTotalSoldPrice / 10000)
-    History.statsFrame.text:SetText('Progress: ' .. sumComplete .. '/' .. count .. ' - Total: ' .. sumTotalComplete .. ' (' .. sumTotalSoldPrice .. 'g)')
+    History.statsFrame.text:SetText(L["TOOLTIP_PROGRESS"] .. ': ' .. sumComplete .. '/' .. count .. ' - Total: ' .. sumTotalComplete .. ' (' .. sumTotalSoldPrice .. 'g)')
 
     -- Set the size of the scroll child
     if height > 2 then

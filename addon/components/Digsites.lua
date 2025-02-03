@@ -11,6 +11,8 @@ local Navigation = MinArch:LoadModule("MinArchNavigation")
 ---@type HereBeDragons-2.0
 local HBD = LibStub("HereBeDragons-2.0")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
 local MinArchTooltipIcon = _G["MinArchTooltipIcon"]
 local TaxiToggleFrame = nil -- created later
 local DigsitesScrollbar = nil -- created later
@@ -117,7 +119,7 @@ local function DigsiteTooltip(self, name, digsite, tooltip, taxiNode)
 				_,_,_,project_color = C_Item.GetItemQualityColor(3);
 			end
 			if (tonumber(MinArch['artifacts'][i]['firstcomplete']) == 0) then
-				first_solve = "New";
+				first_solve = L["TOOLTIP_NEW"];
 			end
 		end
 	end
@@ -138,18 +140,18 @@ local function DigsiteTooltip(self, name, digsite, tooltip, taxiNode)
 
 	if (digsite['race'] ~= "Unknown" and digsite['race'] ~= nil) then
 		if (project ~= nil) then
-			tooltip:AddDoubleLine("Project: |c"..project_color..project, first_solve, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+			tooltip:AddDoubleLine(L["TOOLTIP_PROJECT"] .. ": |c"..project_color..project, first_solve, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 		end
-		tooltip:AddDoubleLine("Race: |cffffffff"..digsite['race'], "|cffffffff"..progress.." fragments", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+		tooltip:AddDoubleLine(L["TOOLTIP_RACE"] .. ": |cffffffff"..digsite['race'], "|cffffffff"..progress.." " .. L["TOOLTIP_FRAGMENTS"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 		MinArchTooltipIcon:Show();
 	end
 
 	if (Navigation:IsNavigationEnabled() and not taxiNode) then
-		tooltip:AddLine("Hint: Left-Click to create waypoint here.", 0, 1, 0)
+		tooltip:AddLine(L["TOOLTIP_DIGSITE_WP"], 0, 1, 0)
 	end
 
 	if taxiNode then
-		tooltip:AddLine("Hint: Left-Click to travel here.", 0, 1, 0)
+		tooltip:AddLine(L["TOOLTIP_DIGSITE_TAXI_TRAVEL"], 0, 1, 0)
 	end
 
 	tooltip:Show();
@@ -526,7 +528,7 @@ function Digsites:CreateDigSitesList(ContID)
 			end
 			if ((status and i == 0) or (status == false and i == 1)) then
 				if not scrollc.digsites[count] then
-					scrollc.digsites[count] = scrollc:CreateFontString("Digsite" .. count, "OVERLAY")
+					scrollc.digsites[count] = scrollc:CreateFontString(L["DIGSITES_DIGSITE"] .. count, "OVERLAY")
 				end
 
 				local currentDigSite = scrollc.digsites[count];
@@ -556,7 +558,7 @@ function Digsites:CreateDigSitesList(ContID)
 				-- RACE
 
 				if not scrollc.digsites[count] then
-					scrollc.digsites[count] = scrollc:CreateFontString("Digsite" .. count, "OVERLAY")
+					scrollc.digsites[count] = scrollc:CreateFontString(L["DIGSITES_DIGSITE"] .. count, "OVERLAY")
 				end
 
 				currentDigSite = scrollc.digsites[count];
@@ -841,6 +843,10 @@ function Digsites:IsPlayerNearDigSite()
 end
 
 function Digsites:UpdateFlightMap()
+	if (IsInInstance()) then
+		return nil
+    end
+
 	if not TaxiToggleFrame then
 		TaxiToggleFrame = CreateFrame("Button", "MinArchTaxiToggle", FlightMapFrame and FlightMapFrame.ScrollContainer or TaxiRouteMap);
 		TaxiToggleFrame:RegisterForClicks("AnyUp", "AnyDown")
@@ -874,7 +880,7 @@ function Digsites:UpdateFlightMap()
 
 		TaxiToggleFrame:SetScript("OnEnter", function(self, button)
 			GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-			GameTooltip:AddLine("Toggle digsites")
+			GameTooltip:AddLine(L["TOOLTIP_TAXIFRAME_TOGGLE_DIGSITE"])
 
 			GameTooltip:Show()
 		end)
