@@ -5,7 +5,7 @@
 			Main:ToggleWindow(true);
 		end
 	</Binding>
-	<Binding name="SPELL Survey" runOnUp="true" category="Minimal Archaeology">
-
+	<Binding name="MINARCH_CASTSURVEY" runOnUp="true" category="Minimal Archaeology">
+		MinArch:BindingCast()
 	</Binding>
 </Bindings>

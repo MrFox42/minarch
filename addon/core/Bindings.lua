@@ -9,6 +9,7 @@ local Common = MinArch:LoadModule("MinArchCommon")
 
 BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
 BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
+BINDING_NAME_MINARCH_CASTSURVEY = "Cast Survey"
 setglobal("BINDING_NAME_SPELL Survey", "Survey")
 
 SLASH_MINARCH1 = "/minarch"
@@ -51,6 +52,20 @@ local buttonId = {
     [1] = "BUTTON2",
     [2] = "BUTTON1"
 }
+
+function MinArch:BindingCast()
+    if (Common:CanCast()) then
+        local key1, key2 = GetBindingKey("MINARCH_CASTSURVEY")
+        local localizedName = C_Spell.GetSpellInfo(SURVEY_SPELL_ID).name
+
+        if key1 then
+            SetOverrideBindingSpell(MinArch.hiddenButton, 1, key1, localizedName)
+        end
+        if key2 then
+            SetOverrideBindingSpell(MinArch.hiddenButton, 2, key2, localizedName)
+        end
+    end
+end
 
 WorldFrame:HookScript("OnMouseDown", function(_, button, down)
     -- Check if casting is enabled at all
