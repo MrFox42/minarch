@@ -789,7 +789,7 @@ local companionSettings = {
                         MinArch.db.profile.companion.bg.r = r;
                         MinArch.db.profile.companion.bg.g = g;
                         MinArch.db.profile.companion.bg.b = b;
-                        MinArchCompanion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 5,
@@ -1407,11 +1407,11 @@ local TomTomSettings = {
 						MinArch.db.profile.TomTom.enableTomTom = newValue;
 
 						if (newValue) then
-							MinArchMainAutoWayButton:Show();
+							Main.frame.autoWaypointButton:Show();
 							Digsites.wpButton:Show();
 						else
 							Navigation:ClearAllDigsiteWaypoints();
-							MinArchMainAutoWayButton:Hide();
+							Main.frame.autoWaypointButton:Hide();
 							Digsites.wpButton:Hide();
 						end
 					end,
@@ -1701,7 +1701,7 @@ function Options:OnInitialize()
                         desc = function ()
                             local RaceName = MinArch['artifacts'][i]['race'];
 
-                            if (RuneName ~= nil and RaceName ~= nil) then
+                            if (RaceName ~= nil) then
                                 return L["OPTIONS_RACE_SET"] .. RaceName .. L["OPTIONS_RACE_SET_PRIORITY"];
                             end
                         end,

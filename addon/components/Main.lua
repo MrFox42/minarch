@@ -21,7 +21,7 @@ local Navigation = MinArch:LoadModule("MinArchNavigation")
 MinArchArtifactBars = {};
 
 local function SetRelevancyToggleButtonTexture()
-	local button = MinArchMainRelevancyButton;
+	local button = Main.frame.relevancyButton;
 	if (MinArch.db.profile.relevancy.relevantOnly) then
 		button:SetNormalTexture([[Interface\Buttons\UI-Panel-ExpandButton-Up]]);
 		button:SetPushedTexture([[Interface\Buttons\UI-Panel-ExpandButton-Down]]);
@@ -40,7 +40,7 @@ local function SetRelevancyToggleButtonTexture()
 end
 
 local function ShowRelevancyButtonTooltip()
-	local button = MinArchMainRelevancyButton;
+	local button = Main.frame.relevancyButton;
 	if (MinArch.db.profile.relevancy.relevantOnly) then
 		Common:ShowWindowButtonTooltip(button, "Show all races. \n\n|cFF00FF00Right click to open settings and customize relevancy options.|r");
 	else
@@ -50,6 +50,7 @@ end
 
 local function CreateRelevancyToggleButton(parent, x, y)
 	local button = CreateFrame("Button", "$parentRelevancyButton", parent, BackdropTemplateMixin and "BackdropTemplate");
+	button:SetParentKey('relevancyButton')
 	button:SetSize(23.5, 23.5);
 	button:SetPoint("TOPLEFT", x, y);
 	SetRelevancyToggleButtonTexture();
@@ -75,6 +76,7 @@ end
 
 local function CreateCrateButton(parent, x, y)
 	local button = CreateFrame("Button", "$parentCrateButton", parent, "InsecureActionButtonTemplate");
+	button:SetParentKey('crateButton')
     button:RegisterForClicks("AnyUp", "AnyDown");
 	button:SetAttribute("type", "item");
 	button:SetSize(25, 25);
@@ -85,6 +87,7 @@ local function CreateCrateButton(parent, x, y)
 	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
 
 	local overlay = CreateFrame("Frame", "$parentGlow", button);
+	overlay:SetParentKey('glow')
 	overlay:SetSize(28, 28);
 	overlay:SetPoint("TOPLEFT", button, "TOPLEFT", -5, 5);
 	overlay.texture = overlay:CreateTexture(nil, "OVERLAY");
@@ -173,9 +176,9 @@ function Main:Init()
 	Main.frame:SetScript('OnShow', function ()
 		Main:Update();
 		if (Navigation:IsNavigationEnabled()) then
-			MinArchMainAutoWayButton:Show();
+			Main.frame.autoWaypointButton:Show();
 		else
-			MinArchMainAutoWayButton:Hide();
+			Main.frame.autoWaypointButton:Hide();
 		end
 	end)
 
@@ -184,9 +187,16 @@ function Main:Init()
     Main.frame.openADIButton:SetScript("OnEnter", function(self)
         Common:ShowWindowButtonTooltip(self, "Open Digsites");
     end)
-    Main.frame.buttonOpenHist:SetScript("OnEnter", function(self)
+    Main.frame.openHistButton:SetScript("OnEnter", function(self)
         Common:ShowWindowButtonTooltip(self, "Open History");
     end)
+	Main.frame.openADIButton:SetScript("OnClick", function()
+		Digsites:ToggleWindow()
+	end)
+	Main.frame.openHistButton:SetScript("OnClick", function()
+		History:ToggleWindow()
+	end)
+
 	Main.frame.closeButton:SetScript("OnClick", function()
 		Main:HideWindow()
 	end)
@@ -216,14 +226,14 @@ function Main:UpdateArchaeologySkillBar()
 		local name, _, rank, maxRank = GetProfessionInfo(arch);
 
 		if (rank ~= ARCHAEOLOGY_MAX_RANK) then
-			MinArchMain.skillBar:Show();
-			MinArchMain.skillBar:SetMinMaxValues(0, maxRank);
-			MinArchMain.skillBar:SetValue(rank);
-            MinArchMain.skillBar.text:SetText(name.." "..rank.."/"..maxRank);
+			Main.frame.skillBar:Show();
+			Main.frame.skillBar:SetMinMaxValues(0, maxRank);
+			Main.frame.skillBar:SetValue(rank);
+            Main.frame.skillBar.text:SetText(name.." "..rank.."/"..maxRank);
 			if (maxRank ~= ARCHAEOLOGY_MAX_RANK and rank + 25 >= maxRank) then
-				MinArchMain.skillBar.text:SetTextColor(1,1,0,1)
+				Main.frame.skillBar.text:SetTextColor(1,1,0,1)
 			else
-				MinArchMain.skillBar.text:SetTextColor(1,1,1,1)
+				Main.frame.skillBar.text:SetTextColor(1,1,1,1)
 			end
             MinArch['frame']['height'] = MinArch['frame']['defaultHeight'];
             -- MinArch.artifactbars[1]:SetPoint("TOP", -25, -50);
@@ -239,7 +249,7 @@ function Main:UpdateArchaeologySkillBar()
 				end
 			end
 		else
-			MinArchMain.skillBar:Hide();
+			Main.frame.skillBar:Hide();
 			if MinArch.db.profile.companion.enable then
 				Companion.skillBar:Hide()
 			end
@@ -250,9 +260,9 @@ function Main:UpdateArchaeologySkillBar()
 		if MinArch.db.profile.companion.enable then
         	Companion.skillBar:Hide()
 		end
-		MinArchMain.skillBar:SetMinMaxValues(0, 100);
-		MinArchMain.skillBar:SetValue(0);
-		MinArchMain.skillBar.text:SetText(ARCHAEOLOGY_RANK_TOOLTIP);
+		Main.frame.skillBar:SetMinMaxValues(0, 100);
+		Main.frame.skillBar:SetValue(0);
+		Main.frame.skillBar.text:SetText(ARCHAEOLOGY_RANK_TOOLTIP);
 	end
 end
 
@@ -318,17 +328,17 @@ end
 function Main:Update()
 	if (InCombatLockdown()) then
 		Common:DisplayStatusMessage("Main update delayed until combat ends", MINARCH_MSG_DEBUG);
-		MinArchMain:RegisterEvent("PLAYER_REGEN_ENABLED");
+		Main.frame:RegisterEvent("PLAYER_REGEN_ENABLED");
 		return;
 	end
 
-	local point, relativeTo, relativePoint, xOfs, yOfs = MinArchMain:GetPoint()
-	local x1, size1 = MinArchMain:GetSize();
+	local point, relativeTo, relativePoint, xOfs, yOfs = Main.frame:GetPoint()
+	local x1, size1 = Main.frame:GetSize();
 
 	local MinArchFrameHeight = ARCHAEOLOGY_NUM_RACES * 25 + 40
 
 	local barY = -25;
-	if (MinArchMain.skillBar:IsVisible()) then
+	if (Main.frame.skillBar:IsVisible()) then
 		barY = -50;
 		MinArchFrameHeight = MinArchFrameHeight + 20
 	end
@@ -339,7 +349,7 @@ function Main:Update()
 		if (MinArch.db.profile.raceOptions.hide[i] == false and Common:IsRaceRelevant(i)) then
 			Main:UpdateArtifactBar(i);
 			MinArch.artifactbars[i]:Show();
-			MinArch.artifactbars[i]:SetPoint("TOP", MinArchMain, "TOP", -25, barY);
+			MinArch.artifactbars[i]:SetPoint("TOP", Main.frame, "TOP", -25, barY);
 			barY = barY - 25;
 		else
 			if (MinArch['artifactbars'][i] ~= nil) then
@@ -349,23 +359,23 @@ function Main:Update()
 		end
 	end
 
-	MinArchMain:ClearAllPoints();
+	Main.frame:ClearAllPoints();
 	if (MinArch.firstRun == false and relativeTo == nil) then
-		MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+		Main.frame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
 	end
 
 	if (MinArch.firstRun == false) then
-		MinArchMain:ClearAllPoints();
+		Main.frame:ClearAllPoints();
 		if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
-			MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchFrameHeight) / 2 )));
+			Main.frame:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchFrameHeight) / 2 )));
 		else
-			MinArchMain:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+			Main.frame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
 		end
 	else
-		MinArchMain:SetPoint(point, "UIParent", relativePoint, xOfs, yOfs);
+		Main.frame:SetPoint(point, "UIParent", relativePoint, xOfs, yOfs);
 		MinArch.firstRun = false;
 	end
-	MinArchMain:SetHeight(MinArchFrameHeight);
+	Main.frame:SetHeight(MinArchFrameHeight);
 
 	MinArchLDB:RefreshLDBButton();
 	Common:RefreshCrateButtonGlow();

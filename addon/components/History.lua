@@ -9,6 +9,9 @@ local Common = MinArch:LoadModule("MinArchCommon")
 ---@type MinArchDigsites
 local Digsites = MinArch:LoadModule("MinArchDigsites")
 
+local LibIconPath_getName = _G["LibIconPath_getName"]
+
+local MinArchTooltipIcon = _G["MinArchTooltipIcon"]
 MinArchScroll = {}
 
 MinArch.HistoryListLoaded = {}
@@ -19,12 +22,14 @@ local firstRun = true;
 local qLineQuests = {};
 local currentQuestArtifact = nil;
 local currentQuestArtifactRace = nil;
-local isOnArtifactQuestLine = false;
+local isOnArtifactQuestLine = nil;
 local qLineRaces = {ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE};
 local dalaranChecked = false;
 local unknownArtifactInfoIndex = {}
 local histEventTimer = nil;
 local historyUpdateTimout = 0.3;
+local HistoryScrollbar = nil -- created later
+local HistoryScrollFrame = nil -- created later
 
 local function InitQuestIndicator(self)
 	local qi = CreateFrame("Button", "MinArchHistQuestIndicator", self);
@@ -38,6 +43,8 @@ local function InitQuestIndicator(self)
 	qi:EnableMouse(false);
 	qi:SetAlpha(0.6);
 	qi:Hide();
+
+    History.questIndicator = qi
 end
 
 local function HistoryButtonTooltip(RaceID)
@@ -65,7 +72,7 @@ local function InitRaceButtons(self)
 			if (i == 10) then
 				currX = baseX;
 				currY = currY - sizeY - padding;
-                MinArchHistGrad:SetHeight(60);
+                History.frame.grad:SetHeight(60);
 			end
 			raceButton:SetSize(sizeX, sizeY);
 			raceButton:SetNormalTexture(MinArchRaceConfig[i].texture);
@@ -102,29 +109,28 @@ local function InitRaceButtons(self)
 end
 
 local function SetToggleButtonTexture()
-	local button = MinArchHistToggleButton;
-	if (MinArch.db.profile.history.autoResize) then
+    local button = History.toggleButton;
+    if (MinArch.db.profile.history.autoResize) then
         button:SetNormalTexture([[Interface\Buttons\UI-Panel-CollapseButton-Up]]);
-		button:SetPushedTexture([[Interface\Buttons\UI-Panel-CollapseButton-Down]]);
-	else
+        button:SetPushedTexture([[Interface\Buttons\UI-Panel-CollapseButton-Down]]);
+    else
         button:SetNormalTexture([[Interface\Buttons\UI-Panel-ExpandButton-Up]]);
-		button:SetPushedTexture([[Interface\Buttons\UI-Panel-ExpandButton-Down]]);
-	end
+        button:SetPushedTexture([[Interface\Buttons\UI-Panel-ExpandButton-Down]]);
+    end
 
-	button:SetBackdrop({
-		bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]],
-		edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0,
-		insets = { left = 0.5, right = 1, top = 2.4, bottom = 1.4 }
-	});
-	button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
-	button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
+    button:SetBackdrop({
+        bgFile = [[Interface\GLUES\COMMON\Glue-RightArrow-Button-Up]],
+        edgeFile = nil, tile = false, tileSize = 0, edgeSize = 0,
+        insets = { left = 0.5, right = 1, top = 2.4, bottom = 1.4 }
+    });
+    button:SetHighlightTexture([[Interface\Addons\MinimalArchaeology\Textures\CloseButtonHighlight]]);
+    button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", 10, -10);
 end
 
 local function CreateHeightToggle(parent, x, y)
 	local button = CreateFrame("Button", "$parentToggleButton", parent, BackdropTemplateMixin and "BackdropTemplate");
 	button:SetSize(23.5, 23.5);
 	button:SetPoint("TOPLEFT", x, y);
-	SetToggleButtonTexture();
 
 	button:SetScript("OnClick", function(self, button)
 		if (button == "LeftButton") then
@@ -143,6 +149,9 @@ local function CreateHeightToggle(parent, x, y)
 	button:SetScript("OnLeave", function()
 		GameTooltip:Hide();
 	end)
+
+    History.toggleButton = button;
+	SetToggleButtonTexture();
 end
 
 local function InitStatistics()
@@ -303,8 +312,8 @@ local function GetCurrentQuestArtifact()
                     currentQuestArtifact = itemid;
                     isOnArtifactQuestLine = isOnQuest;
                     currentQuestArtifactRace = RaceID;
-                    MinArchHistQuestIndicator:SetPoint("BOTTOMRIGHT", MinArch.raceButtons[RaceID], "BOTTOMRIGHT", 2, 2);
-                    MinArchHistQuestIndicator:Show();
+                    History.questIndicator:SetPoint("BOTTOMRIGHT", MinArch.raceButtons[RaceID], "BOTTOMRIGHT", 2, 2);
+                    History.questIndicator:Show();
 
                     return;
                 end
@@ -315,7 +324,7 @@ local function GetCurrentQuestArtifact()
 	currentQuestArtifact = nil;
 	currentQuestArtifactRace = nil;
 	isOnArtifactQuestLine = false;
-	MinArchHistQuestIndicator:Hide();
+	History.questIndicator:Hide();
 end
 
 function History:Init()
@@ -443,12 +452,12 @@ function History:UpdateArtifact(RaceIndex)
 			MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 4;
 		end
         for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
-            MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_UPDATE");
+            History.frame:UnregisterEvent("RESEARCH_ARTIFACT_UPDATE");
             SocketItemToArtifact();
 			if (ItemAddedToArtifact(i)) then
 				availablekeystones = availablekeystones + 1;
             end
-            MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
+            History.frame:RegisterEvent("RESEARCH_ARTIFACT_UPDATE");
 		end
 
 		MinArch['artifacts'][RaceIndex]['appliedKeystones'] = availablekeystones;
@@ -565,15 +574,17 @@ local function SetQuestTooltip(frame, questState)
     end)
 end
 
-local function ResizeHistoryWindow(scrollc, scrollf, height)
-    local point, relativeTo, relativePoint, xOfs, yOfs = MinArchHist:GetPoint()
-	local _, size1 = MinArchHist:GetSize();
+local function ResizeHistoryWindow(scrollb, scrollc, scrollf, height)
+    local point, relativeTo, relativePoint, xOfs, yOfs = History.frame:GetPoint()
+	local _, size1 = History.frame:GetSize();
 
     if (MinArch.db.profile.history.autoResize) then
         MinArchHistHeight = height + 85;
         scrollc:SetSize(275, height)
+        scrollb:Hide()
         scrollf:SetSize(275, height)
     else
+        scrollb:Show()
         MinArchHistHeight = 310;
     end
 
@@ -581,23 +592,23 @@ local function ResizeHistoryWindow(scrollc, scrollf, height)
         MinArchHistHeight = MinArchHistHeight - 25;
     end
 
-    MinArchHist:ClearAllPoints();
+    History.frame:ClearAllPoints();
     if (firstRun == false and relativeTo == nil) then
-        MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+        History.frame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
     end
 
     if (MinArch.firstRun == false) then
-        MinArchHist:ClearAllPoints();
+        History.frame:ClearAllPoints();
         if (point ~= "TOPLEFT" and point ~= "TOP" and point ~= "TOPRIGHT") then
-            MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchHistHeight) / 2 )));
+            History.frame:SetPoint(point, UIParent, relativePoint, xOfs, (yOfs + ( (size1 - MinArchHistHeight) / 2 )));
         else
-            MinArchHist:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
+            History.frame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs);
         end
     else
-        MinArchHist:SetPoint(point, "UIParent", relativePoint, xOfs, yOfs);
+        History.frame:SetPoint(point, "UIParent", relativePoint, xOfs, yOfs);
         firstRun = false;
     end
-    MinArchHist:SetHeight(MinArchHistHeight);
+    History.frame:SetHeight(MinArchHistHeight);
 
     for i,frame in pairs(scrollc.ArtifactFrames) do
         frame:SetWidth(frame:GetParent():GetWidth() - 15);
@@ -622,7 +633,7 @@ local function GetArtifactFrame(scrollc, index)
     icon:SetSize(20, 20);
     icon:SetPoint("TOPLEFT", 0, 0)
     local iconTex = icon:CreateTexture("$parentIconTexture", "BACKGROUND")
-    iconTex:SetAllPoints(true)
+    iconTex:SetAllPoints()
     iconTex:SetWidth(20)
     iconTex:SetHeight(20)
     iconTex:SetBlendMode("DISABLE")
@@ -649,7 +660,7 @@ local function GetArtifactFrame(scrollc, index)
     quest:SetSize(16, 16);
     quest:SetPoint("CENTER", frame, "RIGHT", 0, 0);
     local qTex2 = quest:CreateTexture("$parentIconTexture", "BACKGROUND");
-    qTex2:SetAllPoints(true)
+    qTex2:SetAllPoints()
     qTex2:SetPoint("CENTER", quest, "RIGHT", 0, 0);
     qTex2:SetSize(16, 16);
     qTex2:SetBlendMode("ADD");
@@ -658,7 +669,7 @@ local function GetArtifactFrame(scrollc, index)
     qTex2:SetAlpha(0.3)
     qTex2:Hide();
     local qTex = quest:CreateTexture("$parentIconTexture", "BACKGROUND");
-    qTex:SetAllPoints(true)
+    qTex:SetAllPoints()
     qTex:SetPoint("CENTER", quest, "RIGHT", 0, 0);
     qTex:SetSize(16, 16);
     qTex:SetBlendMode("ADD");
@@ -674,7 +685,7 @@ local function GetArtifactFrame(scrollc, index)
     progressIcon:SetSize(16, 16);
     progressIcon:SetPoint("CENTER", progress, "RIGHT", 0, 0);
     local pTex = progressIcon:CreateTexture("$parentIconTexture", "BACKGROUND");
-    pTex:SetAllPoints(true)
+    pTex:SetAllPoints()
     pTex:SetPoint("CENTER", progressIcon, "CENTER", 0, 0);
     pTex:SetSize(16, 16);
     pTex:SetBlendMode("ADD");
@@ -716,7 +727,7 @@ end
 ---TODO check HistoryTooltip and History:ShowArtifactTooltip
 local function HistoryTooltip(self, RaceID, ItemID)
 	local artifact = MinArchHistDB[RaceID][ItemID];
-	local discovereddate = {};
+	local discovereddate = nil;
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM");
 
@@ -849,7 +860,7 @@ function History:HideArtifactTooltip()
 end
 
 function History:CreateHistoryList(RaceID, caller)
-    if not MinArchHist:IsVisible() then
+    if not History.frame:IsVisible() then
         return
     end
 
@@ -862,7 +873,7 @@ function History:CreateHistoryList(RaceID, caller)
 	end
 
 	GetCurrentQuestArtifact();
-	MinArchHistQuestIndicator:SetAlpha((RaceID == currentQuestArtifactRace) and 0.9 or 0.6);
+	History.questIndicator:SetAlpha((RaceID == currentQuestArtifactRace) and 0.9 or 0.6);
 
 	caller = (caller or "race button")
 	local nextcaller = (caller or "race button") .. " -> CreateHistoryList(" .. ((MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) or ("Race" .. RaceID)) .. ")"
@@ -892,11 +903,11 @@ function History:CreateHistoryList(RaceID, caller)
 		end
 	end
 
-	local scrollf = MinArchScrollFrame
+	local scrollf = HistoryScrollFrame
 	if not scrollf then
-		scrollf = CreateFrame("ScrollFrame", "MinArchScrollFrame", MinArchHist)
+		scrollf = CreateFrame("ScrollFrame", "MinArchScrollFrame", History.frame)
 		scrollf:SetClipsChildren(true)
-		scrollf:SetPoint("BOTTOMLEFT", MinArchHist, "BOTTOMLEFT", 12, 10)
+		scrollf:SetPoint("BOTTOMLEFT", History.frame, "BOTTOMLEFT", 12, 10)
 	end
 	scrollf:SetSize(width, 225)
 
@@ -908,19 +919,18 @@ function History:CreateHistoryList(RaceID, caller)
 	end
 	scrollc:SetSize(width, 225)
 
-	local scrollb = MinArchScrollBar or CreateFrame("Slider", "MinArchScrollBar", MinArchHist)
+	local scrollb = HistoryScrollbar or CreateFrame("Slider", "MinArchScrollBar", History.frame)
     local scrollPos = scrollb:GetValue() or 0;
 
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
-		scrollb.bg:SetAllPoints(true);
-		scrollb.bg:SetTexture(0, 0, 0, 0.80);
+		scrollb.bg:SetAllPoints();
+		scrollb.bg:SetColorTexture(0, 0, 0, 0.80);
 	end
 
 	if (not scrollf.bg) then
 		scrollf.bg = scrollf:CreateTexture(nil, "BACKGROUND");
-		scrollf.bg:SetAllPoints(true);
-		scrollf.bg:SetTexture(0, 0, 0, 0.60);
+		scrollf.bg:SetAllPoints();
 	end
 
 	if (not scrollb.thumb) then
@@ -929,6 +939,9 @@ function History:CreateHistoryList(RaceID, caller)
 		scrollb.thumb:SetSize(25, 25);
 		scrollb:SetThumbTexture(scrollb.thumb);
 	end
+
+    HistoryScrollbar = scrollb
+    HistoryScrollFrame = scrollf
 
 	scrollc.artifacts = scrollc.artifacts or {};
 
@@ -1106,7 +1119,8 @@ function History:CreateHistoryList(RaceID, caller)
     end
 
     scrollb:SetOrientation("VERTICAL")
-    scrollb:SetSize(16, 225)
+    scrollb:SetSize(16, 220)
+    scrollb.bg:SetSize(16, 220)
     scrollb:SetPoint("TOPLEFT", scrollf, "TOPRIGHT", 0, 0)
     scrollb:SetMinMaxValues(0, scrollMax)
     scrollb:SetValue(scrollPos)
@@ -1130,7 +1144,7 @@ function History:CreateHistoryList(RaceID, caller)
         end
     end)
 
-    ResizeHistoryWindow(scrollc, scrollf, height);
+    ResizeHistoryWindow(scrollb, scrollc, scrollf, height);
     scrollc:Show()
 end
 

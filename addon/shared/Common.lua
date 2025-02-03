@@ -14,6 +14,10 @@ local Companion = MinArch:LoadModule("MinArchCompanion")
 local Options = MinArch:LoadModule("MinArchOptions")
 ---@type MinArchNavigation
 local Navigation = MinArch:LoadModule("MinArchNavigation")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
 
 -- Local variables
 local nextCratable = nil
@@ -100,8 +104,8 @@ end
 ---@param scale integer|string
 function Common:FrameScale(scale)
 	scale = tonumber(scale)/100;
-	MinArchMain:SetScale(scale);
-	MinArchHist:SetScale(scale);
+	Main.frame:SetScale(scale);
+	History.frame:SetScale(scale);
 	Digsites.frame:SetScale(scale);
 end
 
@@ -110,7 +114,8 @@ end
 ---@param y integer
 ---@return Button
 function Common:CreateAutoWaypointButton(parent, x, y)
-	local button = CreateFrame("Button", "$parentAutoWayButton", parent);
+	local button = CreateFrame("Button", "$parentAutoWayButton", parent, nil);
+	button:SetParentKey("autoWaypointButton")
 	button:SetSize(21, 21);
 	button:SetPoint("TOPLEFT", x, y);
 
@@ -162,7 +167,7 @@ function Common:SetCrateButtonTooltip(button)
 end
 
 function Common:RefreshCrateButtonGlow()
-    MinArchMainCrateButtonGlow:Hide();
+    Main.frame.crateButton.glow:Hide();
     Companion:hideCrateButton()
     nextCratable = nil;
 
@@ -181,8 +186,8 @@ function Common:RefreshCrateButtonGlow()
 								slot = slot
 							}
 
-                            MinArchMainCrateButton:SetAttribute("item", "item:" .. itemID);
-                            MinArchMainCrateButtonGlow:Show();
+                            Main.frame.crateButton:SetAttribute("item", "item:" .. itemID);
+                            Main.frame.crateButton.glow:Show();
                             Companion:showCrateButton(itemID);
 
 							return;
@@ -475,7 +480,7 @@ function Common:TestForMissingDigsites()
 	end
 end
 
----Uses C_Spell when available, otherwise uses deprecated GetSpellCooldown
+---Uses C_Spell when available, otherwise uses GetSpellCooldown
 function Common:GetSpellCooldown(spellID)
     if C_Spell and C_Spell.GetSpellCooldown then
         return C_Spell.GetSpellCooldown(spellID).startTime
@@ -521,6 +526,6 @@ end
 function MinArch_ShowUIPanel(...)
 	local panel = ...;
 	if (panel and panel:GetName() == "ArchaeologyFrame") then
-		-- MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		-- History.frame:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	end
 end

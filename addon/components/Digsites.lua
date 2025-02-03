@@ -11,7 +11,10 @@ local Navigation = MinArch:LoadModule("MinArchNavigation")
 ---@type HereBeDragons-2.0
 local HBD = LibStub("HereBeDragons-2.0")
 
+local MinArchTooltipIcon = _G["MinArchTooltipIcon"]
 local TaxiToggleFrame = nil -- created later
+local DigsitesScrollbar = nil -- created later
+local DigsitesScrollFrame = nil -- created later
 
 MinArchScrollDS = {}
 MinArchDigsitesDB = {} -- old dig site info per character
@@ -396,6 +399,9 @@ function Digsites:UpdateActiveDigSites()
 		end
 
         local zoneUiMapID = Common:GetUiMapIdByContId(i);
+		if not zoneUiMapID then
+			return
+		end
 
         local zones = C_Map.GetMapChildrenInfo(zoneUiMapID, 3);
         -- Workaround for the phased version of Vale of Eternal Blossoms
@@ -465,7 +471,7 @@ function Digsites:CreateDigSitesList(ContID)
     DimADIButtons();
     MinArch.DigsiteButtons[ContID]:SetAlpha(1.0);
 
-	local scrollf = MinArchDSScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", Digsites.frame);
+	local scrollf = DigsitesScrollFrame or CreateFrame("ScrollFrame", "MinArchDSScrollFrame", Digsites.frame);
 	scrollf:SetClipsChildren(true)
 
 	for i = 1, ARCHAEOLOGY_NUM_CONTINENTS do
@@ -479,18 +485,17 @@ function Digsites:CreateDigSitesList(ContID)
 
 	MinArchScrollDS[ContID]:Show();
 
-	local scrollb = MinArchScrollDSBar or CreateFrame("Slider", "MinArchScrollDSBar", Digsites.frame);
+	local scrollb = DigsitesScrollbar or CreateFrame("Slider", "MinArchScrollDSBar", Digsites.frame);
 
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
-		scrollb.bg:SetAllPoints(true);
-		scrollb.bg:SetTexture(0, 0, 0, 0.80);
+		scrollb.bg:SetAllPoints();
+		scrollb.bg:SetColorTexture(0, 0, 0, 0.80);
 	end
 
 	if (not scrollf.bg) then
 		scrollf.bg = scrollf:CreateTexture(nil, "BACKGROUND");
-		scrollf.bg:SetAllPoints(true);
-		scrollf.bg:SetTexture(0, 0, 0, 0.60);
+		scrollf.bg:SetAllPoints();
 	end
 
 	if (not scrollb.thumb) then
@@ -499,6 +504,9 @@ function Digsites:CreateDigSitesList(ContID)
 		scrollb.thumb:SetSize(25, 25);
 		scrollb:SetThumbTexture(scrollb.thumb);
 	end
+
+	DigsitesScrollbar = scrollb
+	DigsitesScrollFrame = scrollf
 
 	scrollc.digsites = scrollc.digsites or {};
 	scrollc.mouseover = scrollc.mouseover or {};
@@ -654,7 +662,7 @@ function Digsites:CreateDigSitesList(ContID)
 
 end
 
----@param Race integer
+---@param Race string
 function Digsites:UpdateActiveDigSitesRace(Race)
 	local ax = 0;
 	local ay = 0;

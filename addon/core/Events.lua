@@ -26,7 +26,7 @@ function MinArch:EventHelper(event, ...)
 				Main:HideWindow();
 				Main.showAfterCombat = true;
 			end
-			if (MinArchHist:IsVisible()) then
+			if (History.frame:IsVisible()) then
 				History:HideWindow();
 				History.showAfterCombat = true;
 			end
@@ -67,7 +67,7 @@ local function RepositionDigsiteProgressBar()
     if ArcheologyDigsiteProgressBar and MinArch.db.profile.ProgressBar.attachToCompanion then
         -- UIPARENT_MANAGED_FRAME_POSITIONS["ArcheologyDigsiteProgressBar"] = nil;
         ArcheologyDigsiteProgressBar:ClearAllPoints();
-        ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", MinArchCompanion, "BOTTOM", 0, -35)
+        ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", Companion.frame, "BOTTOM", 0, -35)
     end
 end
 
@@ -86,10 +86,10 @@ function MinArch:EventMain(event, ...)
 		Main:HideWindow();
 		MinArch.HideNext = false;
 
-		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--History.frame:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		--RequestArtifactCompletionHistory();
 	elseif (event == "PLAYER_ALIVE" or event == "RESEARCH_ARTIFACT_COMPLETE") then
-		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--History.frame:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		--RequestArtifactCompletionHistory();
 	elseif (event == "ADDON_LOADED" and MinArch ~= nil and MinArch.IsReady ~= true) then
 		-- MinArch:MainEventAddonLoaded(); -- TODO remove this if everything checks out
@@ -97,25 +97,25 @@ function MinArch:EventMain(event, ...)
 		local addonname = ...;
 
 		if (addonname == "Blizzard_ArchaeologyUI") then
-			--MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+			--History.frame:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
 		if (addonname == "TomTom") then
 			Navigation:SetTomTom()
 		end
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
-		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--History.frame:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		if (MinArch.RacesLoaded == false) then
 			Common:LoadRaceInfo();
 		end
-        MinArchLDB:RefreshLDBButton(event);
+        MinArchLDB:RefreshLDBButton();
         Companion:AutoToggle()
 	end
 
 	if (event == "PLAYER_REGEN_ENABLED") then
 		C_Timer.NewTimer(0.3, function()
 			if (not InCombatLockdown()) then
-				ClearOverrideBindings(MinArchHiddenSurveyButton);
+				ClearOverrideBindings(MinArch.hiddenButton);
 			end
 		end)
 	end
@@ -165,12 +165,12 @@ function MinArch:EventMain(event, ...)
 
     if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
         Companion:AutoToggle()
-		MinArchLDB:RefreshLDBButton(event);
+		MinArchLDB:RefreshLDBButton();
 		return
 	end
 
 	if (event == "PLAYER_REGEN_ENABLED") then
-		MinArchMain:UnregisterEvent("PLAYER_REGEN_ENABLED");
+		Main.frame:UnregisterEvent("PLAYER_REGEN_ENABLED");
 		Common:DisplayStatusMessage("Main update after combat", MINARCH_MSG_DEBUG);
 	end
 
@@ -200,13 +200,13 @@ function MinArch:EventHist(event, ...)
 			if allGood then
 				-- all item info available, unregister this event
 				Common:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").", MINARCH_MSG_DEBUG)
-				-- MinArchHist:UnregisterEvent(event)
-				MinArchHist:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
+				-- History.frame:UnregisterEvent(event)
+				History.frame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
 			else
 				-- not all item info available, try again when more details have been received
 				Common:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").", MINARCH_MSG_DEBUG)
-				-- MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
-				MinArchHist:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+				-- History.frame:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
+				History.frame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
 			end
 

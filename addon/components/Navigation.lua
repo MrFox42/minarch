@@ -135,7 +135,7 @@ function Navigation:SetWayToNearestDigsite(afterFlight)
 	if (MinArch.db.profile.TomTom.taxi.enabled and distance and distance > MinArch.db.profile.TomTom.taxi.distance) then
 		taxiNode = Navigation:GetNearestFlightMaster()
 
-		if (afterFlight and taxiNode.distance < 100) then
+		if (afterFlight and taxiNode and taxiNode.distance < 100) then
 			return
 		end
 	end
@@ -172,7 +172,7 @@ function Navigation:SetWayToDigsiteOnClick(digsiteName, digsite)
 	MinArch.db.char.TomTom.waypoints[digsiteName] = newWaypoint;
 end
 
----@param forceRefresh boolean @default: false
+---@param forceRefresh? boolean @default: false
 function Navigation:RefreshDigsiteWaypoints(forceRefresh)
 	if not Navigation:IsNavigationEnabled() and not forceRefresh then return end;
 

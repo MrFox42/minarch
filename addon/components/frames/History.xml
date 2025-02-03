@@ -7,7 +7,7 @@
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>
 		<Frames>
-			<Frame name="$parentGrad">
+			<Frame name="$parentGrad" parentKey="grad">
 				<size x="376" y="40" />
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" x="12" y="-10"/>
@@ -15,8 +15,7 @@
 				<Scripts>
 					<OnLoad>
 						self.bg = self:CreateTexture(nil, "BACKGROUND");
-						self.bg:SetAllPoints(true);
-						self.bg:SetTexture(0, 0, 0, 0.70);
+						self.bg:SetAllPoints();
 					</OnLoad>
 				</Scripts>
 			</Frame>

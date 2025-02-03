@@ -44,6 +44,7 @@ MinArch.ArchaeologyRaces = {};
 MinArch.MapContinents = {};
 MinArch.RacesLoaded = false;
 MinArch.RelevantRaces = {};
+MinArch.hiddenButton = nil
 
 -- Legacy compatibility
 MinArchOptions = {};

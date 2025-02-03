@@ -88,14 +88,6 @@ function MinArch:OnInitialize ()
 	History:Init();
 	Digsites:Init()
 
-	--@TODO add button in lua
-	MinArchMainButtonOpenADI:SetScript("OnClick", function()
-		Digsites:ToggleWindow()
-	end)
-	MinArchMainButtonOpenHist:SetScript("OnClick", function()
-		History:ToggleWindow()
-	end)
-
 	Companion:Init();
 
 	MinArchLDB:Init();

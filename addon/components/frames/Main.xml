@@ -8,7 +8,7 @@
 		</Anchors>
 		<Frames>
 			<!-- Top Level Buttons (Hist|Arch|X) -->
-			<Button name="$parentButtonOpenHist" inherits="MATBOpenHist" parentKey="buttonOpenHist" />
+			<Button name="$parentButtonOpenHist" inherits="MATBOpenHist" parentKey="openHistButton" />
 			<Button name="$parentButtonOpenADI" inherits="MATBOpenADI" parentKey="openADIButton" />
 
 			<!-- Archaeology Skill Bar -->
