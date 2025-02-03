@@ -466,7 +466,7 @@ function History:UpdateArtifact(RaceIndex)
 		local progress, modifier, total = GetArtifactProgress();
 
 		MinArch['artifacts'][RaceIndex]['numKeystones'] = numKeystones;
-		MinArch['artifacts'][RaceIndex]['heldKeystones'] = GetItemCount(rItemID, false, false);
+		MinArch['artifacts'][RaceIndex]['heldKeystones'] = C_Item.GetItemCount(rItemID, false, false);
 		MinArch['artifacts'][RaceIndex]['progress'] = progress;
 		MinArch['artifacts'][RaceIndex]['modifier'] = modifier;
 		MinArch['artifacts'][RaceIndex]['total'] = total;
@@ -751,7 +751,7 @@ local function HistoryTooltip(self, RaceID, ItemID)
 		GameTooltip:AddLine(" ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 		if (artifact["sellprice"] ~= nil) then
 			if (tonumber(artifact["sellprice"]) > 0) then
-				GameTooltip:AddLine("|cffffffff"..GetCoinTextureString(artifact["sellprice"]), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
+				GameTooltip:AddLine("|cffffffff"..C_CurrencyInfo.GetCoinTextureString(artifact["sellprice"]), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 			end
 		end
 		GameTooltip:AddLine("In Progress", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
@@ -759,7 +759,7 @@ local function HistoryTooltip(self, RaceID, ItemID)
 		GameTooltip:AddLine(" ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 		if (artifact["sellprice"] ~= nil) then
 			if (tonumber(artifact["sellprice"]) > 0) then
-				GameTooltip:AddLine("|cffffffff"..GetCoinTextureString(artifact["sellprice"]), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
+				GameTooltip:AddLine("|cffffffff"..C_CurrencyInfo.GetCoinTextureString(artifact["sellprice"]), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 			end
 		end
 		discovereddate = date("*t", artifact["firstcomplete"]);
@@ -836,7 +836,7 @@ function History:ShowArtifactTooltip(self, RaceIndex)
 		GameTooltip:AddLine(" ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 
 		if (tonumber(artifact["sellprice"]) > 0) then
-			GameTooltip:AddLine("|cffffffff"..GetCoinTextureString(artifact["sellprice"]), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
+			GameTooltip:AddLine("|cffffffff"..C_CurrencyInfo.GetCoinTextureString(artifact["sellprice"]), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 		end
 	end
 

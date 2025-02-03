@@ -480,7 +480,7 @@ function Common:TestForMissingDigsites()
 	end
 end
 
----Uses C_Spell when available, otherwise uses GetSpellCooldown
+---Uses C_Spell when available, otherwise uses GetSpellCooldown (there is no C_SPELL in Cata yet)
 function Common:GetSpellCooldown(spellID)
     if C_Spell and C_Spell.GetSpellCooldown then
         return C_Spell.GetSpellCooldown(spellID).startTime
