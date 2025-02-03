@@ -45,6 +45,8 @@ MinArch.MapContinents = {};
 MinArch.RacesLoaded = false;
 MinArch.RelevantRaces = {};
 MinArch.hiddenButton = nil
+MinArch.DigsiteLocales = {}
+MinArch.defaults = {}
 
 -- Legacy compatibility
 MinArchOptions = {};

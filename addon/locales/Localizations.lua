@@ -1,6 +1,5 @@
 local ADDON, _ = ...
 
-MinArch.DigsiteLocales = {};
 local GAME_LOCALE = GetLocale();
 
 if GAME_LOCALE == 'enGB' then
