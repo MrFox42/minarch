@@ -3,7 +3,9 @@
 [![Install](http://img.shields.io/badge/install-curseforge-f16436)](https://www.curseforge.com/wow/addons/minimal-archaeology)
 [![Install](http://img.shields.io/badge/install-wago-f16436)](https://addons.wago.io/addons/minarch)
 
----
+***
+# 🎉3 million downloads🎉
+***
 
 # Description
 
@@ -14,6 +16,13 @@ or if you prefer there are options to automatically use keystones!
 You can monitor the artifacts progress, or how close you are to the fragment cap.
 
 ## Recent changes
+
+### 11.0.2
+
+- Added support for **localizations**, if you would like to help with translations, head over to https://curseforge.com/wow/addons/minimal-archaeology/localization
+- Fix casting survey with the configured key binding on non-english clients
+- "Right click to open settings" now opens the relevant options menu
+- Refactored code base to make it a bit more future-proofed. Please don't hesitate reporting any errors/bugs that might come up after this.
 
 ### 11.0.0
 
@@ -54,29 +63,6 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **10.2.12.2** Fix survey button being disabled when double right click is disabled
 - **10.2.12.2** Fix path optimization calculation
 - **10.2.12.2** Add option to hide Companion when no digsites are available on the world
-
-### 10.2.11
-
-- Companion: implement optional artifact progress bar with optional tooltip and solve on click (enabled by default)
-- Companion: add option to hide solvable artifact if it's not related to the nearest digsite
-- History: implement total sold price display for race statistics (by *Delrik* via GitHub)
-- Implement map pin scaling option
-- Fix issue with auto-waypoint sometimes not selecting the closest digsite
-- Fix Companion not always hiding properly in combat
-- Fix Nerubian issue with digsites on Eastern Kingdoms
-
-### 10.2.10
-
-- History: implement race statistics (can be hidden)
-- Companion: added optional skill bar (enabled by default)
-- Fix max rank in Cata pre-patch
-- Fix main window popping up the wrong time when autoShowOnCap is enabled
-- Fix history refresh (mostly, blizzard API sometimes reports the wrong data)
-- Fix remember window state functionality
-- **10.2.10.2** Fix lua error: attempt to index field 'skillBar'
-- **10.2.10.3** History: fix completed counts
-- **10.2.10.4** Companion: fix keystone count when canceling solve
-- **10.2.10.5** Fix lua error after solving artifacts
 
 For past changes, visit the [Changelog page](https://github.com/MrFox42/minarch/blob/master/CHANGELOG.md) on GitHub.
 

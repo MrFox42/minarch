@@ -1,6 +1,13 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 11.0.2
+
+- Added support for localizations, if you would like to help with translations, head over to https://curseforge.com/wow/addons/minimal-archaeology/localization
+- Fix casting survey with the configured key binding on non-english clients
+- "Right click to open settings" now opens the relevant options menu
+- Refactored code base to make it a bit more future-proofed. Please don't hesitate reporting any errors/bugs that might come up after this.
+
 ### 11.0.0
 
 - Updated for War Within
