@@ -492,7 +492,7 @@ function Digsites:CreateDigSitesList(ContID)
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
 		scrollb.bg:SetAllPoints();
-		scrollb.bg:SetColorTexture(0, 0, 0, 0.80);
+		-- scrollb.bg:SetColorTexture(0, 0, 0, 0.80);
 	end
 
 	if (not scrollf.bg) then

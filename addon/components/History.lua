@@ -927,7 +927,7 @@ function History:CreateHistoryList(RaceID, caller)
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
 		scrollb.bg:SetAllPoints();
-		scrollb.bg:SetColorTexture(0, 0, 0, 0.80);
+		-- scrollb.bg:SetColorTexture(0, 0, 0, 0.80);
 	end
 
 	if (not scrollf.bg) then
@@ -1097,8 +1097,13 @@ function History:CreateHistoryList(RaceID, caller)
         height = count * (20 + PADDING);
     end
 
-    sumTotalSoldPrice = math.floor(sumTotalSoldPrice / 10000)
-    History.statsFrame.text:SetText(L["TOOLTIP_PROGRESS"] .. ': ' .. sumComplete .. '/' .. count .. ' - Total: ' .. sumTotalComplete .. ' (' .. sumTotalSoldPrice .. 'g)')
+    local sumTotalSoldPriceString = C_CurrencyInfo.GetCoinTextureString(sumTotalSoldPrice)
+    -- sumTotalSoldPrice = math.floor(sumTotalSoldPrice / 10000)
+    local statsFrameText = L["TOOLTIP_PROGRESS"] .. ': ' .. sumComplete .. '/' .. count .. ' - ' .. L["HISTORY_TOTAL"] .. ': ' .. sumTotalComplete
+    if (sumTotalSoldPrice > 0) then
+        statsFrameText = statsFrameText .. '|n' .. sumTotalSoldPriceString .. ''
+    end
+    History.statsFrame.text:SetText(statsFrameText)
 
     -- Set the size of the scroll child
     if height > 2 then
