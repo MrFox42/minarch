@@ -120,13 +120,13 @@ function MinArch:EventMain(event, ...)
 		end)
 	end
 
-    if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArch.ShowOnSurvey == true) then
+    if (event == "ARCHAEOLOGY_SURVEY_CAST") then
         if MinArch.autoWaypoint then
 			Navigation:RemoveTomTomWaypoint(MinArch.autoWaypoint)
         end
         Navigation:ClearUiWaypoint();
 
-		if (MinArch.db.profile.autoShowOnSurvey) then
+		if (MinArch.ShowOnSurvey == true and MinArch.db.profile.autoShowOnSurvey) then
 			Main:ShowWindow();
 			MinArch.ShowOnSurvey = false;
 		end
