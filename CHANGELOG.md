@@ -7,6 +7,7 @@
 - Fix casting survey with the configured key binding on non-english clients
 - "Right click to open settings" now opens the relevant options menu
 - Refactored code base to make it a bit more future-proofed. Please don't hesitate reporting any errors/bugs that might come up after this.
+- **11.0.2.1** Updated Chinese translations (courtesy of 萌丶汉丶纸)
 
 ### 11.0.0
 
