@@ -14,6 +14,17 @@
 ## X-Curse-Project-ID: 28160
 ## X-Wago-ID: nGvpwe6x
 ## IconTexture: Interface\Icons\Trade_Archaeology_Dinosaurskeleton
+## Category-enUS: Professions
+## Category-deDE: Berufe
+## Category-esES: Profesiones
+## Category-esMX: Profesiones
+## Category-frFR: Métiers
+## Category-itIT: Professioni
+## Category-koKR: 전문 기술
+## Category-ptBR: Profissões
+## Category-ruRU: Профессии
+## Category-zhCN: 专业
+## Category-zhTW: 專業技能
 # Special thanks to joevt for the contribution
 
 embeds.xml
