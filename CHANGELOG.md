@@ -1,10 +1,12 @@
 # Minimal Archaeology
 ## Latest Version
 
-### 11.1.0.1
+### 11.1.0
 
-- Set Addon category
-- Update zone name in translations
+- Updated for Mainline 11.1
+- **11.1.0.1** Set Addon category
+- **11.1.0.1** Update zone name in translations
+- **11.1.0.2** Update German translations (courtesy of Sneaker42)
 
 ### 11.0.2
 
