@@ -195,6 +195,14 @@ local function AcquireTaxiMapPin(nodeName)
 	end
 end
 
+local function AcquireMapPin(nodeName)
+	for pin in WorldMapFrame:EnumeratePinsByTemplate("DigSitePinTemplate") do
+		if pin.name == nodeName then
+			return pin
+		end
+	end
+end
+
 local function SetRaceIcon(FRAME, X, Y, NAME, DETAILS, parentFrame, taxiNode)
 	FRAME:SetScript("OnMouseUp", function(self, button)
 		if (button == "LeftButton") then
@@ -359,7 +367,8 @@ function Digsites:Init()
 	Digsites.frame:RegisterEvent("PLAYER_CONTROL_GAINED")
 	-- Digsites.frame:RegisterEvent("PLAYER_CONTROL_LOST")
 	hooksecurefunc(MapCanvasDetailLayerMixin, "SetMapAndLayer", MinArch_MapLayerChanged);
-	hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
+	-- hooksecurefunc("ToggleWorldMap", MinArch_WorldMapToggled);
+	WorldMapFrame:HookScript("OnShow", MinArch_WorldMapToggled);
     hooksecurefunc("ShowUIPanel", MinArch_ShowUIPanel);
 
     Common:FrameLoad(Digsites.frame);
@@ -731,7 +740,7 @@ end
 
 ---@param ax? number @X coordinate, default: player X
 ---@param ay? number @Y coordinate, default: player Y
----@param sites? table @List of digsites, default: all digsites 
+---@param sites? table @List of digsites, default: all digsites
 ---@param skipPathCalc? boolean @Skip path calculation, default: false
 ---@return string|nil name @Digsite name
 ---@return number|nil distance @Distance to digsite
@@ -1002,8 +1011,13 @@ function Digsites:ShowRaceIconsOnMap()
 		local count = 0;
 
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
-			local pin = WorldMapFrame:AcquirePin("DigSitePinTemplate", digsite);
-			pin.startScale = MinArch.db.profile.mapPinScale / 100
+			local pin = AcquireMapPin(digsite.name);
+			if not pin and not SpamBlock[digsite.name .. 'pin'] then
+				Common:DisplayStatusMessage("Minimal Archaeology: Could not find pin for digsite "..digsite.name .. " " .. uiMapID)
+				SpamBlock[digsite.name .. 'pin'] = 1
+				return
+			end
+			pin.startScale = MinArch.db.profile.mapPinScale / 100;
 			local continentUiMapID = Common:GetNearestContinentId(uiMapID);
 			local contID = Common:GetInternalContId(continentUiMapID);
 			local name = digsite.name;
