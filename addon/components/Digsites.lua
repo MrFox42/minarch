@@ -1011,10 +1011,17 @@ function Digsites:ShowRaceIconsOnMap()
 		local count = 0;
 
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
-			local pin = AcquireMapPin(digsite.name);
-			if not pin and not SpamBlock[digsite.name .. 'pin'] then
-				Common:DisplayStatusMessage("Minimal Archaeology: Could not find pin for digsite "..digsite.name .. " " .. uiMapID)
-				SpamBlock[digsite.name .. 'pin'] = 1
+			local pin
+			if MINARCH_EXPANSION == 'Cata' then
+				pin = WorldMapFrame:AcquirePin("DigSitePinTemplate", digsite)
+			else
+				pin = AcquireMapPin(digsite.name)
+			end
+			if not pin then
+				if not SpamBlock[digsite.name .. 'pin'] then
+					Common:DisplayStatusMessage("Minimal Archaeology: Could not find pin for digsite "..digsite.name .. " " .. uiMapID)
+					SpamBlock[digsite.name .. 'pin'] = 1
+				end
 				return
 			end
 			pin.startScale = MinArch.db.profile.mapPinScale / 100;

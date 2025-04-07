@@ -24,6 +24,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 - **11.1.0.1** Update zone name in translations
 - **11.1.0.2** Update German translations (courtesy of Sneaker42)
 - **11.1.0.3** Fix taint/error when opening world map
+- **11.1.0.4** Fix map pins on Cata classic
 
 ### 11.0.2
 
