@@ -9,6 +9,7 @@
 - **11.1.0.2** Update German translations (courtesy of Sneaker42)
 - **11.1.0.3** Fix taint/error when opening world map
 - **11.1.0.4** Fix map pins on Cata classic
+- **11.1.0.5** Bump toc for 11.1.5
 
 ### 11.0.2
 
