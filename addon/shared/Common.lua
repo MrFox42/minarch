@@ -1,7 +1,7 @@
 local ADDON, _ = ...
 
 ---Reusable functions and components not unique to one specific module
----@class MinArchCommon 
+---@class MinArchCommon
 local Common = MinArch:LoadModule("MinArchCommon")
 
 ---@type MinArchMain
