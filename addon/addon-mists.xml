@@ -1,0 +1,38 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+    <!-- Core -->
+    <Script file="core\MinArch.lua" />
+    <Script file="locales\Localizations.lua" />
+    <Include file="locales\Locales.xml" />
+    <Script file="core\Defines-Mists.lua" />
+    <Script file="core\Bindings.lua"/>
+    <Script file="core\Init.lua" />
+    <Script file="core\Events.lua" />
+
+
+    <!-- Data -->
+    <Script file="data\ArtifactDB.lua"/>
+    <Script file="data\DigsiteDB.lua"/>
+    <Script file="data\Races.lua"/>
+
+    <!-- Shared templates, common functions  -->
+    <Include file="shared\MATemplates.xml" />
+    <Script  file="shared\Common.lua" />
+
+    <!-- Plugins, components -->
+    <Include file="components\frames\Main.xml" />
+    <Script  file="components\Main.lua" />
+    <Include file="components\frames\History.xml" />
+    <Script  file="components\History.lua" />
+    <Include file="components\frames\Digsites.xml" />
+    <Script  file="components\Digsites.lua" />
+    <Script  file="components\Companion.lua" />
+    <Script  file="components\DataBroker.lua" />
+    <Script  file="components\Navigation.lua" />
+
+    <!-- Configuration -->
+    <Script file="config\Defaults.lua" />
+    <Script file="config\Options.lua" />
+
+</Ui>

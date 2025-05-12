@@ -1,9 +1,9 @@
-## Interface: 40402
+## Interface: 50500
 ## Title: Minimal Archaeology
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Email: gyussz@live.com
 ## Version: 11.1.0.7
-## Notes: Archaeology UI replacement, Archaeology History and more... - Cataclysm Version
+## Notes: Archaeology UI replacement, Archaeology History and more... - Mists of Pandaria Version
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## SavedVariablesPerCharacter: MinArchOptions
@@ -28,4 +28,4 @@
 # Special thanks to joevt for the contribution
 
 embeds.xml
-addon\addon-cata.xml
+addon\addon-mists.xml
