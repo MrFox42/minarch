@@ -100,8 +100,13 @@ local function InitDistanceTracker()
     Companion.trackerFrame:SetScript("OnEnter", function(self)
         if (MinArch.db.profile.companion.showHelpTip) then
             HelpPlate_TooltipHide();
-            HelpPlateTooltip.ArrowUp:Show();
-            HelpPlateTooltip.ArrowGlowUp:Show();
+            if MINARCH_EXPANSION == 'Cata' then
+                HelpPlateTooltip.ArrowUP:Show();
+                HelpPlateTooltip.ArrowGlowUP:Show();
+            else
+                HelpPlateTooltip.ArrowUp:Show();
+                HelpPlateTooltip.ArrowGlowUp:Show();
+            end
             HelpPlateTooltip:SetPoint("BOTTOM", Companion.frame, "TOP", 0, 20);
             HelpPlateTooltip.Text:SetText(L["COMPANION_TUTORIAL_1"]);
             HelpPlateTooltip:Show();
