@@ -11,6 +11,8 @@
 - **11.1.0.4** Fix map pins on Cata classic
 - **11.1.0.5** Bump toc for 11.1.5
 - **11.1.0.6** Added German translations (translated by AI, don't hesitate to report any mistranslations)
+- **11.1.0.7** Add Mists.toc
+- **11.1.0.8** Fix Companion tutorial frame
 
 ### 11.0.2
 
