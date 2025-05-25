@@ -1,14 +1,15 @@
-MINARCH_EXPANSION = 'Mop'
+MINARCH_EXPANSION = 'MoP'
 
 -- uiMapIDs for continents [uiMapID] = internalContID
 MinArchContIDMap = {
-	[1414] = 1, -- Kalimdor
-	[1415] = 2, -- EK
-	[1945] = 3, -- Outland
+	[12] = 1, -- Kalimdor
+	[13] = 2, -- EK
+	[1467] = 3, -- Outland
 	[113] = 4, -- Northrend
 	[948] = 5, -- Maelstrom
 	[424] = 6, -- Pandaria
 };
+
 
 ARCHAEOLOGY_RACE_DRUSTVARI           = 0
 ARCHAEOLOGY_RACE_ZANDALARI           = 0
@@ -18,20 +19,21 @@ ARCHAEOLOGY_RACE_HIGHBORNE           = 0
 ARCHAEOLOGY_RACE_OGRE                = 0
 ARCHAEOLOGY_RACE_DRAENOR             = 0
 ARCHAEOLOGY_RACE_ARAKKOA             = 0
-ARCHAEOLOGY_RACE_MOGU                = 1
-ARCHAEOLOGY_RACE_PANDAREN            = 2
-ARCHAEOLOGY_RACE_MANTID              = 3
-ARCHAEOLOGY_RACE_VRYKUL              = 4
-ARCHAEOLOGY_RACE_TROLL               = 5
-ARCHAEOLOGY_RACE_TOLVIR              = 6
-ARCHAEOLOGY_RACE_ORC                 = 7
-ARCHAEOLOGY_RACE_NERUBIAN            = 8
-ARCHAEOLOGY_RACE_NIGHTELF            = 9
-ARCHAEOLOGY_RACE_FOSSIL              = 10
-ARCHAEOLOGY_RACE_DRAENEI             = 11
-ARCHAEOLOGY_RACE_DWARF               = 12
+ARCHAEOLOGY_RACE_OTHER               = 1
+ARCHAEOLOGY_RACE_MOGU                = 2
+ARCHAEOLOGY_RACE_PANDAREN            = 3
+ARCHAEOLOGY_RACE_MANTID              = 4
+ARCHAEOLOGY_RACE_VRYKUL              = 5
+ARCHAEOLOGY_RACE_TROLL               = 6
+ARCHAEOLOGY_RACE_TOLVIR              = 7
+ARCHAEOLOGY_RACE_ORC                 = 8
+ARCHAEOLOGY_RACE_NERUBIAN            = 9
+ARCHAEOLOGY_RACE_NIGHTELF            = 10
+ARCHAEOLOGY_RACE_FOSSIL              = 11
+ARCHAEOLOGY_RACE_DRAENEI             = 12
+ARCHAEOLOGY_RACE_DWARF               = 13
 
-ARCHAEOLOGY_NUM_RACES                = 12
+ARCHAEOLOGY_NUM_RACES                = 13
 ARCHAEOLOGY_NUM_CONTINENTS           = 6
 ARCHAEOLOGY_MAX_RANK				 = 525
 

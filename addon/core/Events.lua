@@ -371,6 +371,7 @@ end
 
 function MinArch:MapLayerChanged(self)
 	-- update the map when map layer has changed
+	-- print(self.mapID)
 	if (self.mapID ~= nil) then
 		C_Timer.After(0.11, function ()
 			Digsites:ShowRaceIconsOnMap()
