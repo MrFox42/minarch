@@ -337,7 +337,11 @@ function Main:Update()
 	local point, relativeTo, relativePoint, xOfs, yOfs = Main.frame:GetPoint()
 	local x1, size1 = Main.frame:GetSize();
 
-	local MinArchFrameHeight = ARCHAEOLOGY_NUM_RACES * 25 + 40
+	local MinArchFrameHeight = (ARCHAEOLOGY_NUM_RACES - ARCHAEOLOGY_RACE_OTHER) * 25 + 40
+
+	if ARCHAEOLOGY_RACE_OTHER == 1 then
+		MinArch.artifactbars[1]:Hide();
+	end
 
 	local barY = -25;
 	if (Main.frame.skillBar:IsVisible()) then
@@ -345,7 +349,7 @@ function Main:Update()
 		MinArchFrameHeight = MinArchFrameHeight + 20
 	end
 
-	for i=1,ARCHAEOLOGY_NUM_RACES do
+	for i=ARCHAEOLOGY_RACE_OTHER+1,ARCHAEOLOGY_NUM_RACES do
         History:UpdateArtifact(i);
 
 		if (MinArch.db.profile.raceOptions.hide[i] == false and Common:IsRaceRelevant(i)) then
