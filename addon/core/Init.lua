@@ -213,9 +213,32 @@ function MinArch:UpgradeSettings()
         MinArch.db.profile.settingsVersion = 5;
     end
 
-	if MinArch.db.profile.expansion == nil then
+	-- Cata -> MoP
+	if MinArch.db.profile.expansion == 3 and LE_EXPANSION_LEVEL_CURRENT == 4 then
+		local keyStonesTmp = {}
+		local priorityTmp = {}
+		local capTmp = {}
+		local hideTmp = {}
+
+		for i=4, ARCHAEOLOGY_NUM_RACES do
+			capTmp[i] = MinArch.db.profile.raceOptions.cap[i - 3] or false
+			hideTmp[i] = MinArch.db.profile.raceOptions.hide[i - 3] or false
+			priorityTmp[i] = MinArch.db.profile.raceOptions.priority[i - 3] or false
+			keyStonesTmp[i] = MinArch.db.profile.raceOptions.keystone[i - 3] or false
+		end
+
+		for i=1, ARCHAEOLOGY_NUM_RACES do
+			MinArch.db.profile.raceOptions.cap[i] = capTmp[i] or false
+			MinArch.db.profile.raceOptions.hide[i] = hideTmp[i] or false
+			MinArch.db.profile.raceOptions.priority[i] = priorityTmp[i] or false
+			MinArch.db.profile.raceOptions.keystone[i] = keyStonesTmp[i] or false
+		end
+
 		MinArch.db.profile.expansion = LE_EXPANSION_LEVEL_CURRENT
 	end
 
+	if MinArch.db.profile.expansion == nil then
+		MinArch.db.profile.expansion = LE_EXPANSION_LEVEL_CURRENT
+	end
 
 end
