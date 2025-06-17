@@ -218,6 +218,7 @@ local function BuildHistory(RaceID, caller)
 			end
 		end
 
+        local match;
         for itemid, details in pairs(MinArchHistDB[RaceID]) do
             if ((details.name == name and details.icon == icon) or (foundCount == 0 and details.icon == icon)) then
                 foundCount = foundCount + 1
@@ -242,21 +243,25 @@ local function BuildHistory(RaceID, caller)
                     Common:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
                 end]]--
 
-                details.artifactname = name
-                details.firstcomplete = firstcomplete
-                if (details.totalcomplete == 0 or details.totalcomplete == nil) then
-                    details.totalcomplete = totalcomplete
-                end
-                details.description = desc
-                details.spelldescription = spelldesc
-                details.apiIndex = i;
-                unknownArtifactInfoIndex[RaceID] = i + 1;
+                match = details;
+            end
+        end
 
-                if (MinArch.artifacts[RaceID].project == name) then
-                    MinArch.artifacts[RaceID].firstcomplete = firstcomplete
-                    MinArch.artifacts[RaceID].totalcomplete = totalcomplete
-                    MinArch.artifacts[RaceID].sellprice = details.sellprice
-                end
+        if foundCount ~= 0 then
+            match.artifactname = name
+            match.firstcomplete = firstcomplete
+            if (match.totalcomplete == 0 or match.totalcomplete == nil) then
+                match.totalcomplete = totalcomplete
+            end
+            match.description = desc
+            match.spelldescription = spelldesc
+            match.apiIndex = i;
+            unknownArtifactInfoIndex[RaceID] = i + 1;
+
+            if (MinArch.artifacts[RaceID].project == name) then
+                MinArch.artifacts[RaceID].firstcomplete = firstcomplete
+                MinArch.artifacts[RaceID].totalcomplete = totalcomplete
+                MinArch.artifacts[RaceID].sellprice = match.sellprice
             end
         end
 
