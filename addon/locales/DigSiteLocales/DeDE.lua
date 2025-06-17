@@ -457,5 +457,5 @@ if MINARCH_EXPANSION == 'Cata' then
 end
 
 if MINARCH_EXPANSION == 'MoP' then
-    MinArch.DigsiteLocales.deDE["Shrine of Goldrinn Digsite"] = "Ausgrabungsstätte des Schrein von Goldrinn",
+   MinArch.DigsiteLocales.deDE["Shrine of Goldrinn Digsite"] = "Ausgrabungsstätte des Schrein von Goldrinn"
 end

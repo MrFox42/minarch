@@ -457,7 +457,7 @@ if MINARCH_EXPANSION == 'Cata' then
 end
 
 if MINARCH_EXPANSION == 'MoP' then
-    MinArch.DigsiteLocales.ruRU["Dire Maul Digsite"] = "Забытый Город - раскопки",
-    MinArch.DigsiteLocales.ruRU["Baleheim Digsite"] = "Гибльхейм - раскопки",
-    MinArch.DigsiteLocales.ruRU["North Temple of the Red Crane Digsite"] = "Северная часть Храма Красного Журавля",
+    MinArch.DigsiteLocales.ruRU["Dire Maul Digsite"] = "Забытый Город - раскопки"
+    MinArch.DigsiteLocales.ruRU["Baleheim Digsite"] = "Гибльхейм - раскопки"
+    MinArch.DigsiteLocales.ruRU["North Temple of the Red Crane Digsite"] = "Северная часть Храма Красного Журавля"
 end
