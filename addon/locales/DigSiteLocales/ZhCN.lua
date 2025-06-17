@@ -454,3 +454,7 @@ MinArch.DigsiteLocales.zhCN = {
 if MINARCH_EXPANSION == 'Cata' then
     MinArch.DigsiteLocales.zhCN["Tomb of the Watchers Digsite"] = "观察者陵墓挖掘场"
 end
+
+if MINARCH_EXPANSION == 'MoP' then
+    MinArch.DigsiteLocales.zhCN["Tomb of the Watchers Digsite"] = "观察者陵墓挖掘场",
+end

@@ -456,3 +456,9 @@ if MINARCH_EXPANSION == 'Cata' then
     MinArch.DigsiteLocales.frFR["Burning Blade Digsite"] = "Site de fouilles de la Lame ardente"
     MinArch.DigsiteLocales.frFR["Bleeding Hollow Ruins Digsite"] = "Site de fouilles des ruines de l'Orbite sanglante"
 end
+
+if MINARCH_EXPANSION == 'MoP' then
+    MinArch.DigsiteLocales.frFR["Laughing Skull Digsite"] = "Site de fouilles des ruines du Crâne ricanant",
+    MinArch.DigsiteLocales.frFR["Burning Blade Digsite"] = "Site de fouilles de la Lame ardente",
+    MinArch.DigsiteLocales.frFR["Bleeding Hollow Ruins Digsite"] = "Site de fouilles des ruines de l'Orbite sanglante",
+end

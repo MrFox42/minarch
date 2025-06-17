@@ -454,3 +454,7 @@ MinArch.DigsiteLocales.ptBR = {
 if MINARCH_EXPANSION == 'Cata' then
     MinArch.DigsiteLocales.ptBR["Pyrox Flats Digsite"] = "Sítio de Escavação das Planícies Pyrox"
 end
+
+if MINARCH_EXPANSION == 'MoP' then
+    MinArch.DigsiteLocales.ptBR["Pyrox Flats Digsite"] = "Sítio de Escavação das Planícies Pyrox",
+end
