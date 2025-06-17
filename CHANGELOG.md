@@ -13,6 +13,7 @@
 - **11.1.0.6** Added German translations (translated by AI, don't hesitate to report any mistranslations)
 - **11.1.0.7** Add Mists.toc
 - **11.1.0.8** Fix Companion tutorial frame
+- **11.1.0.9** Fix MoP config and lua errors
 
 ### 11.0.2
 
