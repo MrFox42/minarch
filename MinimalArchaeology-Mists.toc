@@ -2,7 +2,7 @@
 ## Title: Minimal Archaeology
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Email: gyussz@live.com
-## Version: 11.1.0.10
+## Version: 11.1.0.11
 ## Notes: Archaeology UI replacement, Archaeology History and more... - Mists of Pandaria Version
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
