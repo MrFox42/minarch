@@ -1016,7 +1016,7 @@ function Digsites:ShowRaceIconsOnMap()
 
 		for key, digsite in pairs(C_ResearchInfo.GetDigSitesForMap(uiMapID)) do
 			local pin
-			if MINARCH_EXPANSION == 'Cata' then
+			if MINARCH_EXPANSION == 'Cata' or MINARCH_EXPANSION == 'MoP' then
 				pin = WorldMapFrame:AcquirePin("DigSitePinTemplate", digsite)
 			else
 				pin = AcquireMapPin(digsite.name)

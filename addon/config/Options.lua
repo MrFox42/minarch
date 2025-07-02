@@ -1369,7 +1369,7 @@ local TomTomSettings = {
                             Navigation:ClearUiWaypoint()
                         end
 					end,
-					disabled = function () return (MINARCH_EXPANSION == 'Cata') end,
+					disabled = function () return (MINARCH_EXPANSION == 'Cata' or MINARCH_EXPANSION == 'MoP') end,
 					order = 2,
                 },
                 superTrack = {
@@ -1385,7 +1385,7 @@ local TomTomSettings = {
 							end
                         end
 					end,
-					disabled = function () return (MinArch.db.profile.TomTom.enableBlizzWaypoint == false or MINARCH_EXPANSION == 'Cata') end,
+					disabled = function () return (MinArch.db.profile.TomTom.enableBlizzWaypoint == false or MINARCH_EXPANSION == 'Cata' or MINARCH_EXPANSION == 'MoP') end,
 					order = 2,
 				},
             }
