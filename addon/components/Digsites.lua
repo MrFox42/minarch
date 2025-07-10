@@ -397,7 +397,6 @@ function Digsites:UpdateActiveDigSites()
 	local playerContID = Common:GetInternalContId();
 
 	for i = 1, ARCHAEOLOGY_NUM_CONTINENTS do
-
 		if MinArchDigsitesDB["continent"][i] == nil then
 			MinArchDigsitesDB["continent"][i] = {}
 		end
@@ -427,6 +426,9 @@ function Digsites:UpdateActiveDigSites()
 				local x = digsite.position.x;
 				local y = digsite.position.y;
 				local digsiteZone = C_Map.GetMapInfoAtPosition(uiMapID, x, y);
+				if not digsiteZone then
+					digsiteZone = C_Map.GetMapInfo(uiMapID);
+				end
                 -- Workaround for the phased version of Vale of Eternal Blossoms
                 if uiMapID == 390 then
                     digsiteZone = C_Map.GetMapInfo(uiMapID);

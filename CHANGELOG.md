@@ -17,6 +17,7 @@
 - **11.1.0.10** Fix digsites lua error
 - **11.1.0.10** Implement settings migration from Cata to Mop
 - **11.1.0.10** Fix history window showing two active fossil artifacts
+- **11.1.0.13** Fix lua error with Pandaria digsites
 
 ### 11.0.2
 
