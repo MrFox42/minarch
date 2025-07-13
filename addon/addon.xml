@@ -6,8 +6,8 @@
     <Script file="locales\Localizations.lua" />
     <Include file="locales\Locales.xml" />
     <Script file="core\Defines.lua" />
-    <Script file="core\Bindings.lua"/>
     <Script file="core\Init.lua" />
+    <Script file="core\Bindings.lua"/>
     <Script file="core\Events.lua" />
 
     <!-- Data -->

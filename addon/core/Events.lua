@@ -59,7 +59,7 @@ function MinArch:EventHelper(event, ...)
 			Companion.showAfterCombat = false;
 		end
 	elseif (event == "GLOBAL_MOUSE_DOWN") then
-		-- MinArch:DoubleClickSurvey(event, ...);
+		MinArch:DblClick(...)
     end
 end
 
@@ -159,7 +159,7 @@ function MinArch:EventMain(event, ...)
 		if (changedCVAR == "SHOW_DIG_SITES") then
 			Digsites:ShowRaceIconsOnMap();
 		end
-		
+
 		return
 	end
 

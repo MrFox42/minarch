@@ -61,22 +61,22 @@ function MinArch:BindingCast()
         local localizedName = C_Spell.GetSpellInfo(SURVEY_SPELL_ID).name
 
         if key1 then
-            SetOverrideBindingSpell(MinArch.hiddenButton, 1, key1, localizedName)
+            SetOverrideBindingSpell(MinArch.hiddenButton, true, key1, localizedName)
         end
         if key2 then
-            SetOverrideBindingSpell(MinArch.hiddenButton, 2, key2, localizedName)
+            SetOverrideBindingSpell(MinArch.hiddenButton, true, key2, localizedName)
         end
     end
 end
 
-WorldFrame:HookScript("OnMouseDown", function(_, button, down)
+function MinArch:DblClick(button, down)
     -- Check if casting is enabled at all
     if button == buttonName[MinArch.db.profile.dblClick.button] then
         Common:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
 
         if not MinArch.db.profile.surveyOnDoubleClick then
             Common:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
-            return
+            return false
         end
         if prevTime then
             local diff = GetTime() - prevTime;
@@ -101,4 +101,10 @@ WorldFrame:HookScript("OnMouseDown", function(_, button, down)
     else
         prevTime = nil
     end
-end)
+
+    return false
+end
+
+-- WorldFrame:HookScript("OnMouseUp", function(_, button, down)
+--     return MinArch:DblClick(button, down)
+-- end)
