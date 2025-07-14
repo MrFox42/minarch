@@ -1720,6 +1720,16 @@ function Options:OnInitialize()
             end
 
             count = count + 1;
+
+			if group == #ArchRaceGroups then
+				raceSettings.args.keystone.args[groupkey].args['note'] = {
+					type = "description",
+					name = L["OPTIONS_RACE_CAP_KEYSTONE_FOSSIL_NOTE"],
+					fontSize = "medium",
+					width = "full",
+					order = 99,
+				}
+			end
         end
 	end
 
