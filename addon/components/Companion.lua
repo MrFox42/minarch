@@ -734,8 +734,10 @@ function Companion:SetFrameScale(scale)
     scale = tonumber(scale)/100;
     Companion.frame:SetScale(scale);
 
-    Companion.frame:ClearAllPoints()
-    Companion.frame:SetPoint(point, UIParent, relativePoint, xOfs * (previousScale/scale), yOfs * (previousScale/scale));
+    if xOfs ~= nil and yOfs ~= nil then
+        Companion.frame:ClearAllPoints()
+        Companion.frame:SetPoint(point, UIParent, relativePoint, xOfs * (previousScale/scale), yOfs * (previousScale/scale));
+    end
 end
 
 local function toggleChildFrames()
