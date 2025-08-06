@@ -909,7 +909,7 @@ local companionSettings = {
                             local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
                             Companion.frame:ClearAllPoints();
                             Companion.frame:SetPoint(point, UIParent, relativePoint, tonumber(newValue), yOfs);
-                            Companion.frame:SavePosition()
+                            Companion:SavePosition()
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
@@ -926,7 +926,7 @@ local companionSettings = {
                             local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
                             Companion.frame:ClearAllPoints();
                             Companion.frame:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
-                            Companion.frame:SavePosition();
+                            Companion:SavePosition();
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
