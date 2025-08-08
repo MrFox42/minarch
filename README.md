@@ -19,6 +19,10 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ### 11.1.0
 
+- Updated for Mainline 11.2
+
+### 11.1.0
+
 - Updated for Mainline 11.1
 - **11.1.0.1** Set Addon category
 - **11.1.0.1** Update zone name in translations

@@ -1,6 +1,10 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 11.2
+
+- Updated for Mainline 11.2
+
 ### 11.1.0
 
 - Updated for Mainline 11.1
