@@ -503,7 +503,6 @@ function Digsites:CreateDigSitesList(ContID)
 	if (not scrollb.bg) then
 		scrollb.bg = scrollb:CreateTexture(nil, "BACKGROUND");
 		scrollb.bg:SetAllPoints();
-		-- scrollb.bg:SetColorTexture(0, 0, 0, 0.80);
 	end
 
 	if (not scrollf.bg) then
@@ -521,115 +520,119 @@ function Digsites:CreateDigSitesList(ContID)
 	DigsitesScrollbar = scrollb
 	DigsitesScrollFrame = scrollf
 
-	scrollc.digsites = scrollc.digsites or {};
-	scrollc.mouseover = scrollc.mouseover or {};
+	scrollc.rows = scrollc.rows or {};
 
-	local PADDING = 5;
+	local PADDING = 2;
 
 	local height = 0;
 	local width = 301;
 
 	local count = 1;
 
-	for i=0,1 do
-		for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
-			local status=false
-			if MinArchDigsitesDB["continent"][ContID][name] then
-				status = MinArchDigsitesDB["continent"][ContID][name]["status"]
-			end
-			if ((status and i == 0) or (status == false and i == 1)) then
-				if not scrollc.digsites[count] then
-					scrollc.digsites[count] = scrollc:CreateFontString(L["DIGSITES_DIGSITE"] .. count, "OVERLAY")
-				end
-
-				local currentDigSite = scrollc.digsites[count];
-				currentDigSite:SetFontObject("ChatFontSmall");
-				currentDigSite:SetWordWrap(true);
-				local text = " " .. name
-				if digsite.race then
-                    text = text .. " - " .. digsite.race
-                end
-				currentDigSite:SetText(text);
-				if (status == true) then
-					currentDigSite:SetTextColor(1.0, 1.0, 1.0, 1.0);
-				else
-					currentDigSite:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
-				end
-
-				local cwidth = currentDigSite:GetStringWidth()
-				local cheight = currentDigSite:GetStringHeight()
-				currentDigSite:SetSize(cwidth+5, cheight)
-
-				if count == 1 then
-					currentDigSite:SetPoint("TOPLEFT",scrollc, "TOPLEFT", 0, 0)
-					height = height + cheight
-				else
-					currentDigSite:SetPoint("TOPLEFT", scrollc.digsites[count - 2], "BOTTOMLEFT", 0, - PADDING)
-					height = height + cheight + PADDING
-				end
-
-				count = count+1;
-
-				-- RACE
-
-				if not scrollc.digsites[count] then
-					scrollc.digsites[count] = scrollc:CreateFontString(L["DIGSITES_DIGSITE"] .. count, "OVERLAY")
-				end
-
-				currentDigSite = scrollc.digsites[count];
-				currentDigSite:SetFontObject("ChatFontSmall");
-				currentDigSite:SetWordWrap(true);
-
-				currentDigSite:SetText(digsite["zone"]);
-
-				if (status == true) then
-					currentDigSite:SetTextColor(1.0, 1.0, 1.0, 1.0);
-				else
-					currentDigSite:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
-				end
-
-				cwidth = currentDigSite:GetStringWidth()
-				cheight = currentDigSite:GetStringHeight()
-				currentDigSite:SetSize(cwidth+5, cheight)
-
-				if count == 2 then
-				  currentDigSite:SetPoint("TOPRIGHT",scrollc, "TOPRIGHT", 0, 0)
-				else
-				  currentDigSite:SetPoint("TOPRIGHT", scrollc.digsites[count - 2], "BOTTOMRIGHT", 0, - PADDING);
-				end
-
-				-- Mouseover Frames Go Here
-
-				if not scrollc.mouseover[count] then
-					scrollc.mouseover[count] = CreateFrame("Frame", "MouseFrame");
-				end
-
-				local currentMO = scrollc.mouseover[count];
-				currentMO:SetSize(width, cheight);
-				currentMO:SetParent(scrollc);
-				currentMO:SetPoint("BOTTOMRIGHT", currentDigSite, "BOTTOMRIGHT", 0, 0);
-
-				currentMO:SetScript("OnMouseUp", function(self, button)
-					if (button == "LeftButton") then
-						Navigation:SetWayToDigsiteOnClick(name, digsite);
-					end
-				end)
-				currentMO:SetScript("OnEnter", function(self)
-					GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-					DigsiteTooltip(self, name, digsite, GameTooltip);
-				end)
-				currentMO:SetScript("OnLeave", function()
-					MinArchTooltipIcon:Hide();
-					GameTooltip:Hide()
-				end)
-
-				count = count+1
-			end
+	-- Collect and sort digsites
+	local digsiteList = {}
+	for name, digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
+		local status = false
+		if MinArchDigsitesDB["continent"][ContID][name] then
+			status = MinArchDigsitesDB["continent"][ContID][name]["status"]
 		end
+		table.insert(digsiteList, {name = name, digsite = digsite, status = status})
 	end
 
+	table.sort(digsiteList, function(a, b)
+		if a.status ~= b.status then
+			return a.status
+		end
+		return a.name < b.name
+	end)
+
+
+	for _, data in ipairs(digsiteList) do
+		local name = data.name
+		local digsite = data.digsite
+		local status = data.status
+
+		local nameWidth = scrollc.rows[count] and scrollc.rows[count].name:GetStringWidth() or 0
+		local zoneWidth = scrollc.rows[count] and scrollc.rows[count].zone:GetStringWidth() or 0
+
+		local ROW_HEIGHT = 16
+		if nameWidth > 130 or zoneWidth > 100 then
+			ROW_HEIGHT = 26
+		end
+
+		if not scrollc.rows[count] then
+			local row = CreateFrame("Button", nil, scrollc, "BackdropTemplate");
+			row:SetSize(width, ROW_HEIGHT)
+			row.highlight = row:CreateTexture(nil, "HIGHLIGHT")
+			row.highlight:SetAllPoints()
+			row.highlight:SetColorTexture(1, 1, 1, 0.2)
+			row.name = row:CreateFontString(nil, "OVERLAY", "ChatFontSmall")
+			row.race = row:CreateFontString(nil, "OVERLAY", "ChatFontSmall")
+			row.zone = row:CreateFontString(nil, "OVERLAY", "ChatFontSmall")
+
+			row.name:SetPoint("LEFT", 5, 0)
+			row.race:SetPoint("RIGHT", row.name, 75, 0)
+			row.zone:SetPoint("RIGHT", -5, 0)
+
+			row.name:SetJustifyH("LEFT")
+			row.race:SetJustifyH("LEFT")
+			row.zone:SetJustifyH("RIGHT")
+
+			row.name:SetWidth(135)
+			row.race:SetWidth(70)
+			row.zone:SetWidth(100)
+			scrollc.rows[count] = row
+		end
+
+		local row = scrollc.rows[count]
+		row:SetHeight(ROW_HEIGHT)
+		row:Show()
+
+		row.name:SetText(name)
+		row.race:SetText(digsite.race or "Unknown")
+		row.zone:SetText(digsite["zone"])
+
+		local r, g, b
+		if (status == true) then
+			r, g, b = 1.0, 1.0, 1.0
+		else
+			r, g, b = GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
+		end
+		row.name:SetTextColor(r, g, b)
+		row.race:SetTextColor(r, g, b)
+		row.zone:SetTextColor(r, g, b)
+
+		if count == 1 then
+			row:SetPoint("TOPLEFT",scrollc, "TOPLEFT", 0, 0)
+		else
+			row:SetPoint("TOPLEFT", scrollc.rows[count - 1], "BOTTOMLEFT", 0, - PADDING)
+		end
+		height = height + ROW_HEIGHT + PADDING
+
+		row:SetScript("OnMouseUp", function(self, button)
+			if (button == "LeftButton") then
+				Navigation:SetWayToDigsiteOnClick(name, digsite);
+			end
+		end)
+		row:SetScript("OnEnter", function(self)
+			GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+			DigsiteTooltip(self, name, digsite, GameTooltip);
+		end)
+		row:SetScript("OnLeave", function()
+			MinArchTooltipIcon:Hide();
+			GameTooltip:Hide()
+		end)
+
+		count = count + 1
+	end
+
+	for i = count, #scrollc.rows do
+		scrollc.rows[i]:Hide()
+	end
+
+
 	-- Set the size of the scroll child
-	scrollc:SetSize(width, height-2)
+	scrollc:SetSize(width, height)
 
 	-- Size and place the parent frame, and set the scrollchild to be the
 	-- frame of font strings we've created
@@ -638,15 +641,13 @@ function Digsites:CreateDigSitesList(ContID)
 	scrollf:SetScrollChild(scrollc)
 	scrollf:Show()
 
-	scrollc:SetSize(width, height-2)
-
 	-- Set up the scrollbar to work properly
 	local scrollMax = 0
 	if height > 241 then
 		scrollMax = height - 241
 	end
 
-	if (scrollMax == 0) then
+	if (scrollMax <= 0) then
 		scrollb.thumb:Hide();
 	else
 		scrollb.thumb:Show();
