@@ -62,17 +62,12 @@ function MinArch:OpenWindow(button)
 			History:ToggleWindow();
 		elseif ctrlKeyIsDown then
 			Digsites:ToggleWindow();
+		elseif altKeyDown then
+			History:HideWindow();
+			Digsites:HideWindow();
+			Main:HideWindow();
 		else
-			if (Main.frame:IsVisible()) then
-				Main:HideWindow();
-				if (altKeyDown) then
-					History:HideWindow();
-					Digsites:HideWindow();
-				end
-			else
-				Main:ShowWindow();
-				MinArch.HideNext = false;
-			end
+			Main:ToggleWindow();
 		end
 
 	elseif (button == "RightButton") then
