@@ -556,7 +556,7 @@ function Digsites:CreateDigSitesList(ContID)
 		local zoneWidth = scrollc.rows[count] and scrollc.rows[count].zone:GetStringWidth() or 0
 
 		local ROW_HEIGHT = 16
-		if nameWidth > 130 or zoneWidth > 100 then
+		if nameWidth > 135 or zoneWidth > 100 then
 			ROW_HEIGHT = 26
 		end
 
