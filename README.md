@@ -4,7 +4,7 @@
 [![Install](http://img.shields.io/badge/install-wago-f16436)](https://addons.wago.io/addons/minarch)
 
 ***
-# 🎉3 million downloads🎉
+# 🎉4 million downloads🎉
 ***
 
 # Description
@@ -17,9 +17,11 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 
 ## Recent changes
 
-### 11.1.0
+### 11.2.0
 
 - Updated for Mainline 11.2
+- **11.2.2** Improve digsites window
+- **11.2.2** Fix alt+click "Hide all"
 
 ### 11.1.0
 

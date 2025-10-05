@@ -4,6 +4,8 @@
 ### 11.2
 
 - Updated for Mainline 11.2
+- **11.2.2** Improve digsites window
+- **11.2.2** Fix alt+click "Hide all"
 
 ### 11.1.0
 
