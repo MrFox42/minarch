@@ -6,6 +6,7 @@
 - Updated for Mainline 11.2
 - **11.2.2** Improve digsites window
 - **11.2.2** Fix alt+click "Hide all"
+- **11.2.3** Bump toc
 
 ### 11.1.0
 
