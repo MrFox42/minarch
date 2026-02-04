@@ -810,7 +810,7 @@ function History:SolveArtifact(RaceIndex, confirmed)
     for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
 		SocketItemToArtifact();
 	end
-	
+
 	SolveArtifact();
 
 	History:CreateHistoryList(RaceIndex, "SolveArtifact");
@@ -864,6 +864,25 @@ end
 function History:HideArtifactTooltip()
 	MinArchTooltipIcon:Hide();
 	GameTooltip:Hide();
+end
+
+local function ArtifactIcon_OnEnter(self)
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+	GameTooltip:SetItemByID(self.itemid);
+	GameTooltip:Show();
+end
+
+local function ArtifactIcon_OnLeave()
+	GameTooltip:Hide()
+end
+
+local function ArtifactName_OnEnter(self)
+	HistoryTooltip(self, self.RaceID, self.itemid)
+end
+
+local function ArtifactName_OnLeave()
+	MinArchTooltipIcon:Hide();
+	GameTooltip:Hide()
 end
 
 function History:CreateHistoryList(RaceID, caller)
@@ -988,14 +1007,9 @@ function History:CreateHistoryList(RaceID, caller)
 
         -- Set icon
         frame.icon.texture:SetTexture(details.icon);
-        frame.icon:SetScript("OnEnter", function (self)
-            GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-            GameTooltip:SetItemByID(itemid);
-            GameTooltip:Show();
-        end);
-        frame.icon:SetScript("OnLeave", function()
-            GameTooltip:Hide()
-        end)
+		frame.icon.itemid = itemid;
+        frame.icon:SetScript("OnEnter", ArtifactIcon_OnEnter);
+        frame.icon:SetScript("OnLeave", ArtifactIcon_OnLeave)
 
         -- Set text
         local displayName = details.name;
@@ -1005,13 +1019,10 @@ function History:CreateHistoryList(RaceID, caller)
         frame.name.text:SetText(displayName)
         frame.name.text:SetTextColor(ITEM_QUALITY_COLORS[details.rarity].r, ITEM_QUALITY_COLORS[details.rarity].g, ITEM_QUALITY_COLORS[details.rarity].b, 1.0)
 
-        frame.name:SetScript("OnEnter", function (self)
-            HistoryTooltip(self, RaceID, itemid)
-        end);
-        frame.name:SetScript("OnLeave", function()
-            MinArchTooltipIcon:Hide();
-            GameTooltip:Hide()
-        end)
+		frame.name.RaceID = RaceID;
+		frame.name.itemid = itemid;
+        frame.name:SetScript("OnEnter", ArtifactName_OnEnter);
+        frame.name:SetScript("OnLeave", ArtifactName_OnLeave)
 
         -- Set pristine indicator
         local questState = MINARCH_QSTATE_NIL;

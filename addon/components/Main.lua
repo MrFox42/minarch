@@ -281,7 +281,7 @@ function Main:UpdateArtifactBar(RaceIndex)
 		total = MinArchRaceConfig[RaceIndex].fragmentCap
 	end
 
-	ArtifactBar = MinArch['artifactbars'][RaceIndex]
+	local ArtifactBar = MinArch['artifactbars'][RaceIndex]
 	ArtifactBar:SetMinMaxValues(0, total);
     ArtifactBar:SetValue(min(artifact['progress']+artifact['modifier'], total));
     ArtifactBar.race = RaceIndex;
@@ -333,6 +333,8 @@ function Main:Update()
 		Main.frame:RegisterEvent("PLAYER_REGEN_ENABLED");
 		return;
 	end
+
+	Common:DisplayStatusMessage('Main:Update', MINARCH_MSG_DEBUG)
 
 	local point, relativeTo, relativePoint, xOfs, yOfs = Main.frame:GetPoint()
 	local x1, size1 = Main.frame:GetSize();

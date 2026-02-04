@@ -66,9 +66,6 @@ end
 
 
 local function CalculateDistance(ax, ay, bx, by)
-    local xd = math.abs(ax - bx);
-    local yd = math.abs(ay - by);
-
     return Common:Round(((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5)
 end
 
@@ -542,7 +539,9 @@ function Companion.events:PLAYER_ENTERING_WORLD(...)
 end
 
 function Companion.events:PLAYER_STARTED_MOVING(...)
-    timer = MinArch:ScheduleRepeatingTimer(Companion.UpdateDistance, 0.1)
+    if not timer then
+        timer = MinArch:ScheduleRepeatingTimer(Companion.UpdateDistance, 0.1)
+    end
     Companion:Update()
 end
 
@@ -555,7 +554,10 @@ end
 
 function Companion.events:PLAYER_STOPPED_MOVING(...)
     Companion:AutoToggle();
-    MinArch:CancelTimer(timer)
+    if timer then
+        MinArch:CancelTimer(timer)
+        timer = nil
+    end
     Companion:Update()
 end
 
@@ -612,11 +614,15 @@ function Companion:HideDistance()
     cx = nil;
     Companion.trackerFrame.indicator.texture:SetTexCoord(0.5, 1, 0.5, 1)
     Companion.trackerFrame.fontString:SetText("")
-    MinArch:CancelTimer(timer)
+    if timer then
+        MinArch:CancelTimer(timer)
+        timer = nil
+    end
     Companion:Update();
 end
 
 function Companion:EventHandler(event, ...)
+    Common:DisplayStatusMessage("Companion:EventHandler " .. event, MINARCH_MSG_DEBUG)
     Companion.events[event](self, ...)
 end
 
@@ -893,6 +899,8 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
 end
 
 function Companion:Update()
+    Common:DisplayStatusMessage('Companion:Update', MINARCH_MSG_DEBUG)
+
     if not MinArch.db.profile.companion.enable then
         return false;
     end
@@ -921,7 +929,6 @@ function Companion:Update()
             end
         end
     end
-
 
     local digSite, distance, digSiteData = Digsites:GetNearestDigsite();
     for i = 1, ARCHAEOLOGY_NUM_RACES do

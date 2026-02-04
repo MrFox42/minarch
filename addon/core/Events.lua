@@ -241,6 +241,7 @@ function MinArch:EventHist(event, ...)
 							MinArch.artifacts[RaceID].totalcomplete = details.totalcomplete
 						end
 
+						researchEventTimer = nil
     					return History:DelayedUpdate()
 					end
 				end
@@ -250,12 +251,12 @@ function MinArch:EventHist(event, ...)
 end
 
 function MinArch:EventDigsites(event, ...)
+	Common:DisplayStatusMessage("EventDigsites: " .. event, MINARCH_MSG_DEBUG)
 	if (event == "ARCHAEOLOGY_SURVEY_CAST") then
 		local _, _, branchID = ...;
 		local race = Common:GetRaceNameByBranchId(branchID);
 		if (race ~= nil) then
 			Digsites:UpdateActiveDigSitesRace(race);
-			Digsites:CreateDigSitesList(Common:GetInternalContId());
 			Digsites:CreateDigSitesList(Common:GetInternalContId());
 		end
 		return;
@@ -265,13 +266,12 @@ function MinArch:EventDigsites(event, ...)
 	end
 
 	-- TODO: internal events for updates
-	Digsites:UpdateActiveDigSites();
-	local ContID = Common:GetInternalContId();
+		Digsites:UpdateActiveDigSites();
+		local ContID = Common:GetInternalContId();
 
-	if (ContID ~= nil) then
-		Digsites:CreateDigSitesList(ContID);
-		Digsites:CreateDigSitesList(ContID);
-	end
+		if (ContID ~= nil) then
+			Digsites:CreateDigSitesList(ContID);
+		end
 
 	if (event == "PLAYER_ENTERING_WORLD") then
 		Navigation:RefreshDigsiteWaypoints();
