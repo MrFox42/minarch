@@ -633,6 +633,7 @@ local raceSettings = {
 					desc = L["OPTIONS_RACE_HIDE_WPIGNORE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
                     set = function (_, newValue)
+						Digsites:InvalidateNearestDigsiteCache()
 						MinArch.db.profile.TomTom.ignoreHidden = newValue;
 					end,
                     disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
@@ -1652,6 +1653,7 @@ function Options:OnInitialize()
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.hide[i] end,
                         set = function (_, newValue)
+							Digsites:InvalidateNearestDigsiteCache()
                             MinArch.db.profile.raceOptions.hide[i] = newValue;
                             Main:Update();
                         end,
@@ -1708,6 +1710,7 @@ function Options:OnInitialize()
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.priority[i] or 0 end,
                         set = function (_, newValue)
+							Digsites:InvalidateNearestDigsiteCache()
 							if (newValue == 0) then
 								MinArch.db.profile.raceOptions.priority[i] = 0
 							else
