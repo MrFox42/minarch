@@ -782,7 +782,11 @@ function Digsites:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 
 	local pX, pY, instance = HBD:GetPlayerWorldPosition()
 
-	if (nearestDigsiteCache ~= nil) then
+	if (instance == nil) then
+		return nil;
+	end
+
+	if (sites == nil and nearestDigsiteCache ~= nil) then
 		local cachedName, cachedDistance, cachedDetails, cachedPrio, cachedPathDistance, cX, cY, cInstance = unpack(nearestDigsiteCache);
 		Common:DisplayStatusMessage("Cached instance: " .. cInstance .. ", instance: " .. instance, MINARCH_MSG_DEBUG);
 		if (cInstance == instance) then
@@ -795,7 +799,9 @@ function Digsites:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 		end
 	end
 
-	Common:DisplayStatusMessage("Nearest digsite cache invalidated", MINARCH_MSG_DEBUG);
+	if (sites == nil) then
+		Common:DisplayStatusMessage("Nearest digsite cache invalidated", MINARCH_MSG_DEBUG);
+	end
 
 	local contID = Common:GetInternalContId();
 	local uiMapID = Common:GetUiMapIdByContId(contID);

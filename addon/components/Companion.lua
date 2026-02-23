@@ -391,7 +391,9 @@ local function UpdateSolveButtonScripts(frame, artifact, raceID, solveOnClick, s
                 if (artifact.appliedKeystones > 0) then
                     progress = progress + (artifact.modifier)
                 end
-                GameTooltip:AddLine(L["TOOLTIP_PROGRESS"] .. ": " .. progress .. "/" .. artifact.total);
+                if (artifact.total > 0) then
+                    GameTooltip:AddLine(L["TOOLTIP_PROGRESS"] .. ": " .. progress .. "/" .. artifact.total);
+                end
             end
             GameTooltip:Show();
         end
