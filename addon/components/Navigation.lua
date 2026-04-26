@@ -98,6 +98,10 @@ function Navigation:GetNearestFlightMaster()
 
 	local nodes = C_TaxiMap.GetTaxiNodesForMap(uiMapID)
 
+    if not nodes or #nodes == 0 then
+        return nil
+    end
+
 	for i=1, #nodes do
 		if (nodes[i].faction == 0 or nodes[i].faction == factionID) then
 			-- local tx, ty = MinArch:ConvertMapPosToWorldPosIfNeeded(contID, uiMapID, nodes[i].position, true)

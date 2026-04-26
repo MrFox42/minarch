@@ -7,6 +7,7 @@
 - **12.0.0.1** Improved performance
 - **12.0.1** Reduced memory footprint
 - **12.0.1.1** Fix lua errors
+- **12.0.2.1** Fix issue with garrisons, fix lua errors during phased quests
 
 ### 11.2
 

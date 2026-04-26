@@ -649,7 +649,7 @@ function Companion:AutoToggle()
         return;
     end
 
-    if IsInInstance() or (MinArch.db.profile.companion.hideInCombat and UnitAffectingCombat("player")) then
+    if Common:IsInInstance() or (MinArch.db.profile.companion.hideInCombat and UnitAffectingCombat("player")) then
         Companion:HideFrame();
         return;
     end

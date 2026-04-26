@@ -776,7 +776,7 @@ end
 ---@return number|nil priority @Digsite priority based on user settings
 ---@return number|nil pathDistance @Distance to digsite with path optimization
 function Digsites:GetNearestDigsite(ax, ay, sites, skipPathCalc)
-	if (IsInInstance()) then
+	if (Common:IsInInstance()) then
 		return nil;
     end
 
@@ -890,7 +890,7 @@ function Digsites:IsPlayerNearDigSite()
 end
 
 function Digsites:UpdateFlightMap()
-	if (IsInInstance()) then
+	if (Common:IsInInstance()) then
 		return nil
     end
 

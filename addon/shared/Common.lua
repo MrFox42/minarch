@@ -266,6 +266,19 @@ function Common:UpdateKeystones(keystoneFrame, RaceIndex)
 	end
 end
 
+function Common:IsInInstance()
+    local garrisonMapIDs = {590, 582}
+    local uiMapID = C_Map.GetBestMapForUnit("player");
+
+    for i = 1, #garrisonMapIDs do
+        if garrisonMapIDs[i] == uiMapID then
+            return false
+        end
+    end
+
+    return IsInInstance()
+end
+
 ---Converts uiMapID to internal MinArch continent ID
 ---@param uiMapID? integer @Defaults to player's current map if not provided
 ---@return integer|nil
