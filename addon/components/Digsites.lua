@@ -791,6 +791,9 @@ function Digsites:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 		Common:DisplayStatusMessage("Cached instance: " .. cInstance .. ", instance: " .. instance, MINARCH_MSG_DEBUG);
 		if (cInstance == instance) then
 			local _, distanceMoved = HBD:GetWorldVector(instance, cX, cY, pX, pY);
+			if (distanceMoved == nil) then
+                return cachedName, cachedDistance, cachedDetails, cachedPrio, cachedPathDistance;
+            end
 			Common:DisplayStatusMessage("Cached digsite: " .. cachedName .. ", distance moved: " .. distanceMoved, MINARCH_MSG_DEBUG);
 			if (distanceMoved < 150) then
 				Common:DisplayStatusMessage("Nearest digsite returned from cache", MINARCH_MSG_DEBUG);
