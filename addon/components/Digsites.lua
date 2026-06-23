@@ -960,7 +960,10 @@ function Digsites:UpdateFlightMap()
 					pin:SetAlpha(1)
 				end
 			else
-				_G["TaxiButton" .. idx]:SetAlpha(1)
+				local taxiButton = _G["TaxiButton" .. idx]
+				if taxiButton then
+					taxiButton:SetAlpha(1)
+				end
 			end
 		end
 
@@ -1020,7 +1023,10 @@ function Digsites:UpdateFlightMap()
 				pin:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
 			end
 		else
-			_G["TaxiButton" .. idx]:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
+			local taxiButton = _G["TaxiButton" .. idx]
+			if taxiButton then
+				taxiButton:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
+			end
 		end
 	end
 
@@ -1036,7 +1042,9 @@ function Digsites:UpdateFlightMap()
 			pin:SetAlpha(1.0)
 		else
 			pin = _G["TaxiButton" .. idx]
-			pin:SetAlpha(1)
+			if pin then
+				pin:SetAlpha(1)
+			end
 		end
 		SetRaceIcon(MinArchTaxiMapFrames[i], digsite.position.x, digsite.position.y, tostring(digsite.name), MinArchDigsitesGlobalDB["continent"][contID][tostring(digsite.name)], pin, idx)
 		i = i + 1
