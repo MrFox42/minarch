@@ -275,7 +275,7 @@ local function InitCrateButton()
     local crateButton = CreateFrame("Button", "$parentCrateButton", Companion.frame, "InsecureActionButtonTemplate");
     crateButton:RegisterForClicks("AnyUp", "AnyDown");
     crateButton:SetAttribute("type", "item");
-    crateButton:SetPoint("LEFT", 108, 2);
+    crateButton:SetPoint("LEFT", 108, 1);
     crateButton:SetWidth(28);
     crateButton:SetHeight(28);
 

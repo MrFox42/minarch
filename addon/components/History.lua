@@ -131,6 +131,7 @@ end
 
 local function CreateHeightToggle(parent, x, y)
 	local button = CreateFrame("Button", "$parentToggleButton", parent, BackdropTemplateMixin and "BackdropTemplate");
+	button:SetParentKey("heightToggleButton")
 	button:SetSize(23.5, 23.5);
 	button:SetPoint("TOPLEFT", x, y);
 
@@ -158,7 +159,6 @@ end
 
 local function InitStatistics()
     local statsFrame = CreateFrame("Frame", "$parentStats", History.frame, "BackdropTemplate")
-    statsFrame:SetPoint("CENTER", History.frame, "BOTTOM", 0, -30)
     statsFrame:SetWidth(History.frame:GetWidth() - 70)
     statsFrame:SetHeight(60)
 
@@ -174,6 +174,7 @@ local function InitStatistics()
     end)
     Common:FrameLoad(statsFrame, History.frame)
     History.statsFrame = statsFrame
+    History:UpdateStatsFramePos()
 
     if not MinArch.db.profile.history.showStats then
         statsFrame:Hide()
@@ -429,6 +430,14 @@ function History:LoadItemDetails(RaceID, caller)
 	end
 
 	return allGood
+end
+
+function History:UpdateStatsFramePos()
+    if MinArch.db.profile.style.border == 2 then
+        History.statsFrame:SetPoint("CENTER", History.frame, "BOTTOM", 0, -35)
+    else
+        History.statsFrame:SetPoint("CENTER", History.frame, "BOTTOM", 0, -30)
+    end
 end
 
 function History:UpdateArtifact(RaceIndex)

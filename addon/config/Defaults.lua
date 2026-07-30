@@ -128,6 +128,16 @@ MinArch.defaults = {
             groupByProgress = true,
         },
 
+        -- Added in v12.0.3
+        style = {
+            border = 1, -- 1: default, 2: modern
+            modern = {
+                borderWidth = 3,
+                borderColor = { r = 0, g = 0, b = 0, a = 1 },
+                buttonPosition = 1
+            }
+        },
+
 		-- deprecated, left for compatibility
 		hideMinimapButton = false, -- moved into minimap (databroker)
 		minimapPos = 45,           -- not needed anymore (databroker)

@@ -207,7 +207,7 @@ function Main:Init()
 	Main.frame.skillBar:SetStatusBarTexture(skillBarTexture);
 	Main.frame.skillBar:SetStatusBarColor(0.03125, 0.85, 0);
 
-	Common:CreateAutoWaypointButton(Main.frame, 53, 3);
+	Common:CreateAutoWaypointButton(Main.frame, 53, 1);
 	CreateCrateButton(Main.frame, 32, 1);
     CreateRelevancyToggleButton(Main.frame, 10, 4);
 

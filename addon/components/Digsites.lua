@@ -348,7 +348,7 @@ function Digsites:Init()
 		Digsites:HideWindow()
 	end)
 
-	Digsites.wpButton = Common:CreateAutoWaypointButton(Digsites.frame, 15, 3);
+	Digsites.wpButton = Common:CreateAutoWaypointButton(Digsites.frame, 15, 1);
 	Digsites.frame:SetScript("OnShow", function()
 		if (Navigation:IsNavigationEnabled()) then
 			Digsites.wpButton:Show();

@@ -67,19 +67,70 @@ local MinArchAlternateContIDMap = {
 	[1011] = 10, -- Zandalar Flight map
 }
 
+function Common:SetFrameBackgrdop(frame)
+    local edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border"
+    local tilesize = 32
+    local edgeSize = 32
+    local insets = { left = 11, right = 11, top = 11, bottom = 11 }
+
+    if MinArch.db.profile.style.border == 2 then -- customization
+        edgeFile = "Interface\\ChatFrame\\ChatFrameBackground"
+        edgeSize = MinArch.db.profile.style.modern.borderWidth
+        insets = { left = edgeSize, right = edgeSize, top = edgeSize, bottom = edgeSize }
+    end
+
+    frame:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile = edgeFile,
+        tile = true,
+        tileEdge = true,
+        tileSize = 32,
+        edgeSize = edgeSize,
+        insets = insets,
+    });
+
+    local buttonY = 1
+    if MinArch.db.profile.style.border == 2 then
+        local color = MinArch.db.profile.style.modern.borderColor
+        frame:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+
+        buttonY = 7
+        if MinArch.db.profile.style.modern.buttonPosition == 2 then
+           buttonY = -2
+        end
+    end
+
+    if frame.closeButton then
+        frame.closeButton:SetPoint("TOPRIGHT", -6, buttonY)
+    end
+    if frame.openADIButton then
+        frame.openADIButton:SetPoint("TOPRIGHT", -46, buttonY)
+    end
+    if frame.openHistButton then
+        frame.openHistButton:SetPoint("TOPRIGHT", -26, buttonY)
+    end
+    if frame.crateButton then
+        frame.crateButton:SetPoint("TOPLEFT", 32, buttonY - 1);
+    end
+
+    if frame.autoWaypointButton then
+        local _, _, _, xOffset = frame.autoWaypointButton:GetPoint()
+        frame.autoWaypointButton:SetPoint("TOPLEFT", xOffset, buttonY + 1);
+    end
+    if frame.relevancyButton then
+        frame.relevancyButton:SetPoint("TOPLEFT", 10, buttonY + 2);
+    end
+    if frame.heightToggleButton then
+        local _, _, _, xOffset = frame.heightToggleButton:GetPoint()
+        frame.heightToggleButton:SetPoint("TOPLEFT", xOffset, buttonY + 2);
+    end
+end
+
 ---@param frame table|BackdropTemplate|Frame
 ---@param handle? table|BackdropTemplate|Frame
 function Common:FrameLoad(frame, handle)
 	handle = handle or frame
-	frame:SetBackdrop({
-        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-        tile = true,
-        tileEdge = true,
-        tileSize = 32,
-        edgeSize = 32,
-        insets = { left = 11, right = 11, top = 11, bottom = 11 },
-    });
+	Common:SetFrameBackgrdop(frame)
 
     frame:RegisterForDrag("LeftButton");
     frame:SetScript("OnDragStart", function(self, button)

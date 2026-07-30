@@ -271,11 +271,114 @@ local general = {
 				}
             }
         },
+        styling = {
+            type = 'group',
+            name = L["OPTIONS_STYLING_TITLE"],
+            inline = true,
+            order = 4,
+            args = {
+                borderStyle = {
+                    name = L["OPTIONS_STYLING_BORDERSTYLE_TITLE"],
+                    desc = L["OPTIONS_STYLING_BORDERSTYLE_DESC"],
+                    type = "select",
+                    values = {[1] = L["OPTIONS_STYLING_BORDERSTYLE_1"], [2] = L["OPTIONS_STYLING_BORDERSTYLE_2"]},
+                    get = function () return MinArch.db.profile.style.border end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.style.border = newValue;
+                        Common:SetFrameBackgrdop(Main.frame)
+                        Common:SetFrameBackgrdop(History.frame)
+                        Common:SetFrameBackgrdop(Digsites.frame)
+                        Common:SetFrameBackgrdop(History.statsFrame)
+                        History:UpdateStatsFramePos()
+                    end,
+                    width = 1,
+                    order = 1,
+                },
+                modernStyleOptions = {
+                    type = 'group',
+                    name = L["OPTIONS_STYLING_MODERN_OPTIONS"],
+                    inline = true,
+                    order = 2,
+                    args = {
+                        background = {
+                            type = "color",
+                            name = L["OPTIONS_STYLING_BORDER_COLOR_TITLE"],
+                            get = function () return MinArch.db.profile.style.modern.borderColor.r, MinArch.db.profile.style.modern.borderColor.g, MinArch.db.profile.style.modern.borderColor.b end,
+                            set = function (_, r, g, b)
+                                MinArch.db.profile.style.modern.borderColor.r = r;
+                                MinArch.db.profile.style.modern.borderColor.g = g;
+                                MinArch.db.profile.style.modern.borderColor.b = b;
+                                Common:SetFrameBackgrdop(Main.frame)
+                                Common:SetFrameBackgrdop(History.frame)
+                                Common:SetFrameBackgrdop(Digsites.frame)
+                                Common:SetFrameBackgrdop(History.statsFrame)
+                                History:UpdateStatsFramePos()
+                            end,
+                            disabled = function () return (MinArch.db.profile.style.border ~= 2) end,
+                            order = 2,
+                        },
+                        borderOpacity = {
+                            type = "range",
+                            name = L["OPTIONS_STYLING_BORDER_COLOR_OPACITY"],
+                            min = 0,
+                            max = 100,
+                            step = 1,
+                            get = function () return MinArch.db.profile.style.modern.borderColor.a * 100 end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.style.modern.borderColor.a = newValue / 100;
+                                Common:SetFrameBackgrdop(Main.frame)
+                                Common:SetFrameBackgrdop(History.frame)
+                                Common:SetFrameBackgrdop(Digsites.frame)
+                                Common:SetFrameBackgrdop(History.statsFrame)
+                                History:UpdateStatsFramePos()
+                            end,
+                            disabled = function () return (MinArch.db.profile.style.border ~= 2) end,
+                            order = 3,
+                        },
+                        borderThickness = {
+                            type = "range",
+                            name = L["OPTIONS_STYLING_BORDER_THICKNESS"],
+                            min = 1,
+                            max = 10,
+                            step = 1,
+                            get = function () return MinArch.db.profile.style.modern.borderWidth end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.style.modern.borderWidth = newValue;
+                                Common:SetFrameBackgrdop(Main.frame)
+                                Common:SetFrameBackgrdop(History.frame)
+                                Common:SetFrameBackgrdop(Digsites.frame)
+                                Common:SetFrameBackgrdop(History.statsFrame)
+                                History:UpdateStatsFramePos()
+                            end,
+                            disabled = function () return (MinArch.db.profile.style.border ~= 2) end,
+                            order = 4,
+                        },
+                        borderStyle = {
+                            name = L["OPTIONS_STYLING_BUTTONPOSITION_TITLE"],
+                            type = "select",
+                            values = {[1] = L["OPTIONS_STYLING_BUTTONPOSITION_1"], [2] = L["OPTIONS_STYLING_BUTTONPOSITION_2"]},
+                            get = function () return MinArch.db.profile.style.modern.buttonPosition end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.style.modern.buttonPosition = newValue;
+                                Common:SetFrameBackgrdop(Main.frame)
+                                Common:SetFrameBackgrdop(History.frame)
+                                Common:SetFrameBackgrdop(Digsites.frame)
+                                Common:SetFrameBackgrdop(History.statsFrame)
+                                History:UpdateStatsFramePos()
+                            end,
+                            width = 1,
+                            disabled = function () return (MinArch.db.profile.style.border ~= 2) end,
+                            order = 5,
+                        },
+                    },
+                }
+            }
+        },
 		misc = {
 			type = 'group',
 			name = L["OPTIONS_MISC_TITLE"],
 			inline = true,
-			order = 4,
+			order = 5,
 			args = {
 				scale = {
 					type = "range",
@@ -355,7 +458,7 @@ local general = {
             type = "group",
             name = L["OPTIONS_STARTUP_SETTINGS_TITLE"],
             inline = true,
-            order = 5,
+            order = 6,
             args = {
 				note = {
                     type = "description",
@@ -392,7 +495,7 @@ local general = {
 			type = "group",
 			name = L["OPTIONS_AUTOHIDE_TITLE"],
 			inline = true,
-			order = 6,
+			order = 7,
 			args = {
 			    note = {
                     type = "description",
@@ -438,7 +541,7 @@ local general = {
 			type = 'group',
 			name = L["OPTIONS_AUTOSHOW_TITLE"],
 			inline = true,
-			order = 7,
+			order = 8,
 			args = {
 				autoShowInDigsites = {
 					type = "toggle",
@@ -488,7 +591,7 @@ local general = {
 			type = 'group',
 			name = L["OPTIONS_HISTORY_WINDOW_TITLE"],
 			inline = true,
-			order = 8,
+			order = 9,
 			args = {
                 autoResize = {
 					type = "toggle",
