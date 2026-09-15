@@ -20,6 +20,7 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ### 12.1.0
 
 - Updated for Mainline 12.1
+- **12.1.1** Update libs
 
 ### 12.0.0
 
